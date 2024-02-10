@@ -1,29 +1,48 @@
 import {createRoot} from 'react-dom/client';
 import React from 'react';
 
+export interface OpenAi {
+  chat: (...args: string[]) => Promise<string>,
+}
+
+declare global {
+  interface Window {
+    openai: OpenAi
+  }
+}
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 const PromptForm = () => {
   const [inputValue, setValue] = React.useState('');
+  const [response, setResponseValue] = React.useState('');
+
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    alert(`User input: ${inputValue}`);
+    const response = await window.openai.chat(inputValue)
+    setValue('')
+    setResponseValue(response)
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        User Prompt:
-        <input type="text" value={inputValue} onChange={handleChange}/>
-      </label>
-      <input type="submit" value="Submit"/>
-    </form>
+    <>
+      <div>
+        {response}
+      </div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          User Prompt:
+          <input type="text" value={inputValue} onChange={handleChange}/>
+        </label>
+        <input type="submit" value="Submit"/>
+      </form>
+    </>
   );
 };
 
