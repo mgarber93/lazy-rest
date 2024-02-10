@@ -1,10 +1,10 @@
 import {createRoot} from 'react-dom/client';
-import React, {FormEvent} from 'react';
+import React from 'react';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-const App = () => {
+const PromptForm = () => {
   const [inputValue, setValue] = React.useState('');
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -26,5 +26,12 @@ const App = () => {
     </form>
   );
 };
+
+const App = () => (
+  <div>
+    <PromptForm/>
+  </div>
+);
+
 
 root.render(<App/>);
