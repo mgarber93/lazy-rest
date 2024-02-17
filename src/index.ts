@@ -14,8 +14,8 @@ if (require('electron-squirrel-startup')) {
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 760,
-    width: 1100,
+    height: 1080,
+    width: 1920,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -50,11 +50,8 @@ app.on('activate', () => {
   }
 });
 
-function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
-   console.log(args);
-   return new Promise((resolve) => {
-     resolve("Response promise");
-   });
+async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
+  return [...args].map(str => str.toUpperCase()).join('')
 }
 
 // code. You can also put them in separate files and import them here.

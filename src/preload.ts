@@ -3,8 +3,12 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 
+export interface OpenAi {
+  chat: (...args: string[]) => Promise<string>,
+}
+
 
 contextBridge.exposeInMainWorld('openai', {
   desktop: true,
   chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat')
-})
+} as OpenAi)

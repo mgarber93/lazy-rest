@@ -4,31 +4,21 @@ import {PromptForm} from '../components/prompt-form';
 
 
 const Page = styled.div`
-    display: grid;
+    display: flex;
+    flex-direction: row;
 `;
 
-const NavContainer = styled.nav`
-    width: 20%;
-    min-width: 200px;
-    left: 0px;
-`;
 
 const MainContent = styled.div`
-    width: 80%;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
 `;
-
-function Nav() {
-  return <nav>
-  
-  </nav>
-}
 
 const NavPage = () => {
   return (
     <Page>
-      <NavContainer>
-        <Nav/>
-      </NavContainer>
       <MainContent>
         <PromptForm/>
       </MainContent>

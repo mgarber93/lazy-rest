@@ -2,15 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-
-    &:hover {
-        background-color: #45a049;
-    }
+    border: var(--border-0);
+    border-radius: var(--border-radius);
+    width: 100%;
 `;
+
+const StyledForm = styled.form`
+    width: 30rem;
+    display: flex;
+    flex-direction: row;
+    input[type="submit"] {
+        width: 20%;
+    }
+    height: 2rem;
+    gap: 0.2rem;
+`;
+
 
 export const PromptForm = () => {
   const [inputValue, setValue] = React.useState('');
@@ -30,15 +37,10 @@ export const PromptForm = () => {
   
   return (
     <>
-      <div>
-        {response}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <StyledInput type="text" value={inputValue} onChange={handleChange}/>
-        </label>
-        <StyledInput type="submit" value="Submit"/>
-      </form>
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledInput className="respond" type="text" value={inputValue} onChange={handleChange}></StyledInput>
+        <StyledInput type="submit" value="Respond"/>
+      </StyledForm>
     </>
   );
 };

@@ -1,7 +1,41 @@
+:root {
+  --tan: #DFBE99;
+  --sage: #B5BD89;
+  --moonstone: #729EA1;
+  --coral: #EC9192;
+  --blush: #DB5375;
+  --gold: #FCA311;
+  --green: #063620;
+  --blackish: #16171A;
+  --dark-grey: #292a31;
+  --grey: #a4a4a4;
+  --whitish: #e1dcd6;
+  --background-color-0: #000;
+  --background-color-1: #0e0e0e;
+  --background-color-2: var(--blackish);
+  --text-color: #fff;
+  --border-0: 2px solid var(--background-color-0);
+  --clamp-min: 40px;
+  --clamp-max: 611px;
+  --z: 5px;
+  --time: 2s;
+  --height: 35px;
+  --font: 20px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color-0: #FFFFFF;
+    --background-color-2: var(--whitish);
+    --text-color: var(--blackish);
+  }
+}
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+  background-color: var(--background-color-0);
+  color: var(--text-color);
+  --border-radius: 0.35rem;
+}
+
+* {
+  font-family: "Maple Mono", serif;
 }
