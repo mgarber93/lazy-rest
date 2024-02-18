@@ -5,8 +5,12 @@ export interface ChatMessages {
   messages: AuthoredContent[];
 }
 
+function createResponse() {
+  return createContent('', 'user', true);
+}
+
 const initialState: ChatMessages = {
-  messages: [createContent('type here...', '')],
+  messages: [createResponse()],
 };
 
 const name = 'chats';
@@ -22,22 +26,24 @@ export const chatsSlice = createSlice({
   name,
   initialState,
   reducers: {
-    updateMessageEditableFlag: (state, action: PayloadAction<{ message: string; editable: boolean }>) => {
-      const msg = state.messages.find(m => m.message === action.payload.message);
-      if (msg) {
-        msg.editable = action.payload.editable;
+    respond: (state, action: PayloadAction<AuthoredContent>) => {
+      const {id} = action.payload;
+      const index = state.messages.findIndex(m => m.id === id);
+      if (index > -1) {
+        state.messages[index] = action.payload;
       }
     },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
-      const content = createContent(action.payload,'chat-gpt-3', false)
+      const content = createContent(action.payload, 'chat-gpt-3', false)
       state.messages.push(content);
+      state.messages.push(createResponse())
     });
   },
 });
 
 // Export actions to use dispatch in component
-export const {updateMessageEditableFlag} = chatsSlice.actions;
+export const {respond} = chatsSlice.actions;
 
 export default chatsSlice.reducer;

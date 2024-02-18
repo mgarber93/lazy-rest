@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
     flex-direction: column;
 `
 
-export const Thread = () => {
+export const Dialog = () => {
   const messages = useSelector((state: RootState) => state.chats.messages);
   return (
     <StyledDiv>

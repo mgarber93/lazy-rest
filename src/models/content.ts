@@ -19,6 +19,6 @@ export function createContent(message: string, author: string, editable?: boolea
     id,
     message,
     author,
-    editable: false
+    editable
   }
 }

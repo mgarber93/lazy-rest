@@ -1,5 +1,5 @@
 import {AuthoredContent, createContent} from '../../models/content';
-import {generateResponse} from '../features/chat';
+import {generateResponse, respond} from '../features/chat';
 import React from 'react';
 import styled from 'styled-components';
 import {useAppDispatch} from '../store';
@@ -9,7 +9,6 @@ import {useSelector} from 'react-redux';
 const StyledInput = styled.input`
     border: var(--border-0);
     border-radius: var(--border-radius);
-    width: 100%;
     height: 2.5rem;
 `;
 
@@ -43,8 +42,9 @@ export function EditableMessage(props: { content: AuthoredContent }) {
   
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const action = generateResponse(createContent(inputValue, 'this'));
-    dispatch(action);
+    const prompt = createContent(inputValue, 'this', false, props.content.id);
+    dispatch(respond(prompt))
+    dispatch(generateResponse(prompt));
   };
   
   return (
