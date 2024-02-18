@@ -1,0 +1,67 @@
+:root {
+  --tan: #DFBE99;
+  --tan-bg: #10100b;
+  --sage: #B5BD89;
+  --sage-bg: #0c0c09;
+  --moonstone-bg: rgb(6, 9, 9);
+  --moonstone: #729EA1;
+  --coral: #EC9192;
+  --blush: #DB5375;
+  --gold: #FCA311;
+  --green: #063620;
+  --blackish: #16171A;
+  --dark-grey: #292a31;
+  --grey: #a4a4a4;
+  --whitish: #e1dcd6;
+  --background-color-0: #000;
+  --background-color-1: #0e0e0e;
+  --background-color-2: var(--blackish);
+  --text-color: #fff;
+  --clamp-min: 40px;
+  --clamp-max: 611px;
+  --z: 5px;
+  --time: 2s;
+  --height: 35px;
+  --font: 20px;
+  --border-radius: 0rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color-0: #FFFFFF;
+    --background-color-2: var(--whitish);
+    --text-color: var(--blackish);
+    --tan-bg: #fff1d9;
+    --sage-bg: #fffff7;
+    --moonstone-bg: rgb(238, 249, 255);
+  }
+}
+
+body {
+  background: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+  color: var(--text-color);
+}
+
+* {
+  font-family: "Maple Mono", serif;
+}
+
+$color-mode-type: media-query;
+$theme-colors: (
+        info: #DFBE99,
+        success: #B5BD89,
+        primary: #729EA1,
+        emphasis: #EC9192,
+        danger: #DB5375,
+        warning: #FCA311
+);
+$bs-theme-colors: (
+        info: #DFBE99,
+        success: #B5BD89,
+        primary: #729EA1,
+        emphasis: #EC9192,
+        danger: #DB5375,
+        warning: #FCA311
+);
+/* import bootstrap to set changes */
+@import '~bootstrap/scss/bootstrap';

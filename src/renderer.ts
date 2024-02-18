@@ -27,7 +27,7 @@
  */
 
 import {PreloadedApi} from './preload';
-import './renderer/index.css';
+import './renderer/index.scss';
 import './app';
 
 declare global {
