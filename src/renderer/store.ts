@@ -1,6 +1,6 @@
 
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {chatsSlice} from './state/chat';
+import {chatsSlice} from './features/chat';
 
 import { useDispatch } from 'react-redux'
 
@@ -9,8 +9,6 @@ export const store = configureStore({
     chats: chatsSlice.reducer,
   },
 })
-
-
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

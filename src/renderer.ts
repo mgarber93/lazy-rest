@@ -26,5 +26,12 @@
  * ```
  */
 
-import './index.css';
+import {PreloadedApi} from './preload';
+import './renderer/index.css';
 import './app';
+
+declare global {
+  interface Window {
+    main: PreloadedApi
+  }
+}

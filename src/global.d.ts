@@ -1,8 +1,3 @@
-import {OpenAi} from './preload';
+import {PreloadedApi} from './preload';
 
 
-declare global {
-  interface Window {
-    openai: OpenAi
-  }
-}

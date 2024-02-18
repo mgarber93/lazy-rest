@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {MessageThread} from '../components/message-thread';
+import {Thread} from '../components/thread';
 
 
 const Page = styled.div`
@@ -20,7 +20,7 @@ const NavPage = () => {
   return (
     <Page>
       <MainContent>
-        <MessageThread/>
+        <Thread/>
       </MainContent>
     </Page>
   );

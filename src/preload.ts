@@ -2,13 +2,16 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import {contextBridge, ipcRenderer} from 'electron';
+import {User} from './models/user';
 
-export interface OpenAi {
+export interface PreloadedApi {
   chat: (...args: string[]) => Promise<string>,
+  getUser: () => Promise<User>
 }
 
 
-contextBridge.exposeInMainWorld('openai', {
+contextBridge.exposeInMainWorld('main', {
   desktop: true,
-  chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat')
-} as OpenAi)
+  chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
+  getUser: ipcRenderer.invoke.bind(ipcRenderer, 'getUser'),
+} as PreloadedApi)
