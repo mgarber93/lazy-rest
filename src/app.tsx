@@ -2,7 +2,8 @@ import {createRoot} from 'react-dom/client';
 import React from 'react';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import NavPage from './pages/page';
-
+import {Provider} from 'react-redux';
+import {store} from './store'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -16,7 +17,9 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => (
-  <RouterProvider router={router}/>
+  <Provider store={store}>
+    <RouterProvider router={router}/>
+  </Provider>
 );
 
 

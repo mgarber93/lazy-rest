@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {PromptForm} from '../components/prompt-form';
+import {MessageThread} from '../components/message-thread';
 
 
 const Page = styled.div`
@@ -20,7 +20,7 @@ const NavPage = () => {
   return (
     <Page>
       <MainContent>
-        <PromptForm/>
+        <MessageThread/>
       </MainContent>
     </Page>
   );
