@@ -2,18 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import {ConversationComponent} from '../components/conversation';
 
-
 const Page = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
 `;
 
-
 const MainContent = styled.div`
-    width: 100%;
-    height: 100vh;
     display: flex;
     justify-content: center;
+    width: 60vw;
 `;
 
 const NavPage = () => {
@@ -25,8 +25,5 @@ const NavPage = () => {
     </Page>
   );
 }
-
-
-
 
 export default NavPage;

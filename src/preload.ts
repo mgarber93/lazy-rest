@@ -2,16 +2,15 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import {contextBridge, ipcRenderer} from 'electron';
-import {User} from './models/user';
 
 export interface PreloadedApi {
   chat: (...args: string[]) => Promise<string>,
-  getUser: () => Promise<User>
+  getMachineName: () => Promise<string>
 }
 
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
   chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
-  getUser: ipcRenderer.invoke.bind(ipcRenderer, 'getUser'),
+  getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
 } as PreloadedApi)
