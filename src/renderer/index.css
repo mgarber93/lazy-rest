@@ -1,6 +1,9 @@
 :root {
   --tan: #DFBE99;
+  --tan-bg: #1c1a13;
   --sage: #B5BD89;
+  --sage-bg: #15150f;
+  --moonstone-bg: rgb(19, 25, 26);
   --moonstone: #729EA1;
   --coral: #EC9192;
   --blush: #DB5375;
@@ -31,7 +34,7 @@
   }
 }
 body {
-  background-color: var(--background-color-0);
+  background-image: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-1), var(--background-color-1), var(--moonstone-bg));
   color: var(--text-color);
   --border-radius: 0.35rem;
 }

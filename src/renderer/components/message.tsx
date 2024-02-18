@@ -9,6 +9,10 @@ const StyledInput = styled.input`
     border: var(--border-0);
     border-radius: var(--border-radius);
     height: 2.5rem;
+    border-image-slice: 1;
+    margin: 0.2rem;
+    background-color: var(--background-color-2);
+    color: var(--text-color);
 `;
 
 
