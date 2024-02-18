@@ -1,16 +1,22 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  MiddlewareAPI,
+  PayloadAction,
+  UnknownAction,
+} from '@reduxjs/toolkit';
 import {AuthoredContent, createContent} from '../../models/content';
+import {Conversation} from '../../models/conversation';
+import {Dispatch} from 'react';
+import {v4} from 'uuid'
 
-export interface ChatMessages {
-  messages: AuthoredContent[];
-}
 
-function createResponse() {
-  return createContent('', 'user', true);
-}
+const serializedChats = localStorage.getItem('chats')
+const chats = JSON.parse(serializedChats)
 
-const initialState: ChatMessages = {
-  messages: [createResponse()],
+const initialState: Conversation = chats ?? {
+  id: v4(),
+  content: [],
 };
 
 const name = 'chats';
@@ -28,17 +34,18 @@ export const chatsSlice = createSlice({
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
       const {id} = action.payload;
-      const index = state.messages.findIndex(m => m.id === id);
+      const index = state.content.findIndex(m => m.id === id);
       if (index > -1) {
-        state.messages[index] = action.payload;
+        state.content[index] = action.payload;
+      } else {
+        state.content.push(action.payload);
       }
     },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
       const content = createContent(action.payload, 'chat-gpt-3', false)
-      state.messages.push(content);
-      state.messages.push(createResponse())
+      state.content.push(content);
     });
   },
 });
@@ -46,4 +53,8 @@ export const chatsSlice = createSlice({
 // Export actions to use dispatch in component
 export const {respond} = chatsSlice.actions;
 
-export default chatsSlice.reducer;
+export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
+  const result = next(action);
+  localStorage.setItem(name, JSON.stringify(store.getState().chats));
+  return result;
+};

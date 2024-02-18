@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Dialog} from '../components/dialog';
+import {ConversationComponent} from '../components/conversation';
 
 
 const Page = styled.div`
@@ -20,7 +20,7 @@ const NavPage = () => {
   return (
     <Page>
       <MainContent>
-        <Dialog/>
+        <ConversationComponent/>
       </MainContent>
     </Page>
   );

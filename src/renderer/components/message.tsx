@@ -3,7 +3,6 @@ import {generateResponse, respond} from '../features/chat';
 import React from 'react';
 import styled from 'styled-components';
 import {useAppDispatch} from '../store';
-import {useSelector} from 'react-redux';
 
 
 const StyledInput = styled.input`
@@ -30,6 +29,30 @@ export function Message(props: { content: AuthoredContent }) {
   return (
     <StyledInput className="respond" type="text" value={props.content.message} disabled={true}></StyledInput>
   );
+}
+
+export function NewMessage() {
+  const [inputValue, setValue] = React.useState('');
+  const dispatch = useAppDispatch();
+  
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setValue(e.target.value);
+  };
+  
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const prompt = createContent(inputValue, 'this', false);
+    dispatch(respond(prompt))
+    dispatch(generateResponse(prompt));
+    setValue('');
+  };
+  
+  return (
+    <StyledForm onSubmit={handleSubmit}>
+      <StyledInput className="respond" type="text" value={inputValue} onChange={handleChange}></StyledInput>
+      <StyledInput type="submit" value="Respond"/>
+    </StyledForm>
+  )
 }
 
 export function EditableMessage(props: { content: AuthoredContent }) {

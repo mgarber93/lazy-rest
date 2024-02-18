@@ -1,6 +1,6 @@
 
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {chatsSlice} from './features/chat';
+import {chatsSlice, localStorageMiddleware} from './features/chat';
 
 import { useDispatch } from 'react-redux'
 
@@ -8,6 +8,7 @@ export const store = configureStore({
   reducer: {
     chats: chatsSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
