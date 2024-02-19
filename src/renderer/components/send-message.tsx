@@ -2,12 +2,16 @@ import {useAppDispatch} from '../store';
 import {createContent} from '../../models/content';
 import {generateResponse, respond} from '../features/chat';
 import React from 'react';
-import {Container} from 'react-bootstrap';
 import styled from 'styled-components';
 
 const TextArea = styled.textarea`
     resize: none;
     width: 100%;
+    border: 0;
+    padding: 0;
+    margin-top: auto;
+    background-color: var(--background-color-0);
+    color: var(--text-color);
 `
 
 function FileUpload() {
@@ -43,7 +47,6 @@ export function SendMessage() {
     <TextArea
       rows={1}
       placeholder="Message agent"
-      className="autoExpand"
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}/>

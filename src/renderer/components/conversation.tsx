@@ -2,15 +2,15 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../store';
-import {Message, EditableMessage} from './message';
+import {Message} from './message';
 import {SendMessage} from './send-message';
 
 const StyledDiv = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin: 4rem;
 `
-
 
 
 export const ConversationComponent = () => {

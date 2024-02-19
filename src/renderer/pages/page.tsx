@@ -14,6 +14,7 @@ const MainContent = styled.div`
     display: flex;
     justify-content: center;
     width: 60vw;
+    height: 100%;
 `;
 
 const NavPage = () => {

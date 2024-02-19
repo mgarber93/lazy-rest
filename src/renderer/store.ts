@@ -1,12 +1,12 @@
-
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
 import {chatsSlice, localStorageMiddleware} from './features/chat';
-
-import { useDispatch } from 'react-redux'
+import {useDispatch} from 'react-redux'
+import {userSlice} from './features/user';
 
 export const store = configureStore({
   reducer: {
     chats: chatsSlice.reducer,
+    user: userSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })
