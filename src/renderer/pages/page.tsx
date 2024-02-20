@@ -18,8 +18,9 @@ const Page = styled.div`
     .main {
         background-color: var(--background-color-2);
         grid-column: 2;
-        padding: 20px;
         max-height: 100vh;
+        display: flex;
+        justify-content: center;
     }
 `;
 
