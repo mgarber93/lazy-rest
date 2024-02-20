@@ -1,8 +1,9 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron';
 import {getUser} from './user';
+import {chat} from './openai';
 
 async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
-  return [...args].map(str => str.toUpperCase()).join('')
+  return chat(args.join())
 }
 
 

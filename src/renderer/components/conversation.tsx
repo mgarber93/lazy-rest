@@ -17,6 +17,7 @@ const MessagesContainer = styled.div`
     overflow-y: scroll;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
+    gap: 1rem;
 `
 
 
