@@ -9,14 +9,14 @@ const StyledDiv = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    //margin: 4rem;
 `
 
 const MessagesContainer = styled.div`
     display: flex;
     flex-direction: column;
-    //max-height: 80%;
     overflow-y: scroll;
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
 `
 
 

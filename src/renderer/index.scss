@@ -10,7 +10,7 @@
   --gold: #FCA311;
   --green: #063620;
   --blackish: #16171A;
-  --dark-grey: #292a31;
+  --dark-grey: #484c56;
   --grey: #a4a4a4;
   --whitish: #e1dcd6;
   --background-color-0: #000;
@@ -28,7 +28,8 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color-0: #FFFFFF;
+    --background-color-0: var(--grey);
+    --background-color-1: var(--grey);
     --background-color-2: var(--whitish);
     --text-color: var(--blackish);
     --tan-bg: #fff1d9;
