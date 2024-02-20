@@ -7,11 +7,16 @@ import styled from 'styled-components';
 const TextArea = styled.textarea`
     resize: none;
     width: 100%;
-    border: 0;
-    padding: 0;
+    border: 1px solid var(--background-color-0);
     margin-top: auto;
-    background-color: var(--background-color-0);
+    background-color: var(--background-color-1);
     color: var(--text-color);
+    position: sticky;
+    bottom: 1rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    padding: 0.1rem 1rem 1rem 1rem;
+    font-size: larger;
 `
 
 function FileUpload() {

@@ -5,9 +5,7 @@ import styled from 'styled-components';
 
 const StyledInput = styled.input`
     border-radius: var(--border-radius);
-    height: 2.5rem;
     border-image-slice: 1;
-    margin: 0.2rem;
     background-color: unset;
     color: var(--text-color);
     border: none;

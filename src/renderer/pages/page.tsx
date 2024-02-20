@@ -18,7 +18,7 @@ const Page = styled.div`
     .main {
         background-color: var(--background-color-2);
         grid-column: 2;
-        max-height: 100vh;
+        height: 100vh;
         display: flex;
         justify-content: center;
     }
