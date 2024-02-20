@@ -8,5 +8,5 @@ async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise
 
 export function registerHandlers() {
   ipcMain.handle('chat', handleChat)
-  ipcMain.handle('getUser', getUser)
+  ipcMain.handle('getMachineName', getUser)
 }
