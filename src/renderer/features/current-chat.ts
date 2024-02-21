@@ -8,3 +8,6 @@ export const currentChatSlice = createSlice({
     selectChat: (state, action: PayloadAction<string>) => action.payload,
   },
 });
+
+
+export const {selectChat} = currentChatSlice.actions;

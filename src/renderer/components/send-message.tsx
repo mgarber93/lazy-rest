@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {User} from '../../models/user';
@@ -24,22 +24,23 @@ const TextArea = styled.textarea`
 export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
-  const user = useSelector<RootState>((state) => state.user) as User;
   const currentConversation = useCurrentConversation();
   
+  const user = useSelector<RootState>((state) => state.user) as User;
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
-  };
   
-  const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+  };
+  const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
+      debugger
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username);
       dispatch(respond(prompt))
       dispatch(generateResponse(prompt));
       setValue('');
     }
-  };
+  }, [currentConversation, inputValue])
   const rows = Math.max(inputValue.split('\n').length, 1);
   return (
     <TextArea

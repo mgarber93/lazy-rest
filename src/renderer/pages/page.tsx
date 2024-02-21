@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import {ConversationComponent} from '../components/conversation';
 import {useSelector} from 'react-redux';
 import {getMachineName} from '../features/user';
-import {RootState, useAppDispatch} from '../store';
+import {RootState, useAppDispatch, useAppSelector} from '../store';
 import {Conversation} from '../../models/conversation';
+import {selectChat} from '../features/current-chat';
 
 const Page = styled.div`
     display: grid;
@@ -27,6 +28,9 @@ const Page = styled.div`
             overflow-y: scroll;
             border-bottom: 2px solid var(--background-color-1);
             font-size: medium;
+        }
+        .active {
+            color: var(--sage)
         }
         .footer {
             margin-top: auto;
@@ -64,10 +68,14 @@ const MainContent = styled.div`
 const NavPage = () => {
   const dispatch = useAppDispatch();
   const user = useSelector<RootState>((state) => state.user?.username ?? '') as string;
-  useEffect(() => {
-    dispatch(getMachineName());
-  }, [dispatch]);
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
+  const currentChat = useAppSelector((state) => state.currentChat);
+  
+  useEffect(() => {
+    if (chats.length > 0 && !currentChat)
+      dispatch(selectChat(chats[0].id))
+    dispatch(getMachineName());
+  }, [dispatch, currentChat]);
   
   return (
     <Page>
@@ -76,7 +84,7 @@ const NavPage = () => {
           {user ? <div className="user">{user}</div> : null}
         </div>
         <div>
-          {chats.map(chat => <div key={chat.id} className="chatsContainer">{chat.title}</div>)}
+          {chats.map(chat => <div key={chat.id} className={"chatsContainer" + (chat.id === currentChat ? " active" : '')}>{chat.title}</div>)}
         </div>
         <div className="footer">
           <button> Start New Chat </button>
