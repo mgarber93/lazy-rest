@@ -1,10 +1,11 @@
-import {RootState, useAppDispatch} from '../store';
-import {createContent} from '../../models/content';
-import {generateResponse, respond} from '../features/chat';
 import React from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {User} from '../../models/user';
+import {RootState, useAppDispatch} from '../store';
+import {createContent} from '../../models/content';
+import {generateResponse, respond} from '../features/chat';
+import {useCurrentConversation} from '../hooks/current-conversation';
 
 const TextArea = styled.textarea`
     resize: none;
@@ -24,6 +25,7 @@ export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
   const user = useSelector<RootState>((state) => state.user) as User;
+  const currentConversation = useCurrentConversation();
   
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
@@ -32,8 +34,7 @@ export function SendMessage() {
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
       e.preventDefault();
-      
-      const prompt = createContent(inputValue, user.username, false);
+      const prompt = createContent(inputValue, currentConversation.id, user.username);
       dispatch(respond(prompt))
       dispatch(generateResponse(prompt));
       setValue('');

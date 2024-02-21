@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 export interface AuthoredContent {
   id: string;
+  chatId: string;
   message: string;
-  editable: boolean;
   author: string;
 }
 
@@ -11,14 +11,12 @@ export function generateId() {
   return uuidv4();
 }
 
-export function createContent(message: string, author: string, editable?: boolean, id?: string): AuthoredContent {
-  if (!id) {
-    id = generateId();
-  }
+export function createContent(message: string, chatId: string, author: string): AuthoredContent {
+  const id = generateId();
   return {
     id,
+    chatId,
     message,
     author,
-    editable
   }
 }

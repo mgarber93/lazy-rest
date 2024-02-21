@@ -1,9 +1,8 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {RootState} from '../store';
 import {Message} from './message';
 import {SendMessage} from './send-message';
+import {useCurrentConversation} from '../hooks/current-conversation';
 
 const StyledDiv = styled.div`
     display: flex;
@@ -20,14 +19,13 @@ const MessagesContainer = styled.div`
     gap: 1rem;
 `
 
-
 export const ConversationComponent = () => {
-  const messages = useSelector((state: RootState) => state.chats.content);
+  const activeChat = useCurrentConversation()
   return (
     <StyledDiv>
       <MessagesContainer>
         {
-          messages.map(message => <Message key={message.id} content={message}/>)
+          activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
       </MessagesContainer>
       <SendMessage/>

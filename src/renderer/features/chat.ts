@@ -14,17 +14,22 @@ import {v4} from 'uuid'
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 
-const initialState: Conversation = chats ?? {
+const initialState: Conversation[] = chats ?? [{
   id: v4(),
   content: [],
-};
+  title: 'New Chat'
+} as Conversation];
 
 const name = 'chats';
 
 export const generateResponse = createAsyncThunk(
   `${name}/generateResponse`,
   async (message: AuthoredContent) => {
-    return await window.main.chat(message.message);
+    const response = await window.main.chat(message.message);
+    return {
+      response,
+      chatId: message.chatId
+    }
   },
 );
 
@@ -33,19 +38,29 @@ export const chatsSlice = createSlice({
   initialState,
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
-      const {id} = action.payload;
-      const index = state.content.findIndex(m => m.id === id);
-      if (index > -1) {
-        state.content[index] = action.payload;
-      } else {
-        state.content.push(action.payload);
+      const { id, chatId } = action.payload;
+      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
+      if (conversationIndex === -1) {
+        return state;
       }
+      const contentIndex = state[conversationIndex].content.findIndex(m => m.id === id);
+      if (contentIndex > -1) {
+        state[conversationIndex].content[contentIndex] = action.payload;
+      } else {
+        state[conversationIndex].content.push(action.payload);
+      }
+      return state;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
-      const content = createContent(action.payload, 'chat-gpt-3', false)
-      state.content.push(content);
+      const {response, chatId} = action.payload;
+      const content = createContent(response, chatId, 'gpt-3.5-turbo')
+      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
+      if (conversationIndex === -1) {
+        return state;
+      }
+      state[conversationIndex].content.push(content);
     });
   },
 });

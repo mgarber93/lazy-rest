@@ -1,6 +1,6 @@
-import {AuthoredContent} from '../../models/content';
 import React from 'react';
 import styled from 'styled-components';
+import {AuthoredContent} from '../../models/content';
 
 
 const StyledDiv = styled.div`
