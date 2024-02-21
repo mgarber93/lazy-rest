@@ -16,7 +16,7 @@ const TextArea = styled.textarea`
     color: var(--text-color);
     position: sticky;
     bottom: 1rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;
 `
@@ -33,7 +33,6 @@ export function SendMessage() {
   };
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
-      debugger
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username);
       dispatch(respond(prompt))
