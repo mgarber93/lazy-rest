@@ -51,6 +51,17 @@ export const chatsSlice = createSlice({
       }
       return state;
     },
+    startNewChat: (state, action: PayloadAction) => {
+      const newChat: Conversation = {
+        id: v4(),
+        content: [],
+        title: 'New Chat'
+      };
+      state.push(newChat);
+    },
+    removeChat: (state, action: PayloadAction<string>) => {
+      return state.filter(chat => chat.id !== action.payload);
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
@@ -66,7 +77,7 @@ export const chatsSlice = createSlice({
 });
 
 // Export actions to use dispatch in component
-export const {respond} = chatsSlice.actions;
+export const {respond, startNewChat} = chatsSlice.actions;
 
 export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
   const result = next(action);
