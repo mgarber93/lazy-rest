@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AuthoredContent} from '../../models/content';
-
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'
 
 const StyledDiv = styled.div`
     .author {
@@ -16,10 +17,6 @@ const StyledDiv = styled.div`
     .author.user {
         color: var(--dark-grey);
     }
-    .content {
-        padding: 20px;
-    }
-    padding: 0px 0px 10px 0px;
     border-radius: var(--border-radius);
     border-image-slice: 1;
 
@@ -34,9 +31,7 @@ export function Message({content}: { content: AuthoredContent }) {
       <h6 className={"author" + (content.author === 'matt' ? ' user' : '')}>
         {content.author}
       </h6>
-      <span className="content">
-        {content.message}
-      </span>
+      <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
     </StyledDiv>
   );
 }
