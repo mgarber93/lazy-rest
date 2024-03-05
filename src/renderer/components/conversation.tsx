@@ -15,7 +15,7 @@ const MessagesContainer = styled.div`
     flex-direction: column;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
-    gap: 1rem;
+    gap: 0.2rem;
     max-height: 95%;
     overflow-y: auto;
 `
