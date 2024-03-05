@@ -4,12 +4,14 @@ import {useDispatch} from 'react-redux'
 import {chatsSlice, localStorageMiddleware} from './features/chat';
 import {userSlice} from './features/user';
 import {currentChatSlice} from './features/current-chat';
+import {contextMenuSlice} from './features/context-menu';
 
 export const store = configureStore({
   reducer: {
     chats: chatsSlice.reducer,
     user: userSlice.reducer,
-    currentChat: currentChatSlice.reducer
+    currentChat: currentChatSlice.reducer,
+    contextMenu: contextMenuSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })

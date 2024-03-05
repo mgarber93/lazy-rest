@@ -6,6 +6,7 @@ import {RootState, useAppDispatch} from '../store';
 import {createContent} from '../../models/content';
 import {generateResponse, respond} from '../features/chat';
 import {useCurrentConversation} from '../hooks/current-conversation';
+import {updateContextMenu} from '../features/context-menu';
 
 const TextArea = styled.textarea`
     resize: none;
@@ -19,7 +20,12 @@ const TextArea = styled.textarea`
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;
-`
+`;
+
+const contextMenuItems = [
+  'Message gpt-3.5-turbo',
+  'Create plan'
+];
 
 export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
@@ -40,13 +46,27 @@ export function SendMessage() {
       setValue('');
     }
   }, [currentConversation, inputValue])
+  
+  const handleMouseUp: React.MouseEventHandler = useCallback((e) => {
+    const isRightClick = e.button === 2;
+    dispatch(updateContextMenu({
+      visible: isRightClick,
+      x: e.clientX,
+      y: e.clientY - 25 * contextMenuItems.length,
+      items: contextMenuItems
+    }))
+    e.preventDefault();
+  }, [dispatch]);
   const rows = Math.max(inputValue.split('\n').length, 1);
   return (
     <TextArea
       rows={rows}
-      placeholder="Message agent"
+      placeholder="Message gpt-3.5-turbo"
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
-      value={inputValue}/>
+      value={inputValue}
+      onMouseUpCapture={handleMouseUp}
+    />
+    
   );
 }

@@ -20,7 +20,6 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: null as User | null,
   reducers: {
-
   },
   extraReducers: (builder) => {
     builder.addCase(getMachineName.fulfilled, (state, action) => {

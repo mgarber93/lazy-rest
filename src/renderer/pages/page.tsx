@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {MouseEvent, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
@@ -8,6 +8,8 @@ import {Conversation} from '../../models/conversation';
 import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
 import {chat} from '../../main/apis/openai';
+import ContextMenu from '../components/context-menu';
+import {updateContextMenu} from '../features/context-menu';
 
 const Page = styled.div`
     display: grid;
@@ -94,9 +96,13 @@ const NavPage = () => {
   function handleClip(id: string) {
     dispatch(selectChat(id))
   }
+  const handleMouseUp = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(updateContextMenu({visible: false, x: 0, y: 0, items: []}))
+  }, [dispatch])
   
   return (
-    <Page>
+    <Page onMouseUpCapture={handleMouseUp}>
       <div className="nav">
         <div className="userContainer">
           {user ? <div className="user">{user}</div> : null}
@@ -115,6 +121,7 @@ const NavPage = () => {
           <ConversationComponent/>
         </MainContent>
       </div>
+      <ContextMenu />
     </Page>
   );
 }
