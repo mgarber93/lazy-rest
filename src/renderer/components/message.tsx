@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {AuthoredContent} from '../../models/content';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
+import {useSelector} from 'react-redux';
+import {useAppSelector} from '../store';
 
 const StyledDiv = styled.div`
     .author {
@@ -33,9 +35,10 @@ const StyledDiv = styled.div`
 `;
 
 export function Message({content}: { content: AuthoredContent }) {
+  const userName = useAppSelector(state => state.user.username);
   return (
     <StyledDiv>
-      <h6 className={"author" + (content.author === 'matt' ? ' user' : '')}>
+      <h6 className={"author" + (content.author === userName ? ' user' : '')}>
         {content.author}
       </h6>
       <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
