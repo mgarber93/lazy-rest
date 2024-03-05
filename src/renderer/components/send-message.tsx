@@ -13,13 +13,14 @@ const TextArea = styled.textarea`
     width: 100%;
     border: 1px solid var(--background-color-0);
     margin-top: auto;
-    background-color: var(--background-color-0);
+    background-color: var(--background-color-2);
     color: var(--text-color);
     position: sticky;
     bottom: 1rem;
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;
+    box-shadow: 0.1rem 0.1rem 0.3rem var(--background-color-0);
 `;
 
 const contextMenuItems = [

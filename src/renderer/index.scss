@@ -24,22 +24,25 @@
   --height: 35px;
   --font: 20px;
   --border-radius: 0.5rem;
+  --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color-0: var(--grey);
-    --background-color-1: var(--grey);
-    --background-color-2: var(--whitish);
+    --background-color-0: var(--moonstone-bg);
+    --background-color-1: var(--whitish);
+    --background-color-2: var(--sage-bg);
     --text-color: var(--blackish);
     --tan-bg: #fff1d9;
-    --sage-bg: #fffff7;
-    --moonstone-bg: rgb(238, 249, 255);
+    --sage-bg: #fffff24;
+    --moonstone-bg: rgb(238, 249, 255, 0.2);
+    --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
   }
 }
 
 body {
-  background: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+  background: var(--background-gradient);
   color: var(--text-color);
 }
 

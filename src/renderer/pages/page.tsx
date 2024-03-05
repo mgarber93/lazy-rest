@@ -7,7 +7,6 @@ import {RootState, useAppDispatch, useAppSelector} from '../store';
 import {Conversation} from '../../models/conversation';
 import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
-import {chat} from '../../main/apis/openai';
 import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
 
@@ -31,9 +30,10 @@ const Page = styled.div`
         }
 
         .chatsContainer {
-            padding: 20px;
+            padding: 5px;
             border-bottom: 2px solid var(--background-color-1);
             font-size: medium;
+            text-align: center;
         }
 
         .active {
@@ -61,7 +61,8 @@ const Page = styled.div`
     }
 
     .main {
-        background-color: var(--background-color-2);
+        //background-color: var(--background-color-2);
+        border-left: 1px solid var(--background-color-2);
         grid-column: 2;
         height: 100vh;
         display: flex;

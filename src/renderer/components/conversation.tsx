@@ -15,8 +15,11 @@ const MessagesContainer = styled.div`
     flex-direction: column;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
-    max-height: 95%;
+    max-height: 92%;
     overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 export const ConversationComponent = () => {
