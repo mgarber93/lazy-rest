@@ -23,7 +23,7 @@ const Page = styled.div`
         flex-direction: column;
 
         .userContainer {
-            padding: 20px;
+            padding: 0.6rem 1.2rem;
             min-height: 5vh;
             border-bottom: 2px solid var(--background-color-1);
             font-size: larger;
@@ -45,12 +45,11 @@ const Page = styled.div`
 
             button {
                 width: 100%;
-                height: 66px;
                 background-color: var(--background-color-0);
                 border: none;
                 border-top: 2px solid var(--background-color-1);
                 text-align: start;
-                padding: 20px;
+                padding: 0.6rem 1.2rem;
                 font-size: medium;
 
                 &:hover {
