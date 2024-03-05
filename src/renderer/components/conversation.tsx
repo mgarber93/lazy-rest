@@ -13,10 +13,11 @@ const StyledDiv = styled.div`
 const MessagesContainer = styled.div`
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
     gap: 1rem;
+    max-height: 95%;
+    overflow-y: auto;
 `
 
 export const ConversationComponent = () => {

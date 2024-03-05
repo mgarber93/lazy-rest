@@ -30,7 +30,6 @@ const Page = styled.div`
 
         .chatsContainer {
             padding: 20px;
-            overflow-y: scroll;
             border-bottom: 2px solid var(--background-color-1);
             font-size: medium;
         }
