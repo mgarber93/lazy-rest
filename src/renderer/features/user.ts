@@ -18,13 +18,14 @@ export const getMachineName = createAsyncThunk(
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: null as User | null,
+  initialState: user as User | null,
   reducers: {
   },
   extraReducers: (builder) => {
     builder.addCase(getMachineName.fulfilled, (state, action) => {
       if (!state)
         state = {username: action.payload}
+      localStorage.setItem('user', JSON.stringify(state));
       return state;
     });
   },
