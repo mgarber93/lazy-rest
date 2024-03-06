@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {AuthoredContent} from '../../models/content';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import {useSelector} from 'react-redux';
 import {useAppSelector} from '../store';
 
 const StyledDiv = styled.div`
@@ -50,7 +49,7 @@ const StyledDiv = styled.div`
 `;
 
 export function Message({content}: { content: AuthoredContent }) {
-  const userName = useAppSelector(state => state.user.username);
+  const userName = useAppSelector(state => state.user?.username);
   const isRightAligned = content.author === userName;
   return (
     <StyledDiv>
