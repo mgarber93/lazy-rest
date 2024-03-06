@@ -47,11 +47,11 @@ export function SendMessage() {
       setValue('');
     }
   }, [currentConversation, inputValue])
-  
+
   const handleMouseUp: React.MouseEventHandler = useCallback((e) => {
     const isRightClick = e.button === 2;
     dispatch(updateContextMenu({
-      visible: isRightClick,
+      visible: isRightClick || e.ctrlKey,
       x: e.clientX,
       y: e.clientY - 25 * contextMenuItems.length,
       items: contextMenuItems
@@ -68,6 +68,6 @@ export function SendMessage() {
       value={inputValue}
       onMouseUpCapture={handleMouseUp}
     />
-    
+
   );
 }
