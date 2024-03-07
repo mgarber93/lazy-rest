@@ -17,12 +17,13 @@ export const store = configureStore({
     contextMenu: contextMenuSlice.reducer,
     models: modelsSlice.reducer
   },
+  devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersSt∑ate}
 export type AppDispatch = typeof store.dispatch;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
