@@ -71,7 +71,7 @@ const Page = styled.div`
 const MainContent = styled.div`
     display: flex;
     justify-content: center;
-    padding: 0 calc(20vw - var(--name-gutter));
+    padding: 0 calc(22vw - var(--name-gutter)) 0 calc(18vw - var(--name-gutter));
     height: 100%;
     background: var(--background-color-1);
     min-width: -webkit-fill-available;

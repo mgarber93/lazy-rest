@@ -21,8 +21,9 @@ const TextArea = styled.textarea`
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;
-    box-shadow: 0.1rem 0.1rem 0.3rem var(--background-color-0);
-`;
+    box-shadow: 0.2rem 0.15rem var(--background-color-0);
+    outline: none;
+`
 
 export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
@@ -58,7 +59,7 @@ export function SendMessage() {
     }))
     e.preventDefault();
   }, [dispatch, models]);
-  const rows = Math.max(inputValue.split('\n').length, 1);
+  const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return (
     <TextArea
       rows={rows}
