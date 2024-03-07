@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
 import {getMachineName} from '../features/user';
-import {RootState, useAppDispatch, useAppSelector} from '../store';
+import {RootState, useAppDispatch, useAppSelector} from '../features/store';
 import {Conversation} from '../../models/conversation';
 import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
@@ -86,8 +86,10 @@ const NavPage = () => {
   useEffect(() => {
     if (chats.length > 0 && !currentChat)
       dispatch(selectChat(chats[0].id))
-    dispatch(getMachineName());
   }, [dispatch, currentChat]);
+  useEffect(() => {
+    dispatch(getMachineName());
+  }, [dispatch]);
   
   function handleNewChatClick() {
     dispatch(startNewChat())

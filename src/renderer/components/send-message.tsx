@@ -1,12 +1,13 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {User} from '../../models/user';
-import {RootState, useAppDispatch} from '../store';
+import {RootState, useAppDispatch, useAppSelector} from '../features/store';
 import {createContent} from '../../models/content';
 import {generateResponse, respond} from '../features/chat';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {updateContextMenu} from '../features/context-menu';
+import {listModels} from '../features/models';
 
 const TextArea = styled.textarea`
     resize: none;
@@ -23,21 +24,19 @@ const TextArea = styled.textarea`
     box-shadow: 0.1rem 0.1rem 0.3rem var(--background-color-0);
 `;
 
-const contextMenuItems = [
-  'Message gpt-3.5-turbo',
-  'Create plan'
-];
-
 export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
-  
-  const user = useSelector<RootState>((state) => state.user) as User;
+  const contextMenuItems = useAppSelector((state) => state.contextMenu.items);
+  const user = useAppSelector((state) => state.user) as User;
+
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
-  
   };
+  useEffect(() => {
+    dispatch(listModels())
+  }, [dispatch]);
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
       e.preventDefault();
@@ -62,7 +61,7 @@ export function SendMessage() {
   return (
     <TextArea
       rows={rows}
-      placeholder="Message gpt-3.5-turbo"
+      placeholder={`Message ${contextMenuItems?.[0] ?? ''}`}
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}

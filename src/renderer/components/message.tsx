@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {AuthoredContent} from '../../models/content';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import {useAppSelector} from '../store';
+import {useAppSelector} from '../features/store';
 
 const StyledDiv = styled.div`
     .author {
