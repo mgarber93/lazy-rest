@@ -1,6 +1,5 @@
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { TypedUseSelectorHook, useSelector ,useDispatch} from 'react-redux';
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {useDispatch} from 'react-redux'
 import {chatsSlice, localStorageMiddleware} from './chat';
 import {userSlice} from './user';
 import {currentChatSlice} from './current-chat';
