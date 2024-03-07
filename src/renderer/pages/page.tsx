@@ -73,6 +73,8 @@ const MainContent = styled.div`
     justify-content: center;
     padding: 0 calc(20vw - var(--name-gutter));
     height: 100%;
+    background: var(--background-color-1);
+    min-width: -webkit-fill-available;
 `;
 
 

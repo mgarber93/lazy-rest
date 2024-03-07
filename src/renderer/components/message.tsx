@@ -18,7 +18,6 @@ const StyledDiv = styled.div`
 
         &:hover {
             text-decoration: underline;
-            cursor: pointer;
             box-shadow: 0.2rem 0.2rem 0.2rem var(--background-color-2);
         }
     }
@@ -37,6 +36,7 @@ const StyledDiv = styled.div`
     }
     transition: background-color 0.2s ease-in-out;
     width: 100%;
+    cursor: default;
 `;
 
 export function Message({content}: { content: AuthoredContent }) {
