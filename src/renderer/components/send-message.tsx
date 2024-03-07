@@ -11,7 +11,7 @@ import {listModels} from '../features/models';
 
 const TextArea = styled.textarea`
     resize: none;
-    width: 100%;
+    margin-left: var(--name-gutter);
     border: 1px solid var(--background-color-0);
     margin-top: auto;
     background-color: var(--background-color-2);

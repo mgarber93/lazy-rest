@@ -60,7 +60,6 @@ const Page = styled.div`
     }
 
     .main {
-        //background-color: var(--background-color-2);
         border-left: 1px solid var(--background-color-2);
         grid-column: 2;
         height: 100vh;
@@ -72,7 +71,7 @@ const Page = styled.div`
 const MainContent = styled.div`
     display: flex;
     justify-content: center;
-    width: 60vw;
+    padding: 0 calc(20vw - var(--name-gutter));
     height: 100%;
 `;
 
