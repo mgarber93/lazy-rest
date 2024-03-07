@@ -30,13 +30,14 @@ export function SendMessage() {
   const currentConversation = useCurrentConversation();
   const contextMenuItems = useAppSelector((state) => state.contextMenu.items);
   const user = useAppSelector((state) => state.user) as User;
-
+  const models = useAppSelector(state => state.models.models);
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
   };
   useEffect(() => {
     dispatch(listModels())
   }, [dispatch]);
+  
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
       e.preventDefault();
@@ -52,16 +53,16 @@ export function SendMessage() {
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
-      y: e.clientY - 25 * contextMenuItems.length,
-      items: contextMenuItems
+      y: e.clientY - 25 * models.length,
+      items: models
     }))
     e.preventDefault();
-  }, [dispatch]);
+  }, [dispatch, models]);
   const rows = Math.max(inputValue.split('\n').length, 1);
   return (
     <TextArea
       rows={rows}
-      placeholder={`Message ${contextMenuItems?.[0] ?? ''}`}
+      placeholder={`Message ${models?.[0] ?? ''}`}
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}
