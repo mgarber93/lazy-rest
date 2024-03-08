@@ -1,10 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
 import {User} from '../../models/user';
-import {RootState, useAppDispatch, useAppSelector} from '../features/store';
+import {useAppDispatch, useAppSelector} from '../features/store';
 import {createContent} from '../../models/content';
-import {generateResponse, respond} from '../features/chat';
+import {generateResponse, respond, selectModelChat} from '../features/chat';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {updateContextMenu} from '../features/context-menu';
 import {listModels} from '../features/models';
@@ -29,9 +28,9 @@ export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
-  const contextMenuItems = useAppSelector((state) => state.contextMenu.items);
   const user = useAppSelector((state) => state.user) as User;
   const models = useAppSelector(state => state.models.models);
+  
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
   };
@@ -48,27 +47,33 @@ export function SendMessage() {
       setValue('');
     }
   }, [currentConversation, inputValue])
-
+  
   const handleMouseUp: React.MouseEventHandler = useCallback((e) => {
     const isRightClick = e.button === 2;
+    const items = models.map(model => {
+      return {
+        display: model,
+        action: selectModelChat({model, chat: currentConversation.id}),
+      };
+    });
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
       y: e.clientY - 25 * models.length,
-      items: models
+      items,
     }))
     e.preventDefault();
-  }, [dispatch, models]);
+  }, [dispatch, models, currentConversation]);
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return (
     <TextArea
       rows={rows}
-      placeholder={`Message ${models?.[0] ?? ''}`}
+      placeholder={`Message ${currentConversation?.responder}`}
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}
       onMouseUpCapture={handleMouseUp}
     />
-
+  
   );
 }

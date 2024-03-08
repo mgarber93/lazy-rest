@@ -100,7 +100,6 @@ const NavPage = () => {
     dispatch(selectChat(id))
   }
   const handleMouseUp = useCallback((e: MouseEvent) => {
-    e.preventDefault();
     dispatch(updateContextMenu({visible: false, x: 0, y: 0, items: []}))
   }, [dispatch])
   

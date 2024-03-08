@@ -1,17 +1,30 @@
-import React from "react";
-import {useAppSelector} from '../features/store';
+import React, {useCallback} from "react";
 import styled from 'styled-components';
+import {useAppDispatch, useAppSelector} from '../features/store';
+import {ContextItem} from '../features/context-menu';
 
-
-const ContextMenuButton = styled.button`
+const Button = styled.button`
     background-color: unset;
     border: none;
-
     &:hover {
         text-decoration: underline;
+        background-color: var(--background-color-1);
     }
+
+    width: 100%;
 `;
 
+const ContextMenuButton = ({item}: { item: ContextItem }) => {
+  const dispatch = useAppDispatch()
+  const {display} = item;
+  const handleMouse = useCallback((e: any) => {
+    if (e.target === e.currentTarget) {
+      debugger
+      dispatch(item.action)
+    }
+  }, [dispatch, item]);
+  return <Button onMouseUpCapture={handleMouse}>{display}</Button>;
+}
 
 const ContextMenu = () => {
   const {visible, x, y, items} = useAppSelector(state => state.contextMenu)
@@ -28,13 +41,13 @@ const ContextMenu = () => {
         left: x,
         padding: '0.2rem',
         boxShadow: '0rem 0.3rem 0.3rem var(--background-color-0)',
-        border: '1px solid #fff0',
-        borderRadius: '0.5rem',
+        border: '1px solid var(--background-color-1)',
+        borderRadius: 'var(--border-radius)',
         display: 'flex',
         flexDirection: 'column',
       }}>
       {
-        items.map(item => <ContextMenuButton key={item}>{item}</ContextMenuButton>)
+        items.map(item => <ContextMenuButton key={item.display} item={item}/>)
       }
     </div>
   )

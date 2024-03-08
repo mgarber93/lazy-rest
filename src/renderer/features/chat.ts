@@ -1,10 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  MiddlewareAPI,
-  PayloadAction,
-  UnknownAction,
-} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, MiddlewareAPI, PayloadAction, UnknownAction} from '@reduxjs/toolkit';
 import {AuthoredContent, createContent} from '../../models/content';
 import {Conversation} from '../../models/conversation';
 import {Dispatch} from 'react';
@@ -17,7 +11,7 @@ const chats = JSON.parse(serializedChats)
 const initialState: Conversation[] = chats ?? [{
   id: v4(),
   content: [],
-  title: 'New Chat'
+  title: 'New Chat',
 } as Conversation];
 
 const name = 'chats';
@@ -61,6 +55,15 @@ export const chatsSlice = createSlice({
     },
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload);
+    },
+    selectModelChat: (state, action: PayloadAction<{ chat: string, model: string }>) => {
+      debugger;
+      const {chat, model} = action.payload;
+      const conversationIndex = state.findIndex(conversation => conversation.id === chat);
+      if (conversationIndex === -1) {
+        return state;
+      }
+      state[conversationIndex].responder = model;
     }
   },
   extraReducers: (builder) => {
@@ -77,7 +80,7 @@ export const chatsSlice = createSlice({
 });
 
 // Export actions to use dispatch in component
-export const {respond, startNewChat} = chatsSlice.actions;
+export const {respond, startNewChat, selectModelChat} = chatsSlice.actions;
 
 export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
   const result = next(action);

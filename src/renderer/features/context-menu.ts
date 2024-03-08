@@ -1,10 +1,15 @@
-import {ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Action, ActionReducerMapBuilder, createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+export interface ContextItem {
+  display: string;
+  action: Action;
+}
 
 type ContextMenuState = {
   visible: boolean;
   x: number;
   y: number;
-  items: Array<string>;
+  items: Array<ContextItem>;
 };
 
 const initialState: ContextMenuState = {

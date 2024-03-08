@@ -4,4 +4,5 @@ export interface Conversation {
   id: string;
   content: AuthoredContent[];
   title: string;
+  responder?: string;
 }
