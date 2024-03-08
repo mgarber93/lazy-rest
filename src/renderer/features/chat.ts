@@ -70,7 +70,7 @@ export const chatsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
       const {response, chatId, model} = action.payload;
-      const content = createContent(response, chatId, model)
+      const content = createContent(response, chatId, model, 'assistant')
       const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
       if (conversationIndex === -1) {
         return state;

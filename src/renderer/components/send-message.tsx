@@ -41,7 +41,7 @@ export function SendMessage() {
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
       e.preventDefault();
-      const prompt = createContent(inputValue, currentConversation.id, user.username);
+      const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
       dispatch(respond(prompt))
       dispatch(generateResponse({content: prompt, model: currentConversation.responder}));
       setValue('');
