@@ -57,7 +57,6 @@ export const chatsSlice = createSlice({
       return state.filter(chat => chat.id !== action.payload);
     },
     selectModelChat: (state, action: PayloadAction<{ chat: string, model: string }>) => {
-      debugger;
       const {chat, model} = action.payload;
       const conversationIndex = state.findIndex(conversation => conversation.id === chat);
       if (conversationIndex === -1) {
