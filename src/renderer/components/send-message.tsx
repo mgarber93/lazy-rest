@@ -17,7 +17,7 @@ const TextArea = styled.textarea`
     background-color: var(--background-color-2);
     color: var(--text-color);
     position: sticky;
-    bottom: 1rem;
+    bottom: 0.5rem;
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;

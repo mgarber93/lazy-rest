@@ -12,7 +12,7 @@ import {updateContextMenu} from '../features/context-menu';
 
 const Page = styled.div`
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
     grid-template-rows: auto 1fr auto;
     height: 100%;
 

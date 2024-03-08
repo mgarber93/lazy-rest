@@ -7,7 +7,6 @@ import {contextMenuSlice} from './context-menu';
 import {modelsSlice} from './models';
 
 
-
 export const store = configureStore({
   reducer: {
     chats: chatsSlice.reducer,
