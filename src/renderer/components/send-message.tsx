@@ -68,7 +68,7 @@ export function SendMessage() {
   return (
     <TextArea
       rows={rows}
-      placeholder={`Message ${currentConversation?.responder}`}
+      placeholder={!!currentConversation?.responder ? `Message ${currentConversation?.responder}` : 'Right click me'}
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}
