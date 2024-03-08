@@ -18,12 +18,14 @@ const name = 'chats';
 
 export const generateResponse = createAsyncThunk(
   `${name}/generateResponse`,
-  async (message: AuthoredContent) => {
-    const response = await window.main.chat(message.message);
+  async ({content, model}: { content: AuthoredContent, model: string }) => {
+    const {message, chatId} = content;
+    const response = await window.main.chat(JSON.stringify({message, model}));
     return {
       response,
-      chatId: message.chatId,
-    }
+      chatId,
+      model,
+    };
   },
 );
 
@@ -67,8 +69,8 @@ export const chatsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
-      const {response, chatId} = action.payload;
-      const content = createContent(response, chatId, 'gpt-3.5-turbo')
+      const {response, chatId, model} = action.payload;
+      const content = createContent(response, chatId, model)
       const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
       if (conversationIndex === -1) {
         return state;

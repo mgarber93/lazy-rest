@@ -3,10 +3,11 @@ import {getUser} from './user';
 import {chat, getModels} from './openai';
 
 async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
-  if (args.join('').startsWith('test')) {
-    return 'Why did the coffee file a police report? It got mugged!\n';
+  const chatRequest = JSON.parse(args.join(''))
+  if (!chatRequest) {
+    throw new Error('Unable to parse in handleChat');
   }
-  return chat(args.join())
+  return chat(chatRequest.model, chatRequest.message);
 }
 
 // Handles added here need to be registered src/preload.ts

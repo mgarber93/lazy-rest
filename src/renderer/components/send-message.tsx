@@ -43,7 +43,7 @@ export function SendMessage() {
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username);
       dispatch(respond(prompt))
-      dispatch(generateResponse(prompt));
+      dispatch(generateResponse({content: prompt, model: currentConversation.responder}));
       setValue('');
     }
   }, [currentConversation, inputValue])
