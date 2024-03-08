@@ -22,6 +22,10 @@ The user should have the option to go back to 1 to continue execution of the pla
 
 [restgpt](https://restgpt.github.io/)
 
-Select an agent
+### Other ideas
 
+gemini / claude
+https://console.anthropic.com/settings/keys
+
+Select an agent
 Media query for mobile like viewports
