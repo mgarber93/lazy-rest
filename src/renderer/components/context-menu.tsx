@@ -6,12 +6,11 @@ import {ContextItem} from '../features/context-menu';
 const Button = styled.button`
     background-color: unset;
     border: none;
+    width: 100%;
     &:hover {
         text-decoration: underline;
         background-color: var(--background-color-1);
     }
-
-    width: 100%;
 `;
 
 const ContextMenuButton = ({item}: { item: ContextItem }) => {
@@ -19,7 +18,6 @@ const ContextMenuButton = ({item}: { item: ContextItem }) => {
   const {display} = item;
   const handleMouse = useCallback((e: any) => {
     if (e.target === e.currentTarget) {
-      debugger
       dispatch(item.action)
     }
   }, [dispatch, item]);

@@ -22,7 +22,7 @@ export const generateResponse = createAsyncThunk(
     const response = await window.main.chat(message.message);
     return {
       response,
-      chatId: message.chatId
+      chatId: message.chatId,
     }
   },
 );
@@ -32,7 +32,7 @@ export const chatsSlice = createSlice({
   initialState,
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
-      const { id, chatId } = action.payload;
+      const {id, chatId} = action.payload;
       const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
       if (conversationIndex === -1) {
         return state;
@@ -49,7 +49,7 @@ export const chatsSlice = createSlice({
       const newChat: Conversation = {
         id: v4(),
         content: [],
-        title: 'New Chat'
+        title: 'New Chat',
       };
       state.push(newChat);
     },
@@ -63,7 +63,7 @@ export const chatsSlice = createSlice({
         return state;
       }
       state[conversationIndex].responder = model;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {

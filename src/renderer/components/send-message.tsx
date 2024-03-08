@@ -74,6 +74,5 @@ export function SendMessage() {
       value={inputValue}
       onMouseUpCapture={handleMouseUp}
     />
-  
   );
 }
