@@ -19,8 +19,10 @@ export async function getModels(): Promise<string> {
 export async function chat(model: string, content: string): Promise<string> {
   const chatCompletion = await openai.chat.completions.create({
     model,
-    messages: [{role: 'user', content}],
+    messages: [
+      {role: 'user', content},
+    ],
   });
-  return chatCompletion.choices[0].message.content ?? '';
+  return JSON.stringify(chatCompletion.choices[0].message);
 }
 

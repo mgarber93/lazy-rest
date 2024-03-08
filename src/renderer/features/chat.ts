@@ -20,9 +20,11 @@ export const generateResponse = createAsyncThunk(
   `${name}/generateResponse`,
   async ({content, model}: { content: AuthoredContent, model: string }) => {
     const {message, chatId} = content;
-    const response = await window.main.chat(JSON.stringify({message, model}));
+    const serializedResponse = await window.main.chat(JSON.stringify({message, model}));
+    const responseMessage = JSON.parse(serializedResponse);
     return {
-      response,
+      role: responseMessage.role,
+      content: responseMessage.content,
       chatId,
       model,
     };
@@ -69,13 +71,13 @@ export const chatsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
-      const {response, chatId, model} = action.payload;
-      const content = createContent(response, chatId, model, 'assistant')
+      const {role, content, chatId, model} = action.payload;
+      const authoredContent = createContent(content, chatId, model, role)
       const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
       if (conversationIndex === -1) {
         return state;
       }
-      state[conversationIndex].content.push(content);
+      state[conversationIndex].content.push(authoredContent);
     });
   },
 });
