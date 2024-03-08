@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
 import {getMachineName} from '../features/user';
-import {RootState, useAppDispatch, useAppSelector} from '../store';
+import {RootState, useAppDispatch, useAppSelector} from '../features/store';
 import {Conversation} from '../../models/conversation';
 import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
@@ -60,7 +60,6 @@ const Page = styled.div`
     }
 
     .main {
-        //background-color: var(--background-color-2);
         border-left: 1px solid var(--background-color-2);
         grid-column: 2;
         height: 100vh;
@@ -72,8 +71,10 @@ const Page = styled.div`
 const MainContent = styled.div`
     display: flex;
     justify-content: center;
-    width: 60vw;
+    padding: 0 calc(22vw - var(--name-gutter)) 0 calc(18vw - var(--name-gutter));
     height: 100%;
+    background: var(--background-color-1);
+    min-width: -webkit-fill-available;
 `;
 
 
@@ -86,8 +87,10 @@ const NavPage = () => {
   useEffect(() => {
     if (chats.length > 0 && !currentChat)
       dispatch(selectChat(chats[0].id))
-    dispatch(getMachineName());
   }, [dispatch, currentChat]);
+  useEffect(() => {
+    dispatch(getMachineName());
+  }, [dispatch]);
   
   function handleNewChatClick() {
     dispatch(startNewChat())

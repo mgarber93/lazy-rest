@@ -1,16 +1,17 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {User} from '../../models/user';
-import {RootState, useAppDispatch} from '../store';
+import {RootState, useAppDispatch, useAppSelector} from '../features/store';
 import {createContent} from '../../models/content';
 import {generateResponse, respond} from '../features/chat';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {updateContextMenu} from '../features/context-menu';
+import {listModels} from '../features/models';
 
 const TextArea = styled.textarea`
     resize: none;
-    width: 100%;
+    margin-left: var(--name-gutter);
     border: 1px solid var(--background-color-0);
     margin-top: auto;
     background-color: var(--background-color-2);
@@ -20,24 +21,24 @@ const TextArea = styled.textarea`
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     font-size: larger;
-    box-shadow: 0.1rem 0.1rem 0.3rem var(--background-color-0);
-`;
-
-const contextMenuItems = [
-  'Message gpt-3.5-turbo',
-  'Create plan'
-];
+    box-shadow: 0.2rem 0.15rem var(--background-color-0);
+    outline: none;
+`
 
 export function SendMessage() {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
-  
-  const user = useSelector<RootState>((state) => state.user) as User;
+  const contextMenuItems = useAppSelector((state) => state.contextMenu.items);
+  const user = useAppSelector((state) => state.user) as User;
+  const models = useAppSelector(state => state.models.models);
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
-  
   };
+  useEffect(() => {
+    dispatch(listModels())
+  }, [dispatch]);
+  
   const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue) {
       e.preventDefault();
@@ -53,16 +54,16 @@ export function SendMessage() {
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
-      y: e.clientY - 25 * contextMenuItems.length,
-      items: contextMenuItems
+      y: e.clientY - 25 * models.length,
+      items: models
     }))
     e.preventDefault();
-  }, [dispatch]);
-  const rows = Math.max(inputValue.split('\n').length, 1);
+  }, [dispatch, models]);
+  const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return (
     <TextArea
       rows={rows}
-      placeholder="Message gpt-3.5-turbo"
+      placeholder={`Message ${models?.[0] ?? ''}`}
       onChange={handleChange}
       onKeyPressCapture={handleKeyPress}
       value={inputValue}

@@ -1,4 +1,4 @@
-import {ActionReducerMapBuilder, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type ContextMenuState = {
   visible: boolean;

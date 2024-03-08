@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import {RootState} from '../store';
+import {RootState} from '../features/store';
 import {Conversation} from '../../models/conversation';
 
 export const useCurrentConversation = () => {
