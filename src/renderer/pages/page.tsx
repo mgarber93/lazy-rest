@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useMemo} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
@@ -9,6 +9,7 @@ import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
 import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
+import {ChatRoutableButton} from '../components/ChatRoutableButton';
 
 const Page = styled.div`
     display: grid;
@@ -92,13 +93,9 @@ const NavPage = () => {
     dispatch(getMachineName());
   }, [dispatch]);
   
-  function handleNewChatClick() {
-    dispatch(startNewChat())
-  }
-  
-  function handleClip(id: string) {
-    dispatch(selectChat(id))
-  }
+  const handleNewChatClick = useMemo(() => () => {
+    dispatch(startNewChat());
+  }, [dispatch]);
   const handleMouseUp = useCallback((e: MouseEvent) => {
     dispatch(updateContextMenu({visible: false, x: 0, y: 0, items: []}))
   }, [dispatch])
@@ -110,9 +107,7 @@ const NavPage = () => {
           {user ? <div className="user">{user}</div> : null}
         </div>
         <div>
-          {chats.map(chat => <div key={chat.id}
-                                  className={"chatsContainer" + (chat.id === currentChat ? " active" : '')}
-                                  onClick={handleClip.bind(null, chat.id)}>{chat.title}</div>)}
+          {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
         </div>
         <div className="footer">
           <button onClick={handleNewChatClick}> Start New Chat</button>
@@ -123,7 +118,7 @@ const NavPage = () => {
           <ConversationComponent/>
         </MainContent>
       </div>
-      <ContextMenu />
+      <ContextMenu/>
     </Page>
   );
 }

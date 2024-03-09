@@ -61,6 +61,15 @@ export const chatsSlice = createSlice({
       };
       state.push(newChat);
     },
+    updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
+      const chat = state.find(chat => chat.id === action.payload.id);
+      if (action.payload.title) {
+        chat.title = action.payload.title.slice(0, 14);
+      } else {
+        const index = state.findIndex(chat => chat.id === action.payload.id);
+        chat.title = 'chat' + index;
+      }
+    },
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload);
     },
@@ -87,7 +96,7 @@ export const chatsSlice = createSlice({
 });
 
 // Export actions to use dispatch in component
-export const {respond, startNewChat, selectModelChat} = chatsSlice.actions;
+export const {respond, startNewChat, selectModelChat, updateTitle} = chatsSlice.actions;
 
 export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
   const result = next(action);
