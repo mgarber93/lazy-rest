@@ -9,7 +9,7 @@ import {selectChat} from '../features/current-chat';
 import {startNewChat} from '../features/chat';
 import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
-import {ChatRoutableButton} from '../components/ChatRoutableButton';
+import {ChatRoutableButton} from '../components/chat-routable-button';
 
 const Page = styled.div`
     display: grid;
@@ -60,7 +60,7 @@ const MainContent = styled.div`
     justify-content: center;
     padding: 0 calc(22vw - var(--name-gutter)) 0 calc(18vw - var(--name-gutter));
     height: 100%;
-    background: var(--background-color-1);
+    background: var(--background-color-0);
     min-width: -webkit-fill-available;
 `;
 

@@ -20,8 +20,9 @@ const Input = styled.input`
     }
 
     &.active {
-        background: var(--background-color-1);
-        color: var(--sage);
+        background-color: var(--accent-text);
+        color: var(--background-color-0);
+        border-bottom: 2px solid var(--accent-text);
     }
 `;
 

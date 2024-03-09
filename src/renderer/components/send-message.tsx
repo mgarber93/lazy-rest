@@ -41,7 +41,6 @@ const Selecter = styled.select`
     text-indent: 1px;
     color: var(--dark-grey);
     height: 100%;
-    border: none;
     margin-left: 1px;
     margin-right: auto;
     transition: 200ms box-shadow ease-in-out;
@@ -52,20 +51,16 @@ const Selecter = styled.select`
     outline: none;
     border-right: 1px solid var(--background-color-1);
 
-    &:hover {
-        box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
-        margin-left: 0;
-        margin-right: 1px;
-        border: 1px solid var(--box-shadow-background);
-        border-right: 1px solid var(--background-color-1);
-    }
+    box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
+    border: 1px solid var(--box-shadow-background);
+    border-right: 1px solid var(--background-color-1);
 `
 
 export function MessageRoleSelector(props: { handleChange: ChangeEventHandler, role: string, currentUser: string }) {
   const {role, handleChange, currentUser} = props;
   return (
     <Selecter value={role} onChange={handleChange}>
-      <option value="system">system</option>
+      <option value="system">Planner</option>
       <option value="user">{currentUser}</option>
       <option value="agent" disabled={true}>agent</option>
     </Selecter>

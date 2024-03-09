@@ -1,9 +1,9 @@
 :root {
   --tan: #DFBE99;
-  --tan-bg: #10100b;
+  --tan-bg: rgba(223, 190, 153, 0.15);
   --sage: #B5BD89;
-  --sage-bg: #0c0c09;
-  --moonstone-bg: rgb(6, 9, 9);
+  --sage-bg: rgba(181, 189, 137, 0.17);
+  --moonstone-bg: rgba(114, 158, 161, 0.15);
   --moonstone: #729EA1;
   --coral: #EC9192;
   --blush: #DB5375;
@@ -32,16 +32,17 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color-0: var(--moonstone-bg);
+    --whitish: rgb(238, 233, 227);
+    --background-color-0: #fff;
     --background-color-1: var(--whitish);
     --background-color-2: var(--sage-bg);
-    --box-shadow-background: var(--coral);
+    --box-shadow-background: var(--moonstone);
     --text-color: var(--blackish);
     --tan-bg: #fff1d9;
     --sage-bg: #ffffd6;
     --moonstone-bg: rgb(241, 249, 255);
     --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
-    --sage: #686c4e;
+    --sage: #B5BD89;
     --moonstone: #577b7c;
     --accent-text: var(--moonstone);
   }

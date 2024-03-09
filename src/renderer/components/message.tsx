@@ -14,9 +14,6 @@ const StyledDiv = styled.div`
         &.user {
             color: var(--dark-grey);
         }
-        &:hover {
-            box-shadow: 0.2rem 0.2rem 0.2rem var(--background-color-2);
-        }
     }
     border-radius: var(--border-radius);
     border-image-slice: 1;
@@ -28,9 +25,7 @@ const StyledDiv = styled.div`
     p {
         margin: 0;
     }
-    &:hover {
-        background-color: var(--background-color-2);
-    }
+
     transition: background-color 0.2s ease-in-out;
     width: 100%;
     cursor: default;
