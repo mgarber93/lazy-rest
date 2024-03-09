@@ -1,4 +1,4 @@
-import {ChangeEvent, ChangeEventHandler, MouseEvent, useMemo} from 'react';
+import {ChangeEvent, ChangeEventHandler, MouseEvent, useMemo, useState} from 'react';
 import {Conversation} from '../../models/conversation';
 import {useAppDispatch, useAppSelector} from '../features/store';
 import {selectChat} from '../features/current-chat';
@@ -9,29 +9,53 @@ const Input = styled.input`
     background-color: var(--background-color-0);
     width: 100%;
     border: none;
+    padding: 5px;
+    border-bottom: 2px solid var(--background-color-1);
+    font-size: medium;
+    text-align: center;
+
+    &.disabled {
+        cursor: default;
+    }
+
+    &.active {
+        background: var(--background-color-2);
+    }
 `;
 
 export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {
+  var [isDisabled, setDisabled] = useState(true)
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.currentChat);
   const handleClip = useMemo(() =>
     (event: MouseEvent) => {
-      
       if (event.button === 2) {
-        dispatch(selectChat(chat.id))
-      } else {
+        setDisabled(!isDisabled)
       }
-    }, [dispatch, chat],
+      if (event.button === 0) {
+        dispatch(selectChat(chat.id))
+        setDisabled(true);
+      }
+    }, [dispatch, chat, setDisabled, isDisabled],
   );
   const handleChange = useMemo(() => (event: ChangeEvent<HTMLInputElement>) => {
+    if (isDisabled)
+      return
     const newTitle = event.target.value;
     dispatch(updateTitle({id: chat.id, title: newTitle}));
-  }, [dispatch, chat]) as ChangeEventHandler<HTMLInputElement>;
+  }, [dispatch, chat, isDisabled]) as ChangeEventHandler<HTMLInputElement>;
+  const classNames = ["chatsContainer"]
+  if (chat.id === currentChat)
+    classNames.push('active')
+  if (isDisabled)
+    classNames.push('disabled')
+  const className = classNames.join(' ')
   return <div onMouseUpCapture={handleClip}>
     <Input
-      className={"chatsContainer" + (chat.id === currentChat ? " active" : '')}
+      className={className}
       value={chat.title}
       onChange={handleChange}
+      readOnly={isDisabled}
     />
   </div>
   

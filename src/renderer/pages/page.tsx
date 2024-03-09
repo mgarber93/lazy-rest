@@ -30,17 +30,6 @@ const Page = styled.div`
             font-size: larger;
         }
 
-        .chatsContainer {
-            padding: 5px;
-            border-bottom: 2px solid var(--background-color-1);
-            font-size: medium;
-            text-align: center;
-        }
-
-        .active {
-            color: var(--sage)
-        }
-
         .footer {
             margin-top: auto;
 
