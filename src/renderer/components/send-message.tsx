@@ -24,7 +24,6 @@ const TextArea = styled.textarea`
     border-top-left-radius: 0;
     box-shadow: 0.2rem 0.15rem var(--background-color-0);
 `
-
 const SendMessageContainer = styled.div`
     position: sticky;
     margin-top: auto;

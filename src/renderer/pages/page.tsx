@@ -16,28 +16,23 @@ const Page = styled.div`
     grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
     grid-template-rows: auto 1fr auto;
     height: 100%;
-
     .nav {
         grid-row: 1 / -1;
         background-color: var(--background-color-0);
         display: flex;
         flex-direction: column;
         background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--sage-bg) 12.9%, var(--moonstone-bg) 91.2%);
-
         .userContainer {
             padding: 0.6rem 1.2rem;
             min-height: 5vh;
             border-bottom: 2px solid var(--background-color-1);
             font-size: larger;
         }
-
         .footer {
-
             button {
                 background-color: unset;
                 width: 100%;
                 border: none;
-                border-top: 2px solid var(--background-color-1);
                 text-align: center;
                 padding: 0.6rem 1.2rem;
                 font-size: smaller;
@@ -48,7 +43,6 @@ const Page = styled.div`
             }
         }
     }
-
     .main {
         border-left: 1px solid var(--background-color-2);
         grid-column: 2;
@@ -56,7 +50,6 @@ const Page = styled.div`
         display: flex;
         justify-content: center;
     }
-
     .userContainer, .footer {
         background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--moonstone-bg) 12.9%, var(--sage-bg) 91.2%);
     }
