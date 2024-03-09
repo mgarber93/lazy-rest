@@ -32,16 +32,15 @@ const Page = styled.div`
         }
 
         .footer {
-            margin-top: auto;
 
             button {
                 background-color: unset;
                 width: 100%;
                 border: none;
                 border-top: 2px solid var(--background-color-1);
-                text-align: start;
+                text-align: center;
                 padding: 0.6rem 1.2rem;
-                font-size: medium;
+                font-size: smaller;
 
                 &:hover {
                     background-color: var(--sage-bg);
@@ -104,7 +103,7 @@ const NavPage = () => {
           {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
         </div>
         <div className="footer">
-          <button onClick={handleNewChatClick}> Start New Chat</button>
+          <button onClick={handleNewChatClick}>+</button>
         </div>
       </div>
       <div className="main">

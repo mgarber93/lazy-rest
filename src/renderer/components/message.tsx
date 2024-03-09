@@ -11,23 +11,21 @@ const StyledDiv = styled.div`
     .author {
         color: var(--sage);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
-
         &.user {
             color: var(--dark-grey);
         }
-
         &:hover {
             box-shadow: 0.2rem 0.2rem 0.2rem var(--background-color-2);
         }
     }
-
     border-radius: var(--border-radius);
     border-image-slice: 1;
     color: var(--text-color);
     border: none;
-
     padding: 0.2rem;
-    h6, p {
+    font-size: var(--bs-body-font-size);
+
+    p {
         margin: 0;
     }
     &:hover {
