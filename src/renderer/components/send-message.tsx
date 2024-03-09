@@ -22,6 +22,7 @@ const TextArea = styled.textarea`
     height: 100%;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    box-shadow: 0.2rem 0.15rem var(--background-color-0);
 `
 
 const SendMessageContainer = styled.div`
@@ -30,7 +31,6 @@ const SendMessageContainer = styled.div`
     bottom: 0.5rem;
     display: flex;
     flex-direction: row;
-    box-shadow: 0.2rem 0.15rem var(--background-color-0);
 `
 const Selecter = styled.select`
     border-bottom-right-radius: 0;
@@ -44,20 +44,20 @@ const Selecter = styled.select`
     resize: none;
     border: none;
     margin-left: 1px;
+    transition: 200ms box-shadow ease-in-out;
+    font-size: var(--bs-body-font-size);
+    margin-top: auto;
+    background-color: var(--background-color-1);
+    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    outline: none;
 
     &:hover {
+        box-shadow: 0.2rem 0.15rem var(--background-color-0);
         margin-left: 0;
         margin-right: 1px;
         border: 1px solid var(--background-color-0);
         border-right: none;
     }
-
-    font-size: var(--bs-body-font-size);
-    margin-top: auto;
-    background-color: var(--background-color-1);
-    //border-radius: var(--border-radius);
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
-    outline: none;
 `
 
 export function MessageRoleSelector() {
