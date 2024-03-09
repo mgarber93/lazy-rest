@@ -7,6 +7,7 @@ import {generateResponse, respond, selectModelChat} from '../features/chat';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {updateContextMenu} from '../features/context-menu';
 import {listModels} from '../features/models';
+import {Conversation} from '../../models/conversation';
 
 const TextArea = styled.textarea`
     resize: none;
@@ -57,18 +58,21 @@ const Selecter = styled.select`
     border-bottom-left-radius: var(--border-radius);
 `
 
-export function MessageRoleSelector(props: { handleChange: ChangeEventHandler, role: string, currentUser: string }) {
-  const {role, handleChange, currentUser} = props;
+export function MessageRoleSelector(props: {
+  handleChange: ChangeEventHandler,
+  role: string,
+  currentUser: string,
+  roles: { value: string, display: string }[]
+}) {
+  const {role, handleChange, currentUser, roles} = props;
   return (
-    <Selecter value={role} onChange={handleChange}>
-      <option value="system">Planner</option>
-      <option value="user">{currentUser}</option>
-      <option value="agent" disabled={true}>agent</option>
+    <Selecter value={role} onChange={handleChange} disabled={roles.length === 1}>
+      {roles.map(r => <option value={r.value}>{r.display}</option>)}
     </Selecter>
   );
 }
 
-export function UserInputText() {
+export function UserInputText({placeholder}: { placeholder: string }) {
   const [inputValue, setValue] = React.useState('');
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
@@ -112,7 +116,7 @@ export function UserInputText() {
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return <TextArea
     rows={rows}
-    placeholder={currentConversation?.responder ? `Message ${currentConversation?.responder}` : 'Right click me'}
+    placeholder={placeholder}
     onChange={handleChange}
     onKeyPressCapture={handleKeyPress}
     value={inputValue}
@@ -120,17 +124,28 @@ export function UserInputText() {
   />
 }
 
+function hasAnyNonSystemMessages(convesation: Conversation) {
+  const messages = convesation?.content ?? [];
+  return messages.some(message => message.role !== 'system');
+}
+
 export function SendMessage() {
   const currentUser = useAppSelector(state => state.user.username)
-  const [role, setRole] = useState(currentUser)
+  const currentConversation = useCurrentConversation();
+  
+  const roles = [{value: "user", display: currentUser}]
+  if (!hasAnyNonSystemMessages(currentConversation)) {
+    roles.unshift({value: "system", display: "instructions"})
+  }
+  const [role, setRole] = useState("user")
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
-  }, [setRole, currentUser]);
-  
+  }, [setRole, currentUser, currentConversation]);
+  const responderPlaceholder = currentConversation?.responder ? `Message ${currentConversation?.responder}` : 'Right click me';
   return (
     <SendMessageContainer>
-      <MessageRoleSelector role={role} handleChange={handleChange} currentUser={currentUser}/>
-      <UserInputText/>
+      <MessageRoleSelector roles={roles} role={role} handleChange={handleChange} currentUser={currentUser}/>
+      <UserInputText placeholder={responderPlaceholder}/>
     </SendMessageContainer>
   );
 }
