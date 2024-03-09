@@ -29,3 +29,6 @@ https://console.anthropic.com/settings/keys
 
 Select an agent
 Media query for mobile like viewports
+
+Group prompt/response as "Tasks"
+Add assistant as concept
