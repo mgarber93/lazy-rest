@@ -41,15 +41,15 @@ export const chatsSlice = createSlice({
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
       const {id, chatId} = action.payload;
-      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
-      if (conversationIndex === -1) {
+      const conversation = state.find(conversation => conversation.id === chatId);
+      if (!conversation) {
         return state;
       }
-      const contentIndex = state[conversationIndex].content.findIndex(m => m.id === id);
+      const contentIndex = conversation.content.findIndex(m => m.id === id);
       if (contentIndex > -1) {
-        state[conversationIndex].content[contentIndex] = action.payload;
+        conversation.content[contentIndex] = action.payload;
       } else {
-        state[conversationIndex].content.push(action.payload);
+        conversation.content.push(action.payload);
       }
       return state;
     },
