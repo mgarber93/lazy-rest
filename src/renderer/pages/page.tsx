@@ -22,6 +22,7 @@ const Page = styled.div`
         background-color: var(--background-color-0);
         display: flex;
         flex-direction: column;
+        background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--sage-bg) 12.9%, var(--moonstone-bg) 91.2%);
 
         .userContainer {
             padding: 0.6rem 1.2rem;
@@ -34,8 +35,8 @@ const Page = styled.div`
             margin-top: auto;
 
             button {
+                background-color: unset;
                 width: 100%;
-                background-color: var(--background-color-0);
                 border: none;
                 border-top: 2px solid var(--background-color-1);
                 text-align: start;
@@ -55,6 +56,10 @@ const Page = styled.div`
         height: 100vh;
         display: flex;
         justify-content: center;
+    }
+
+    .userContainer, .footer {
+        background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--moonstone-bg) 12.9%, var(--sage-bg) 91.2%);
     }
 `;
 

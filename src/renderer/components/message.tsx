@@ -17,7 +17,6 @@ const StyledDiv = styled.div`
         }
 
         &:hover {
-            text-decoration: underline;
             box-shadow: 0.2rem 0.2rem 0.2rem var(--background-color-2);
         }
     }

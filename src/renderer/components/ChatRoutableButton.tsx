@@ -13,13 +13,15 @@ const Input = styled.input`
     border-bottom: 2px solid var(--background-color-1);
     font-size: medium;
     text-align: center;
+    outline: none;
 
     &.disabled {
         cursor: default;
     }
 
     &.active {
-        background: var(--background-color-2);
+        background: var(--background-color-1);
+        color: var(--sage);
     }
 `;
 
