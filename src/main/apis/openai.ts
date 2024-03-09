@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import {AuthoredContent} from '../../models/content';
 
 if (!process.env['OPENAI_API_KEY']) {
   throw new Error('No process.env[\'OPENAI_API_KEY\']!');
@@ -16,12 +17,11 @@ export async function getModels(): Promise<string> {
 }
 
 
-export async function chat(model: string, content: string): Promise<string> {
+export async function chat(model: string, content: AuthoredContent[]): Promise<string> {
+  const messages = content.map(item => ({role: item.role, content: item.message}))
   const chatCompletion = await openai.chat.completions.create({
     model,
-    messages: [
-      {role: 'user', content},
-    ],
+    messages,
   });
   return JSON.stringify(chatCompletion.choices[0].message);
 }

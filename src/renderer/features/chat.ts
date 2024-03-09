@@ -18,15 +18,19 @@ const name = 'chats';
 
 export const generateResponse = createAsyncThunk(
   `${name}/generateResponse`,
-  async ({content, model}: { content: AuthoredContent, model: string }) => {
-    const {message, chatId} = content;
-    const serializedResponse = await window.main.chat(JSON.stringify({message, model}));
+  async (conversationId: string, thunkAPI) => {
+    const state = thunkAPI.getState() as { chats: Conversation[] };
+    const conversation = state.chats.find(chat => chat.id === conversationId);
+    if (!conversation) {
+      return null;
+    }
+    const serializedResponse = await window.main.chat(JSON.stringify(conversation));
     const responseMessage = JSON.parse(serializedResponse);
     return {
       role: responseMessage.role,
       content: responseMessage.content,
-      chatId,
-      model,
+      chatId: conversation.id,
+      model: conversation.responder,
     };
   },
 );
@@ -90,3 +94,4 @@ export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<
   localStorage.setItem(name, JSON.stringify(store.getState().chats));
   return result;
 };
+
