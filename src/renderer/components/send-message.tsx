@@ -18,12 +18,12 @@ const TextArea = styled.textarea`
     outline: none;
     height: 100%;
 
-    border: 1px solid var(--background-color-0);
+    border: 1px solid var(--box-shadow-background);
     border-left: none;
     border-radius: var(--border-radius);
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    box-shadow: 0.2rem 0.15rem var(--background-color-0);
+    box-shadow: 0.2rem 0.15rem var(--box-shadow-background);
 `
 const SendMessageContainer = styled.div`
     position: sticky;
@@ -50,16 +50,15 @@ const Selecter = styled.select`
     background-color: var(--background-color-1);
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     outline: none;
+    border-right: 1px solid var(--background-color-1);
 
     &:hover {
-        box-shadow: 0.2rem 0.15rem var(--background-color-0);
+        box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
         margin-left: 0;
         margin-right: 1px;
-        border: 1px solid var(--background-color-0);
-        border-right: none;
+        border: 1px solid var(--box-shadow-background);
+        border-right: 1px solid var(--background-color-1);
     }
-`
-const SystemContentSelector = styled.select`
 `
 
 export function MessageRoleSelector(props: { handleChange: ChangeEventHandler, role: string, currentUser: string }) {
@@ -70,14 +69,6 @@ export function MessageRoleSelector(props: { handleChange: ChangeEventHandler, r
       <option value="user">{currentUser}</option>
       <option value="agent" disabled={true}>agent</option>
     </Selecter>
-  );
-}
-
-function SystemInput() {
-  return (
-    <SystemContentSelector>
-      <option value="system">Personal</option>
-    </SystemContentSelector>
   );
 }
 
@@ -143,9 +134,7 @@ export function SendMessage() {
   return (
     <SendMessageContainer>
       <MessageRoleSelector role={role} handleChange={handleChange} currentUser={currentUser}/>
-      {
-        role === 'user' ? <UserInputText/> : <SystemInput/>
-      }
+      <UserInputText/>
     </SendMessageContainer>
   );
 }
