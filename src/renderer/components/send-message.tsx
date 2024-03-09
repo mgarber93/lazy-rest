@@ -17,13 +17,13 @@ const TextArea = styled.textarea`
     font-size: larger;
     outline: none;
     height: 100%;
-
     border: 1px solid var(--box-shadow-background);
     border-left: none;
     border-radius: var(--border-radius);
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     box-shadow: 0.2rem 0.15rem var(--box-shadow-background);
+    margin-left: -1px;
 `
 const SendMessageContainer = styled.div`
     position: sticky;
@@ -41,7 +41,7 @@ const Selecter = styled.select`
     text-indent: 1px;
     color: var(--dark-grey);
     height: 100%;
-    margin-left: 1px;
+    margin-left: 4px;
     margin-right: auto;
     transition: 200ms box-shadow ease-in-out;
     font-size: var(--bs-body-font-size);
@@ -50,10 +50,11 @@ const Selecter = styled.select`
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     outline: none;
     border-right: 1px solid var(--background-color-1);
-
     box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
     border: 1px solid var(--box-shadow-background);
     border-right: 1px solid var(--background-color-1);
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
 `
 
 export function MessageRoleSelector(props: { handleChange: ChangeEventHandler, role: string, currentUser: string }) {
