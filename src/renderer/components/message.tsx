@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
     display: grid;
     grid-template-columns: var(--name-gutter) 1fr;
     .author {
-        color: var(--sage);
+        color: var(--accent-text);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
         &.user {
             color: var(--dark-grey);

@@ -17,6 +17,7 @@
   --background-color-1: #0e0e0e;
   --background-color-2: var(--blackish);
   --text-color: #fff;
+  --accent-text: var(--sage);
   --clamp-min: 40px;
   --clamp-max: 611px;
   --z: 5px;
@@ -35,9 +36,12 @@
     --background-color-2: var(--sage-bg);
     --text-color: var(--blackish);
     --tan-bg: #fff1d9;
-    --sage-bg: #fffff24;
-    --moonstone-bg: rgb(238, 249, 255, 0.2);
+    --sage-bg: #ffffd6;
+    --moonstone-bg: rgb(241, 249, 255);
     --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+    --sage: #686c4e;
+    --moonstone: #577b7c;
+    --accent-text: var(--moonstone);;
   }
 }
 

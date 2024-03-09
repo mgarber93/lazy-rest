@@ -26,7 +26,7 @@ const Input = styled.input`
 `;
 
 export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {
-  var [isDisabled, setDisabled] = useState(true)
+  const [isDisabled, setDisabled] = useState(true)
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.currentChat);
   const handleClip = useMemo(() =>
