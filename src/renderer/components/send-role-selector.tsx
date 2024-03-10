@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import {ChangeEventHandler} from 'react';
 
 const Selecter = styled.select`
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
     width: var(--name-gutter);
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -22,8 +20,8 @@ const Selecter = styled.select`
     box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
     border: 1px solid var(--box-shadow-background);
     border-right: 1px solid var(--background-color-1);
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    user-select: none;
 `
 
 export function MessageRoleSelector(props: {

@@ -16,6 +16,10 @@ const Page = styled.div`
     grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
     grid-template-rows: auto 1fr auto;
     height: 100%;
+
+    .user {
+        user-select: none;
+    }
     .nav {
         grid-row: 1 / -1;
         background-color: var(--background-color-0);
