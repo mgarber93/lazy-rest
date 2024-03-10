@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import {updateTitle} from '../features/chat';
 
 const Input = styled.input`
-    background-color: var(--background-color-0);
     width: 100%;
     border: none;
     padding: 5px;
@@ -14,15 +13,26 @@ const Input = styled.input`
     font-size: medium;
     text-align: center;
     outline: none;
+    color: var(--whitish);
 
     &.disabled {
         cursor: default;
     }
 
+    background-color: unset;
     &.active {
-        background-color: var(--accent-text);
-        color: var(--background-color-0);
-        border-bottom: 2px solid var(--accent-text);
+        color: #fff;
+        background-color: var(--sage-bg);
+        //border-bottom: 2px solid var(--accent-text);
+    }
+
+    @media (prefers-color-scheme: light) {
+        color: var(--text-color);
+        &.active {
+            background-color: var(--sage);
+            //border-top: 2px solid var(--sage);
+            border-bottom: 2px solid var(--background-color-0);
+        }
     }
 `;
 

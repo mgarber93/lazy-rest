@@ -46,7 +46,6 @@ const Page = styled.div`
                 }
             }
         }
-
         .bottom {
             margin-top: auto;
             bottom: 0;
