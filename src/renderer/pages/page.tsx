@@ -42,6 +42,11 @@ const Page = styled.div`
                 }
             }
         }
+
+        .bottom {
+            margin-top: auto;
+            bottom: 0;
+        }
     }
     .main {
         border-left: 1px solid var(--background-color-2);
@@ -97,6 +102,8 @@ const NavPage = () => {
         </div>
         <div className="footer">
           <button onClick={handleNewChatClick}>+</button>
+        </div>
+        <div className="bottom">
         </div>
       </div>
       <div className="main">
