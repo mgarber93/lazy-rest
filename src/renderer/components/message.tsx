@@ -56,7 +56,7 @@ export function Message({content}: { content: AuthoredContent }) {
       <p className={"author" + (isUser ? ' user' : '')}>
         {content.author.substring(Math.max(author - 14, 0), Math.max(author, 14))}
       </p>
-      <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+      <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message.replace(/(\n)+/g, '  \n')}</Markdown>
     </StyledDiv>
   );
 }
