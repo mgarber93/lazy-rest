@@ -39,7 +39,6 @@ export function Message({content}: { content: AuthoredContent }) {
   const isUser = content.author === userName;
   const author = content.author.length
   
-  
   if (content.role === 'system') {
     return (
       <StyledDiv>

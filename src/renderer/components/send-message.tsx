@@ -18,8 +18,9 @@ const SendMessageContainer = styled.div`
 `
 
 function shouldAllowSystem(conversation: Conversation) {
+
   const messages = conversation?.content ?? [];
-  return messages.length > 0;
+  return messages.length === 0;
 }
 
 function mapModelsToSelectAction(models: string[], currentId: string) {
@@ -44,20 +45,29 @@ export function SendMessage(): JSX.Element {
   
   // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation();
+  const [roles, setRoles] = useState([{value: "user", display: currentUser}])
   
-  const roles = [{value: "user", display: currentUser}]
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
-  const haveStartedTalking = shouldAllowSystem(currentConversation)
-  const [role, setRole] = useState(haveStartedTalking ? "user" : "system")
+  
+  const [role, setRole] = useState("user")
   useEffect(() => {
-    if (!haveStartedTalking) {
-      roles.unshift({value: "system", display: "instructions"})
-      
+    const haveStartedTalking = !shouldAllowSystem(currentConversation);
+    if (haveStartedTalking) {
       if (role === 'system') {
         setRole('user')
       }
+    } else {
+      setRoles([
+        {value: "system", display: "instructions"},
+        {value: "user", display: currentUser},
+      ]);
     }
   }, [role, currentConversation]);
+  
+  useEffect(() => {
+    const haveStartedTalking = shouldAllowSystem(currentConversation)
+    
+  }, [currentConversation]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
