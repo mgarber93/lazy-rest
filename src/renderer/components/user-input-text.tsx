@@ -3,8 +3,8 @@ import {useCurrentConversation} from '../hooks/current-conversation';
 import {User} from '../../models/user';
 import {listModels} from '../features/models';
 import {createContent} from '../../models/content';
-import {generateResponse, respond, selectModelChat} from '../features/chat';
-import {updateContextMenu} from '../features/context-menu';
+import {generateResponse, respond} from '../features/chat';
+import {ContextItem, updateContextMenu} from '../features/context-menu';
 import styled from 'styled-components';
 import {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useCallback, useEffect, useState} from 'react';
 
@@ -26,7 +26,7 @@ const TextArea = styled.textarea`
     margin-left: -1px;
 `
 
-export function UserInputText({placeholder}: { placeholder: string }) {
+export function UserInputText({placeholder, items}: { placeholder: string, items: ContextItem[] }) {
   const [inputValue, setValue] = useState('');
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
@@ -53,12 +53,7 @@ export function UserInputText({placeholder}: { placeholder: string }) {
   
   const handleMouseUp: MouseEventHandler = useCallback((e) => {
     const isRightClick = e.button === 2;
-    const items = models.map(model => {
-      return {
-        display: model,
-        action: selectModelChat({model, chat: currentConversation.id}),
-      };
-    });
+
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
@@ -66,7 +61,7 @@ export function UserInputText({placeholder}: { placeholder: string }) {
       items,
     }))
     e.preventDefault();
-  }, [dispatch, models, currentConversation]);
+  }, [dispatch, models, currentConversation, items]);
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return <TextArea
     rows={rows}

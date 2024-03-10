@@ -41,6 +41,8 @@ export const chatsSlice = createSlice({
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
       const {id, chatId} = action.payload;
+      if (!id)
+        throw new Error('no id')
       const conversation = state.find(conversation => conversation.id === chatId);
       if (!conversation) {
         return state;

@@ -1,11 +1,13 @@
-import React, {ChangeEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import styled from 'styled-components';
 import {useAppSelector} from '../features/store';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {Conversation} from '../../models/conversation';
 import {UserInputText} from './user-input-text';
 import {MessageRoleSelector} from './send-role-selector';
-import {selectModelChat} from '../features/chat';
+import {respond, selectModelChat} from '../features/chat';
+import {createContent} from '../../models/content';
+import {apiPlanner} from '../../prompts/api-planner';
 
 const SendMessageContainer = styled.div`
     position: sticky;
@@ -15,9 +17,9 @@ const SendMessageContainer = styled.div`
     flex-direction: row;
 `
 
-function hasAnyNonSystemMessages(conversation: Conversation) {
+function shouldAllowSystem(conversation: Conversation) {
   const messages = conversation?.content ?? [];
-  return messages.some(message => message.role !== 'system');
+  return messages.length > 0;
 }
 
 function mapModelsToSelectAction(models: string[], currentId: string) {
@@ -29,26 +31,52 @@ function mapModelsToSelectAction(models: string[], currentId: string) {
   });
 }
 
-export function SendMessage() {
+/**
+ * Sends a message based on the selected role.
+ *
+ * @function SendMessage
+ *
+ * @returns {JSX.Element} - The rendered message input component.
+ */
+export function SendMessage(): JSX.Element {
   const currentUser = useAppSelector(state => state.user.username);
   const models = useAppSelector(state => state.models.models);
   
   // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation();
-  const convo = mapModelsToSelectAction(models, currentConversation?.id);
   
   const roles = [{value: "user", display: currentUser}]
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
-  const haveStartedTalking = hasAnyNonSystemMessages(currentConversation)
-  if (!haveStartedTalking) {
-    roles.unshift({value: "system", display: "instructions"})
-  }
-  
-  // User Input controller
+  const haveStartedTalking = shouldAllowSystem(currentConversation)
   const [role, setRole] = useState(haveStartedTalking ? "user" : "system")
+  useEffect(() => {
+    if (!haveStartedTalking) {
+      roles.unshift({value: "system", display: "instructions"})
+      
+      if (role === 'system') {
+        setRole('user')
+      }
+    }
+  }, [role, currentConversation]);
+
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
   }, [setRole, currentUser, currentConversation]);
+  const items2 = useMemo(() => {
+    switch (role) {
+      case "system": {
+        return [{
+          display: 'spotify planner',
+          action: respond(createContent(apiPlanner("spotify"), currentConversation?.id, 'api planner for spotify', 'system')),
+        }]
+      }
+      case "user": {
+        return mapModelsToSelectAction(models, currentConversation?.id);
+      }
+      default:
+        return [];
+    }
+  }, [role, respond, createContent, apiPlanner, currentConversation, models])
   
   const responderPlaceholder = currentConversation?.responder
     ? `Message ${currentConversation?.responder}` : 'Right click to set model';
@@ -56,7 +84,7 @@ export function SendMessage() {
   return (
     <SendMessageContainer>
       <MessageRoleSelector roles={roles} role={role} handleChange={handleChange} currentUser={currentUser}/>
-      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder}/>
+      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder} items={items2}/>
     </SendMessageContainer>
   );
 }

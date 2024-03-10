@@ -1,6 +1,8 @@
 // rest gpt https://arxiv.org/abs/2306.06624
 
-const icl_examples = {
+export type TApi = 'tmdb' | 'spotify';
+
+const apiToIclExamples = {
   "tmdb": `Example 1:
   User query: give me some movies performed by Tony Leung.
   Plan step 1: search person with name "Tony Leung"
@@ -47,7 +49,7 @@ Final Answer: I have made a new playlist called "Love Coldplay" containing Yello
 `,
 }
 
-export const planner = `You are an agent that plans solution to user queries.
+export const apiPlanner = (api: TApi) => `You are an agent that plans solution to user queries.
 You should always give your plan in natural language.
 Another model will receive your plan and find the right API calls and give you the result in natural language.
 If you assess that the current plan has not been fulfilled, you can output "Continue" to let the API selector select another API to fulfill the plan.
@@ -66,5 +68,5 @@ API response: the result of executing the second step of your plan
 ... (this Plan step n and API response can repeat N times)
 Thought: I am finished executing a plan and have the information the user asked for or the data the used asked to create
 Final Answer: the final output from executing the plan
-${icl_examples}
+${apiToIclExamples[api]}
 Begin!`

@@ -8,13 +8,16 @@ import {useAppSelector} from '../features/store';
 const StyledDiv = styled.div`
     display: grid;
     grid-template-columns: var(--name-gutter) 1fr;
+
     .author {
         color: var(--accent-text);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
+
         &.user {
             color: var(--dark-grey);
         }
     }
+
     border-radius: var(--border-radius);
     border-image-slice: 1;
     color: var(--text-color);
@@ -35,9 +38,22 @@ export function Message({content}: { content: AuthoredContent }) {
   const userName = useAppSelector(state => state.user?.username);
   const isUser = content.author === userName;
   const author = content.author.length
+  
+  
+  if (content.role === 'system') {
+    return (
+      <StyledDiv>
+        <p className={"author"}>
+          {content.role}
+        </p>
+        <div>{content.author}</div>
+      </StyledDiv>
+    );
+  }
+  
   return (
     <StyledDiv>
-      <p className={"author" + (isUser? ' user' : '')}>
+      <p className={"author" + (isUser ? ' user' : '')}>
         {content.author.substring(Math.max(author - 14, 0), Math.max(author, 14))}
       </p>
       <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
