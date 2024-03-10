@@ -1,31 +1,12 @@
-import React, {ChangeEvent, ChangeEventHandler, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import styled from 'styled-components';
-import {User} from '../../models/user';
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {createContent} from '../../models/content';
-import {generateResponse, respond, selectModelChat} from '../features/chat';
+import {useAppSelector} from '../features/store';
 import {useCurrentConversation} from '../hooks/current-conversation';
-import {updateContextMenu} from '../features/context-menu';
-import {listModels} from '../features/models';
 import {Conversation} from '../../models/conversation';
+import {UserInputText} from './user-input-text';
+import {MessageRoleSelector} from './send-role-selector';
+import {selectModelChat} from '../features/chat';
 
-const TextArea = styled.textarea`
-    resize: none;
-    width: calc(100% - var(--name-gutter));
-    background-color: var(--background-color-2);
-    color: var(--text-color);
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
-    font-size: larger;
-    outline: none;
-    height: 100%;
-    border: 1px solid var(--box-shadow-background);
-    border-left: none;
-    border-radius: var(--border-radius);
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    box-shadow: 0.2rem 0.15rem var(--box-shadow-background);
-    margin-left: -1px;
-`
 const SendMessageContainer = styled.div`
     position: sticky;
     margin-top: auto;
@@ -33,119 +14,49 @@ const SendMessageContainer = styled.div`
     display: flex;
     flex-direction: row;
 `
-const Selecter = styled.select`
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    width: var(--name-gutter);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    color: var(--dark-grey);
-    height: 100%;
-    margin-left: 4px;
-    margin-right: auto;
-    transition: 200ms box-shadow ease-in-out;
-    font-size: var(--bs-body-font-size);
-    margin-top: auto;
-    background-color: var(--background-color-1);
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
-    outline: none;
-    border-right: 1px solid var(--background-color-1);
-    box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
-    border: 1px solid var(--box-shadow-background);
-    border-right: 1px solid var(--background-color-1);
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
-`
 
-export function MessageRoleSelector(props: {
-  handleChange: ChangeEventHandler,
-  role: string,
-  currentUser: string,
-  roles: { value: string, display: string }[]
-}) {
-  const {role, handleChange, currentUser, roles} = props;
-  return (
-    <Selecter value={role} onChange={handleChange} disabled={roles.length === 1}>
-      {roles.map(r => <option value={r.value}>{r.display}</option>)}
-    </Selecter>
-  );
-}
-
-export function UserInputText({placeholder}: { placeholder: string }) {
-  const [inputValue, setValue] = React.useState('');
-  const dispatch = useAppDispatch();
-  const currentConversation = useCurrentConversation();
-  const user = useAppSelector((state) => state.user) as User;
-  const models = useAppSelector(state => state.models.models);
-  
-  const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setValue(e.target.value);
-  };
-  useEffect(() => {
-    dispatch(listModels())
-  }, [dispatch]);
-  
-  const handleKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
-    if (e.key === 'Enter' && !e.shiftKey && inputValue) {
-      e.preventDefault();
-      const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
-      dispatch(respond(prompt))
-      
-      dispatch(generateResponse(currentConversation.id));
-      setValue('');
-    }
-  }, [currentConversation, inputValue])
-  
-  const handleMouseUp: React.MouseEventHandler = useCallback((e) => {
-    const isRightClick = e.button === 2;
-    const items = models.map(model => {
-      return {
-        display: model,
-        action: selectModelChat({model, chat: currentConversation.id}),
-      };
-    });
-    dispatch(updateContextMenu({
-      visible: isRightClick || e.ctrlKey,
-      x: e.clientX,
-      y: e.clientY - 25 * models.length,
-      items,
-    }))
-    e.preventDefault();
-  }, [dispatch, models, currentConversation]);
-  const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
-  return <TextArea
-    rows={rows}
-    placeholder={placeholder}
-    onChange={handleChange}
-    onKeyPressCapture={handleKeyPress}
-    value={inputValue}
-    onMouseUpCapture={handleMouseUp}
-  />
-}
-
-function hasAnyNonSystemMessages(convesation: Conversation) {
-  const messages = convesation?.content ?? [];
+function hasAnyNonSystemMessages(conversation: Conversation) {
+  const messages = conversation?.content ?? [];
   return messages.some(message => message.role !== 'system');
 }
 
+function mapModelsToSelectAction(models: string[], currentId: string) {
+  return models.map(model => {
+    return {
+      display: model,
+      action: selectModelChat({model, chat: currentId}),
+    };
+  });
+}
+
 export function SendMessage() {
-  const currentUser = useAppSelector(state => state.user.username)
+  const currentUser = useAppSelector(state => state.user.username);
+  const models = useAppSelector(state => state.models.models);
+  
+  // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation();
+  const convo = mapModelsToSelectAction(models, currentConversation?.id);
   
   const roles = [{value: "user", display: currentUser}]
-  if (!hasAnyNonSystemMessages(currentConversation)) {
+  // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
+  const haveStartedTalking = hasAnyNonSystemMessages(currentConversation)
+  if (!haveStartedTalking) {
     roles.unshift({value: "system", display: "instructions"})
   }
-  const [role, setRole] = useState("user")
+  
+  // User Input controller
+  const [role, setRole] = useState(haveStartedTalking ? "user" : "system")
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
   }, [setRole, currentUser, currentConversation]);
-  const responderPlaceholder = currentConversation?.responder ? `Message ${currentConversation?.responder}` : 'Right click me';
+  
+  const responderPlaceholder = currentConversation?.responder
+    ? `Message ${currentConversation?.responder}` : 'Right click to set model';
+  const placeholder = `Right click to set preset or type here`;
   return (
     <SendMessageContainer>
       <MessageRoleSelector roles={roles} role={role} handleChange={handleChange} currentUser={currentUser}/>
-      <UserInputText placeholder={responderPlaceholder}/>
+      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder}/>
     </SendMessageContainer>
   );
 }
