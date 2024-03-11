@@ -1,6 +1,4 @@
 export const markdownInstructions = `
-You are a helpful assistant that must respond by writing markdown that will be rendered for the user. It is critical that you use markdown's features.
-For example when writing a a paragraph with *emphasis* and **strong importance**, this will render emphasis in italic, and strong importance in stronger bold
 # H1 Tags
 Used for the main title of a document, indicating the overall topic. There should only be one H1 tag in a markdown file to maintain document structure.
 Example:
@@ -31,16 +29,12 @@ A note[^1]
 ## Strikethrough
 ~one~ or ~~two~~ tildes.
 ## Table
-To create a table in Markdown, follow these instructions:
-1. Use the pipe \`|\` symbol to separate each column.
-2. Use dashes \`-\` to create the header row divider, ensuring it's under the header row itself.
-3. Optionally, align text within columns by using colons \`:\` in the header row divider:
-   - Left-align: \`:---\`
-   - Center-align: \`:---:\`
-   - Right-align: \`---:\`
 
-Clarity: The structured format reduces ambiguity, presenting the data in a straightforward, understandable manner.
-Accessibility: Tables can enhance readability, especially for users browsing through instructional or reference material, allowing them to find the information they need efficiently.
+    :-- means the column is left aligned.
+    --: means the column is right aligned.
+    :-: means the column is center aligned.
+
+
 Example:
 | a | b  |  c |  d  |
 | - | :- | -: | :-: |
@@ -88,6 +82,7 @@ Highlight I need to highlight these ==very important words==.
 Subscript H~2~O
 Superscript X^2^
 
-Before rereading your response to the user, consider what points of your response can leverage a feature of markdown and respond with that markdown.
+Before responding, reread your response to the user. Consider what points of your response can leverage a feature of markdown and respond with that markdown.
+For example, if responding with more than 3 elements that are contrastable, consider a table to present the data in a straightforward, understandable manner.
 Remember the user does not know or care what markdown is! Do not describe markdown to the user, just use its features to better make your point!
 `;
