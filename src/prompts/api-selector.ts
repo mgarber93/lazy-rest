@@ -24,7 +24,7 @@ API response: Yellow is added to the player queue`,
   'tmdb': ``,
 }
 
-export const apiSelector = (api: TApi, endpoints: string, plan: string) => `
+export const apiSelector = (api: TApi, endpoints: string) => `
 You are a planner that plans a sequence of RESTful API calls to assist with user queries against an API.
 Another API caller will receive your plan call the corresponding APIs and finally give you the result in natural
 language. The API caller also has filtering, sorting functions to post-process the response of APIs. Therefore, if you think the API response should be post-processed, just tell the API caller to do so.
@@ -54,6 +54,4 @@ ${apiToIclExamples[api]}
 
 Note, if the API path contains "{{}}", it means that it is a variable and you should replace it with the appropriate value. For example, if the path is "/users/{{user_id}}/tweets", you should replace "{{user_id}}" with the user id. "{{" and "}}" cannot appear in the url. In most cases, the id value is in the background or the API response. Just copy the id faithfully. If the id is not in the background, instead of creating one, call other APIs to query the id. For example, before you call "/users/{{user_id}}/playlists", you should get the user_id via "GET /me" first. Another example is that before you call "/person/{{person_id}}", you should get the movie_id via "/search/person" first.
 
-Begin!
-
-User query: ${plan}`.replace(/(\n)+/g, '  \n');
+Begin!`.replace(/(\n)+/g, '  \n');
