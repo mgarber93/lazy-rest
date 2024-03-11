@@ -9,6 +9,7 @@ import {respond, selectModelChat} from '../features/chat';
 import {createContent} from '../../models/content';
 import {apiPlanner} from '../../prompts/api-planner';
 import {apiSelector} from '../../prompts/api-selector';
+import {markdownInstructions} from '../../prompts/enhanced-md';
 
 const SendMessageContainer = styled.div`
     position: sticky;
@@ -83,6 +84,10 @@ export function SendMessage(): JSX.Element {
     switch (role) {
       case "system": {
         return [
+          {
+            display: 'enhanced markdown',
+            action: respond(createContent(markdownInstructions, currentConversation?.id, 'enhanced md', 'system')),
+          },
           {
             display: 'spotify planner',
             action: respond(createContent(apiPlanner("spotify"), currentConversation?.id, 'api planner for spotify', 'system')),
