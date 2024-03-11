@@ -30,7 +30,7 @@ const Input = styled.input`
         color: var(--text-color);
         &.active {
             background-color: var(--sage);
-            //border-top: 2px solid var(--sage);
+            color: var(--text-color);
             border-bottom: 2px solid var(--background-color-0);
         }
     }
