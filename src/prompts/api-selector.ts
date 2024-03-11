@@ -1,7 +1,30 @@
-import {apiToIclExamples, TApi} from './api-to-icl-examples';
+import {TApi} from './api-to-icl-examples';
 
 
-export const apiSelector = (api: TApi, endpoints: string) => `
+// https://github.com/Yifan-Song793/RestGPT/blob/87677a7e129276b0e57f8d889fab01975ebf6f4d/model/api_selector.py#L19
+
+const apiToIclExamples = {
+  spotify: `Example 1:
+Background: No background
+User query: what is the id of album Kind of Blue.
+API calling 1: GET /search to search for the album "Kind of Blue"
+API response: Kind of Blue's album_id is 1weenld61qoidwYuZ1GESA
+
+Example 2:
+Background: No background
+User query: get the newest album of Lana Del Rey (id 00FQb4jTyendYWaN8pK0wa).
+API calling 1: GET /artists/00FQb4jTyendYWaN8pK0wa/albums to get the newest album of Lana Del Rey (id 00FQb4jTyendYWaN8pK0wa)
+API response: The newest album of Lana Del Rey is Did you know that there's a tunnel under Ocean Blvd (id 5HOHne1wzItQlIYmLXLYfZ), ...
+
+Example 3:
+Background: The ids and names of the tracks of the album 1JnjcAIKQ9TSJFVFierTB8 are Yellow (3AJwUDP919kvQ9QcozQPxg), Viva La Vida (1mea3bSkSGXuIRvnydlB5b)
+User query: append the first song of the newest album 1JnjcAIKQ9TSJFVFierTB8 of Coldplay (id 4gzpq5DPGxSnKTe4SA8HAU) to my player queue.
+API calling 1: POST /me/player/queue to add Yellow (3AJwUDP919kvQ9QcozQPxg) to the player queue
+API response: Yellow is added to the player queue`,
+  'tmdb': ``,
+}
+
+export const apiSelector = (api: TApi, endpoints: string, plan: string) => `
 You are a planner that plans a sequence of RESTful API calls to assist with user queries against an API.
 Another API caller will receive your plan call the corresponding APIs and finally give you the result in natural
 language. The API caller also has filtering, sorting functions to post-process the response of APIs. Therefore, if you think the API response should be post-processed, just tell the API caller to do so.
@@ -33,6 +56,4 @@ Note, if the API path contains "{{}}", it means that it is a variable and you sh
 
 Begin!
 
-Background: {background}
-User query: {plan}
-API calling 1: {agent_scratchpad}`.replace(/(\n)+/g, '  \n');
+User query: ${plan}`.replace(/(\n)+/g, '  \n');
