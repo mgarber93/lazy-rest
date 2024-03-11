@@ -8,6 +8,7 @@ import {MessageRoleSelector} from './send-role-selector';
 import {respond, selectModelChat} from '../features/chat';
 import {createContent} from '../../models/content';
 import {apiPlanner} from '../../prompts/api-planner';
+import {apiSelector} from '../../prompts/api-selector';
 
 const SendMessageContainer = styled.div`
     position: sticky;
@@ -46,16 +47,19 @@ export function SendMessage(): JSX.Element {
   // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation();
   const [roles, setRoles] = useState([{value: "user", display: currentUser}])
-  
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
-  
   const [role, setRole] = useState("user")
+  const [endpoints, setEndpoints] = useState('');
+
   useEffect(() => {
     const haveStartedTalking = !shouldAllowSystem(currentConversation);
     if (haveStartedTalking) {
       if (role === 'system') {
         setRole('user')
       }
+      setRoles([
+        {value: "user", display: currentUser},
+      ]);
     } else {
       setRoles([
         {value: "system", display: "instructions"},
@@ -65,20 +69,29 @@ export function SendMessage(): JSX.Element {
   }, [role, currentConversation]);
   
   useEffect(() => {
-    const haveStartedTalking = shouldAllowSystem(currentConversation)
-    
-  }, [currentConversation]);
+    window.main.loadOasSpec('spotify').then((oas: string) => {
+      setEndpoints(oas);
+    })
+  }, []);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
   }, [setRole, currentUser, currentConversation]);
-  const items2 = useMemo(() => {
+  
+  
+  const items = useMemo(() => {
     switch (role) {
       case "system": {
-        return [{
-          display: 'spotify planner',
-          action: respond(createContent(apiPlanner("spotify"), currentConversation?.id, 'api planner for spotify', 'system')),
-        }]
+        return [
+          {
+            display: 'spotify planner',
+            action: respond(createContent(apiPlanner("spotify"), currentConversation?.id, 'api planner for spotify', 'system')),
+          },
+          {
+            display: 'spotify api selector',
+            action: respond(createContent(apiSelector("spotify", endpoints), currentConversation?.id, 'api selector for spotify', 'system')),
+          },
+        ]
       }
       case "user": {
         return mapModelsToSelectAction(models, currentConversation?.id);
@@ -86,7 +99,7 @@ export function SendMessage(): JSX.Element {
       default:
         return [];
     }
-  }, [role, respond, createContent, apiPlanner, currentConversation, models])
+  }, [role, respond, createContent, apiPlanner, currentConversation, models, endpoints])
   
   const responderPlaceholder = currentConversation?.responder
     ? `Message ${currentConversation?.responder}` : 'Right click to set model';
@@ -94,7 +107,7 @@ export function SendMessage(): JSX.Element {
   return (
     <SendMessageContainer>
       <MessageRoleSelector roles={roles} role={role} handleChange={handleChange} currentUser={currentUser}/>
-      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder} items={items2}/>
+      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder} items={items}/>
     </SendMessageContainer>
   );
 }
