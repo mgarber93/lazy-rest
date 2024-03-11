@@ -17,7 +17,6 @@ const Selecter = styled.select`
     padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     outline: none;
     border-right: 1px solid var(--background-color-1);
-    box-shadow: 0.25rem 0.15rem var(--box-shadow-background);
     border: 1px solid var(--box-shadow-background);
     border-right: 1px solid var(--background-color-1);
     border-radius: var(--border-radius) 0 0 var(--border-radius);

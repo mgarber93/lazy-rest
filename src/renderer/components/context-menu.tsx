@@ -38,7 +38,7 @@ const ContextMenu = () => {
         top: y,
         left: x,
         padding: '0.2rem',
-        boxShadow: '0rem 0.3rem 0.3rem var(--background-color-0)',
+        boxShadow: 'var(--shadow)',
         border: '1px solid var(--background-color-1)',
         borderRadius: 'var(--border-radius)',
         display: 'flex',

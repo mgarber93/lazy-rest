@@ -22,7 +22,6 @@ const TextArea = styled.textarea`
     border-radius: var(--border-radius);
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    box-shadow: 0.2rem 0.15rem var(--box-shadow-background);
     margin-left: -1px;
 `
 

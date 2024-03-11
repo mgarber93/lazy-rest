@@ -28,6 +28,7 @@
   --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
   --name-gutter: 10rem;
   --box-shadow-background: var(--background-color-0);
+  --shadow: 0.2rem 0.15rem var(--box-shadow-background);
 }
 
 @media (prefers-color-scheme: light) {
