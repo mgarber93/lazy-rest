@@ -32,6 +32,11 @@ export const StyledDiv = styled.div`
         align-items: center;
         color: var(--sage);
 
+        button {
+            background-color: unset;
+            border: none;
+        }
+
         svg {
             margin: 0 1rem;
             border-radius: var(--border-radius);
