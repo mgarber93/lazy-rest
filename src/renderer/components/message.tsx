@@ -18,11 +18,21 @@ const StyledDiv = styled.div`
         }
     }
 
+    .content {
+        h1, h2 {
+            font-size: large;
+        }
+
+        h3, h4, h5 {
+            font-size: medium;
+        }
+    }
+
     border-radius: var(--border-radius);
     border-image-slice: 1;
     color: var(--text-color);
     border: none;
-    padding: 0.2rem;
+    padding: 1rem 0.2rem;
     font-size: var(--bs-body-font-size);
 
     p {
