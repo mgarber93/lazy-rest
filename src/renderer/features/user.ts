@@ -8,7 +8,7 @@ export const getMachineName = createAsyncThunk(
   'user/getMachineName',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState() as { user: User | null };
-    if (state.user.username) {
+    if (state.user?.username) {
       return state.user.username;
     } else {
       return await window.main.getMachineName();

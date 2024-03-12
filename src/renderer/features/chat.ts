@@ -1,7 +1,6 @@
-import {createAsyncThunk, createSlice, MiddlewareAPI, PayloadAction, UnknownAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AuthoredContent, createContent} from '../../models/content';
 import {Conversation} from '../../models/conversation';
-import {Dispatch} from 'react';
 import {v4} from 'uuid'
 
 
@@ -100,9 +99,4 @@ export const chatsSlice = createSlice({
 // Export actions to use dispatch in component
 export const {respond, startNewChat, selectModelChat, updateTitle} = chatsSlice.actions;
 
-export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
-  const result = next(action);
-  localStorage.setItem(name, JSON.stringify(store.getState().chats));
-  return result;
-};
 

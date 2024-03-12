@@ -1,10 +1,11 @@
-import { TypedUseSelectorHook, useSelector ,useDispatch} from 'react-redux';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {chatsSlice, localStorageMiddleware} from './chat';
+import {chatsSlice} from './chat';
 import {userSlice} from './user';
 import {currentChatSlice} from './current-chat';
 import {contextMenuSlice} from './context-menu';
 import {modelsSlice} from './models';
+import {localStorageMiddleware} from '../middleware/local-storage';
 
 
 export const store = configureStore({
