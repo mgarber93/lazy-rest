@@ -25,13 +25,14 @@ const MessagesContainer = styled.div`
 
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
+
   return (
     <StyledDiv>
       <MessagesContainer>
         {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
-        <MessageSender/>
+        {activeChat.autoPrompter ? <MessageSender/> : null}
       </MessagesContainer>
       <SendMessage/>
     </StyledDiv>
