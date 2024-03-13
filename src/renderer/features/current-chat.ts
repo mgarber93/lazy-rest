@@ -6,7 +6,7 @@ export const currentChatSlice = createSlice({
   name: 'currentChat',
   initialState: initialState as string | null,
   reducers: {
-    selectChat: (state, action: PayloadAction<string>) => action.payload,
+    selectChat: (state, action: PayloadAction<string>) => state = action.payload,
   },
 });
 
