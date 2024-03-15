@@ -32,7 +32,7 @@ export const ConversationComponent = () => {
         {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
-        {activeChat.autoPrompter ? <MessageSender/> : null}
+        {activeChat?.autoPrompter ? <MessageSender/> : null}
       </MessagesContainer>
       <SendMessage/>
     </StyledDiv>
