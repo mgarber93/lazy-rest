@@ -8,12 +8,14 @@ export interface PreloadedApi {
   getMachineName: () => Promise<string>,
   getModels: () => Promise<string>,
   chat: (...args: string[]) => Promise<string>,
-  loadOasSpec: (api: TApi) => Promise<string>
+  loadOasSpec: (api: TApi) => Promise<string>,
+  apiAutoPrompt: (...args: string[]) => Promise<string>,
 }
 
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
+  apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
   chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
   getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
   getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),

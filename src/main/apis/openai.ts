@@ -25,4 +25,3 @@ export async function chat(model: string, content: AuthoredContent[]): Promise<s
   });
   return JSON.stringify(chatCompletion.choices[0].message);
 }
-

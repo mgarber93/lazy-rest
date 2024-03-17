@@ -3,6 +3,7 @@ import {AuthoredContent, createContent} from '../../models/content';
 import {Conversation} from '../../models/conversation';
 import {v4} from 'uuid'
 import {TAutoPrompter} from '../../models/auto-prompter';
+import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
 
 
 const serializedChats = localStorage.getItem('chats')
@@ -34,6 +35,27 @@ export const generateResponse = createAsyncThunk(
     };
   },
 );
+
+export const autoPrompt = createAsyncThunk(
+  `${name}/autoPrompt`,
+  async (arg: {conversationId: string, autoPrompter: TAutoPrompter}, thunkAPI:GetThunkAPI<AsyncThunkConfig>) => {
+    const state = thunkAPI.getState() as { chats: Conversation[] };
+    const {conversationId, autoPrompter} = arg;
+    const conversation = state.chats.find(chat => chat.id === conversationId);
+    if (!conversation) {
+      return null;
+    }
+
+    const serializedResponse = await window.main.apiAutoPrompt(JSON.stringify(conversation))
+    const responseMessage = JSON.parse(serializedResponse);
+    return {
+      role: responseMessage.role,
+      content: responseMessage.content,
+      chatId: conversation.id,
+      model: conversation.responder,
+    };
+  }
+)
 
 export const chatsSlice = createSlice({
   name,
@@ -93,6 +115,9 @@ export const chatsSlice = createSlice({
       const chat = state.find(chat => chat.id === chatId);
       chat.autoPrompter = undefined;
     },
+    autoPrompt: (state, action: PayloadAction) => {
+      state
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {

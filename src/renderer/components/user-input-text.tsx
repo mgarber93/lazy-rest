@@ -44,8 +44,9 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
       dispatch(respond(prompt))
-      
-      dispatch(generateResponse(currentConversation.id));
+      if (!currentConversation.autoPrompter) {
+        dispatch(generateResponse(currentConversation.id));
+      }
       setValue('');
     }
   }, [currentConversation, inputValue])
