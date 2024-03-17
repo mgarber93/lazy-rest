@@ -5,7 +5,7 @@ import {useCurrentConversation} from '../hooks/current-conversation';
 import {Conversation} from '../../models/conversation';
 import {UserInputText} from './user-input-text';
 import {MessageRoleSelector} from './send-role-selector';
-import {respond, selectModelChat} from '../features/chat';
+import {removeAutoPrompter, respond, selectAutoPrompter, selectModelChat} from '../features/chat';
 import {createContent} from '../../models/content';
 import {apiPlanner} from '../../prompts/api-planner';
 import {apiSelector} from '../../prompts/api-selector';
@@ -65,6 +65,7 @@ export function SendMessage(): JSX.Element {
       setRoles([
         {value: "system", display: "instructions"},
         {value: "user", display: currentUser},
+        {value: "auto prompter", display: "auto prompter"}
       ]);
     }
   }, [role, currentConversation]);
@@ -88,18 +89,22 @@ export function SendMessage(): JSX.Element {
             display: 'enhanced markdown',
             action: respond(createContent(markdownInstructions, currentConversation?.id, 'enhanced md', 'system')),
           },
-          {
-            display: 'spotify planner',
-            action: respond(createContent(apiPlanner("spotify"), currentConversation?.id, 'api planner for spotify', 'system')),
-          },
-          {
-            display: 'spotify api selector',
-            action: respond(createContent(apiSelector("spotify", endpoints), currentConversation?.id, 'api selector for spotify', 'system')),
-          },
         ]
       }
       case "user": {
         return mapModelsToSelectAction(models, currentConversation?.id);
+      }
+      case "auto prompter": {
+        return [
+          {
+            display: 'remove auto prompter',
+            action: removeAutoPrompter({chatId: currentConversation?.id})
+          },
+          {
+            display: 'add auto prompter',
+            action: selectAutoPrompter({chatId: currentConversation?.id, model: 'rest api'})
+          }
+        ]
       }
       default:
         return [];

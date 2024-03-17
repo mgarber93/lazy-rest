@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AuthoredContent, createContent} from '../../models/content';
 import {Conversation} from '../../models/conversation';
 import {v4} from 'uuid'
+import {TAutoPrompter} from '../../models/auto-prompter';
 
 
 const serializedChats = localStorage.getItem('chats')
@@ -82,6 +83,16 @@ export const chatsSlice = createSlice({
       }
       state[conversationIndex].responder = model;
     },
+    selectAutoPrompter: (state, action: PayloadAction<{ chatId: string, model: TAutoPrompter }>) => {
+      const {chatId} = action.payload;
+      const chat = state.find(chat => chat.id === chatId);
+      chat.autoPrompter = action.payload.model;
+    },
+    removeAutoPrompter: (state, action: PayloadAction<{ chatId: string }>) => {
+      const {chatId} = action.payload;
+      const chat = state.find(chat => chat.id === chatId);
+      chat.autoPrompter = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
@@ -97,6 +108,6 @@ export const chatsSlice = createSlice({
 });
 
 // Export actions to use dispatch in component
-export const {respond, startNewChat, selectModelChat, updateTitle} = chatsSlice.actions;
+export const {respond, startNewChat, selectModelChat, updateTitle, selectAutoPrompter, removeAutoPrompter} = chatsSlice.actions;
 
 
