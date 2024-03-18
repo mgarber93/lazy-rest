@@ -3,13 +3,14 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 import {TApi} from './prompts/api-to-icl-examples';
+import {Conversation} from './models/conversation';
 
 export interface PreloadedApi {
   getMachineName: () => Promise<string>,
   getModels: () => Promise<string>,
-  chat: (...args: string[]) => Promise<string>,
+  chat: (...args: string[]) => Promise<{content: string, role: string}>,
   loadOasSpec: (api: TApi) => Promise<string>,
-  apiAutoPrompt: (...args: string[]) => Promise<string>,
+  apiAutoPrompt: (conversation: Conversation) => Promise<string>,
 }
 
 

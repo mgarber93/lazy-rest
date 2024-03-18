@@ -6,7 +6,7 @@ import {loadOasSpec} from './oas-loader';
 import {TApi} from '../../prompts/api-to-icl-examples';
 import {apiAgentLoop} from './api-loop';
 
-async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
+async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise<{content: string, role: string}> {
   const conversation = JSON.parse(args.join('')) as Conversation;
   if (!conversation) {
     throw new Error('Unable to parse in handleChat');
@@ -14,10 +14,9 @@ async function handleChat(event: IpcMainInvokeEvent, ...args: string[]): Promise
   return chat(conversation.responder, conversation.content);
 }
 
-async function handleApiAutoPrompt(event: IpcMainInvokeEvent, ...args: string[]): Promise<string> {
-  const conversation = JSON.parse(args.join('')) as Conversation;
+async function handleApiAutoPrompt(event: IpcMainInvokeEvent, conversation: Conversation): Promise<{content: string, role: string}> {
   if (!conversation) {
-    throw new Error('Unable to parse in handleChat');
+    throw new Error('Missing requirement conversation');
   }
   return apiAgentLoop(conversation);
 }

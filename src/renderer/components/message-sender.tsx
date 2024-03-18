@@ -1,10 +1,16 @@
 import React, {useCallback, useState} from 'react';
 import {StyledDiv} from '../styled/message';
+import {useAppDispatch} from '../features/store';
+import {autoPrompt} from '../features/chat';
+import {useCurrentConversation} from '../hooks/current-conversation';
 
 
 const MessageSender = () => {
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const dispatch = useAppDispatch();
+  const conversation = useCurrentConversation();
+
   const handleMouseOver = useCallback(() => {
     !clicked && setHovered(true);
   }, [clicked]);
@@ -14,7 +20,8 @@ const MessageSender = () => {
   const handleMouseUpCapture = useCallback(() => {
     // submit last message to selected responder
     setClicked(true);
-  }, []);
+    dispatch(autoPrompt({conversationId: conversation?.id}));
+  }, [dispatch, conversation]);
   return (
     <StyledDiv onMouseEnter={handleMouseOver} onMouseLeave={handleMouseLeave} className={hovered ? 'hovered' : ''}>
       <div className={"author user"}>
