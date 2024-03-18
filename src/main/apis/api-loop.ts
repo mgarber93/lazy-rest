@@ -66,6 +66,7 @@ export async function apiAgentLoop(user: Conversation): Promise<{content: string
   const filtered = oasToDescriptions(oasSpec)
 
   const selector = startAgentConversation('selector', JSON.stringify(filtered, null, 2));
+  selector.content.push(user.content[user.content.length - 1]);
   const selectedPlan = await chat(selector.responder, selector.content);
   return selectedPlan;
 }
