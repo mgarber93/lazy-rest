@@ -45,15 +45,21 @@ export const autoPrompt = createAsyncThunk(
     if (!conversation || !conversation.autoPrompter) {
       return null;
     }
-
-    const serializedResponse = await window.main.apiAutoPrompt(conversation)
-    const responseMessage = serializedResponse;
-    return {
-      role: responseMessage.role,
-      content: responseMessage.content,
-      chatId: conversation.id,
-      model: conversation.responder,
-    };
+    switch (conversation.autoPrompter) {
+      case "rest api": {
+        const serializedResponse = await window.main.apiAutoPrompt(conversation)
+        const responseMessage = serializedResponse;
+        return {
+          role: responseMessage.role,
+          content: responseMessage.content,
+          chatId: conversation.id,
+          model: conversation.responder,
+        };
+      }
+      case "execute plan": {
+        throw new Error('Not implemented');
+      }
+    }
   }
 )
 
@@ -126,6 +132,16 @@ export const chatsSlice = createSlice({
       }
       state[conversationIndex].content.push(authoredContent);
     });
+    builder.addCase(autoPrompt.fulfilled, (state, action) => {
+      const {role, content, chatId, model} = action.payload;
+      const authoredContent = createContent(content, chatId, model, role as Role)
+      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
+      if (conversationIndex === -1) {
+        return state;
+      }
+      state[conversationIndex].content.push(authoredContent);
+      state[conversationIndex].autoPrompter = 'execute plan';
+    })
   },
 });
 
