@@ -8,9 +8,9 @@ import {Conversation} from './models/conversation';
 export interface PreloadedApi {
   getMachineName: () => Promise<string>,
   getModels: () => Promise<string>,
-  chat: (...args: string[]) => Promise<{content: string, role: string}>,
+  chat: (conversation: Conversation) => Promise<{content: string, role: string}>,
   loadOasSpec: (api: TApi) => Promise<string>,
-  apiAutoPrompt: (conversation: Conversation) => Promise<string>,
+  apiAutoPrompt: (conversation: Conversation) => Promise<{content: string, role: string}>,
 }
 
 

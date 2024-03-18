@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AuthoredContent, createContent} from '../../models/content';
+import {AuthoredContent, createContent, Role} from '../../models/content';
 import {Conversation} from '../../models/conversation';
 import {v4} from 'uuid'
 import {TAutoPrompter} from '../../models/auto-prompter';
@@ -25,8 +25,7 @@ export const generateResponse = createAsyncThunk(
     if (!conversation) {
       return null;
     }
-    const serializedResponse = await window.main.chat(JSON.stringify(conversation));
-    const responseMessage = JSON.parse(serializedResponse);
+    const responseMessage = await window.main.chat(conversation);
     return {
       role: responseMessage.role,
       content: responseMessage.content,
@@ -48,7 +47,7 @@ export const autoPrompt = createAsyncThunk(
     }
 
     const serializedResponse = await window.main.apiAutoPrompt(conversation)
-    const responseMessage = JSON.parse(serializedResponse);
+    const responseMessage = serializedResponse;
     return {
       role: responseMessage.role,
       content: responseMessage.content,
@@ -120,7 +119,7 @@ export const chatsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
       const {role, content, chatId, model} = action.payload;
-      const authoredContent = createContent(content, chatId, model, role)
+      const authoredContent = createContent(content, chatId, model, role as Role)
       const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
       if (conversationIndex === -1) {
         return state;
