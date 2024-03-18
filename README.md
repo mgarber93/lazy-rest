@@ -17,8 +17,13 @@ Me2RESTGPT "Recommend some war themed movies by Spielberg"
 2. API Selector "Get /search/person to search for the person with name Spielberg"
 3. Caller: "GET/POST/PUT description and response "
 4. Parser: "The id of the person is 488"
-
 The user should have the option to go back to 1 to continue execution of the planner, unless the planner returns end
+
+Note a more realistic example would be:
+```
+Make a playlist containing songs of Mariah Carey and name it "Love Mariah"
+```
+since i'm starting with spotify integration
 
 [restgpt](https://restgpt.github.io/)
 
