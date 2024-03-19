@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import {AuthoredContent} from '../../models/content';
+import {AuthoredContent} from '../models/content';
 
 if (!process.env['OPENAI_API_KEY']) {
   throw new Error('No process.env[\'OPENAI_API_KEY\']!');

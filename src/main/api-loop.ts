@@ -1,11 +1,11 @@
 import {agentWithHttp, chat} from './openai';
 import {loadOasSpec} from './oas-loader';
-import {Conversation, createConversation} from '../../models/conversation';
-import {apiPlanner} from '../../prompts/api-planner';
-import {apiSelector} from '../../prompts/api-selector';
-import {copy, createContent} from '../../models/content';
-import {OpenApiSpec} from '../../models/open-api-spec';
-import {buildCallerPrompt} from '../../prompts/api-caller';
+import {Conversation, createConversation} from '../models/conversation';
+import {apiPlanner} from '../prompts/api-planner';
+import {apiSelector} from '../prompts/api-selector';
+import {copy, createContent} from '../models/content';
+import {buildCallerPrompt} from '../prompts/api-caller';
+import {oasToDescriptions} from './oas-filter';
 
 
 export type TAgent = "planner" | "selector" | "executor";
@@ -35,34 +35,6 @@ function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: s
   conversation.responder = 'gpt-4-turbo-preview'
   conversation.content.push(copy(userContent));
   return conversation;
-}
-
-function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
-  if (!(path in object)) {
-    object[path] = {};
-  }
-  object[path][key] = value;
-}
-
-function oasToDescriptions(oasSpec: OpenApiSpec): object {
-  const spec = {};
-  for (const key in oasSpec.paths) {
-    const endpoint = oasSpec.paths[key];
-
-    if (endpoint.get?.description) {
-      setEndpointDescription(spec, key, 'get', endpoint.get.description);
-    }
-    if (endpoint.put?.description) {
-      setEndpointDescription(spec, key, 'put', endpoint.put.description);
-    }
-    if (endpoint.post?.description) {
-      setEndpointDescription(spec, key, 'post', endpoint.post.description);
-    }
-    if (endpoint.delete?.description) {
-      setEndpointDescription(spec, key, 'delete', endpoint.delete.description);
-    }
-  }
-  return spec;
 }
 
 export async function apiAgentLoop(user: Conversation): Promise<{ content: string, role: string }> {

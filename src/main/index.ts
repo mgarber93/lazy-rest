@@ -1,9 +1,9 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron';
 import {getUser} from './user';
 import {chat, getModels} from './openai';
-import {Conversation} from '../../models/conversation';
+import {Conversation} from '../models/conversation';
 import {loadOasSpec} from './oas-loader';
-import {TApi} from '../../prompts/api-to-icl-examples';
+import {TApi} from '../prompts/api-to-icl-examples';
 import {apiAgentLoop} from './api-loop';
 
 async function handleChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<{content: string, role: string}> {
