@@ -15,21 +15,15 @@ export interface OpenApiSpec {
   }
 }
 
+export interface EndpointDescription {
+  tags: string[]
+  description: string
+}
+
 export interface Endpoint {
-  get?: {
-    tags: string[]
-    description: string
-  }
-  post?: {
-    tags: string[]
-    description: string
-  }
-  put?: {
-    tags: string[]
-    description: string
-  }
-  delete?: {
-    tags: string[]
-    description: string
-  }
+  get?: EndpointDescription
+  post?: EndpointDescription
+  put?: EndpointDescription
+  patch?: EndpointDescription
+  delete?: EndpointDescription
 }
