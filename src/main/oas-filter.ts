@@ -30,3 +30,40 @@ export function oasToDescriptions(oasSpec: OpenApiSpec): object {
   }
   return spec;
 }
+
+export function fuzzyMatch(a: string, b: string): boolean {
+  const aSegments = a.split("/");
+  const bSegments = b.split("/");
+  
+  if (aSegments.length !== bSegments.length) {
+    return false;
+  }
+  
+  for (let i = 0; i < aSegments.length; i++) {
+    const aSegment = aSegments[i];
+    const bSegment = bSegments[i];
+    // if a segment is surrounded by curly braces, acts like a wild card
+    if (aSegment.startsWith("{") && aSegment.endsWith("}")) {
+      continue;
+    }
+    if (bSegment.startsWith("{") && bSegment.endsWith("}")) {
+      continue;
+    }
+    if (aSegments[i] !== bSegments[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function treeShake(oasSpec: OpenApiSpec, endpoints: string[]) {
+  const spec = {} as Record<string, any>;
+  for (const endpointPath in oasSpec.paths) {
+    for (const calledEndpoint of endpoints) {
+      if (fuzzyMatch(endpointPath, calledEndpoint)) {
+        spec[endpointPath] = oasSpec.paths[endpointPath];
+      }
+    }
+  }
+  return spec;
+}

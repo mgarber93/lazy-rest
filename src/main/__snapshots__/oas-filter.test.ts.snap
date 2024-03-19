@@ -233,3 +233,60 @@ Each user is generally limited to a maximum of 11000 playlists.",
   },
 }
 `;
+
+exports[`treeShake 1`] = `
+{
+  "/artists/{id}/albums": {
+    "get": {
+      "description": "Get Spotify catalog information about an artist's albums.
+",
+      "operationId": "get-an-artists-albums",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/PathArtistId",
+        },
+        {
+          "$ref": "#/components/parameters/QueryIncludeGroups",
+        },
+        {
+          "$ref": "#/components/parameters/QueryMarket",
+        },
+        {
+          "$ref": "#/components/parameters/QueryLimit",
+        },
+        {
+          "$ref": "#/components/parameters/QueryOffset",
+        },
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/PagingArtistDiscographyAlbumObject",
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized",
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden",
+        },
+        "429": {
+          "$ref": "#/components/responses/TooManyRequests",
+        },
+      },
+      "security": [
+        {
+          "oauth_2_0": [],
+        },
+      ],
+      "summary": "Get Artist's Albums
+",
+      "tags": [
+        "Artists",
+        "Albums",
+      ],
+      "x-spotify-policy-list": {
+        "$ref": "#/components/x-spotify-policy/metadataPolicyList",
+      },
+    },
+  },
+}
+`;

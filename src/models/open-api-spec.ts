@@ -15,9 +15,28 @@ export interface OpenApiSpec {
   }
 }
 
+interface Schema {
+  name: 'string';
+  required: boolean;
+  in: string;
+}
+
+interface EndpointParameter {
+  name: string;
+  required: boolean;
+  schema: Schema;
+}
+
+interface Ref {
+  '$ref': string;
+}
+
 export interface EndpointDescription {
-  tags: string[]
-  description: string
+  tags: string[];
+  summary: string;
+  description: string;
+  parameters: EndpointParameter[];
+  responses: Record<string, Ref>;
 }
 
 export interface Endpoint {

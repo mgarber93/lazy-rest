@@ -5,7 +5,7 @@ import {apiPlanner} from '../prompts/api-planner';
 import {apiSelector} from '../prompts/api-selector';
 import {copy, createContent} from '../models/content';
 import {buildCallerPrompt} from '../prompts/api-caller';
-import {oasToDescriptions} from './oas-filter';
+import {oasToDescriptions, treeShake} from './oas-filter';
 
 
 export type TAgent = "planner" | "selector" | "executor";
@@ -47,13 +47,15 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   const selector = startAgentConversation(user, 'selector', JSON.stringify(filtered, null, 2));
   const selectedPlan = await chat(selector.responder, selector.content);
   console.log(`a1:`, selectedPlan.content);
+
   const calls = selectedPlan.content
     .split('\n')
     .filter(str => str.startsWith('API calling'))
     .map(str => str.split(":", 1)[1]);
   
   for (const plannedCall of calls) {
-    const executor = startAgentConversation(user, 'executor', JSON.stringify(filtered, null, 2));
+    const specForPlannedCall = treeShake(oasSpec, [plannedCall]);
+    const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
     const toolPlan = await agentWithHttp(executor.responder, executor.content);
     for (const call of toolPlan.tool_calls) {
     }
