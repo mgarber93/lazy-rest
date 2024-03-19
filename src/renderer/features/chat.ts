@@ -126,11 +126,11 @@ export const chatsSlice = createSlice({
     builder.addCase(generateResponse.fulfilled, (state, action) => {
       const {role, content, chatId, model} = action.payload;
       const authoredContent = createContent(content, chatId, model, role as Role)
-      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
-      if (conversationIndex === -1) {
+      const conversation = state.find(conversation => conversation.id === chatId);
+      if (!conversation) {
         return state;
       }
-      state[conversationIndex].content.push(authoredContent);
+      conversation.content.push(authoredContent);
     });
     builder.addCase(autoPrompt.fulfilled, (state, action) => {
       const {role, content, chatId, model} = action.payload;
