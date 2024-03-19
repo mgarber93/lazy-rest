@@ -24,3 +24,9 @@ export function createContent(message: string, chatId: string, author: string, r
     role,
   };
 }
+
+export function copy(content: AuthoredContent) {
+  return {
+    ...content,
+  };
+}
