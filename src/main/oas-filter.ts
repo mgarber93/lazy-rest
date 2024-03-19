@@ -1,4 +1,5 @@
-import {OpenApiSpec} from '../models/open-api-spec';
+import {Endpoint, OpenApiSpec} from '../models/open-api-spec';
+import {EndpointCallPlan} from '../models/endpoint';
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {
@@ -56,12 +57,15 @@ export function fuzzyMatch(a: string, b: string): boolean {
   return true;
 }
 
-export function treeShake(oasSpec: OpenApiSpec, endpoints: string[]) {
+export function treeShake(oasSpec: OpenApiSpec, plans: EndpointCallPlan[]) {
   const spec = {} as Record<string, any>;
   for (const endpointPath in oasSpec.paths) {
-    for (const calledEndpoint of endpoints) {
-      if (fuzzyMatch(endpointPath, calledEndpoint)) {
-        spec[endpointPath] = oasSpec.paths[endpointPath];
+    for (const plan of plans) {
+      if (fuzzyMatch(endpointPath, plan.path)) {
+        const matched = oasSpec.paths[endpointPath];
+        const verb = plan.method.toLowerCase();
+        spec[endpointPath] = {};
+        spec[endpointPath][verb] = matched[verb as keyof Endpoint];
       }
     }
   }

@@ -6,11 +6,12 @@ import {apiSelector} from '../prompts/api-selector';
 import {copy, createContent} from '../models/content';
 import {buildCallerPrompt} from '../prompts/api-caller';
 import {oasToDescriptions, treeShake} from './oas-filter';
+import {parseCalls} from './utils';
 
 
 export type TAgent = "planner" | "selector" | "executor";
 
-function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: string) {
+function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
   const conversation = createConversation() as Conversation;
   const userContent = user.content[user.content.length - 1]; // assume user request is the last message
   let plannerMessage;
@@ -22,7 +23,9 @@ function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: s
     case "selector": {
       if (!endpoints)
         throw new Error('no endpoints')
-      plannerMessage = apiSelector('spotify', endpoints);
+      if (!roughPlan)
+        throw new Error('no rough plan')
+      plannerMessage = apiSelector('spotify', endpoints, roughPlan);
       break;
     }
     case "executor": {
@@ -32,10 +35,11 @@ function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: s
   }
   const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
   conversation.content.push(plan);
-  conversation.responder = 'gpt-4-turbo-preview'
+  conversation.responder = 'gpt-3.5-turbo'
   conversation.content.push(copy(userContent));
   return conversation;
 }
+
 
 export async function apiAgentLoop(user: Conversation): Promise<{ content: string, role: string }> {
   const planner = startAgentConversation(user, "planner");
@@ -44,17 +48,14 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   const oasSpec = await loadOasSpec('spotify');
   const filtered = oasToDescriptions(oasSpec)
   
-  const selector = startAgentConversation(user, 'selector', JSON.stringify(filtered, null, 2));
+  const selector = startAgentConversation(user, 'selector', JSON.stringify(filtered, null, 2), plan.content);
   const selectedPlan = await chat(selector.responder, selector.content);
   console.log(`a1:`, selectedPlan.content);
-
-  const calls = selectedPlan.content
-    .split('\n')
-    .filter(str => str.startsWith('API calling'))
-    .map(str => str.split(":", 1)[1]);
+  
+  const calls = parseCalls(selectedPlan.content)
   
   for (const plannedCall of calls) {
-    const specForPlannedCall = treeShake(oasSpec, [plannedCall]);
+    const specForPlannedCall = treeShake(oasSpec, calls);
     const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
     const toolPlan = await agentWithHttp(executor.responder, executor.content);
     for (const call of toolPlan.tool_calls) {
