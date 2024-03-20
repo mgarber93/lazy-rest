@@ -66,11 +66,11 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
     do {
       toolPlan = await agentWithHttp(executor.responder, messages);
+      messages.push(toolPlan);
       for (const toolCall of toolPlan?.tool_calls ?? []) {
         const {function: functionCall, id} = toolCall;
         const functionCallArgs = JSON.parse(functionCall.arguments);
         const results = await get(functionCallArgs.endpoint);
-        messages.push(toolPlan);
         messages.push({
           tool_call_id: id,
           role: "tool",
