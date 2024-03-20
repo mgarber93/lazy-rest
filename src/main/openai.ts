@@ -1,5 +1,7 @@
 import OpenAI from 'openai';
-import {AuthoredContent} from '../models/content';
+import {AuthoredContent, isToolCall} from '../models/content';
+import {Chat, ChatCompletionMessageParam} from 'openai/resources';
+
 
 if (!process.env['OPENAI_API_KEY']) {
   throw new Error('No process.env[\'OPENAI_API_KEY\']!');
@@ -16,9 +18,33 @@ export async function getModels(): Promise<string> {
   //   .join(',');
 }
 
+export function mapAuthoredContentToChatCompletion(content: AuthoredContent): ChatCompletionMessageParam {
+  switch (content.role) {
+    case "system":
+    case "assistant":
+    case "user": {
+      return {role: content.role, content: content.message};
+    }
+    case "tool": {
+      if (!isToolCall(content))
+        throw new Error(`content isn't a tool call`);
+      
+      return {
+        role: content.role,
+        content: content.message,
+        tool_call_id: content.tool_call_id,
+      }
+    }
+  }
+}
 
-export async function chat(model: string, content: AuthoredContent[]): Promise<{role: string, content: string}> {
-  const messages = content.map(item => ({role: item.role, content: item.message}))
+
+export async function chat(model: string, content: AuthoredContent[]): Promise<{
+  role: "system" | "assistant" | "user",
+  content: string
+}> {
+  const messages = content
+    .map(mapAuthoredContentToChatCompletion)
   const chatCompletion = await openai.chat.completions.create({
     model,
     messages,
@@ -44,9 +70,7 @@ export interface Tool {
   parameters: Record<string, ToolParameter>;
 }
 
-export async function agentWithHttp(model: string, content: AuthoredContent[]) {
-  const messages = content.map(item => ({role: item.role, content: item.message}))
-  
+export async function agentWithHttp(model: string, messages: ChatCompletionMessageParam[]) {
   const result = await openai.chat.completions.create({
     messages,
     model,

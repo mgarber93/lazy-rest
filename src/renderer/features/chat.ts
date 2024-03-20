@@ -140,7 +140,7 @@ export const chatsSlice = createSlice({
         return state;
       }
       state[conversationIndex].content.push(authoredContent);
-      state[conversationIndex].autoPrompter = 'execute plan';
+      state[conversationIndex].autoPrompter = undefined;
     })
   },
 });

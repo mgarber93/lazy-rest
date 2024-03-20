@@ -8,6 +8,9 @@ import {buildCallerPrompt} from '../prompts/api-caller';
 import {oasToDescriptions, treeShake} from './oas-filter';
 import {parseCalls} from './utils';
 import {get} from './api/spotify';
+import OpenAI from 'openai';
+import {ChatCompletionMessageParam} from 'openai/resources';
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 
 
 export type TAgent = "planner" | "selector" | "executor";
@@ -54,18 +57,28 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   console.log(`a1:`, selectedPlan.content);
   
   const calls = parseCalls(selectedPlan.content)
+  let toolPlan: ChatCompletionMessage;
   
   for (const plannedCall of calls) {
     const specForPlannedCall = treeShake(oasSpec, calls);
     const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
-    const toolPlan = await agentWithHttp(executor.responder, executor.content);
-    for (const call of toolPlan.tool_calls) {
-      const {function: functionCall} = call;
-      const functionCallArgs = JSON.parse(functionCall.arguments);
-      const results = await get(functionCallArgs.endpoint);
-      
-    }
+    const messages: ChatCompletionMessageParam[] = executor.content
+      .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
+    do {
+      toolPlan = await agentWithHttp(executor.responder, messages);
+      for (const toolCall of toolPlan?.tool_calls ?? []) {
+        const {function: functionCall, id} = toolCall;
+        const functionCallArgs = JSON.parse(functionCall.arguments);
+        const results = await get(functionCallArgs.endpoint);
+        messages.push(toolPlan);
+        messages.push({
+          tool_call_id: id,
+          role: "tool",
+          content: JSON.stringify(results),
+        }); // extend conversation with function response
+      }
+    } while (toolPlan.tool_calls)
   }
-  throw new Error('not implemented');
+  return toolPlan;
 }
 

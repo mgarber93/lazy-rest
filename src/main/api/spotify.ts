@@ -47,8 +47,6 @@ export async function get(endpoint: string): Promise<object> {
         statusText: response.statusText,
       };
     }
-    
-    
   } catch (e) {
     throw new Error('Problem calling spotify')
   }

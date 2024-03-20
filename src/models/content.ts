@@ -1,13 +1,23 @@
 import {v4 as uuidv4} from 'uuid';
 
-export type Role = 'system' | 'assistant' | 'user';
+export type Role = 'system' | 'assistant' | 'user' | 'tool';
 
 export interface AuthoredContent {
   id: string;
   chatId: string;
   message: string;
   author: string;
-  role: Role;
+  role: 'system' | 'assistant' | 'user' | 'tool';
+}
+
+export interface ToolCall extends AuthoredContent {
+  role: 'tool';
+  tool_call_id: string;
+  tool_calls: { function: string, id: string }[]
+}
+
+export function isToolCall(content: AuthoredContent): content is ToolCall {
+  return content.role === 'tool';
 }
 
 export function generateId() {
