@@ -15,7 +15,9 @@ import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 
 export type TAgent = "planner" | "selector" | "executor";
 
-function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
+type TResponder = "gpt-4-turbo-preview" | "gpt-3.5-turbo";
+
+function startAgentConversation(responder: TResponder, user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
   const conversation = createConversation() as Conversation;
   const userContent = user.content[user.content.length - 1]; // assume user request is the last message
   let plannerMessage;
@@ -46,13 +48,13 @@ function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: s
 
 
 export async function apiAgentLoop(user: Conversation): Promise<{ content: string, role: string }> {
-  const planner = startAgentConversation(user, "planner");
+  const planner = startAgentConversation("gpt-3.5-turbo", user, "planner");
   const plan = await chat(planner.responder, planner.content);
   console.log(`p1:`, plan.content);
   const oasSpec = await loadOasSpec('spotify');
   const filtered = oasToDescriptions(oasSpec)
   
-  const selector = startAgentConversation(user, 'selector', JSON.stringify(filtered, null, 2), plan.content);
+  const selector = startAgentConversation("gpt-4-turbo-preview", user, 'selector', JSON.stringify(filtered, null, 2), plan.content);
   const selectedPlan = await chat(selector.responder, selector.content);
   console.log(`a1:`, selectedPlan.content);
   
@@ -61,7 +63,7 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   
   for (const plannedCall of calls) {
     const specForPlannedCall = treeShake(oasSpec, calls);
-    const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
+    const executor = startAgentConversation("gpt-4-turbo-preview", user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
     const messages: ChatCompletionMessageParam[] = executor.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
     do {
