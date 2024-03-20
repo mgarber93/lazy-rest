@@ -7,6 +7,7 @@ import {copy, createContent} from '../models/content';
 import {buildCallerPrompt} from '../prompts/api-caller';
 import {oasToDescriptions, treeShake} from './oas-filter';
 import {parseCalls} from './utils';
+import {get} from './api/spotify';
 
 
 export type TAgent = "planner" | "selector" | "executor";
@@ -35,7 +36,7 @@ function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: s
   }
   const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
   conversation.content.push(plan);
-  conversation.responder = 'gpt-3.5-turbo'
+  conversation.responder = 'gpt-4-turbo-preview'
   conversation.content.push(copy(userContent));
   return conversation;
 }
@@ -59,6 +60,10 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
     const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
     const toolPlan = await agentWithHttp(executor.responder, executor.content);
     for (const call of toolPlan.tool_calls) {
+      const {function: functionCall} = call;
+      const functionCallArgs = JSON.parse(functionCall.arguments);
+      const results = await get(functionCallArgs.endpoint);
+      
     }
   }
   throw new Error('not implemented');

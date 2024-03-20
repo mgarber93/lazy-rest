@@ -32,11 +32,6 @@ Therefore, if you think the API response should be post-processed, just tell the
 If you think you have got the final answer, do not make other API calls and just output the answer immediately.
 For example, the query is search for a person, you should just return the id and name of the person.
 
-----
-
-Another planner which does not have access to the list of endpoints believes the user query can be achieved with:
-
-${roughPlan}
 
 ----
 
