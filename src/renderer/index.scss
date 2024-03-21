@@ -13,9 +13,9 @@
   --dark-grey: #484c56;
   --grey: #a4a4a4;
   --whitish: #e1dcd6;
-  --background-color-0: #000;
-  --background-color-1: #070707;
-  --background-color-2: var(--blackish);
+  --background-color-0: #070707;
+  --background-color-1: rgb(25, 28, 32);
+  --background-color-2: rgb(30, 33, 39);
   --text-color: #fff;
   --accent-text: var(--sage);
   --clamp-min: 40px;
@@ -50,7 +50,6 @@
 }
 
 body {
-  background: var(--background-gradient);
   color: var(--text-color);
 }
 
@@ -61,8 +60,8 @@ body {
 $color-mode-type: media-query;
 $theme-colors: (
         info: #DFBE99,
-        success: #B5BD89,
-        primary: #729EA1,
+        success: #8cff00,
+        primary: #8cff00,
         emphasis: #EC9192,
         danger: #DB5375,
         warning: #FCA311
@@ -77,3 +76,14 @@ $bs-theme-colors: (
 );
 /* import bootstrap to set changes */
 @import '~bootstrap/scss/bootstrap';
+
+.text-highlight {
+  font-style: normal;
+  border-radius: 1em 0 1em 0;
+  text-shadow: 1px 1px 1px #fff;
+  background-image: linear-gradient(-100deg,
+          #ecff6d23,
+          #ecff6daa 100%,
+          #ecff6d25
+  );
+}
