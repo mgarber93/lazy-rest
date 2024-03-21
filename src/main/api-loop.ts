@@ -41,7 +41,7 @@ function startAgentConversation(responder: TResponder, user: Conversation, agent
   }
   const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
   conversation.content.push(plan);
-  conversation.responder = 'gpt-4-turbo-preview'
+  conversation.responder = responder
   conversation.content.push(copy(userContent));
   return conversation;
 }
