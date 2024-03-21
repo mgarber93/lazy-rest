@@ -53,7 +53,6 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
   
   const handleMouseUp: MouseEventHandler = useCallback((e) => {
     const isRightClick = e.button === 2;
-
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
@@ -62,6 +61,7 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
     }))
     e.preventDefault();
   }, [dispatch, models, currentConversation, items]);
+  // @todo refactor this magic number
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return <TextArea
     rows={rows}
