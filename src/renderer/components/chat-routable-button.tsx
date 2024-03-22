@@ -21,8 +21,8 @@ const Input = styled.input`
 
     background-color: unset;
     &.active {
-        color: #fff;
-        background-color: var(--sage-bg);
+        background-color: var(--primary);
+        color: var(--blackish)
         //border-bottom: 2px solid var(--accent-text);
     }
 

@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect, useMemo} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
@@ -12,16 +12,17 @@ import {updateContextMenu} from '../features/context-menu';
 import {ChatRoutableButton} from '../components/chat-routable-button';
 
 const Page = styled.div`
-    display: grid;
-    grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
-    grid-template-rows: auto 1fr auto;
+    @media (min-width: 960px) {
+      display: grid;
+      grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
+      grid-template-rows: auto 1fr auto;
+    }
     height: 100%;
 
     .user {
         user-select: none;
     }
     .nav {
-        grid-row: 1 / -1;
         background-color: var(--background-color-0);
         display: flex;
         flex-direction: column;
@@ -68,8 +69,8 @@ const MainContent = styled.div`
     min-width: -webkit-fill-available;
 `;
 
-
 const NavPage = () => {
+  const [shown, setShown] = useState(false);
   const dispatch = useAppDispatch();
   const user = useSelector<RootState>((state) => state.user?.username ?? '') as string;
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
@@ -89,22 +90,33 @@ const NavPage = () => {
   const handleMouseUp = useCallback((e: MouseEvent) => {
     dispatch(updateContextMenu({visible: false, x: 0, y: 0, items: []}))
   }, [dispatch])
-  
+
+  let nav;
+  if (shown) {
+    nav = <div className="nav">
+      <div className="userContainer">
+        {user ? <div className="user">{user}</div> : null}
+      </div>
+      <div>
+        {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
+      </div>
+      <div className="footer">
+        <button onClick={handleNewChatClick}>+</button>
+      </div>
+      <div className="bottom">
+      </div>
+    </div>
+  } else {
+    nav = <div className="nav">
+      <div className="userContainer">
+        {user ? <div className="user">{user}</div> : null}
+      </div>
+    </div>
+  }
+
   return (
     <Page onMouseUpCapture={handleMouseUp}>
-      <div className="nav">
-        <div className="userContainer">
-          {user ? <div className="user">{user}</div> : null}
-        </div>
-        <div>
-          {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
-        </div>
-        <div className="footer">
-          <button onClick={handleNewChatClick}>+</button>
-        </div>
-        <div className="bottom">
-        </div>
-      </div>
+      {nav}
       <div className="main">
         <MainContent>
           <ConversationComponent/>
