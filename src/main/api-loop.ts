@@ -72,7 +72,6 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
         const {function: functionCall, id} = toolCall;
         const functionCallArgs = JSON.parse(functionCall.arguments);
         const results = await get(functionCallArgs.endpoint);
-        console.log(JSON.stringify(results, null, 2));
         messages.push({
           tool_call_id: id,
           role: "tool",

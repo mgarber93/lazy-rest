@@ -52,7 +52,6 @@ export const streamResponse = createAsyncThunk(
     
     const callBack = (electronEvent: any, authoredContentDelta: any) => {
       const {chatId, messageId, delta} = authoredContentDelta;
-      console.log(delta)
       thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
     };
     window.main.receive('message-delta', callBack);
