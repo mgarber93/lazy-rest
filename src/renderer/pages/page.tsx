@@ -25,7 +25,6 @@ const Page = styled.div`
         background-color: var(--background-color-0);
         display: flex;
         flex-direction: column;
-        background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--sage-bg) 12.9%, var(--moonstone-bg) 91.2%);
         .userContainer {
             padding: 0.6rem 1.2rem;
             min-height: 5vh;
@@ -66,7 +65,6 @@ const MainContent = styled.div`
     justify-content: center;
     padding: 0 calc(22vw - var(--name-gutter)) 0 calc(18vw - var(--name-gutter));
     height: 100%;
-    background: var(--background-color-0);
     min-width: -webkit-fill-available;
 `;
 
