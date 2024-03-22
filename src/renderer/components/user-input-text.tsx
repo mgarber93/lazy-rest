@@ -3,7 +3,7 @@ import {useCurrentConversation} from '../hooks/current-conversation';
 import {User} from '../../models/user';
 import {listModels} from '../features/models';
 import {createContent} from '../../models/content';
-import {generateResponse, respond} from '../features/chat';
+import {respond, streamResponse} from '../features/chat';
 import {ContextItem, updateContextMenu} from '../features/context-menu';
 import styled from 'styled-components';
 import {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useCallback, useEffect, useState} from 'react';
@@ -36,24 +36,23 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
     setValue(e.target.value);
   };
   useEffect(() => {
-    dispatch(listModels())
+    dispatch(listModels());
   }, [dispatch]);
-  
+
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
-    if (e.key === 'Enter' && !e.shiftKey && inputValue) {
+    if (e.key === 'Enter' && !e.shiftKey && inputValue && currentConversation.responder) {
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
       dispatch(respond(prompt))
-      if (!currentConversation.autoPrompter) {
-        dispatch(generateResponse(currentConversation.id));
-      }
+      const placeHolder = createContent('', currentConversation.id, currentConversation.responder, 'assistant')
+      dispatch(respond(placeHolder));
+      dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}));
       setValue('');
     }
   }, [currentConversation, inputValue])
   
   const handleMouseUp: MouseEventHandler = useCallback((e) => {
     const isRightClick = e.button === 2;
-
     dispatch(updateContextMenu({
       visible: isRightClick || e.ctrlKey,
       x: e.clientX,
@@ -62,6 +61,7 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
     }))
     e.preventDefault();
   }, [dispatch, models, currentConversation, items]);
+  // @todo refactor this magic number
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
   return <TextArea
     rows={rows}

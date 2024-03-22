@@ -58,9 +58,7 @@ const Page = styled.div`
         display: flex;
         justify-content: center;
     }
-    .userContainer, .footer {
-        background-image: radial-gradient(circle 311px at 8.6% 27.9%, var(--moonstone-bg) 12.9%, var(--sage-bg) 91.2%);
-    }
+
 `;
 
 const MainContent = styled.div`

@@ -2,6 +2,12 @@ import {v4 as uuidv4} from 'uuid';
 
 export type Role = 'system' | 'assistant' | 'user' | 'tool';
 
+export interface ContentDelta {
+  chatId: string
+  messageId: string
+  delta: string
+}
+
 export interface AuthoredContent {
   id: string;
   chatId: string;

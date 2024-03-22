@@ -8,7 +8,6 @@ import {MessageRoleSelector} from './send-role-selector';
 import {removeAutoPrompter, respond, selectAutoPrompter, selectModelChat} from '../features/chat';
 import {createContent} from '../../models/content';
 import {apiPlanner} from '../../prompts/api-planner';
-import {apiSelector} from '../../prompts/api-selector';
 import {markdownInstructions} from '../../prompts/enhanced-md';
 
 const SendMessageContainer = styled.div`
@@ -20,7 +19,6 @@ const SendMessageContainer = styled.div`
 `
 
 function shouldAllowSystem(conversation: Conversation) {
-
   const messages = conversation?.content ?? [];
   return messages.length === 0;
 }

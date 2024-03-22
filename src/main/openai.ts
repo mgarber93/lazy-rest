@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
-import {AuthoredContent, isToolCall} from '../models/content';
-import {Chat, ChatCompletionMessageParam} from 'openai/resources';
+import {AuthoredContent, ContentDelta, isToolCall} from '../models/content';
+import {ChatCompletionMessageParam} from 'openai/resources';
+import windowSender from './window-sender';
 
 
 if (!process.env['OPENAI_API_KEY']) {
@@ -50,6 +51,20 @@ export async function chat(model: string, content: AuthoredContent[]): Promise<{
     messages,
   });
   return chatCompletion.choices[0].message;
+}
+
+export async function streamedChat(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<void> {
+  const messages = content
+    .map(mapAuthoredContentToChatCompletion)
+  const stream = await openai.chat.completions.create({
+    model,
+    messages: messages,
+    stream: true,
+  });
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta?.content || "";
+    windowSender.send('message-delta', {delta, chatId, messageId} as ContentDelta)
+  }
 }
 
 

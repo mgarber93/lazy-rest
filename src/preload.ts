@@ -4,21 +4,46 @@
 import {contextBridge, ipcRenderer} from 'electron';
 import {TApi} from './prompts/api-to-icl-examples';
 import {Conversation} from './models/conversation';
+import {TChannel} from './main/window-sender';
 
 export interface PreloadedApi {
-  getMachineName: () => Promise<string>,
-  getModels: () => Promise<string>,
-  chat: (conversation: Conversation) => Promise<{content: string, role: string}>,
-  loadOasSpec: (api: TApi) => Promise<string>,
-  apiAutoPrompt: (conversation: Conversation) => Promise<{content: string, role: string}>,
+  getMachineName: () => Promise<string>;
+  getModels: () => Promise<string>;
+  chat: (conversation: Conversation) => Promise<{ content: string, role: string }>;
+  streamedChat: (conversation: Conversation, responseId: string) => Promise<void>;
+  loadOasSpec: (api: TApi) => Promise<string>;
+  apiAutoPrompt: (conversation: Conversation) => Promise<{ content: string, role: string }>;
+  receive: (channel: TChannel, func: (...args: any[]) => void) => void;
+  remove: (channel: TChannel, func: (...args: any[]) => void) => void;
 }
 
+const validChannels: TChannel[] = ['message-delta', 'tool-request'];
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
   apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
   chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
+  streamedChat: ipcRenderer.invoke.bind(ipcRenderer, 'streamedChat'),
   getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
   getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),
   loadOasSpec: ipcRenderer.invoke.bind(ipcRenderer, 'loadOasSpec'),
+  send: (channel: TChannel, data: any) => {
+    // whitelist channels
+    if (validChannels.includes(channel)) {
+      ipcRenderer.send(channel, data);
+    }
+  },
+  receive: (channel: TChannel, func: (...args: any[]) => void) => {
+    if (!validChannels.includes(channel)) {
+      return
+    }
+    ipcRenderer.on(channel, func);
+  },
+  remove: (channel: TChannel, func: (...args: any[]) => void) => {
+    if (!validChannels.includes(channel)) {
+      return
+    }
+    // @todo rework to remove first argument for func. Maybe Record<TChannel, cb[]>?
+    ipcRenderer.removeListener(channel, func);
+  },
 } as PreloadedApi)

@@ -46,7 +46,6 @@ function startAgentConversation(responder: TResponder, user: Conversation, agent
   return conversation;
 }
 
-
 export async function apiAgentLoop(user: Conversation): Promise<{ content: string, role: string }> {
   const planner = startAgentConversation("gpt-3.5-turbo", user, "planner");
   const plan = await chat(planner.responder, planner.content);

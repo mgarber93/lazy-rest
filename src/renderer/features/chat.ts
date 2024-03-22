@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4} from 'uuid'
 import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
-import {AuthoredContent, createContent, Role} from '../../models/content';
+import {AuthoredContent, ContentDelta, createContent, Role} from '../../models/content';
 import {Conversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 
@@ -22,7 +22,8 @@ export const generateResponse = createAsyncThunk(
   async (conversationId: string, thunkAPI) => {
     const state = thunkAPI.getState() as { chats: Conversation[] };
     const conversation = state.chats.find(chat => chat.id === conversationId);
-    if (!conversation) {
+    // Cant respond unless a responder is set and an auto prompter isn't
+    if (!conversation || !conversation.responder || conversation.autoPrompter) {
       return null;
     }
     const responseMessage = await window.main.chat(conversation);
@@ -35,10 +36,33 @@ export const generateResponse = createAsyncThunk(
   },
 );
 
+export const streamResponse = createAsyncThunk(
+  `${name}/streamResponse`,
+  async (arg: { conversationId: string, contentId: string }, thunkAPI) => {
+    const {conversationId, contentId} = arg;
+    const state = thunkAPI.getState() as { chats: Conversation[] };
+    const conversation = state.chats.find(chat => chat.id === conversationId);
+    // Cant respond unless a responder is set and an auto prompter isn't
+    if (!conversation || !conversation.responder || conversation.autoPrompter)
+      return null;
+    
+    const response = conversation.content.find(content => content.id === contentId)
+    if (!response)
+      return null
+    
+    const callBack = (electronEvent: any, authoredContentDelta: any) => {
+      const {chatId, messageId, delta} = authoredContentDelta;
+      thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
+    };
+    window.main.receive('message-delta', callBack);
+    await window.main.streamedChat(conversation, response.id);
+    window.main.remove('message-delta', callBack);
+  },
+)
+
 export const autoPrompt = createAsyncThunk(
   `${name}/autoPrompt`,
-  async (arg: {conversationId: string}, thunkAPI:GetThunkAPI<AsyncThunkConfig>) => {
-
+  async (arg: { conversationId: string }, thunkAPI: GetThunkAPI<AsyncThunkConfig>) => {
     const state = thunkAPI.getState() as { chats: Conversation[] };
     const {conversationId} = arg;
     const conversation = state.chats.find(chat => chat.id === conversationId);
@@ -60,7 +84,7 @@ export const autoPrompt = createAsyncThunk(
         throw new Error('Not implemented');
       }
     }
-  }
+  },
 )
 
 export const chatsSlice = createSlice({
@@ -81,6 +105,19 @@ export const chatsSlice = createSlice({
       } else {
         conversation.content.push(action.payload);
       }
+      return state;
+    },
+    appendDelta: (state, action: PayloadAction<ContentDelta>) => {
+      const {chatId, messageId, delta} = action.payload;
+      const conversation = state.find(conversation => conversation.id === chatId);
+      if (!conversation) {
+        return state;
+      }
+      const chat = conversation.content.find(content => content.id === messageId);
+      if (!chat) {
+        return state;
+      }
+      chat.message += delta;
       return state;
     },
     startNewChat: (state, action: PayloadAction) => {
@@ -120,7 +157,7 @@ export const chatsSlice = createSlice({
       const {chatId} = action.payload;
       const chat = state.find(chat => chat.id === chatId);
       chat.autoPrompter = undefined;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(generateResponse.fulfilled, (state, action) => {
@@ -141,11 +178,19 @@ export const chatsSlice = createSlice({
       }
       state[conversationIndex].content.push(authoredContent);
       state[conversationIndex].autoPrompter = undefined;
-    })
+    });
   },
 });
 
 // Export actions to use dispatch in component
-export const {respond, startNewChat, selectModelChat, updateTitle, selectAutoPrompter, removeAutoPrompter} = chatsSlice.actions;
+export const {
+  respond,
+  startNewChat,
+  selectModelChat,
+  updateTitle,
+  selectAutoPrompter,
+  removeAutoPrompter,
+  appendDelta,
+} = chatsSlice.actions;
 
 

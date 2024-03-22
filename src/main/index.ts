@@ -1,6 +1,6 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron';
 import {getUser} from './user';
-import {chat, getModels} from './openai';
+import {chat, getModels, streamedChat} from './openai';
 import {Conversation} from '../models/conversation';
 import {loadOasSpec} from './oas-loader';
 import {TApi} from '../prompts/api-to-icl-examples';
@@ -29,6 +29,11 @@ async function handleLoadOasSpec(event: IpcMainInvokeEvent, ...args: string[]): 
   return JSON.stringify(spec);
 }
 
+async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation, responseId: string): Promise<void> {
+  const contentToRespondTo = conversation.content.filter(content => content.id !== responseId);
+  await streamedChat(conversation.responder, contentToRespondTo, conversation.id, responseId);
+}
+
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
   ipcMain.handle('apiAutoPrompt', handleApiAutoPrompt)
@@ -36,4 +41,5 @@ export function registerHandlers() {
   ipcMain.handle('getMachineName', getUser)
   ipcMain.handle('chat', handleChat)
   ipcMain.handle('loadOasSpec', handleLoadOasSpec);
+  ipcMain.handle('streamedChat', handleStreamedChat)
 }
