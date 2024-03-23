@@ -18,6 +18,7 @@ const Page = styled.div`
     grid-template-rows: auto 1fr auto;
     .nav {
       border-right: 1px solid var(--background-color-0);
+      flex-direction: column;
     }
   }
   height: 100%;
@@ -28,7 +29,7 @@ const Page = styled.div`
 
   .nav {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     .userContainer {
       padding: 0.6rem 1.2rem;
