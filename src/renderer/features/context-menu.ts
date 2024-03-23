@@ -16,7 +16,7 @@ const initialState: ContextMenuState = {
   visible: false,
   x: 0,
   y: 0,
-  items: []
+  items: [],
 };
 
 export const contextMenuSlice = createSlice({
@@ -28,10 +28,10 @@ export const contextMenuSlice = createSlice({
       state.x = action.payload.x;
       state.y = action.payload.y;
       state.items = action.payload.items;
-    }
+    },
   },
   extraReducers<State>(builder: ActionReducerMapBuilder<State>): void {
-  }
+  },
 });
 
 export const {updateContextMenu} = contextMenuSlice.actions;

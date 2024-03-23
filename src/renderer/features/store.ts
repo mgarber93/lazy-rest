@@ -14,7 +14,7 @@ export const store = configureStore({
     user: userSlice.reducer,
     currentChat: currentChatSlice.reducer,
     contextMenu: contextMenuSlice.reducer,
-    models: modelsSlice.reducer
+    models: modelsSlice.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),

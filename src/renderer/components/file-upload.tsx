@@ -1,4 +1,3 @@
-
 export function FileUpload() {
   return <div>
     <input type="file" id="file-upload"/>

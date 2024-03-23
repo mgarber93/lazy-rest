@@ -3,15 +3,11 @@ import styled from 'styled-components';
 export const StyledDiv = styled.div`
     display: grid;
     grid-template-columns: var(--name-gutter) 1fr;
-
-    &.hovered {
-        & .author.user {
-            padding-top: 5rem;
-        }
-
-        & .content {
-            background-color: var(--background-color-2)
-        }
+    & .author.user {
+        padding-top: 5rem;
+    }
+    & .content {
+        background-color: var(--background-color-2)
     }
 
     .author {
