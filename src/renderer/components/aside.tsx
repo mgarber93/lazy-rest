@@ -5,52 +5,61 @@ import {RootState, useAppDispatch} from '../features/store';
 import {useSelector} from 'react-redux';
 import {Conversation} from '../../models/conversation';
 import styled from 'styled-components';
+import TimelineCard from './timeline-card';
 
 const AsideContainer = styled.div`
-  @media (min-width: 61rem) {
-    .nav {
-      border-right: 1px solid var(--background-color-0);
-      flex-direction: column;
-      justify-content: flex-start;
-      align-content: flex-start;
+  padding: 2rem 1rem;
+  font-size: small;
+
+  .container {
+    h2 {
+      font-size: medium;
     }
+  }
+
+  .list-style-none {
+    list-style: none;
+  }
+
+  @media (min-width: 61rem) {
+    border-right: 1px solid var(--background-color-0);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
   }
 
   .user {
     user-select: none;
   }
 
-  .nav {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    .userContainer {
+  .userContainer {
+    padding: 0.6rem 1.2rem;
+    min-height: 5vh;
+    font-size: larger;
+  }
+
+  .footer {
+    button {
+      background-color: unset;
+      width: 100%;
+      border: none;
+      text-align: center;
       padding: 0.6rem 1.2rem;
-      min-height: 5vh;
-      font-size: larger;
-    }
+      font-size: smaller;
 
-    .footer {
-      button {
-        background-color: unset;
-        width: 100%;
-        border: none;
-        text-align: center;
-        padding: 0.6rem 1.2rem;
-        font-size: smaller;
-
-        &:hover {
-          background-color: var(--sage-bg);
-        }
+      &:hover {
+        background-color: var(--sage-bg);
       }
-    }
-
-    .bottom {
-      margin-top: auto;
-      bottom: 0;
     }
   }
 
+  .bottom {
+    margin-top: auto;
+    bottom: 0;
+  }
 `;
 
 function Aside() {
@@ -81,7 +90,6 @@ function Aside() {
   
   const nav = <div className="nav">
     <div className="userContainer">
-      {user ? <div className="user">{user}</div> : null}
     </div>
     {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
     
@@ -90,9 +98,17 @@ function Aside() {
     </div>
   </div>
   
-  
   return <AsideContainer>
-    {nav}
+    <div className="container">
+      <h2>conversations</h2>
+      {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
+    </div>
+    <div className="container">
+      <h2>agents</h2>
+    </div>
+    <TimelineCard/>
+    <span>apis</span>
+    <span>spotify</span>
   </AsideContainer>
 }
 
