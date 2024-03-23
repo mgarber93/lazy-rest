@@ -10,7 +10,7 @@ const MessageSender = () => {
   const [clicked, setClicked] = useState(false);
   const dispatch = useAppDispatch();
   const conversation = useCurrentConversation();
-
+  
   const handleMouseOver = useCallback(() => {
     !clicked && setHovered(true);
   }, [clicked]);

@@ -10,6 +10,7 @@ import {parseCalls} from './utils';
 import {get} from './api/spotify';
 import OpenAI from 'openai';
 import {ChatCompletionMessageParam} from 'openai/resources';
+import windowSender from './window-sender';
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 
 
@@ -72,6 +73,7 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
         const {function: functionCall, id} = toolCall;
         const functionCallArgs = JSON.parse(functionCall.arguments);
         const results = await get(functionCallArgs.endpoint);
+        windowSender.send("tool-request", toolPlan)
         messages.push({
           tool_call_id: id,
           role: "tool",

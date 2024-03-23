@@ -3,7 +3,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 const name = 'models';
 
 const initialState = {
-  models: [] as string[]
+  models: [] as string[],
 }
 
 export const listModels = createAsyncThunk(
@@ -11,7 +11,7 @@ export const listModels = createAsyncThunk(
   async () => {
     const models = await window.main.getModels();
     return models.split(',');
-  }
+  },
 )
 
 export const modelsSlice = createSlice({
@@ -20,11 +20,11 @@ export const modelsSlice = createSlice({
   reducers: {
     updateModels(state, action: PayloadAction<string[]>) {
       state.models = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(listModels.fulfilled, (state, action) => {
       state.models = action.payload;
     });
-  }
+  },
 })

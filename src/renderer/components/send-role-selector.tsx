@@ -2,25 +2,25 @@ import styled from 'styled-components';
 import {ChangeEventHandler} from 'react';
 
 const Selecter = styled.select`
-    width: var(--name-gutter);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    color: var(--dark-grey);
-    height: 100%;
-    margin-left: 4px;
-    margin-right: auto;
-    transition: 200ms box-shadow ease-in-out;
-    font-size: var(--bs-body-font-size);
-    margin-top: auto;
-    background-color: var(--background-color-1);
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
-    outline: none;
-    border-right: 1px solid var(--background-color-1);
-    border: 1px solid var(--box-shadow-background);
-    border-right: 1px solid var(--background-color-1);
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
-    user-select: none;
+  width: var(--name-gutter);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  color: var(--dark-grey);
+  height: 100%;
+  margin-left: 4px;
+  margin-right: auto;
+  transition: 200ms box-shadow ease-in-out;
+  font-size: var(--bs-body-font-size);
+  margin-top: auto;
+  background-color: var(--background-color-1);
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  outline: none;
+  border-right: 1px solid var(--background-color-1);
+  border: 1px solid var(--box-shadow-background);
+  border-right: 1px solid var(--background-color-1);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  user-select: none;
 `
 
 export function MessageRoleSelector(props: {

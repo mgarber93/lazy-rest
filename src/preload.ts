@@ -18,6 +18,7 @@ export interface PreloadedApi {
 }
 
 const validChannels: TChannel[] = ['message-delta', 'tool-request'];
+let count = 0;
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
@@ -35,14 +36,17 @@ contextBridge.exposeInMainWorld('main', {
   },
   receive: (channel: TChannel, func: (...args: any[]) => void) => {
     if (!validChannels.includes(channel)) {
+      console.error(channel);
       return
     }
+    console.log(++count);
     ipcRenderer.on(channel, func);
   },
   remove: (channel: TChannel, func: (...args: any[]) => void) => {
     if (!validChannels.includes(channel)) {
       return
     }
+    console.log(--count);
     // @todo rework to remove first argument for func. Maybe Record<TChannel, cb[]>?
     ipcRenderer.removeListener(channel, func);
   },

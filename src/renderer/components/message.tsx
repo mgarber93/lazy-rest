@@ -6,42 +6,42 @@ import remarkGfm from 'remark-gfm'
 import {useAppSelector} from '../features/store';
 
 const StyledDiv = styled.div`
-    display: grid;
-    grid-template-columns: var(--name-gutter) 1fr;
+  display: grid;
+  grid-template-columns: var(--name-gutter) 1fr;
 
-    .author {
-        color: var(--accent-text);
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
+  .author {
+    color: var(--accent-text);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 
-        &.user {
-            color: var(--dark-grey);
-        }
+    &.user {
+      color: var(--dark-grey);
+    }
+  }
+
+  .content {
+    h1, h2 {
+      font-size: large;
     }
 
-    .content {
-        h1, h2 {
-            font-size: large;
-        }
-
-        h3, h4, h5 {
-            font-size: medium;
-        }
+    h3, h4, h5 {
+      font-size: medium;
     }
+  }
 
-    border-radius: var(--border-radius);
-    border-image-slice: 1;
-    color: var(--text-color);
-    border: none;
-    padding: 1rem 0.2rem;
-    font-size: var(--bs-body-font-size);
+  border-radius: var(--border-radius);
+  border-image-slice: 1;
+  color: var(--text-color);
+  border: none;
+  padding: 1rem 0.2rem;
+  font-size: var(--bs-body-font-size);
 
-    p {
-        margin: 0;
-    }
+  p {
+    margin: 0;
+  }
 
-    transition: background-color 0.2s ease-in-out;
-    width: 100%;
-    cursor: default;
+  transition: background-color 0.2s ease-in-out;
+  width: 100%;
+  cursor: default;
 `;
 
 export function Message({content}: { content: AuthoredContent }) {

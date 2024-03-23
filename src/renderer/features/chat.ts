@@ -69,21 +69,25 @@ export const autoPrompt = createAsyncThunk(
     if (!conversation || !conversation.autoPrompter) {
       return null;
     }
+    const callBack = () => {
+    }
+    
+    window.main.receive('tool-request', callBack);
     switch (conversation.autoPrompter) {
-      case "rest api": {
-        const serializedResponse = await window.main.apiAutoPrompt(conversation)
-        const responseMessage = serializedResponse;
-        return {
-          role: responseMessage.role,
-          content: responseMessage.content,
-          chatId: conversation.id,
-          model: conversation.responder,
-        };
-      }
       case "execute plan": {
         throw new Error('Not implemented');
       }
     }
+    
+    window.main.remove('tool-request', callBack)
+    const serializedResponse = await window.main.apiAutoPrompt(conversation)
+    const responseMessage = serializedResponse;
+    return {
+      role: responseMessage.role,
+      content: responseMessage.content,
+      chatId: conversation.id,
+      model: conversation.responder,
+    };
   },
 )
 

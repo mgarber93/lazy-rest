@@ -49,7 +49,7 @@ export function SendMessage(): JSX.Element {
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
   const [role, setRole] = useState("user")
   const [endpoints, setEndpoints] = useState('');
-
+  
   useEffect(() => {
     const haveStartedTalking = !shouldAllowSystem(currentConversation);
     if (haveStartedTalking) {
@@ -63,7 +63,7 @@ export function SendMessage(): JSX.Element {
       setRoles([
         {value: "system", display: "instructions"},
         {value: "user", display: currentUser},
-        {value: "auto prompter", display: "auto prompter"}
+        {value: "auto prompter", display: "auto prompter"},
       ]);
     }
   }, [role, currentConversation]);
@@ -73,7 +73,7 @@ export function SendMessage(): JSX.Element {
       setEndpoints(oas);
     })
   }, []);
-
+  
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
   }, [setRole, currentUser, currentConversation]);
@@ -96,12 +96,12 @@ export function SendMessage(): JSX.Element {
         return [
           {
             display: 'remove auto prompter',
-            action: removeAutoPrompter({chatId: currentConversation?.id})
+            action: removeAutoPrompter({chatId: currentConversation?.id}),
           },
           {
             display: 'add auto prompter',
-            action: selectAutoPrompter({chatId: currentConversation?.id, model: 'rest api'})
-          }
+            action: selectAutoPrompter({chatId: currentConversation?.id, model: 'rest api'}),
+          },
         ]
       }
       default:

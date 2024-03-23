@@ -38,7 +38,7 @@ export function UserInputText({placeholder, items}: { placeholder: string, items
   useEffect(() => {
     dispatch(listModels());
   }, [dispatch]);
-
+  
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue && currentConversation.responder) {
       e.preventDefault();
