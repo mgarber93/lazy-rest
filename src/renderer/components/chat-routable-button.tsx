@@ -6,34 +6,37 @@ import styled from 'styled-components';
 import {updateTitle} from '../features/chat';
 
 const Input = styled.input`
-    width: 100%;
-    border: none;
-    padding: 5px;
-    border-bottom: 2px solid var(--background-color-1);
-    font-size: medium;
-    text-align: center;
-    outline: none;
-    color: var(--whitish);
+  width: 100%;
+  border: none;
+  padding: 5px;
+  border-bottom: 2px solid var(--background-color-1);
+  font-size: medium;
+  text-align: center;
+  outline: none;
+  color: var(--whitish);
+  height: 100%;
 
-    &.disabled {
-        cursor: default;
-    }
 
-    background-color: unset;
+  &.disabled {
+    cursor: default;
+  }
+
+  background-color: unset;
+
+  &.active {
+    background-color: var(--primary);
+    color: var(--blackish)
+    //border-bottom: 2px solid var(--accent-text);
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: var(--text-color);
     &.active {
-        background-color: var(--primary);
-        color: var(--blackish)
-        //border-bottom: 2px solid var(--accent-text);
+      background-color: var(--sage);
+      color: var(--text-color);
+      border-bottom: 2px solid var(--background-color-0);
     }
-
-    @media (prefers-color-scheme: light) {
-        color: var(--text-color);
-        &.active {
-            background-color: var(--sage);
-            color: var(--text-color);
-            border-bottom: 2px solid var(--background-color-0);
-        }
-    }
+  }
 `;
 
 export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {

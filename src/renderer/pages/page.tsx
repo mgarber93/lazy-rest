@@ -19,6 +19,8 @@ const Page = styled.div`
     .nav {
       border-right: 1px solid var(--background-color-0);
       flex-direction: column;
+      justify-content: flex-start;
+      align-content: flex-start;
     }
   }
   height: 100%;
@@ -84,7 +86,7 @@ const MainContent = styled.div`
 `;
 
 const NavPage = () => {
-  const [shown, setShown] = useState(false);
+  const [shown, setShown] = useState(true);
   const dispatch = useAppDispatch();
   const user = useSelector<RootState>((state) => state.user?.username ?? '') as string;
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
@@ -115,9 +117,8 @@ const NavPage = () => {
       <div className="userContainer">
         {user ? <div className="user" onClick={handleClick}>{user}</div> : null}
       </div>
-      <div>
         {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
-      </div>
+      
       <div className="footer">
         <button onClick={handleNewChatClick}>+</button>
       </div>
