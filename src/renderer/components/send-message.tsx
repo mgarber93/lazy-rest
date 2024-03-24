@@ -11,12 +11,12 @@ import {apiPlanner} from '../../prompts/api-planner';
 import {markdownInstructions} from '../../prompts/enhanced-md';
 
 const SendMessageContainer = styled.div`
-    position: sticky;
-    margin-top: auto;
-    bottom: 0.5rem;
-    display: flex;
-    flex-direction: row;
-`
+  position: sticky;
+  margin-top: auto;
+  bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+`;
 
 function shouldAllowSystem(conversation: Conversation) {
   const messages = conversation?.content ?? [];
@@ -32,24 +32,17 @@ function mapModelsToSelectAction(models: string[], currentId: string) {
   });
 }
 
-/**
- * Sends a message based on the selected role.
- *
- * @function SendMessage
- *
- * @returns {JSX.Element} - The rendered message input component.
- */
-export function SendMessage(): JSX.Element {
+export function SendMessage() {
   const currentUser = useAppSelector(state => state.user.username);
   const models = useAppSelector(state => state.models.models);
-  
+
   // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation();
   const [roles, setRoles] = useState([{value: "user", display: currentUser}])
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
   const [role, setRole] = useState("user")
   const [endpoints, setEndpoints] = useState('');
-  
+
   useEffect(() => {
     const haveStartedTalking = !shouldAllowSystem(currentConversation);
     if (haveStartedTalking) {
@@ -67,48 +60,51 @@ export function SendMessage(): JSX.Element {
       ]);
     }
   }, [role, currentConversation]);
-  
+
   useEffect(() => {
     window.main.loadOasSpec('spotify').then((oas: string) => {
       setEndpoints(oas);
     })
   }, []);
-  
+
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
   }, [setRole, currentUser, currentConversation]);
-  
-  
+
+  const id = currentConversation?.id;
   const items = useMemo(() => {
+    if (!id) {
+      return [];
+    }
     switch (role) {
       case "system": {
         return [
           {
             display: 'enhanced markdown',
-            action: respond(createContent(markdownInstructions, currentConversation?.id, 'enhanced md', 'system')),
+            action: respond(createContent(markdownInstructions, id, 'enhanced md', 'system')),
           },
         ]
       }
       case "user": {
-        return mapModelsToSelectAction(models, currentConversation?.id);
+        return mapModelsToSelectAction(models, id);
       }
       case "auto prompter": {
         return [
           {
             display: 'remove auto prompter',
-            action: removeAutoPrompter({chatId: currentConversation?.id}),
+            action: removeAutoPrompter({chatId: id}),
           },
           {
             display: 'add auto prompter',
-            action: selectAutoPrompter({chatId: currentConversation?.id, model: 'rest api'}),
+            action: selectAutoPrompter({chatId: id, model: 'rest api'}),
           },
         ]
       }
       default:
         return [];
     }
-  }, [role, respond, createContent, apiPlanner, currentConversation, models, endpoints])
-  
+  }, [role, respond, createContent, apiPlanner, id, models, endpoints])
+
   const responderPlaceholder = currentConversation?.responder
     ? `Message ${currentConversation?.responder}` : 'Right click to set model';
   const placeholder = `Right click to set preset or type here`;

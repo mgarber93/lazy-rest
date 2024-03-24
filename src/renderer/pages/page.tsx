@@ -13,12 +13,11 @@ import Aside from '../components/aside';
 const Page = styled.div`
   @media (min-width: 61rem) {
     display: grid;
-    grid-template-columns: calc(var(--name-gutter) * 1.1) 1fr;
+    grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
     grid-template-rows: auto 1fr auto;
   }
   height: 100%;
   .main {
-    border-left: 1px solid var(--background-color-2);
     grid-column: 2;
     height: 100vh;
     display: flex;

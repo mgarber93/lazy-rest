@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ChatRoutableButton} from './chat-routable-button';
 import {startNewChat} from '../features/chat';
 import {RootState, useAppDispatch} from '../features/store';
 import {useSelector} from 'react-redux';
@@ -10,19 +9,34 @@ import TimelineCard from './timeline-card';
 const AsideContainer = styled.div`
   padding: 2rem 1rem;
   font-size: small;
+  display: flex;
+  flex-direction: row;
 
   .container {
+    border: 1px solid var(--background-color-2);
+
     h2 {
       font-size: medium;
     }
+
+    border-radius: var(--border-radius) calc(var(--border-radius-emphasis) - 1rem) calc(var(--border-radius-emphasis) - 1rem) var(--border-radius);
+    padding: 0;
+    margin: 0;
   }
 
-  .list-style-none {
-    list-style: none;
+  .container-header {
+    background-color: var(--background-color-1);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top-left-radius: calc(var(--border-radius-emphasis) - 1rem);
+    border-top-right-radius: calc(var(--border-radius-emphasis) - 1rem);
+    border-bottom-right-radius: 0;
   }
 
-  @media (min-width: 61rem) {
-    border-right: 1px solid var(--background-color-0);
+  @media (min-width: 51rem) {
+    border-radius: 2rem;
+    border-right: 1px solid var(--background-color-1);
     flex-direction: column;
     justify-content: flex-start;
     align-content: flex-start;
@@ -32,28 +46,23 @@ const AsideContainer = styled.div`
     user-select: none;
   }
 
-  display: flex;
-  flex-direction: row;
-
   .userContainer {
     padding: 0.6rem 1.2rem;
     min-height: 5vh;
     font-size: larger;
   }
 
-  .footer {
-    button {
-      background-color: unset;
-      width: 100%;
-      border: none;
-      text-align: center;
-      padding: 0.6rem 1.2rem;
-      font-size: smaller;
+  button {
+    transition: background-color 200ms ease-in-out;
 
-      &:hover {
-        background-color: var(--sage-bg);
-      }
+    &:hover {
+      background-color: var(--primary);
     }
+
+    border: unset;
+    border-radius: var(--border-radius);
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   .bottom {
@@ -91,8 +100,6 @@ function Aside() {
   const nav = <div className="nav">
     <div className="userContainer">
     </div>
-    {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
-    
     <div className="footer">
       <button onClick={handleNewChatClick}>+</button>
     </div>
@@ -100,15 +107,13 @@ function Aside() {
   
   return <AsideContainer>
     <div className="container">
-      <h2>conversations</h2>
-      {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
+      <div className="container-header">
+        <button onClick={handleNewChatClick}>+</button>
+      </div>
+      <div className="container-body">
+        <TimelineCard items={chats.map(chat => ({id: chat.id, display: chat.content[0]?.message ?? '', date: chat.created}))}/>
+      </div>
     </div>
-    <div className="container">
-      <h2>agents</h2>
-    </div>
-    <TimelineCard/>
-    <span>apis</span>
-    <span>spotify</span>
   </AsideContainer>
 }
 

@@ -2,18 +2,14 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4} from 'uuid'
 import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
 import {AuthoredContent, ContentDelta, createContent, Role} from '../../models/content';
-import {Conversation} from '../../models/conversation';
+import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 
-const initialState: Conversation[] = chats ?? [{
-  id: v4(),
-  content: [],
-  title: 'New Chat',
-} as Conversation];
+const initialState: Conversation[] = chats ?? [createConversation()];
 
 const name = 'chats';
 
@@ -125,11 +121,7 @@ export const chatsSlice = createSlice({
       return state;
     },
     startNewChat: (state, action: PayloadAction) => {
-      const newChat: Conversation = {
-        id: v4(),
-        content: [],
-        title: 'New Chat',
-      };
+      const newChat: Conversation = createConversation();
       state.push(newChat);
     },
     updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
