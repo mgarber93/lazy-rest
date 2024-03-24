@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import moment from 'moment';
 
 const Timeline = styled.ul`
   line-height: 1.5;
@@ -74,7 +75,7 @@ export function TimelineCard({items}: { items: Item[] }) {
         <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
       </svg>
       <div className={"TimelineItem-body"}>
-        <div>{item.date}</div>
+        <div>{moment(item.date).fromNow()}</div>
         <a>{item.display}</a>
       </div>
     </li>)}
