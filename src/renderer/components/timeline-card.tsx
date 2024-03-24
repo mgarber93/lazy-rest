@@ -1,27 +1,25 @@
 import styled from 'styled-components';
 import moment from 'moment';
-import {useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {useAppDispatch} from '../features/store';
 import {selectChat} from '../features/current-chat';
+import {createConversation} from '../../models/conversation';
+import {startNewChat} from '../features/chat';
 
 const Timeline = styled.ul`
   line-height: 1.5;
   padding-left: 0;
   margin: 4px 4px 1rem 4px;
   list-style: none;
-
   .timeline-dot {
     fill: var(--background-color-2);
     font-size: large;
     display: inline-block;
   }
-
   .TimelineItem::before {
     width: 1px
   }
-
   .TimelineItem::before {
-    //background-color: var(--background-color-2);
     background-color: var(--grey);
     bottom: -9px;
     content: "";
@@ -30,22 +28,35 @@ const Timeline = styled.ul`
     position: absolute;
     top: 9px;
   }
-
   .TimelineItem {
     display: flex;
     position: relative;
+    cursor: pointer;
   }
-
   .TimelineItem-body {
     flex: auto;
     max-width: 100%;
     min-width: 0;
     text-overflow: ellipsis;
     min-height: 3rem;
+
+    &.extend {
+      padding: 0.2rem;
+      z-index: 1;
+      min-height: 1.5rem;
+      background-color: var(--background-color-2);
+      max-width: fit-content;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--grey);
+      margin-bottom: 0.5rem;
+    }
+
+    &:hover {
+      background-color: var(--background-color-2);
+    }
   }
 
   path {
-    //fill: var(--background-color-2);
     fill: var(--grey)
   }
 
@@ -55,6 +66,10 @@ const Timeline = styled.ul`
   
   a:hover {
     text-decoration: underline !important;
+  }
+
+  .time {
+    color: var(--grey);
   }
 `;
 
@@ -77,13 +92,26 @@ function TimelineItem({item}: {item: Item}) {
     dispatch(selectChat(item.id))
   }, [dispatch, item])
   return <li key={item.id} className={"TimelineItem list-style-none"}>
-    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true"
-         className="octicon octicon-dot-fill">
+    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
       <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
     </svg>
     <div className={"TimelineItem-body"}>
-      <div>{moment(item.date).fromNow()}</div>
+      <div className={"time"}>{moment(item.date).fromNow()}</div>
       <a onClick={handleClick}>{item.display || 'new chat'}</a>
+    </div>
+  </li>
+}
+
+function TimelineExtend() {
+  const [item] = useState(createConversation('new'));
+  const dispatch = useAppDispatch();
+  const handleClick = useCallback(() => {
+    dispatch(startNewChat(item));
+    dispatch(selectChat(item.id))
+  }, [dispatch, item])
+  return <li key={item.id} className={"TimelineItem list-style-none"}>
+    <div className={"TimelineItem-body extend time"}>
+      <a onClick={handleClick}>{item.content[0]?.message || item.title}</a>
     </div>
   </li>
 }
@@ -92,6 +120,7 @@ export function TimelineCard({items}: { items: Item[] }) {
   const sorted = items
     .sort((a, b) => sortDate(a.date, b.date));
   return <Timeline>
+    <TimelineExtend/>
     {sorted.map(item => <TimelineItem item={item} key={item.id} />)}
   </Timeline>
 }

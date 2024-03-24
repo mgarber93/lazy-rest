@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {v4} from 'uuid'
 import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
 import {AuthoredContent, ContentDelta, createContent, Role} from '../../models/content';
 import {Conversation, createConversation} from '../../models/conversation';
@@ -123,9 +122,14 @@ export const chatsSlice = createSlice({
       chat.message += delta;
       return state;
     },
-    startNewChat: (state, action: PayloadAction) => {
-      const newChat: Conversation = createConversation();
-      state.push(newChat);
+    startNewChat: (state, action: PayloadAction<Conversation | null>) => {
+      if (action.payload) {
+        action.payload.created = Date()
+        state.push(action.payload);
+      } else {
+        const newChat: Conversation = createConversation();
+        state.push(newChat);
+      }
     },
     updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
       const chat = state.find(chat => chat.id === action.payload.id);
