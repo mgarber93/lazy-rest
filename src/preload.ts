@@ -39,7 +39,6 @@ contextBridge.exposeInMainWorld('main', {
       console.error(channel);
       return
     }
-    console.log(++count);
     ipcRenderer.addListener(channel, func);
   },
   remove: (channel: TChannel, func: (...args: any[]) => void) => {

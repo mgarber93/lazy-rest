@@ -45,16 +45,17 @@ export const streamResponse = createAsyncThunk(
     if (!response)
       return null
     
+    const channel = 'message-delta';
     const callBack = (electronEvent: any, authoredContentDelta: any) => {
-      const {chatId, messageId, delta} = authoredContentDelta;
+      const {chatId, messageId, delta, closed} = authoredContentDelta;
+      if (closed) {
+        window.main.remove(channel, callBack);
+        return
+      }
       thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
     };
-    console.log('subscribing')
-    const channel = 'message-delta';
     window.main.receive(channel, callBack);
     await window.main.streamedChat(conversation, response.id);
-    console.log('removing')
-    window.main.remove(channel, callBack);
   },
 )
 
