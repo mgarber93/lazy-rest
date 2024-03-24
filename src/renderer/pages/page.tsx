@@ -30,7 +30,7 @@ const Page = styled.div`
 const MainContent = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0 calc(22vw - var(--name-gutter)) 0 calc(18vw - var(--name-gutter));
+  padding: 0 var(--aside-nav) 0 calc(var(--name-gutter) / 4);
   height: 100%;
   min-width: -webkit-fill-available;
 `;
