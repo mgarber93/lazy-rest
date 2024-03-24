@@ -64,6 +64,7 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   for (const plannedCall of calls) {
     const specForPlannedCall = treeShake(oasSpec, calls);
     const executor = startAgentConversation("gpt-4-turbo-preview", user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
+    // @todo parsing plan
     const messages: ChatCompletionMessageParam[] = executor.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
     do {

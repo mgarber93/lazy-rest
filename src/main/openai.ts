@@ -65,6 +65,7 @@ export async function streamedChat(model: string, content: AuthoredContent[], ch
     const delta = chunk.choices[0]?.delta?.content || "";
     windowSender.send('message-delta', {delta, chatId, messageId} as ContentDelta)
   }
+  windowSender.send('message-delta', {delta: '', chatId, messageId});
 }
 
 
