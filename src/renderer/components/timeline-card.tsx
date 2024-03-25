@@ -68,6 +68,14 @@ const Timeline = styled.ul`
     text-decoration: underline !important;
   }
 
+  a {
+    display: inline-block;
+    max-width: 19rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .time {
     color: var(--grey);
   }
