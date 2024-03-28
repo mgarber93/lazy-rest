@@ -5,20 +5,24 @@ import {useAppDispatch} from '../features/store';
 import {selectChat} from '../features/current-chat';
 import {createConversation} from '../../models/conversation';
 import {startNewChat} from '../features/chat';
+import {CloseButton} from 'react-bootstrap';
 
 const Timeline = styled.ul`
   line-height: 1.5;
   padding-left: 0;
   margin: 4px 4px 1rem 4px;
   list-style: none;
+
   .timeline-dot {
     fill: var(--background-color-2);
     font-size: large;
     display: inline-block;
   }
+
   .TimelineItem::before {
     width: 1px
   }
+
   .TimelineItem::before {
     background-color: var(--grey);
     bottom: -9px;
@@ -28,11 +32,13 @@ const Timeline = styled.ul`
     position: absolute;
     top: 9px;
   }
+
   .TimelineItem {
     display: flex;
     position: relative;
     cursor: pointer;
   }
+
   .TimelineItem-body {
     flex: auto;
     max-width: 100%;
@@ -54,6 +60,18 @@ const Timeline = styled.ul`
     &:hover {
       background-color: var(--background-color-2);
     }
+
+
+  }
+
+  .time {
+    display: flex;
+  }
+
+  .right-align-button {
+    margin-left: auto;
+    height: 10px;
+    width: 10px;
   }
 
   path {
@@ -63,14 +81,14 @@ const Timeline = styled.ul`
   small {
     padding-top: unset;
   }
-  
+
   a:hover {
     text-decoration: underline !important;
   }
 
   a {
     display: inline-block;
-    max-width: 19rem;
+    max-width: 15rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,7 +113,6 @@ function sortDate(a: string, b: string) {
 
 function TimelineItem({item}: {item: Item}) {
   const dispatch = useAppDispatch();
-
   const handleClick = useCallback(() => {
     dispatch(selectChat(item.id))
   }, [dispatch, item])
@@ -104,7 +121,10 @@ function TimelineItem({item}: {item: Item}) {
       <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
     </svg>
     <div className={"TimelineItem-body"}>
-      <div className={"time"}>{moment(item.date).fromNow()}</div>
+      <div className={"time"}>
+        {moment(item.date).fromNow()}
+        <CloseButton className={"right-align-button"}/>
+      </div>
       <a onClick={handleClick}>{item.display || 'new chat'}</a>
     </div>
   </li>
