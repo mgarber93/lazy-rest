@@ -63,10 +63,11 @@ export async function streamedChat(model: string, content: AuthoredContent[], ch
   });
   for await (const chunk of stream) {
     const delta = chunk.choices[0]?.delta?.content || "";
+    process.stdout.write(delta);
     windowSender.send('message-delta', {delta, chatId, messageId} as ContentDelta)
   }
+  windowSender.send('message-delta', {delta: '', chatId, messageId, closed: true});
 }
-
 
 interface ToolParameter {
   type: 'object' | 'string' | 'number';

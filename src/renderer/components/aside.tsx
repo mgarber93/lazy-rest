@@ -1,56 +1,70 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ChatRoutableButton} from './chat-routable-button';
 import {startNewChat} from '../features/chat';
 import {RootState, useAppDispatch} from '../features/store';
 import {useSelector} from 'react-redux';
 import {Conversation} from '../../models/conversation';
 import styled from 'styled-components';
+import TimelineCard from './timeline-card';
 
 const AsideContainer = styled.div`
-  @media (min-width: 61rem) {
-    .nav {
-      border-right: 1px solid var(--background-color-0);
-      flex-direction: column;
-      justify-content: flex-start;
-      align-content: flex-start;
+  padding: 2rem 0.25rem;
+  font-size: small;
+  display: flex;
+  flex-direction: row;
+
+  .container {
+    h2 {
+      font-size: medium;
+      color: var(--dark-grey)
     }
+    padding: 0;
+    margin: 0;
+  }
+
+  .container-header {
+    background-color: var(--background-color-1);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top-left-radius: calc(var(--border-radius-emphasis) - 1rem);
+    border-top-right-radius: calc(var(--border-radius-emphasis) - 1rem);
+    border-bottom-right-radius: 0;
+  }
+
+  @media (min-width: 51rem) {
+    border-right: 1px solid var(--background-color-1);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
   }
 
   .user {
     user-select: none;
   }
 
-  .nav {
-    display: flex;
-    flex-direction: row;
-
-    .userContainer {
-      padding: 0.6rem 1.2rem;
-      min-height: 5vh;
-      font-size: larger;
-    }
-
-    .footer {
-      button {
-        background-color: unset;
-        width: 100%;
-        border: none;
-        text-align: center;
-        padding: 0.6rem 1.2rem;
-        font-size: smaller;
-
-        &:hover {
-          background-color: var(--sage-bg);
-        }
-      }
-    }
-
-    .bottom {
-      margin-top: auto;
-      bottom: 0;
-    }
+  .userContainer {
+    padding: 0.6rem 1.2rem;
+    min-height: 5vh;
+    font-size: larger;
   }
 
+  button {
+    transition: background-color 200ms ease-in-out;
+
+    &:hover {
+      background-color: var(--primary);
+    }
+
+    border: unset;
+    border-radius: var(--border-radius);
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .bottom {
+    margin-top: auto;
+    bottom: 0;
+  }
 `;
 
 function Aside() {
@@ -81,18 +95,18 @@ function Aside() {
   
   const nav = <div className="nav">
     <div className="userContainer">
-      {user ? <div className="user">{user}</div> : null}
     </div>
-    {chats.map(chat => <ChatRoutableButton key={chat.id} chat={chat}/>)}
-    
     <div className="footer">
       <button onClick={handleNewChatClick}>+</button>
     </div>
   </div>
   
-  
   return <AsideContainer>
-    {nav}
+    <div className="container">
+      <div className="container-body">
+        <TimelineCard items={chats.map(chat => ({id: chat.id, display: chat.content[0]?.message ?? '', date: chat.created}))}/>
+      </div>
+    </div>
   </AsideContainer>
 }
 

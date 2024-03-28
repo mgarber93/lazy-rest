@@ -39,15 +39,14 @@ contextBridge.exposeInMainWorld('main', {
       console.error(channel);
       return
     }
-    console.log(++count);
-    ipcRenderer.on(channel, func);
+    ipcRenderer.addListener(channel, func);
   },
   remove: (channel: TChannel, func: (...args: any[]) => void) => {
     if (!validChannels.includes(channel)) {
+      console.error(channel);
       return
     }
-    console.log(--count);
     // @todo rework to remove first argument for func. Maybe Record<TChannel, cb[]>?
-    ipcRenderer.removeListener(channel, func);
+    ipcRenderer.removeAllListeners(channel);
   },
 } as PreloadedApi)

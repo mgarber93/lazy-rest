@@ -1,19 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {v4} from 'uuid'
 import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
 import {AuthoredContent, ContentDelta, createContent, Role} from '../../models/content';
-import {Conversation} from '../../models/conversation';
+import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 
-const initialState: Conversation[] = chats ?? [{
-  id: v4(),
-  content: [],
-  title: 'New Chat',
-} as Conversation];
+const initialState: Conversation[] = chats ?? [createConversation()];
 
 const name = 'chats';
 
@@ -50,13 +45,17 @@ export const streamResponse = createAsyncThunk(
     if (!response)
       return null
     
+    const channel = 'message-delta';
     const callBack = (electronEvent: any, authoredContentDelta: any) => {
-      const {chatId, messageId, delta} = authoredContentDelta;
+      const {chatId, messageId, delta, closed} = authoredContentDelta;
+      if (closed) {
+        window.main.remove(channel, callBack);
+        return
+      }
       thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
     };
-    window.main.receive('message-delta', callBack);
+    window.main.receive(channel, callBack);
     await window.main.streamedChat(conversation, response.id);
-    window.main.remove('message-delta', callBack);
   },
 )
 
@@ -124,13 +123,14 @@ export const chatsSlice = createSlice({
       chat.message += delta;
       return state;
     },
-    startNewChat: (state, action: PayloadAction) => {
-      const newChat: Conversation = {
-        id: v4(),
-        content: [],
-        title: 'New Chat',
-      };
-      state.push(newChat);
+    startNewChat: (state, action: PayloadAction<Conversation | null>) => {
+      if (action.payload) {
+        action.payload.created = Date()
+        state.push(action.payload);
+      } else {
+        const newChat: Conversation = createConversation();
+        state.push(newChat);
+      }
     },
     updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
       const chat = state.find(chat => chat.id === action.payload.id);
@@ -190,6 +190,7 @@ export const chatsSlice = createSlice({
 export const {
   respond,
   startNewChat,
+  removeChat,
   selectModelChat,
   updateTitle,
   selectAutoPrompter,
