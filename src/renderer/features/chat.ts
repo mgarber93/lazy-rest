@@ -190,6 +190,7 @@ export const chatsSlice = createSlice({
 export const {
   respond,
   startNewChat,
+  removeChat,
   selectModelChat,
   updateTitle,
   selectAutoPrompter,
