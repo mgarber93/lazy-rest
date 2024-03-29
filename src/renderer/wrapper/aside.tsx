@@ -5,6 +5,7 @@ import {Conversation} from '../../models/conversation';
 import styled from 'styled-components';
 import TimelineCard from '../components/timeline-card';
 import {Card} from './card';
+import {AgentSelector} from './agent-selector';
 
 const AsideContainer = styled.div`
   padding: 1rem 0.5rem 0.5rem 0.5rem;
@@ -14,6 +15,7 @@ const AsideContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-content: flex-start;
+  gap: 1rem;
 `;
 
 function Aside() {
@@ -24,6 +26,7 @@ function Aside() {
         <TimelineCard items={chats}/>
       </div>
     </Card>
+    <AgentSelector/>
   </AsideContainer>
 }
 
