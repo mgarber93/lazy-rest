@@ -11,6 +11,7 @@ import {updateContextMenu} from '../features/context-menu';
 import Aside from '../components/aside';
 
 const Page = styled.div`
+  background-color: var(--background-color-0);
   @media (min-width: 61rem) {
     display: grid;
     grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
@@ -31,7 +32,8 @@ const MainContent = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-  min-width: -webkit-fill-available;
+  //min-width: -webkit-fill-available;
+  padding: 0rem 1rem 0 0.3rem;
 `;
 
 const NavPage = () => {
