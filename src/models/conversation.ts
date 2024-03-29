@@ -16,7 +16,26 @@ export interface Conversation {
   id: string;
   content: AuthoredContent[];
   title: string;
-  responder?: string;
-  autoPrompter?: TAutoPrompter;
+  responder?: Responder;
   created: string;
+}
+
+export interface Responder {
+  name: string;
+}
+
+export interface Model extends Responder {
+  provider: "openai" | "anthropic";
+  name: string;
+  baseUrl: string;
+  secret: string;
+}
+
+export interface Agent extends Model {
+  instructions: string;
+}
+
+export interface AgentOrg extends Responder {
+  name: string;
+  agents: Agent[];
 }
