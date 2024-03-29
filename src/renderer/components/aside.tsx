@@ -13,11 +13,15 @@ const AsideContainer = styled.div`
   flex-direction: row;
 
   .container {
+    border: 1px solid var(--background-color-2);
+    background-color: var(--background-color-1);
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+
     h2 {
       font-size: medium;
       color: var(--dark-grey)
     }
-    padding: 0;
     margin: 0;
   }
 

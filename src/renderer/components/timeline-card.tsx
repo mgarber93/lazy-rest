@@ -41,6 +41,7 @@ const Timeline = styled.ul`
   }
 
   .TimelineItem-body {
+    padding: 0 0.2rem;
     flex: auto;
     max-width: 100%;
     min-width: 0;
