@@ -108,7 +108,7 @@ function Aside() {
   return <AsideContainer>
     <div className="container">
       <div className="container-body">
-        <TimelineCard items={chats.map(chat => ({id: chat.id, display: chat.content[0]?.message ?? '', date: chat.created}))}/>
+        <TimelineCard items={chats}/>
       </div>
     </div>
   </AsideContainer>

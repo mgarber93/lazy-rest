@@ -1,12 +1,7 @@
 import styled from 'styled-components';
-import moment from 'moment';
-import {useCallback, useState} from 'react';
-import {CloseButton} from 'react-bootstrap';
-
-import {useAppDispatch} from '../features/store';
-import {selectChat} from '../features/current-chat';
-import {createConversation} from '../../models/conversation';
-import {removeChat, startNewChat} from '../features/chat';
+import {TimelineExtend, TimelineItem} from './timeline-card-item';
+import {Conversation} from '../../models/conversation';
+import {newestToOldest} from '../utils/sort-date';
 
 const Timeline = styled.ul`
   line-height: 1.5;
@@ -99,57 +94,9 @@ const Timeline = styled.ul`
   }
 `;
 
-export interface Item {
-  display: string;
-  date: string;
-  id: string;
-}
 
-function sortDate(a: string, b: string) {
-  const aDate = new Date(a);
-  const bDate = new Date(b);
-  return aDate < bDate ? 1 : aDate > bDate ? -1 : 0;
-}
-
-function TimelineItem({item}: {item: Item}) {
-  const dispatch = useAppDispatch();
-  const handleClick = useCallback(() => {
-    dispatch(selectChat(item.id))
-  }, [dispatch, item])
-  const handleRemoveChat = useCallback(() => {
-    dispatch(removeChat(item.id))
-  }, [dispatch, item])
-  return <li key={item.id} className={"TimelineItem list-style-none"}>
-    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
-      <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
-    </svg>
-    <div className={"TimelineItem-body"}>
-      <div className={"time"}>
-        {moment(item.date).fromNow()}
-        <CloseButton className={"right-align-button"} onClick={handleRemoveChat}/>
-      </div>
-      <a onClick={handleClick}>{item.display || 'new chat'}</a>
-    </div>
-  </li>
-}
-
-function TimelineExtend() {
-  const [item] = useState(createConversation('new'));
-  const dispatch = useAppDispatch();
-  const handleClick = useCallback(() => {
-    dispatch(startNewChat(item));
-    dispatch(selectChat(item.id))
-  }, [dispatch, item])
-  return <li key={item.id} className={"TimelineItem list-style-none"}>
-    <div className={"TimelineItem-body extend time"}>
-      <a onClick={handleClick}>{item.content[0]?.message || item.title}</a>
-    </div>
-  </li>
-}
-
-export function TimelineCard({items}: { items: Item[] }) {
-  const sorted = items
-    .sort((a, b) => sortDate(a.date, b.date));
+export function TimelineCard({items}: { items: Conversation[] }) {
+  const sorted = [...items].sort((a, b) => newestToOldest(a.created, b.created));
   return <Timeline>
     <TimelineExtend/>
     {sorted.map(item => <TimelineItem item={item} key={item.id} />)}
