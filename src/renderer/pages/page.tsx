@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {ConversationComponent} from '../components/conversation';
@@ -8,11 +8,12 @@ import {Conversation} from '../../models/conversation';
 import {selectChat} from '../features/current-chat';
 import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
-import Aside from '../components/aside';
+import Aside from '../wrapper/aside';
+import {Tabs} from '../wrapper/tabs';
 
 const Page = styled.div`
   background-color: var(--background-color-0);
-  @media (min-width: 61rem) {
+  &.aside {
     display: grid;
     grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
     grid-template-rows: auto 1fr auto;
@@ -32,7 +33,6 @@ const MainContent = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-  //min-width: -webkit-fill-available;
   padding: 0rem 1rem 0 0.3rem;
 `;
 
@@ -52,10 +52,27 @@ const NavPage = () => {
   const handleMouseUp = useCallback((e: MouseEvent) => {
     dispatch(updateContextMenu({visible: false, x: 0, y: 0, items: []}))
   }, [dispatch])
-  
+
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const navOnTop = (windowSize.width / windowSize.height) < 1.2
+
   return (
-    <Page onMouseUpCapture={handleMouseUp}>
-      <Aside/>
+    <Page onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
+      { navOnTop ? <Tabs /> : <Aside/> }
       <div className="main">
         <MainContent>
           <ConversationComponent/>
