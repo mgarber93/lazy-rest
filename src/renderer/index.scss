@@ -95,3 +95,7 @@ $bs-theme-colors: (
 );
 /* import bootstrap to set changes */
 @import '~bootstrap/scss/bootstrap';
+
+.sm-text {
+  font-size: small;
+}
