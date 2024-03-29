@@ -32,7 +32,7 @@ const StyledDiv = styled.div`
   border-image-slice: 1;
   color: var(--text-color);
   border: none;
-  padding: 1rem 0.2rem;
+  padding: 0.5rem 0.2rem;
   font-size: var(--bs-body-font-size);
 
   p {

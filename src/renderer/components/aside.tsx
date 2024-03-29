@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import TimelineCard from './timeline-card';
 
 const AsideContainer = styled.div`
-  padding: 2rem 0.25rem;
+  padding: 1rem 0.5rem 0.5rem 0.5rem;
   font-size: small;
   display: flex;
   flex-direction: row;
