@@ -1,9 +1,11 @@
 import {Button, ButtonGroup, Form} from 'react-bootstrap';
 import {Card} from './card';
 import {useCurrentConversation} from '../hooks/current-conversation';
-import {useAppSelector} from '../features/store';
-import {useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../features/store';
+import {Agent, AgentOrg, Conversation, isModelResponder} from '../../models/conversation';
+import {useCallback, useMemo, useState} from 'react';
 
+type TConversation = "none" | "chat" | "agent" | "organization";
 
 export function ModelSelector() {
   const {models} = useAppSelector(state => state.models)
@@ -15,9 +17,14 @@ export function ModelSelector() {
   </ButtonGroup>
 }
 
-function SelectResponderType() {
+function SelectResponderType(props: {setType: (str: TConversation) => void}) {
+  const {setType} = props;
+  const handleValueChange = useCallback((event: any) => {
+    setType(event.target.value)
+  }, [setType])
+
   return (
-    <Form.Select size="sm">
+    <Form.Select onChange={handleValueChange} size="sm">
       <option value="none">none</option>
       <option value="chat">chat</option>
       <option value="agent">agent</option>
@@ -26,17 +33,49 @@ function SelectResponderType() {
   );
 }
 
+function getResponderType(conversation: Conversation): TConversation {
+  if (conversation.responder === null) {
+    return "none";
+  }
+  if ((conversation.responder as AgentOrg).agents) {
+    return 'organization';
+  }
+  if (isModelResponder(conversation.responder)) {
+    if ((conversation.responder as Agent).instructions) {
+      return 'agent';
+    }
+    return 'chat';
+  }
+  return 'none';
+}
 
-/**
- * I want this component to allow the user to select a responder
- * A responder a graph of agents, such that a node is an agent and an edge is the process
- * flow
- */
+function agentSelectorForm(type: "none" | "chat" |  "agent" | "organization") {
+  switch (type) {
+    case "none": {
+      return null;
+    }
+    case "chat": {
+      return ModelSelector;
+    }
+    default: {
+      return null;
+    }
+  }
+}
+
 export function AgentSelector() {
-  const [type, setType] = useState('')
   const conversation = useCurrentConversation();
+  const [type, setType] = useState(getResponderType(conversation));
+  const dispatch = useAppDispatch();
+  const handleValueChange = useCallback((type: TConversation) => {
+    setType(type);
+  }, [setType]);
+
+  const form = agentSelectorForm(type);
   return <Card>
-    <SelectResponderType />
-    <ModelSelector />
+    <>
+      <SelectResponderType  setType={handleValueChange}/>
+      {form}
+    </>
   </Card>
 }

@@ -31,11 +31,14 @@ export interface Model extends Responder {
   secret: string;
 }
 
+export function isModelResponder(obj: any): obj is Model {
+  return obj.hasOwnProperty('provider') && obj.hasOwnProperty('name');
+}
+
 export interface Agent extends Model {
   instructions: string;
 }
 
 export interface AgentOrg extends Responder {
-  name: string;
   agents: Agent[];
 }
