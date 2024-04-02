@@ -1,9 +1,9 @@
 import {Button, ButtonGroup, Form} from 'react-bootstrap';
+import {useCallback, useState} from 'react';
 import {Card} from './card';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {useAppDispatch, useAppSelector} from '../features/store';
 import {Agent, AgentOrg, Conversation, isModelResponder} from '../../models/conversation';
-import {useCallback, useMemo, useState} from 'react';
 
 type TConversation = "none" | "chat" | "agent" | "organization";
 
@@ -55,7 +55,7 @@ function agentSelectorForm(type: "none" | "chat" |  "agent" | "organization") {
       return null;
     }
     case "chat": {
-      return ModelSelector;
+      return <ModelSelector/>;
     }
     default: {
       return null;
@@ -71,11 +71,10 @@ export function AgentSelector() {
     setType(type);
   }, [setType]);
 
-  const form = agentSelectorForm(type);
   return <Card>
     <>
       <SelectResponderType  setType={handleValueChange}/>
-      {form}
+      {agentSelectorForm(type)}
     </>
   </Card>
 }
