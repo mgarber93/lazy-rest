@@ -1,11 +1,11 @@
-import {useAppDispatch, useAppSelector} from '../../features/store';
 import {Form} from 'react-bootstrap';
+import {useCallback} from 'react';
+import styled from 'styled-components';
+import {useAppDispatch, useAppSelector} from '../../features/store';
 import {useCurrentConversation} from '../../hooks/current-conversation';
 import {Card} from '../card';
-import {useCallback} from 'react';
 import {setResponder} from '../../features/chat';
 import {createModelResponder, getModel} from '../../../models/responder';
-import styled from 'styled-components';
 
 const Label = styled.label`
   display: flex;
@@ -37,6 +37,7 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
         id={id}
         value={type}
         checked={type === selected}
+        readOnly
       />
       <span>{type}</span>
     </Label>
