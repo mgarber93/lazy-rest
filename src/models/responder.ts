@@ -23,9 +23,5 @@ export function createModelResponder(type: TResponder, model: string, provider: 
 }
 
 export function getModel(responder: Responder): string {
-  if ((responder as Model).model) {
-    return (responder as Model).model;
-  } else {
-    throw new Error('no model set');
-  }
+  return (responder as Model).model;
 }

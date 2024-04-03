@@ -4,7 +4,7 @@ import {useCurrentConversation} from '../../hooks/current-conversation';
 import {Card} from '../card';
 import {useCallback} from 'react';
 import {setResponder} from '../../features/chat';
-import {createModelResponder} from '../../../models/responder';
+import {createModelResponder, getModel} from '../../../models/responder';
 import styled from 'styled-components';
 
 const Label = styled.label`
@@ -12,6 +12,7 @@ const Label = styled.label`
   flex-direction: row;
   gap: 0.3rem;
   padding: 0.3rem;
+  user-select: none;
 `
 
 function ModelSelectRadio(props: { type: string, selected: string }) {
@@ -30,7 +31,7 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
   return <div className="mb-1">
     <Label htmlFor={id}>
       <input
-        onChange={handleModelChange}
+        onClick={handleModelChange}
         type={"radio"}
         name="model-selection"
         id={id}
@@ -43,10 +44,12 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
 }
 
 export function ModelSelector() {
+  const currentConversation = useCurrentConversation();
+  const selectedType = getModel(currentConversation.responder);
   const {models} = useAppSelector(state => state.models);
   return <Card>
     <Form>
-      {models.map((type) => <ModelSelectRadio key={type} selected={type} type={type}/>)}
+      {models.map((type) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
     </Form>
   </Card>;
 }
