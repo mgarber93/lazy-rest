@@ -1,60 +1,28 @@
-import {agentWithHttp, chat} from './openai';
 import {loadOasSpec} from './oas-loader';
-import {Conversation, createConversation} from '../models/conversation';
-import {apiPlanner} from '../prompts/api-planner';
-import {apiSelector} from '../prompts/api-selector';
-import {copy, createContent} from '../models/content';
-import {buildCallerPrompt} from '../prompts/api-caller';
+import {Conversation} from '../models/conversation';
 import {oasToDescriptions, treeShake} from './oas-filter';
 import {parseCalls} from './utils';
 import {get} from './api/spotify';
 import OpenAI from 'openai';
 import {ChatCompletionMessageParam} from 'openai/resources';
 import windowSender from './window-sender';
+import {startAgentConversation} from './agent';
+import {chat} from './api/api';
+import {agentWithHttp} from './api/openai';
+import {getModel} from '../models/responder';
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 
 
 export type TAgent = "planner" | "selector" | "executor";
 
-type TResponder = "gpt-4-turbo-preview" | "gpt-3.5-turbo";
-
-function startAgentConversation(responder: TResponder, user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
-  const conversation = createConversation() as Conversation;
-  const userContent = user.content[user.content.length - 1]; // assume user request is the last message
-  let plannerMessage;
-  switch (agent) {
-    case "planner": {
-      plannerMessage = apiPlanner('spotify');
-      break;
-    }
-    case "selector": {
-      if (!endpoints)
-        throw new Error('no endpoints')
-      if (!roughPlan)
-        throw new Error('no rough plan')
-      plannerMessage = apiSelector('spotify', endpoints, roughPlan);
-      break;
-    }
-    case "executor": {
-      plannerMessage = buildCallerPrompt(userContent.message, endpoints);
-      break;
-    }
-  }
-  const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
-  conversation.content.push(plan);
-  conversation.responder = responder
-  conversation.content.push(copy(userContent));
-  return conversation;
-}
-
 export async function apiAgentLoop(user: Conversation): Promise<{ content: string, role: string }> {
-  const planner = startAgentConversation("gpt-3.5-turbo", user, "planner");
+  const planner = startAgentConversation(user, "planner");
   const plan = await chat(planner.responder, planner.content);
   console.log(`p1:`, plan.content);
   const oasSpec = await loadOasSpec('spotify');
   const filtered = oasToDescriptions(oasSpec)
   
-  const selector = startAgentConversation("gpt-4-turbo-preview", user, 'selector', JSON.stringify(filtered, null, 2), plan.content);
+  const selector = startAgentConversation(user, 'selector', JSON.stringify(filtered, null, 2), plan.content);
   const selectedPlan = await chat(selector.responder, selector.content);
   console.log(`a1:`, selectedPlan.content);
   
@@ -63,12 +31,13 @@ export async function apiAgentLoop(user: Conversation): Promise<{ content: strin
   
   for (const plannedCall of calls) {
     const specForPlannedCall = treeShake(oasSpec, calls);
-    const executor = startAgentConversation("gpt-4-turbo-preview", user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
+    const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
     // @todo parsing plan
     const messages: ChatCompletionMessageParam[] = executor.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
     do {
-      toolPlan = await agentWithHttp(executor.responder, messages);
+      const model = getModel(executor.responder);
+      toolPlan = await agentWithHttp(model, messages);
       messages.push(toolPlan);
       for (const toolCall of toolPlan?.tool_calls ?? []) {
         const {function: functionCall, id} = toolCall;

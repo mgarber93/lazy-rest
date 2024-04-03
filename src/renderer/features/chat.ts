@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AuthoredContent, ContentDelta} from '../../models/content';
-import {Conversation, createConversation, Responder} from '../../models/conversation';
+import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
+import {Responder} from '../../models/responder';
 
 
 const serializedChats = localStorage.getItem('chats')

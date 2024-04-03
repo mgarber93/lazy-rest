@@ -9,7 +9,7 @@ const initialState = {
 export const listModels = createAsyncThunk(
   `${name}/listModels`,
   async () => {
-    const models = await window.main.getModels();
+    const models = await window.main.getModels('openai');
     return models.split(',');
   },
 )

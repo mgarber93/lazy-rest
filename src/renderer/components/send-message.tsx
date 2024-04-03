@@ -10,14 +10,15 @@ const SendMessageContainer = styled.div`
   margin-top: auto;
   bottom: 0.5rem;
   flex-direction: row;
-  display: grid;
-  grid-template-columns: var(--name-gutter) 1fr;
   background-color: var(--background-color-1);
   border: 1px solid var(--background-color-2);
+  width: 871px;
+  height: fit-content;
+  display: flex;
 `;
 
 function mapResponderToPlaceholder(responder: Responder) {
-  switch (responder.type) {
+  switch (responder?.type ?? '') {
     case "chat": {
       return `Message ${(responder as Model)?.model}`
     }
@@ -25,8 +26,6 @@ function mapResponderToPlaceholder(responder: Responder) {
       return `Select a model`;
   }
 }
-
-
 
 export function SendMessage() {
   const currentUser = useAppSelector(state => state.user.username);
@@ -41,9 +40,6 @@ export function SendMessage() {
   const placeholder = mapResponderToPlaceholder(currentConversation.responder);
   return (
     <SendMessageContainer>
-      <p className={"author user"}>
-        {currentUser}
-      </p>
       <UserInputText placeholder={placeholder}/>
     </SendMessageContainer>
   );

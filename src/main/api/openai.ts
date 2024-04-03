@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
-import {AuthoredContent, ContentDelta, isToolCall} from '../models/content';
 import {ChatCompletionMessageParam} from 'openai/resources';
-import windowSender from './window-sender';
+import {AuthoredContent, ContentDelta, isToolCall} from '../../models/content';
+import windowSender from '../window-sender';
 
 
 if (!process.env['OPENAI_API_KEY']) {
@@ -40,7 +40,7 @@ export function mapAuthoredContentToChatCompletion(content: AuthoredContent): Ch
 }
 
 
-export async function chat(model: string, content: AuthoredContent[]): Promise<{
+export async function prompt(model: string, content: AuthoredContent[]): Promise<{
   role: "system" | "assistant" | "user",
   content: string
 }> {
@@ -53,7 +53,7 @@ export async function chat(model: string, content: AuthoredContent[]): Promise<{
   return chatCompletion.choices[0].message;
 }
 
-export async function streamedChat(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<void> {
+export async function streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<void> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
   const stream = await openai.chat.completions.create({

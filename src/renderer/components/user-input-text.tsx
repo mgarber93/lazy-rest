@@ -9,19 +9,16 @@ import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useSta
 import {getModel} from '../../models/responder';
 
 const TextArea = styled.textarea`
+  width: 100%;
   resize: none;
   background-color: var(--background-color-2);
   color: var(--text-color);
-  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
   font-size: larger;
   outline: none;
-  height: 100%;
-  border-left: none;
   border-radius: var(--border-radius);
   border: 1px solid var(--background-color-1);
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  margin-left: -1px;
+  height: fit-content;
+  margin: 0;
 `
 
 export function UserInputText({placeholder}: { placeholder: string }) {
