@@ -4,9 +4,9 @@ import {User} from '../../models/user';
 import {listModels} from '../features/models';
 import {createContent} from '../../models/content';
 import {respond, streamResponse} from '../features/chat';
-import {ContextItem, updateContextMenu} from '../features/context-menu';
 import styled from 'styled-components';
-import {ChangeEventHandler, KeyboardEventHandler, MouseEventHandler, useCallback, useEffect, useState} from 'react';
+import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react';
+import {getModel} from '../../models/responder';
 
 const TextArea = styled.textarea`
   resize: none;
@@ -29,7 +29,6 @@ export function UserInputText({placeholder}: { placeholder: string }) {
   const dispatch = useAppDispatch();
   const currentConversation = useCurrentConversation();
   const user = useAppSelector((state) => state.user) as User;
-  const models = useAppSelector(state => state.models.models);
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
@@ -43,7 +42,7 @@ export function UserInputText({placeholder}: { placeholder: string }) {
       e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
       dispatch(respond(prompt))
-      const placeHolder = createContent('', currentConversation.id, currentConversation.responder.name, 'assistant')
+      const placeHolder = createContent('', currentConversation.id, getModel(currentConversation.responder), 'assistant')
       dispatch(respond(placeHolder));
       dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}));
       setValue('');

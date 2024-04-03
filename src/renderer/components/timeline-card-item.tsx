@@ -24,7 +24,7 @@ export function TimelineItem({item}: { item: Conversation }) {
         {moment(item.created).fromNow()}
         <CloseButton className={"right-align-button"} onClick={handleRemoveChat}/>
       </div>
-      <a onClick={handleClick}>{item.content?.[0]?.message || item.title}</a>
+      <a onClick={handleClick}>{item.content?.[0]?.message || item.id}</a>
     </div>
   </li>
 }

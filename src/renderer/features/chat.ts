@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AuthoredContent, ContentDelta} from '../../models/content';
-import {Conversation, createConversation, Model, Responder} from '../../models/conversation';
+import {Conversation, createConversation, Responder} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 
 
@@ -131,6 +131,7 @@ export const {
   selectAutoPrompter,
   removeAutoPrompter,
   appendDelta,
+  setResponder,
 } = chatsSlice.actions;
 
 

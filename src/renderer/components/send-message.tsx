@@ -1,15 +1,9 @@
-import React, {ChangeEvent, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useAppSelector} from '../features/store';
 import {useCurrentConversation} from '../hooks/current-conversation';
-import {Conversation} from '../../models/conversation';
 import {UserInputText} from './user-input-text';
-import {MessageRoleSelector} from './send-role-selector';
-import {removeAutoPrompter, respond, selectAutoPrompter, selectModelChat} from '../features/chat';
-import {createContent} from '../../models/content';
-import {apiPlanner} from '../../prompts/api-planner';
-import {markdownInstructions} from '../../prompts/enhanced-md';
-import {Card} from '../wrapper/card';
+import {Model, Responder} from '../../models/responder';
 
 const SendMessageContainer = styled.div`
   position: sticky;
@@ -22,10 +16,16 @@ const SendMessageContainer = styled.div`
   border: 1px solid var(--background-color-2);
 `;
 
-function shouldAllowSystem(conversation: Conversation) {
-  const messages = conversation?.content ?? [];
-  return messages.length === 0;
+function mapResponderToPlaceholder(responder: Responder) {
+  switch (responder.type) {
+    case "chat": {
+      return `Message ${(responder as Model)?.model}`
+    }
+    default:
+      return `Select a model`;
+  }
 }
+
 
 
 export function SendMessage() {
@@ -37,16 +37,14 @@ export function SendMessage() {
   const [roles, setRoles] = useState([{value: "user", display: currentUser}])
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
   const [role, setRole] = useState("user")
-
-  const responderPlaceholder = currentConversation?.responder
-    ? `Message ${currentConversation?.responder}` : 'Right click to set model';
-  const placeholder = `Right click to set preset or type here`;
+  
+  const placeholder = mapResponderToPlaceholder(currentConversation.responder);
   return (
     <SendMessageContainer>
       <p className={"author user"}>
         {currentUser}
       </p>
-      <UserInputText placeholder={role === 'system' ? placeholder : responderPlaceholder}/>
+      <UserInputText placeholder={placeholder}/>
     </SendMessageContainer>
   );
 }
