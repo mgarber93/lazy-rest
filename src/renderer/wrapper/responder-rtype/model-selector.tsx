@@ -27,7 +27,6 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
     }))
   }, [dispatch, type, currentConversation]);
   const id = `${type}-radio-selector`;
-  
   return <div className="mb-1">
     <Label htmlFor={id}>
       <input

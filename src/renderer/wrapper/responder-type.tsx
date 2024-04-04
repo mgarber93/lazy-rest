@@ -4,6 +4,8 @@ import {useCurrentConversation} from '../hooks/current-conversation';
 import {ModelSelector} from './responder-rtype/model-selector';
 import {TResponder} from '../../models/responder';
 import {SelectResponderType} from './responder-rtype/select-responder-type';
+import {AgentSelector} from './responder-rtype/agent-selector';
+import {OrganizationSelector} from './responder-rtype/organization-selector';
 
 
 function agentSelectorForm(type: TResponder) {
@@ -11,8 +13,14 @@ function agentSelectorForm(type: TResponder) {
     case "chat": {
       return <ModelSelector/>;
     }
+    case "agent": {
+      return <AgentSelector/>;
+    }
+    case "organization": {
+      return <OrganizationSelector/>
+    }
     default: {
-      return null;
+      throw new Error(`unimplemented agent ${type}`)
     }
   }
 }
@@ -24,7 +32,7 @@ export function ResponderType() {
   const handleValueChange = useCallback((type: TResponder) => {
     setType(type);
   }, [setType]);
-
+  
   return <Card>
     <>
       <SelectResponderType type={type as TResponder} setType={handleValueChange}/>

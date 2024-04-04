@@ -12,7 +12,6 @@ export function oasToDescriptions(oasSpec: OpenApiSpec): object {
   const spec = {};
   for (const key in oasSpec.paths) {
     const endpoint = oasSpec.paths[key];
-    
     if (endpoint.get?.description) {
       setEndpointDescription(spec, key, 'get', endpoint.get.description);
     }

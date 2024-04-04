@@ -1,4 +1,4 @@
-export type TResponder = "chat";
+export type TResponder = "chat" | "agent" | "organization";
 export type TProvider = "openai" | "anthropic";
 
 export interface Responder {

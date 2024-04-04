@@ -10,8 +10,9 @@ export function SelectResponderType(props: { type: TResponder, setType: (str: TR
   
   return (
     <Form.Select value={type} onChange={handleValueChange} size="sm">
-      <option value="none">none</option>
       <option value="chat">chat</option>
+      <option value="agent">agent</option>
+      <option value="organization">organization</option>
     </Form.Select>
   );
 }
