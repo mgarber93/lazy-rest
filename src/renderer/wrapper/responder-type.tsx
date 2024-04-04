@@ -1,10 +1,9 @@
 import {useCallback, useState} from 'react';
 import {Card} from './card';
 import {useCurrentConversation} from '../hooks/current-conversation';
-import {useAppDispatch} from '../features/store';
-import {ModelSelector} from './agent-selector/model-selector';
+import {ModelSelector} from './responder-rtype/model-selector';
 import {TResponder} from '../../models/responder';
-import {SelectResponderType} from './agent-selector/select-responder-type';
+import {SelectResponderType} from './responder-rtype/select-responder-type';
 
 
 function agentSelectorForm(type: TResponder) {
@@ -18,11 +17,10 @@ function agentSelectorForm(type: TResponder) {
   }
 }
 
-export function AgentSelector() {
+export function ResponderType() {
   const conversation = useCurrentConversation();
   const initialState = conversation?.responder?.type ?? 'none';
   const [type, setType] = useState(initialState);
-  const dispatch = useAppDispatch();
   const handleValueChange = useCallback((type: TResponder) => {
     setType(type);
   }, [setType]);
