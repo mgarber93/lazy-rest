@@ -24,6 +24,7 @@
   --time: 2s;
   --height: 35px;
   --font: 20px;
+  --border-color: #fff1;
   --border-radius: 0.2rem;
   --border-radius-emphasis: 2rem;
   --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
@@ -49,6 +50,7 @@
     --sage: #ecff6d;
     --moonstone: #253434;
     --accent-text: var(--moonstone);
+    --border-color: #0001;
   }
 }
 
@@ -98,4 +100,8 @@ $bs-theme-colors: (
 
 .sm-text {
   font-size: small;
+}
+
+html, body, #root, #root > div {
+  height: 100%
 }

@@ -19,6 +19,7 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 1080,
     width: 1920,
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },

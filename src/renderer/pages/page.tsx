@@ -16,12 +16,10 @@ const Page = styled.div`
   &.aside {
     display: grid;
     grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
-    grid-template-rows: auto 1fr auto;
   }
   height: 100%;
   .main {
     grid-column: 2;
-    height: 100vh;
     display: flex;
     justify-content: center;
     overflow-x: hidden;
@@ -36,7 +34,7 @@ const MainContent = styled.div`
   padding: 0rem 1rem 0 0.3rem;
 `;
 
-const NavPage = () => {
+const ConversationPage = () => {
   const dispatch = useAppDispatch();
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
   const currentChat = useAppSelector((state) => state.currentChat);
@@ -73,14 +71,12 @@ const NavPage = () => {
   return (
     <Page onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
       { navOnTop ? <Tabs /> : <Aside/> }
-      <div className="main">
-        <MainContent>
-          <ConversationComponent/>
-        </MainContent>
-      </div>
+      <MainContent>
+        <ConversationComponent/>
+      </MainContent>
       <ContextMenu/>
     </Page>
   );
 }
 
-export default NavPage;
+export default ConversationPage;
