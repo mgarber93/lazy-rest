@@ -10,8 +10,15 @@ import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
 import Aside from '../wrapper/aside';
 import {Tabs} from '../wrapper/tabs';
+import {Header} from '../wrapper/header';
 
-const Page = styled.div`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+const Conversations = styled.div`
   background-color: var(--background-color-0);
   &.aside {
     display: grid;
@@ -69,13 +76,16 @@ const ConversationPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <Page onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
-      { navOnTop ? <Tabs /> : <Aside/> }
-      <MainContent>
-        <ConversationComponent/>
-      </MainContent>
-      <ContextMenu/>
-    </Page>
+    <Container>
+      <Header/>
+      <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
+        {navOnTop ? <Tabs/> : <Aside/>}
+        <MainContent>
+          <ConversationComponent/>
+        </MainContent>
+        <ContextMenu/>
+      </Conversations>
+    </Container>
   );
 }
 
