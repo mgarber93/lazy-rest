@@ -20,7 +20,7 @@ function agentSelectorForm(type: TResponder) {
       return <OrganizationSelector/>
     }
     default: {
-      throw new Error(`unimplemented agent ${type}`)
+      return null
     }
   }
 }

@@ -37,7 +37,7 @@ export function SendMessage() {
   // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
   const [role, setRole] = useState("user")
   
-  const placeholder = mapResponderToPlaceholder(currentConversation.responder);
+  const placeholder = mapResponderToPlaceholder(currentConversation?.responder);
   return (
     <SendMessageContainer>
       <UserInputText placeholder={placeholder}/>
