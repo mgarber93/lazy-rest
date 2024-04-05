@@ -1,19 +1,11 @@
-import {Header} from '../wrapper/header';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
+import {PageContainer} from '../wrapper/responder-rtype/page-container';
 
 export function Home() {
   return (
-    <Container>
-      <Header/>
+    <PageContainer>
       <div>
         <h1>Welcome to the Home page!</h1>
       </div>
-    </Container>
+    </PageContainer>
   );
 }

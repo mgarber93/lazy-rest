@@ -10,13 +10,7 @@ import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
 import Aside from '../wrapper/aside';
 import {Tabs} from '../wrapper/tabs';
-import {Header} from '../wrapper/header';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
+import {PageContainer} from '../wrapper/responder-rtype/page-container';
 
 const Conversations = styled.div`
   background-color: var(--background-color-0);
@@ -76,8 +70,7 @@ const ConversationPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <Container>
-      <Header/>
+    <PageContainer>
       <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
         {navOnTop ? <Tabs/> : <Aside/>}
         <MainContent>
@@ -85,7 +78,7 @@ const ConversationPage = () => {
         </MainContent>
         <ContextMenu/>
       </Conversations>
-    </Container>
+    </PageContainer>
   );
 }
 

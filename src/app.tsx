@@ -6,7 +6,6 @@ import ConversationPage from './renderer/pages/conversations';
 import {store} from './renderer/features/store'
 import {Home} from './renderer/pages/home';
 
-
 const container = document.getElementById('root');
 const root = createRoot(container);
 
