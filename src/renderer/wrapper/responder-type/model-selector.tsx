@@ -49,7 +49,7 @@ export function ModelSelector() {
   const {models} = useAppSelector(state => state.models);
   return <Card>
     <Form>
-      {models.map((type) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
+      {models.map((type: string) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
     </Form>
   </Card>;
 }
