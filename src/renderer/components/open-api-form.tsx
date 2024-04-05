@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import {OpenAiConfiguration} from '../../models/provider-config';
+import {configureOpenAi} from '../features/models';
+import {useAppDispatch, useAppSelector} from '../features/store';
 
 
 function OpenAiConfigForm() {
-  const [apiKey, setApiKey] = useState('');
-  const [baseUrl, setBaseUrl] = useState('');
+  const providerConfig = useAppSelector(state => state.models.providers.openAi);
+  const dispatch = useAppDispatch();
+  const [apiKey, setApiKey] = useState(providerConfig?.apiKey ?? '');
+  const [baseUrl, setBaseUrl] = useState(providerConfig?.baseUrl ?? '');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const config: OpenAiConfiguration = {apiKey, baseUrl};
-    console.log(config);
-    setApiKey('');
-    setBaseUrl('');
+    dispatch(configureOpenAi(config));
   };
   return (
     <Form onSubmit={handleSubmit}>

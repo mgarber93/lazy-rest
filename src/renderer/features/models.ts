@@ -3,14 +3,18 @@ import {OpenAiConfiguration} from '../../models/provider-config';
 
 const name = 'models';
 
-const initialState = {
+const defaultState = {
   models: [] as string[],
   providers: {
-    openAi: null,
-    anthropic: null,
-  } as Record<string, object | null>,
+    openAi: null as OpenAiConfiguration,
+    anthropic: null as object,
+  },
   organizations: [""],
 }
+
+const serializedModels = localStorage.getItem('models');
+const deserializedState = JSON.parse(serializedModels);
+const initialState = deserializedState ?? defaultState;
 
 export const listModels = createAsyncThunk(
   `${name}/listModels`,
@@ -37,3 +41,6 @@ export const modelsSlice = createSlice({
     });
   },
 })
+
+
+export const {configureOpenAi} = modelsSlice.actions;

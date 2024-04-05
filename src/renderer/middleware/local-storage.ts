@@ -3,8 +3,10 @@ import {Dispatch} from 'react';
 
 export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
   const result = next(action);
-  localStorage.setItem('user', JSON.stringify(store.getState().user));
-  localStorage.setItem('chats', JSON.stringify(store.getState().chats));
-  localStorage.setItem('currentChat', JSON.stringify(store.getState().currentChat));
+  const {user, chats, currentChat, models} = store.getState();
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('chats', JSON.stringify(chats))
+  localStorage.setItem('currentChat', JSON.stringify(currentChat));
+  localStorage.setItem('models', JSON.stringify(models));
   return result;
 };
