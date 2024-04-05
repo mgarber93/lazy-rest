@@ -4,7 +4,7 @@ import {removeChat, startNewChat} from '../features/chat';
 import moment from 'moment';
 import {CloseButton} from 'react-bootstrap';
 import {Conversation, createConversation} from '../../models/conversation';
-import {useCallback, useState} from 'react';
+import {useCallback} from 'react';
 
 export function TimelineItem({item}: { item: Conversation }) {
   const dispatch = useAppDispatch();
@@ -30,15 +30,15 @@ export function TimelineItem({item}: { item: Conversation }) {
 }
 
 export function TimelineExtend() {
-  const [item] = useState(createConversation('new'));
   const dispatch = useAppDispatch();
   const handleClick = useCallback(() => {
-    dispatch(startNewChat(item));
+    const item = createConversation('new');
+    dispatch(startNewChat());
     dispatch(selectChat(item.id))
-  }, [dispatch, item])
-  return <li key={item.id} className={"TimelineItem list-style-none"}>
+  }, [dispatch])
+  return <li className={"TimelineItem list-style-none"}>
     <div className={"TimelineItem-body extend time"}>
-      <a onClick={handleClick}>{item.content?.[0]?.message || item.title}</a>
+      <a onClick={handleClick}>new</a>
     </div>
   </li>
 }
