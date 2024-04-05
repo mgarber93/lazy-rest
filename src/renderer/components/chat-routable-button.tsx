@@ -74,5 +74,4 @@ export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {
       readOnly={isDisabled}
     />
   </div>
-  
 }

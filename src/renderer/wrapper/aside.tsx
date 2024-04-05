@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import {Conversation} from '../../models/conversation';
 import styled from 'styled-components';
 import TimelineCard from '../components/timeline-card';
-import {Card} from './card';
+import {ResponderType} from './responder-type';
 
 const AsideContainer = styled.div`
   padding: 1rem 0.5rem 0.5rem 0.5rem;
@@ -14,16 +14,15 @@ const AsideContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-content: flex-start;
+  gap: 1rem;
 `;
 
 function Aside() {
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
   return <AsideContainer>
-    <Card>
-      <div className="container-body">
-        <TimelineCard items={chats}/>
-      </div>
-    </Card>
+    <TimelineCard items={chats}/>
+
+    <ResponderType/>
   </AsideContainer>
 }
 

@@ -10,18 +10,16 @@ import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
 import Aside from '../wrapper/aside';
 import {Tabs} from '../wrapper/tabs';
+import {PageContainer} from '../wrapper/responder-type/page-container';
 
-const Page = styled.div`
-  background-color: var(--background-color-0);
+const Conversations = styled.div`
   &.aside {
     display: grid;
     grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
-    grid-template-rows: auto 1fr auto;
   }
   height: 100%;
   .main {
     grid-column: 2;
-    height: 100vh;
     display: flex;
     justify-content: center;
     overflow-x: hidden;
@@ -36,7 +34,7 @@ const MainContent = styled.div`
   padding: 0rem 1rem 0 0.3rem;
 `;
 
-const NavPage = () => {
+const ConversationPage = () => {
   const dispatch = useAppDispatch();
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[];
   const currentChat = useAppSelector((state) => state.currentChat);
@@ -71,16 +69,16 @@ const NavPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <Page onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
-      { navOnTop ? <Tabs /> : <Aside/> }
-      <div className="main">
+    <PageContainer>
+      <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
+        {navOnTop ? <Tabs/> : <Aside/>}
         <MainContent>
           <ConversationComponent/>
         </MainContent>
-      </div>
-      <ContextMenu/>
-    </Page>
+        <ContextMenu/>
+      </Conversations>
+    </PageContainer>
   );
 }
 
-export default NavPage;
+export default ConversationPage;

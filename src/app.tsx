@@ -1,18 +1,22 @@
 import {createRoot} from 'react-dom/client';
 import React from 'react';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import NavPage from './renderer/pages/page';
+import ConversationPage from './renderer/pages/conversations';
 import {store} from './renderer/features/store'
+import {Home} from './renderer/pages/home';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "*",
-    element: <NavPage/>,
+    element: <Home/>,
+  },
+  {
+    path: "/conversations",
+    element: <ConversationPage/>,
   },
 ]);
 
@@ -20,7 +24,7 @@ const App = () => (
   <Provider store={store}>
     <RouterProvider router={router}/>
   </Provider>
-);
+)
 
 
 root.render(<React.StrictMode><App/></React.StrictMode>);

@@ -1,35 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
-import {AuthoredContent, ContentDelta, createContent, Role} from '../../models/content';
+import {AuthoredContent, ContentDelta} from '../../models/content';
 import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
+import {Responder} from '../../models/responder';
 
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
-
 const initialState: Conversation[] = chats ?? [createConversation()];
-
 const name = 'chats';
-
-export const generateResponse = createAsyncThunk(
-  `${name}/generateResponse`,
-  async (conversationId: string, thunkAPI) => {
-    const state = thunkAPI.getState() as { chats: Conversation[] };
-    const conversation = state.chats.find(chat => chat.id === conversationId);
-    // Cant respond unless a responder is set and an auto prompter isn't
-    if (!conversation || !conversation.responder || conversation.autoPrompter) {
-      return null;
-    }
-    const responseMessage = await window.main.chat(conversation);
-    return {
-      role: responseMessage.role,
-      content: responseMessage.content,
-      chatId: conversation.id,
-      model: conversation.responder,
-    };
-  },
-);
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
@@ -38,7 +17,7 @@ export const streamResponse = createAsyncThunk(
     const state = thunkAPI.getState() as { chats: Conversation[] };
     const conversation = state.chats.find(chat => chat.id === conversationId);
     // Cant respond unless a responder is set and an auto prompter isn't
-    if (!conversation || !conversation.responder || conversation.autoPrompter)
+    if (!conversation || !conversation.responder)
       return null;
     
     const response = conversation.content.find(content => content.id === contentId)
@@ -59,36 +38,6 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
-export const autoPrompt = createAsyncThunk(
-  `${name}/autoPrompt`,
-  async (arg: { conversationId: string }, thunkAPI: GetThunkAPI<AsyncThunkConfig>) => {
-    const state = thunkAPI.getState() as { chats: Conversation[] };
-    const {conversationId} = arg;
-    const conversation = state.chats.find(chat => chat.id === conversationId);
-    if (!conversation || !conversation.autoPrompter) {
-      return null;
-    }
-    const callBack = () => {
-    }
-    
-    window.main.receive('tool-request', callBack);
-    switch (conversation.autoPrompter) {
-      case "execute plan": {
-        throw new Error('Not implemented');
-      }
-    }
-    
-    window.main.remove('tool-request', callBack)
-    const serializedResponse = await window.main.apiAutoPrompt(conversation)
-    const responseMessage = serializedResponse;
-    return {
-      role: responseMessage.role,
-      content: responseMessage.content,
-      chatId: conversation.id,
-      model: conversation.responder,
-    };
-  },
-)
 
 export const chatsSlice = createSlice({
   name,
@@ -125,8 +74,8 @@ export const chatsSlice = createSlice({
     },
     startNewChat: (state, action: PayloadAction<Conversation | null>) => {
       if (action.payload) {
-        action.payload.created = Date()
-        state.push(action.payload);
+        const newChat = {...action.payload, created: Date()};
+        state.push(newChat);
       } else {
         const newChat: Conversation = createConversation();
         state.push(newChat);
@@ -144,7 +93,7 @@ export const chatsSlice = createSlice({
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload);
     },
-    selectModelChat: (state, action: PayloadAction<{ chat: string, model: string }>) => {
+    selectModelChat: (state, action: PayloadAction<{ chat: string, model: Responder }>) => {
       const {chat, model} = action.payload;
       const conversationIndex = state.findIndex(conversation => conversation.id === chat);
       if (conversationIndex === -1) {
@@ -155,34 +104,21 @@ export const chatsSlice = createSlice({
     selectAutoPrompter: (state, action: PayloadAction<{ chatId: string, model: TAutoPrompter }>) => {
       const {chatId} = action.payload;
       const chat = state.find(chat => chat.id === chatId);
-      chat.autoPrompter = action.payload.model;
     },
     removeAutoPrompter: (state, action: PayloadAction<{ chatId: string }>) => {
       const {chatId} = action.payload;
       const chat = state.find(chat => chat.id === chatId);
-      chat.autoPrompter = undefined;
+    },
+    setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
+      const {chatId, responder} = action.payload;
+      const foundChat = state.find(chat => chat.id === chatId);
+      if (!foundChat) {
+        console.error('no matching chat found when setting responder')
+      }
+      foundChat.responder = responder;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(generateResponse.fulfilled, (state, action) => {
-      const {role, content, chatId, model} = action.payload;
-      const authoredContent = createContent(content, chatId, model, role as Role)
-      const conversation = state.find(conversation => conversation.id === chatId);
-      if (!conversation) {
-        return state;
-      }
-      conversation.content.push(authoredContent);
-    });
-    builder.addCase(autoPrompt.fulfilled, (state, action) => {
-      const {role, content, chatId, model} = action.payload;
-      const authoredContent = createContent(content, chatId, model, role as Role)
-      const conversationIndex = state.findIndex(conversation => conversation.id === chatId);
-      if (conversationIndex === -1) {
-        return state;
-      }
-      state[conversationIndex].content.push(authoredContent);
-      state[conversationIndex].autoPrompter = undefined;
-    });
   },
 });
 
@@ -196,6 +132,7 @@ export const {
   selectAutoPrompter,
   removeAutoPrompter,
   appendDelta,
+  setResponder,
 } = chatsSlice.actions;
 
 

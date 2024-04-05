@@ -24,6 +24,7 @@
   --time: 2s;
   --height: 35px;
   --font: 20px;
+  --border-color: #fff1;
   --border-radius: 0.2rem;
   --border-radius-emphasis: 2rem;
   --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
@@ -49,6 +50,7 @@
     --sage: #ecff6d;
     --moonstone: #253434;
     --accent-text: var(--moonstone);
+    --border-color: #0001;
   }
 }
 
@@ -80,7 +82,7 @@ $color-mode-type: media-query;
 $theme-colors: (
         info: #DFBE99,
         success: #8cff00,
-        primary: #8cff00,
+        primary: #729EA1,
         emphasis: #EC9192,
         danger: #DB5375,
         warning: #FCA311
@@ -95,3 +97,16 @@ $bs-theme-colors: (
 );
 /* import bootstrap to set changes */
 @import '~bootstrap/scss/bootstrap';
+
+.sm-text {
+  font-size: small;
+}
+
+html, body, #root, #root > div {
+  height: 100%;
+  background-color: var(--background-color-0);
+}
+
+svg {
+  color: var(--accent-text);
+}

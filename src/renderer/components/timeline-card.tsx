@@ -52,6 +52,7 @@ const Timeline = styled.ul`
       border-radius: var(--border-radius);
       border: 1px solid var(--grey);
       margin-bottom: 0.5rem;
+      min-width: -webkit-fill-available;
     }
 
     &:hover {
