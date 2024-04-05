@@ -10,7 +10,7 @@ import ContextMenu from '../components/context-menu';
 import {updateContextMenu} from '../features/context-menu';
 import Aside from '../wrapper/aside';
 import {Tabs} from '../wrapper/tabs';
-import {PageContainer} from '../wrapper/responder-rtype/page-container';
+import {PageContainer} from '../wrapper/responder-type/page-container';
 
 const Conversations = styled.div`
   &.aside {

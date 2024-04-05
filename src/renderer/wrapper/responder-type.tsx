@@ -1,11 +1,11 @@
 import {useCallback, useState} from 'react';
 import {Card} from './card';
 import {useCurrentConversation} from '../hooks/current-conversation';
-import {ModelSelector} from './responder-rtype/model-selector';
+import {ModelSelector} from './responder-type/model-selector';
 import {TResponder} from '../../models/responder';
-import {SelectResponderType} from './responder-rtype/select-responder-type';
-import {AgentSelector} from './responder-rtype/agent-selector';
-import {OrganizationSelector} from './responder-rtype/organization-selector';
+import {SelectResponderType} from './responder-type/select-responder-type';
+import {AgentSelector} from './responder-type/agent-selector';
+import {OrganizationSelector} from './responder-type/organization-selector';
 
 
 function agentSelectorForm(type: TResponder) {

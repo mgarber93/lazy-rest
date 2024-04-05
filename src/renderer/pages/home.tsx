@@ -1,4 +1,4 @@
-import {PageContainer} from '../wrapper/responder-rtype/page-container';
+import {PageContainer} from '../wrapper/responder-type/page-container';
 import React from 'react';
 import OpenAiConfigForm from '../components/open-api-form';
 import {Card} from '../wrapper/card';

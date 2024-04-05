@@ -74,8 +74,8 @@ export const chatsSlice = createSlice({
     },
     startNewChat: (state, action: PayloadAction<Conversation | null>) => {
       if (action.payload) {
-        action.payload.created = Date()
-        state.push(action.payload);
+        const newChat = {...action.payload, created: Date()};
+        state.push(newChat);
       } else {
         const newChat: Conversation = createConversation();
         state.push(newChat);

@@ -45,7 +45,7 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
 
 export function ModelSelector() {
   const currentConversation = useCurrentConversation();
-  const selectedType = getModel(currentConversation.responder);
+  const selectedType = currentConversation ? getModel(currentConversation.responder) : 'none';
   const {models} = useAppSelector(state => state.models);
   return <Card>
     <Form>
