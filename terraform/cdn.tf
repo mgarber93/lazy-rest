@@ -7,7 +7,7 @@ module "cdn" {
 
   aliases = ["mattgarber.dev"]
 
-  comment             = "Matt Garber's awesome CloudFront"
+  comment = "CloudFront"
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"
@@ -16,11 +16,7 @@ module "cdn" {
 
   create_origin_access_identity = true
   origin_access_identities = {
-    s3_bucket_one = "Matt Garber's awesome CloudFront can access"
-  }
-
-  logging_config = {
-    bucket = "logs-mattgarber-dev.s3.amazonaws.com"
+    s3_bucket_one = "CloudFront can access"
   }
 
   origin = {
@@ -31,13 +27,6 @@ module "cdn" {
         https_port             = 443
         origin_protocol_policy = "match-viewer"
         origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
-      }
-    }
-
-    s3_one = {
-      domain_name = "mattgarber-dev-bucket.s3.amazonaws.com"
-      s3_origin_config = {
-        origin_access_identity = "s3_bucket_one"
       }
     }
   }
@@ -51,19 +40,6 @@ module "cdn" {
     compress        = true
     query_string    = true
   }
-
-  ordered_cache_behavior = [
-    {
-      path_pattern           = "/static/*"
-      target_origin_id       = "s3_one"
-      viewer_protocol_policy = "redirect-to-https"
-
-      allowed_methods = ["GET", "HEAD", "OPTIONS"]
-      cached_methods  = ["GET", "HEAD"]
-      compress        = true
-      query_string    = true
-    }
-  ]
 
   viewer_certificate = {
     acm_certificate_arn = "arn:aws:acm:us-east-1:135367859851:certificate/1032b155-22da-4ae0-9f69-e206f825458b"
