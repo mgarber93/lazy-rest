@@ -17,6 +17,7 @@ function OpenAiConfigForm() {
   };
   return (
     <Form onSubmit={handleSubmit}>
+      <h5>Open AI</h5>
       <Form.Group className="mb-lg-2">
         <Form.Label>API Key</Form.Label>
         <Form.Control
