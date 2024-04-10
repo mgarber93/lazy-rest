@@ -4,10 +4,6 @@ import {AuthoredContent, ContentDelta, isToolCall} from '../../models/content';
 import windowSender from '../window-sender';
 
 
-if (!process.env['OPENAI_API_KEY']) {
-  throw new Error('No process.env[\'OPENAI_API_KEY\']!');
-}
-
 const openai = new OpenAI({});
 
 // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
