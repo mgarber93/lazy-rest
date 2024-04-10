@@ -34,6 +34,15 @@ const config: ForgeConfig = {
       },
     }),
   ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-s3',
+      config: {
+        bucket: 'lazy-rest',
+        public: true,
+      },
+    },
+  ],
 };
 
 export default config;
