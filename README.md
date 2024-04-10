@@ -2,6 +2,12 @@
 
 this is a gui for managing local tools for agents
 
+## Getting started
+
+```shell
+npm install && npm start
+```
+
 ## Features
 
 ### Select a model and chat with it
