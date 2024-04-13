@@ -1,3 +1,5 @@
+process.env.OPENAI_API_KEY = 'sk-fake';
+
 import {ipcMain, IpcMainInvokeEvent} from 'electron';
 import {getUser} from './user';
 import {Conversation} from '../models/conversation';
