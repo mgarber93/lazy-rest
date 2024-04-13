@@ -4,8 +4,18 @@ this is a gui for managing local tools for agents
 
 ## Getting started
 
+Make sure you have npm installed. I
+use [node version manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+to use multiple versions of npm on my computer at once. Then to develop as an electron app you can install once
+
 ```shell
-npm install && npm start
+npm install 
+```
+
+Now to run the development server run
+
+```shell
+npm start
 ```
 
 ## Features
