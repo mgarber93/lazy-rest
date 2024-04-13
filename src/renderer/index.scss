@@ -14,8 +14,15 @@
   --grey: #a4a4a4;
   --whitish: #e1dcd6;
   --background-color-0: rgb(15, 18, 22);
-  --background-color-1: rgb(26, 28, 32);
-  --background-color-2: rgb(22, 24, 28);
+  --background-color-1: rgb(23, 27, 32);
+  --background-color-2: rgb(31, 36, 42);
+  --background-color-3: rgb(39, 45, 52);
+  --background-color-4: rgb(47, 54, 62);
+  --background-color-5: rgb(55, 63, 72);
+  --background-color-6: rgb(63, 72, 82);
+  --background-color-7: rgb(71, 81, 92);
+  --background-color-8: rgb(79, 90, 102);
+  --background-color-9: rgb(87, 99, 112);
   --text-color: #fff;
   --accent-text: var(--sage);
   --clamp-min: 40px;
@@ -38,9 +45,16 @@
 @media (prefers-color-scheme: light) {
   :root {
     --whitish: rgb(238, 233, 227);
-    --background-color-0: #fff;
-    --background-color-1: #fefdfb;
-    --background-color-2: #f7f4e9;
+    --background-color-0: #fefdfb;
+    --background-color-1: #f9f8f6;
+    --background-color-2: #f4f3f1;
+    --background-color-3: #efeeec;
+    --background-color-4: #eae9e7;
+    --background-color-5: #e5e4e2;
+    --background-color-6: #e0dfdd;
+    --background-color-7: #dbdad8;
+    --background-color-8: #d6d5d3;
+    --background-color-9: #d1d0ce;
     --box-shadow-background: var(--moonstone);
     --text-color: var(--blackish);
     --tan-bg: #fff1d9;
