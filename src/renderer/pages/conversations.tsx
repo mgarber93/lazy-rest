@@ -32,6 +32,7 @@ const MainContent = styled.div`
   justify-content: center;
   height: 100%;
   padding: 0rem 1rem 0 0.3rem;
+  overflow-y: auto;
 `;
 
 const ConversationPage = () => {

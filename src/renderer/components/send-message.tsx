@@ -8,7 +8,7 @@ import {Model, Responder} from '../../models/responder';
 const SendMessageContainer = styled.div`
   position: sticky;
   margin-top: auto;
-  bottom: 0.5rem;
+  bottom: 2.5rem;
   flex-direction: row;
   background-color: var(--background-color-1);
   border: 1px solid var(--background-color-2);

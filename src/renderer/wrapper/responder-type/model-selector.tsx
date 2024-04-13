@@ -21,6 +21,9 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
   const currentConversation = useCurrentConversation();
   const dispatch = useAppDispatch();
   const handleModelChange = useCallback(() => {
+    if (!currentConversation) {
+      return;
+    }
     dispatch(setResponder({
       responder: createModelResponder('chat', type, 'openai'),
       chatId: currentConversation.id,

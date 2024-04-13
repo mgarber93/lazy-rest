@@ -5,9 +5,11 @@ import {newestToOldest} from '../utils/sort-date';
 
 const Timeline = styled.ul`
   line-height: 1.5;
-  padding-left: 0;
   margin: 4px 4px 1rem 4px;
   list-style: none;
+  border: 1px solid var(--background-color-1);
+  border-radius: var(--border-radius);
+  padding: 0.2rem 0.2rem 1rem 0.2rem;
 
   .timeline-dot {
     fill: var(--background-color-2);
