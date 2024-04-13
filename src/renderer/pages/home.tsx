@@ -51,6 +51,21 @@ function ApiCard() {
   return <span>hello world</span>;
 }
 
+export function ApiIntegration(props: { background: string }) {
+  
+  return <Section className={`p-5 ${props.background}`}>
+    <div className="background"></div>
+    <div className="reset">
+      <h4>Api</h4>
+      <div className="flex-row">
+        <Card>
+          <ApiCard/>
+        </Card>
+      </div>
+    </div>
+  </Section>;
+}
+
 export function Home() {
   return (
     <PageContainer>
@@ -63,39 +78,9 @@ export function Home() {
             </Card>
           </div>
         </Section>
-        <Section className="p-5 primary">
-          <div className="background"></div>
-          <div className="reset">
-            <h4>Api</h4>
-            <div className="flex-row">
-              <Card>
-                hello world
-              </Card>
-            </div>
-          </div>
-        </Section>
-        <Section className="p-5 secondary">
-          <div className="background"></div>
-          <div className="reset">
-            <h4>Api</h4>
-            <div className="flex-row">
-              <Card>
-                hello world
-              </Card>
-            </div>
-          </div>
-        </Section>
-        <Section className="p-5 tertiary">
-          <div className="background"></div>
-          <div className="reset">
-            <h4>Api</h4>
-            <div className="flex-row">
-              <Card>
-                hello world
-              </Card>
-            </div>
-          </div>
-        </Section>
+        <ApiIntegration background={'primary'}/>
+        <ApiIntegration background={'secondary'}/>
+        <ApiIntegration background={'tertiary'}/>
       </div>
     </PageContainer>
   );
