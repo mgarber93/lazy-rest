@@ -70,12 +70,13 @@ export function Home() {
   return (
     <PageContainer>
       <div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
-        <Section className="provider">
+        <Section className="provider b1">
           <h4>Providers</h4>
           <div className="flex-row provider">
             <Card>
               <OpenAiConfigForm/>
             </Card>
+          
           </div>
         </Section>
         <ApiIntegration background={'primary'}/>
