@@ -10,18 +10,15 @@ resource "aws_acm_certificate" "cert" {
   domain_name               = local.site
   subject_alternative_names = ["*.${local.site}"]
   validation_method         = "DNS"
-
   tags = {
     Name = "lazy-rest-ssl-certificate"
   }
-
   lifecycle {
     create_before_destroy = true
   }
 }
 
 resource "aws_route53_record" "cert_validation" {
-  // │ Elements of a set are identified only by their value and don't have any separate index or key to select with, so it's only possible to perform operations across all elements of the set.
   name    = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_name
   type    = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_type
   zone_id = "Z05410901PMU87KKB8A64"

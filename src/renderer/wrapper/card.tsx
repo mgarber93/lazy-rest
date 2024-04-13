@@ -3,6 +3,8 @@ import {ReactNode} from 'react';
 
 const Div = styled.div`
   border-radius: 0.2rem;
+  border: 1px solid var(--background-color-5);
+  background-color: var(--background-color-3);
   padding: 0.2rem;
 
   h2 {

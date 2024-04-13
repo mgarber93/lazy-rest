@@ -5,8 +5,8 @@
   --sage-bg: rgba(181, 189, 137, 0.17);
   --moonstone-bg: rgba(114, 158, 161, 0.15);
   --moonstone: #729EA1;
-  --coral: #EC9192;
-  --blush: #DB5375;
+  --coral: #EC919250;
+  --blush: #DB537550;
   --gold: #FCA311;
   --green: #063620;
   --blackish: #16171A;
@@ -94,12 +94,12 @@ a:hover {
 
 $color-mode-type: media-query;
 $theme-colors: (
-        info: #DFBE99,
-        success: #8cff00,
-        primary: #729EA1,
-        emphasis: #EC9192,
-        danger: #DB5375,
-        warning: #FCA311
+        info: #DFBE9950,
+        success: #8cff0050,
+        primary: #729EA150,
+        emphasis: #EC919250,
+        danger: #DB537550,
+        warning: #FCA31150
 );
 $bs-theme-colors: (
         info: #DFBE99,
@@ -123,4 +123,52 @@ html, body, #root, #root > div {
 
 svg {
   color: var(--accent-text);
+}
+
+.blush {
+  background-color: var(--blush);
+}
+
+.coral {
+  background-color: var(--coral);
+}
+
+.b0 {
+  background-color: var(--background-color-0);
+}
+
+.b1 {
+  background-color: var(--background-color-1);
+}
+
+.b2 {
+  background-color: var(--background-color-2);
+}
+
+.b3 {
+  background-color: var(--background-color-3);
+}
+
+.b4 {
+  background-color: var(--background-color-4);
+}
+
+.b5 {
+  background-color: var(--background-color-5);
+}
+
+.b6 {
+  background-color: var(--background-color-6);
+}
+
+.b7 {
+  background-color: var(--background-color-7);
+}
+
+.b8 {
+  background-color: var(--background-color-8);
+}
+
+.b9 {
+  background-color: var(--background-color-9);
 }

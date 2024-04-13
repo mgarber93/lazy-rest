@@ -3,7 +3,6 @@ import {useCallback} from 'react';
 import styled from 'styled-components';
 import {useAppDispatch, useAppSelector} from '../../features/store';
 import {useCurrentConversation} from '../../hooks/current-conversation';
-import {Card} from '../card';
 import {setResponder} from '../../features/chat';
 import {createModelResponder, getModel} from '../../../models/responder';
 
@@ -50,9 +49,7 @@ export function ModelSelector() {
   const currentConversation = useCurrentConversation();
   const selectedType = currentConversation ? getModel(currentConversation.responder) : 'none';
   const {models} = useAppSelector(state => state.models);
-  return <Card>
-    <Form>
-      {models.map((type: string) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
-    </Form>
-  </Card>;
+  return <Form>
+    {models.map((type: string) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
+  </Form>
 }
