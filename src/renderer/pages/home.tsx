@@ -7,10 +7,11 @@ import styled from 'styled-components';
 const Section = styled.section`
   padding: 1rem;
 
-  .providers {
+  .flex-row {
     display: flex;
     flex-direction: row;
   }
+
 
   .card {
     max-width: 600px;
@@ -36,6 +37,7 @@ const Section = styled.section`
   &.primary {
     background-color: rgba(112, 128, 144, 0.3); // rgba for slategray
   }
+
   &.secondary {
     background-color: #729EA120;
   }
@@ -53,9 +55,9 @@ export function Home() {
   return (
     <PageContainer>
       <div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
-        <Section>
+        <Section className="provider">
           <h4>Providers</h4>
-          <div className="providers">
+          <div className="flex-row provider">
             <Card>
               <OpenAiConfigForm/>
             </Card>
@@ -65,7 +67,7 @@ export function Home() {
           <div className="background"></div>
           <div className="reset">
             <h4>Api</h4>
-            <div className="providers">
+            <div className="flex-row">
               <Card>
                 hello world
               </Card>
@@ -76,7 +78,7 @@ export function Home() {
           <div className="background"></div>
           <div className="reset">
             <h4>Api</h4>
-            <div className="providers">
+            <div className="flex-row">
               <Card>
                 hello world
               </Card>
@@ -87,7 +89,7 @@ export function Home() {
           <div className="background"></div>
           <div className="reset">
             <h4>Api</h4>
-            <div className="providers">
+            <div className="flex-row">
               <Card>
                 hello world
               </Card>
