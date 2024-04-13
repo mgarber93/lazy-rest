@@ -33,8 +33,15 @@ const Section = styled.section`
     position: absolute;
   }
 
+  &.primary {
+    background-color: rgba(112, 128, 144, 0.3); // rgba for slategray
+  }
   &.secondary {
-    background-color: slategray;
+    background-color: #729EA120;
+  }
+
+  &.tertiary {
+    background-color: rgba(223, 190, 153, 0.15);
   }
 `
 
@@ -54,7 +61,29 @@ export function Home() {
             </Card>
           </div>
         </Section>
+        <Section className="p-5 primary">
+          <div className="background"></div>
+          <div className="reset">
+            <h4>Api</h4>
+            <div className="providers">
+              <Card>
+                hello world
+              </Card>
+            </div>
+          </div>
+        </Section>
         <Section className="p-5 secondary">
+          <div className="background"></div>
+          <div className="reset">
+            <h4>Api</h4>
+            <div className="providers">
+              <Card>
+                hello world
+              </Card>
+            </div>
+          </div>
+        </Section>
+        <Section className="p-5 tertiary">
           <div className="background"></div>
           <div className="reset">
             <h4>Api</h4>
