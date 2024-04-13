@@ -1,10 +1,7 @@
-import TimelineCard from '../components/timeline-card';
 import styled from 'styled-components';
 import {ReactNode} from 'react';
 
 const Div = styled.div`
-  border: 1px solid var(--background-color-2);
-  background-color: var(--background-color-1);
   border-radius: 0.2rem;
   padding: 0.2rem;
 
