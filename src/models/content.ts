@@ -23,7 +23,7 @@ export interface ToolCall extends AuthoredContent {
 }
 
 export function isToolCall(content: AuthoredContent): content is ToolCall {
-  return content.role === 'tool';
+  return content.role === 'tool' && content.hasOwnProperty('tool_call_id');
 }
 
 export function generateId() {
