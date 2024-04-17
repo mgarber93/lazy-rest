@@ -76,7 +76,6 @@ export function Home() {
             <Card>
               <OpenAiConfigForm/>
             </Card>
-          
           </div>
         </Section>
         <ApiIntegration background={'primary'}/>

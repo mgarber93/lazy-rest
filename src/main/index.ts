@@ -1,4 +1,6 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron';
+import {OpenAiConfiguration} from '../models/provider-config';
+import providerManager from './provider-manager';
 import {getUser} from './user';
 import {Conversation} from '../models/conversation';
 import {loadOasSpec} from './oas-loader';
@@ -46,6 +48,10 @@ async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {
   return models;
 }
 
+async function handleSetOpenAiConfiguration(event: IpcMainInvokeEvent, config: OpenAiConfiguration): Promise<void> {
+  providerManager.setOpenAiConfig(config);
+}
+
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
   ipcMain.handle('apiAutoPrompt', handleApiAutoPrompt)
@@ -53,5 +59,6 @@ export function registerHandlers() {
   ipcMain.handle('getMachineName', getUser)
   ipcMain.handle('chat', handleChat)
   ipcMain.handle('loadOasSpec', handleLoadOasSpec);
-  ipcMain.handle('streamedChat', handleStreamedChat)
+  ipcMain.handle('streamedChat', handleStreamedChat);
+  ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)
 }

@@ -6,6 +6,7 @@ import {TApi} from './prompts/api-to-icl-examples';
 import {Conversation} from './models/conversation';
 import {TChannel} from './main/window-sender';
 import {TProvider} from './models/responder';
+import {OpenAiConfiguration} from './models/provider-config';
 
 export interface PreloadedApi {
   getMachineName: () => Promise<string>;
@@ -16,19 +17,13 @@ export interface PreloadedApi {
   apiAutoPrompt: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
   remove: (channel: TChannel, func: (...args: any[]) => void) => void;
+  setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>;
 }
 
 const validChannels: TChannel[] = ['message-delta', 'tool-request'];
-let count = 0;
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
-  apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
-  chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
-  streamedChat: ipcRenderer.invoke.bind(ipcRenderer, 'streamedChat'),
-  getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
-  getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),
-  loadOasSpec: ipcRenderer.invoke.bind(ipcRenderer, 'loadOasSpec'),
   send: (channel: TChannel, data: any) => {
     // whitelist channels
     if (validChannels.includes(channel)) {
@@ -50,4 +45,11 @@ contextBridge.exposeInMainWorld('main', {
     // @todo rework to remove first argument for func. Maybe Record<TChannel, cb[]>?
     ipcRenderer.removeAllListeners(channel);
   },
+  apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
+  chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
+  streamedChat: ipcRenderer.invoke.bind(ipcRenderer, 'streamedChat'),
+  getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
+  getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),
+  loadOasSpec: ipcRenderer.invoke.bind(ipcRenderer, 'loadOasSpec'),
+  setOpenAiConfiguration: ipcRenderer.invoke.bind(ipcRenderer, 'setOpenAiConfiguration'),
 } as PreloadedApi)

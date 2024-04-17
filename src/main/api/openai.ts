@@ -1,10 +1,7 @@
-import OpenAI from 'openai';
 import {ChatCompletionMessageParam} from 'openai/resources';
 import {AuthoredContent, ContentDelta, isToolCall} from '../../models/content';
 import windowSender from '../window-sender';
-
-
-const openai = new OpenAI({});
+import providerManager from '../provider-manager';
 
 // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
 export async function getModels(): Promise<string> {
@@ -43,6 +40,7 @@ export async function prompt(model: string, content: AuthoredContent[]): Promise
 }> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
+  const openai = providerManager.getOpenAi();
   const chatCompletion = await openai.chat.completions.create({
     model,
     messages,
@@ -53,6 +51,7 @@ export async function prompt(model: string, content: AuthoredContent[]): Promise
 export async function streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<void> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
+  const openai = providerManager.getOpenAi();
   const stream = await openai.chat.completions.create({
     model,
     messages: messages,
@@ -84,6 +83,7 @@ export interface Tool {
 }
 
 export async function agentWithHttp(model: string, messages: ChatCompletionMessageParam[]) {
+  const openai = providerManager.getOpenAi();
   const result = await openai.chat.completions.create({
     messages,
     model,

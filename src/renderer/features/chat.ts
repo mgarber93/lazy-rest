@@ -3,6 +3,7 @@ import {AuthoredContent, ContentDelta} from '../../models/content';
 import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 import {Responder} from '../../models/responder';
+import {RootState} from './store';
 
 
 const serializedChats = localStorage.getItem('chats')
@@ -14,7 +15,8 @@ export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
   async (arg: { conversationId: string, contentId: string }, thunkAPI) => {
     const {conversationId, contentId} = arg;
-    const state = thunkAPI.getState() as { chats: Conversation[] };
+    const state = thunkAPI.getState() as RootState;
+    await window.main.setOpenAiConfiguration(state.models.providers.openAi);
     const conversation = state.chats.find(chat => chat.id === conversationId);
     // Cant respond unless a responder is set and an auto prompter isn't
     if (!conversation || !conversation.responder)
