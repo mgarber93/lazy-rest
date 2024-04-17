@@ -27,16 +27,15 @@ function agentSelectorForm(type: TResponder) {
 
 export function ResponderType() {
   const conversation = useCurrentConversation();
-  const initialState = conversation?.responder?.type ?? 'none';
+  const initialState = conversation?.responder?.type ?? 'chat';
   const [type, setType] = useState(initialState);
+  
   const handleValueChange = useCallback((type: TResponder) => {
     setType(type);
   }, [setType]);
   
   return <Card>
-  
   <SelectResponderType type={type as TResponder} setType={handleValueChange}/>
       {agentSelectorForm(type as TResponder)}
-  
   </Card>
 }
