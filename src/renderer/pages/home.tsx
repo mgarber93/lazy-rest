@@ -26,10 +26,6 @@ const Section = styled.section`
     filter: blur(1px);
   }
 
-  .reset {
-    filter: none !important;
-  }
-
   *.background {
     position: absolute;
   }
@@ -52,10 +48,8 @@ function ApiCard() {
 }
 
 export function ApiIntegration(props: { background: string }) {
-  
   return <Section className={`p-5 ${props.background}`}>
-    <div className="background"></div>
-    <div className="reset">
+    <div>
       <h4>Api</h4>
       <div className="flex-row">
         <Card>
@@ -79,8 +73,6 @@ export function Home() {
           </div>
         </Section>
         <ApiIntegration background={'primary'}/>
-        <ApiIntegration background={'secondary'}/>
-        <ApiIntegration background={'tertiary'}/>
       </div>
     </PageContainer>
   );
