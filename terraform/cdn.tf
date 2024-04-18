@@ -37,7 +37,6 @@ module "bucket" {
 resource "aws_cloudfront_origin_access_identity" "oai" {
   comment = "OAI for CloudFront distribution"
 }
-
 data "aws_iam_policy_document" "restriction_policy" {
   statement {
     actions   = ["s3:GetObject"]
