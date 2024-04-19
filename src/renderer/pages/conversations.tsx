@@ -70,7 +70,7 @@ const ConversationPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <PageContainer>
+    <PageContainer activeRoute={"/conversations"}>
       <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
         {navOnTop ? <Tabs/> : <Aside/>}
         <MainContent>

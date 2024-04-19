@@ -62,7 +62,7 @@ export function ApiIntegration(props: { background: string }) {
 
 export function Home() {
   return (
-    <PageContainer>
+    <PageContainer activeRoute={"/home"}>
       <div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
         <Section className="provider b1">
           <h4>Providers</h4>

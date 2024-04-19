@@ -11,10 +11,10 @@ const Container = styled.div`
   background: linear-gradient(var(--background-color-0), var(--background-color-1) 45%);
 `
 
-export function PageContainer(props: { children: ReactNode }) {
+export function PageContainer(props: { children: ReactNode, activeRoute: string }) {
   return (
     <Container>
-      <Header/>
+      <Header activeRoute={props.activeRoute}/>
       {props.children}
     </Container>
   );
