@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {TimelineExtend, TimelineItem} from './timeline-card-item';
 import {Conversation} from '../../models/conversation';
 import {newestToOldest} from '../utils/sort-date';
+import {Card} from '../wrapper/card';
 
 const Timeline = styled.ul`
   line-height: 1.5;
@@ -12,7 +13,7 @@ const Timeline = styled.ul`
   padding: 0.2rem 0.2rem 1rem 0.2rem;
 
   .timeline-dot {
-    fill: var(--background-color-2);
+    fill: var(--timeline);
     font-size: large;
     display: inline-block;
   }
@@ -38,12 +39,23 @@ const Timeline = styled.ul`
   }
 
   .TimelineItem-body {
-    padding: 0 0.2rem;
+    padding: 0 0.2rem 1rem 0.2rem;
     flex: auto;
     max-width: 100%;
     min-width: 0;
     text-overflow: ellipsis;
     min-height: 3rem;
+    border-radius: var(--border-radius);
+    .TimelineItem-event {
+      padding: 0.3rem;
+      background-color: var(--background-color-2);
+      border: 1px solid var(--background-color-0);
+      border-radius: var(--border-radius);
+      &:hover {
+        border: 1px solid var(--background-color-2);
+      }
+      transition: 0.4s ease-in border;
+    }
 
     &.extend {
       padding: 0.2rem;
@@ -52,13 +64,9 @@ const Timeline = styled.ul`
       background-color: var(--background-color-2);
       max-width: fit-content;
       border-radius: var(--border-radius);
-      border: 1px solid var(--grey);
+      border: 1px solid var(--timeline);
       margin-bottom: 0.5rem;
       min-width: -webkit-fill-available;
-    }
-
-    &:hover {
-      background-color: var(--background-color-2);
     }
   }
 
@@ -70,7 +78,12 @@ const Timeline = styled.ul`
     margin-left: auto;
     height: 10px;
     width: 10px;
+    opacity: 0;
   }
+  .hovered {
+    opacity: 1;
+  }
+  transition: 1s ease-in opacity;
 
   path {
     fill: var(--grey)
