@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import {TimelineExtend, TimelineItem} from './timeline-card-item';
 import {Conversation} from '../../models/conversation';
 import {newestToOldest} from '../utils/sort-date';
+import {Card} from '../wrapper/card';
 
 const Timeline = styled.ul`
   line-height: 1.5;
   margin: 4px 4px 1rem 4px;
   list-style: none;
-  border: 1px solid var(--background-color-1);
   border-radius: var(--border-radius);
-  padding: 0rem 0.2rem 1rem 0.2rem;
+  padding: 0rem;
 
   .timeline-dot {
     fill: var(--timeline);
@@ -112,10 +112,12 @@ const Timeline = styled.ul`
 
 export function TimelineCard({items}: { items: Conversation[] }) {
   const sorted = [...items].sort((a, b) => newestToOldest(a.created, b.created));
-  return <Timeline>
-    <TimelineExtend/>
-    {sorted.map(item => <TimelineItem item={item} key={item.id} />)}
-  </Timeline>
+  return <Card>
+    <Timeline>
+      <TimelineExtend/>
+      {sorted.map(item => <TimelineItem item={item} key={item.id} />)}
+    </Timeline>
+  </Card>
 }
 
 export default TimelineCard;
