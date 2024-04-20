@@ -13,7 +13,8 @@ const Div = styled.div`
   position: relative;
   height: 100%;
   overflow: auto;
-
+  background: var(--background-gradient);
+  min-height: 100vh;
   .reset {
     position: absolute;
     top: 0.1rem; /* placed after padding-top of the parent */
@@ -25,6 +26,7 @@ const Div = styled.div`
     gap: 6rem;
     overflow: auto; /* to handle its own inner overflow */
     padding: 5rem;
+
   }
 `;
 

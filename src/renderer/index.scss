@@ -44,7 +44,7 @@
   --border-color: #fff1;
   --border-radius: 0.5rem;
   --border-radius-emphasis: 2rem;
-  --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+  --background-gradient: linear-gradient(to right bottom, var(--background-color-0), var(--background-color-1) 30%, var(--background-color-0));
   --name-gutter: 10rem;
   --aside-nav: 20rem;
   --box-shadow-background: var(--background-color-0);
@@ -71,7 +71,7 @@
     --tan-bg: #fff1d9;
     --sage-bg: #ffffd6;
     --moonstone-bg: rgb(241, 249, 255);
-    --background-gradient: linear-gradient(to left bottom, var(--sage-bg), var(--background-color-0), var(--background-color-0), var(--moonstone-bg));
+    --background-gradient: linear-gradient(to right bottom, var(--background-color-1), var(--background-color-3) 30%, var(--background-color-0));
     --sage: #ecff6d;
     --moonstone: #253434;
     --accent-text: var(--moonstone);
