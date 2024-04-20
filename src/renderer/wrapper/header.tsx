@@ -10,7 +10,7 @@ const Div = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0.1rem;
   height: 36px;
 
   .breadcrumb {
