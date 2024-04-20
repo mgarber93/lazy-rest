@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import {PageContainer} from '../wrapper/responder-type/page-container';
 import OpenAiConfigForm from '../components/open-api-form';
 import {Card} from '../wrapper/card';
-import {ApiIntegration, Section} from '../wrapper/form-group';
+import {ApiForm} from '../components/api-form';
+import {FormGroup} from '../wrapper/form-group';
 
 const Div = styled.div`
   display: flex;
@@ -11,9 +12,12 @@ const Div = styled.div`
   overflow: scroll;
   padding-top: 10rem;
   position: relative;
+  height: 100%;
   .reset {
-    position: absolute;
     top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 `;
 
@@ -23,15 +27,16 @@ export function Home() {
     <PageContainer activeRoute={"/home"}>
       <Div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
         <div className="reset">
-          <Section className="provider b1">
-            <h4>Providers</h4>
-            <div className="flex-row provider">
-              <Card>
-                <OpenAiConfigForm/>
-              </Card>
-            </div>
-          </Section>
-          <ApiIntegration background={'primary'}/>
+          <FormGroup name={"Providers"}>
+            <Card>
+              <OpenAiConfigForm/>
+            </Card>
+          </FormGroup>
+          <FormGroup name={"Api Integrations"}>
+            <Card>
+              <ApiForm></ApiForm>
+            </Card>
+          </FormGroup>
         </div>
 
       </Div>
