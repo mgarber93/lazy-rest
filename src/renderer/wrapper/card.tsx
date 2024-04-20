@@ -4,8 +4,8 @@ import {ReactNode} from 'react';
 const Div = styled.div`
   border-radius: 1rem;
   border: 1px solid var(--background-color-3);
-  background-color: var(--background-color-2);
-  padding: 2rem;
+  background: linear-gradient(45deg, var(--primary-2), var(--primary-1) 30%, var(--primary-3));
+  padding: 1rem;
   max-width: 36rem;
   
   &:hover {
@@ -18,7 +18,7 @@ const Div = styled.div`
   }
 
   margin: 0;
-  transition: 0.4s ease-in border;
+  transition: 0.4s ease-in-out border;
 `;
 
 export function Card(props: {children: ReactNode}) {
