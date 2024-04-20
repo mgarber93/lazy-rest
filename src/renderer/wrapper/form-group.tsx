@@ -8,8 +8,8 @@ const Section = styled.section`
     border-bottom: 0.1rem solid var(--background-color-9);
     margin-bottom: 1rem;
   }
-  background-color: #0001;
-  padding: 2rem;
+  background-color: var(--background-color-1);
+  padding: 1rem 1rem;
   border-radius: 1rem;
   border: 1px solid var(--background-color-2);
   &:hover {

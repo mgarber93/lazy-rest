@@ -1,5 +1,6 @@
-import {Button, Form} from 'react-bootstrap';
-import {useState} from 'react';
+import {SetStateAction, useState} from 'react';
+import {Form, Label, Control, Footer} from '../styled/form';
+import {Button} from 'react-bootstrap';
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -9,28 +10,28 @@ export function ApiForm() {
 
   return <Form>
     <h5>{name}</h5>
-    <Form.Label>Name</Form.Label>
-    <Form.Control type="text" placeholder="Api name (eg spotify)" value={name}
-                  onChange={event => setName(event.target.value)}/>
+    <Label>Name</Label>
+    <Control type="text" placeholder="Api name (eg spotify)" value={name}
+             onChange={(event: { target: { value: SetStateAction<string>; }; }) => setName(event.target.value)}/>
 
-    <Form.Label>Base URL</Form.Label>
-    <Form.Control type="text" placeholder="Base URL" value={baseUrl}
-                  onChange={event => setBaseUrl(event.target.value)}/>
+    <Label>Base URL</Label>
+    <Control type="text" placeholder="Base URL" value={baseUrl}
+             onChange={(event: { target: { value: SetStateAction<string>; }; }) => setBaseUrl(event.target.value)}/>
 
-    <Form.Label>Client ID</Form.Label>
-    <Form.Control type="text" placeholder="Client ID" value={clientId}
-                  onChange={event => setClientId(event.target.value)}/>
+    <Label>Client ID</Label>
+    <Control type="text" placeholder="Client ID" value={clientId}
+                  onChange={(event: { target: { value: SetStateAction<string>; }; }) => setClientId(event.target.value)}/>
 
-    <Form.Label>Client Secret</Form.Label>
-    <Form.Control type="text" placeholder="Client secret" value={clientSecret}
-                  onChange={event => setClientSecret(event.target.value)}/>
+    <Label>Client Secret</Label>
+    <Control type="text" placeholder="Client secret" value={clientSecret}
+                  onChange={(event: { target: { value: SetStateAction<string>; }; }) => setClientSecret(event.target.value)}/>
 
-    <Form.Label>Api swagger</Form.Label>
-    <Form.Control type="file" placeholder="Swagger OAS file"
-                  onChange={event => setClientSecret(event.target.value)}/>
+    <Label>Api swagger</Label>
+    <Control type="file" placeholder="Swagger OAS file"
+                  onChange={(event: { target: { value: SetStateAction<string>; }; }) => setClientSecret(event.target.value)}/>
 
-    <div className="d-flex justify-content-center">
+    <Footer>
       <Button variant="primary" type="submit" size={"sm"}>Submit</Button>
-    </div>
+    </Footer>
   </Form>;
 }

@@ -9,7 +9,7 @@ import {FormGroup} from '../wrapper/form-group';
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 10rem;
+  padding-top: 3rem;
   position: relative;
   height: 100%;
   overflow: auto;
@@ -23,10 +23,9 @@ const Div = styled.div`
     bottom: 0; /* to match the parent's bottom edge */
     display: flex;
     flex-direction: column;
-    gap: 6rem;
+    gap: 3rem;
     overflow: auto; /* to handle its own inner overflow */
     padding: 5rem;
-
   }
 `;
 
@@ -41,7 +40,7 @@ export function Home() {
               <OpenAiConfigForm/>
             </Card>
           </FormGroup>
-          <FormGroup name={"Api Integrations"}>
+          <FormGroup name={"Api"}>
             <Card>
               <ApiForm></ApiForm>
             </Card>

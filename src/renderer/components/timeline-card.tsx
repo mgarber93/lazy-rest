@@ -48,8 +48,8 @@ const Timeline = styled.ul`
     border-radius: var(--border-radius);
     .TimelineItem-event {
       padding: 0.3rem;
-      background-color: var(--background-color-2);
-      border: 1px solid var(--background-color-0);
+      background-color: var(--background-color-1);
+      border: 1px solid var(--background-color-1);
       border-radius: var(--border-radius);
       &:hover {
         border: 1px solid var(--background-color-2);

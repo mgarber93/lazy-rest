@@ -7,7 +7,7 @@ export const Form = styled.form`
 `;
 
 export const Group = styled.div`
-  padding: 1rem;
+  padding: 0.5rem 0;
 `
 
 export const Label= styled.div`
@@ -38,3 +38,6 @@ export const Footer = styled.div`
 export const Header = styled.header`
   font-size: larger;
 `
+
+export const Submit = styled.button `
+`;
