@@ -16,7 +16,7 @@ const Div = styled.div`
 
   .reset {
     position: absolute;
-    top: 1rem; /* placed after padding-top of the parent */
+    top: 0.1rem; /* placed after padding-top of the parent */
     left: 0; /* to match the parent's left edge */
     right: 0; /* to match the parent's right edge */
     bottom: 0; /* to match the parent's bottom edge */
