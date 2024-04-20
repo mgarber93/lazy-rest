@@ -9,15 +9,22 @@ import {FormGroup} from '../wrapper/form-group';
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: scroll;
   padding-top: 10rem;
   position: relative;
   height: 100%;
+  overflow: auto;
+
   .reset {
-    top: 1rem;
+    position: absolute;
+    top: 1rem; /* placed after padding-top of the parent */
+    left: 0; /* to match the parent's left edge */
+    right: 0; /* to match the parent's right edge */
+    bottom: 0; /* to match the parent's bottom edge */
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 6rem;
+    overflow: auto; /* to handle its own inner overflow */
+    padding: 5rem;
   }
 `;
 
@@ -38,7 +45,6 @@ export function Home() {
             </Card>
           </FormGroup>
         </div>
-
       </Div>
     </PageContainer>
   );
