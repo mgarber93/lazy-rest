@@ -3,7 +3,7 @@ import {Button} from 'react-bootstrap';
 import {OpenAiConfiguration} from '../../models/provider-config';
 import {configureOpenAi} from '../features/models';
 import {useAppDispatch, useAppSelector} from '../features/store';
-import {Control, Footer, Form, Group, Label} from '../styled/form';
+import {Control, Footer, Form, Group, Label, Header} from '../styled/form';
 
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi);
@@ -17,7 +17,7 @@ function OpenAiConfigForm() {
   };
   return (
     <Form onSubmit={handleSubmit}>
-      <h5>Open AI</h5>
+      <Header>Open AI</Header>
       <Group className="mb-lg-2">
         <Label>API Key</Label>
         <Control

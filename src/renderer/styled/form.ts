@@ -14,17 +14,27 @@ export const Label= styled.div`
 `
 
 export const Control = styled.input`
-  outline-color: $primary-7;
-  background-color: $primary-3;
+  outline-color: rgb(87, 99, 112);
+  background-color: rgba(34, 37, 28, 0.17);
   margin-top: 1rem;
+  outline-width: 0;
+  border: none;
+  border: 2px solid var(--primary-3);
+  border-radius: var(--border-radius);
+  -moz-text-decoration-color: var(--background-color-9);
   &:hover, &:focus-within, &:active {
-    background-color: $primary-6;
+    outline-color: rgb(87, 99, 112);
   }
+
   transition: 1s ease-in-out background-color;
   width: 100%;
-  padding: 0.1rem 0.2rem;
+  padding: 0.4rem 1rem;
 `
 export const Footer = styled.div`
   padding: 10px;
   margin-top: auto;
+`
+
+export const Header = styled.header`
+  font-size: larger;
 `
