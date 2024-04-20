@@ -1,5 +1,5 @@
 import {SetStateAction, useState} from 'react';
-import {Form, Label, Control, Footer} from '../styled/form';
+import {Control, Footer, Form, Label} from '../styled/form';
 import {Button} from 'react-bootstrap';
 
 export function ApiForm() {
@@ -9,7 +9,6 @@ export function ApiForm() {
   const [clientSecret, setClientSecret] = useState('')
 
   return <Form>
-    <h5>{name}</h5>
     <Label>Name</Label>
     <Control type="text" placeholder="Api name (eg spotify)" value={name}
              onChange={(event: {

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import {TimelineExtend, TimelineItem} from './timeline-card-item';
 import {Conversation} from '../../models/conversation';
 import {newestToOldest} from '../utils/sort-date';
-import {Card} from '../wrapper/card';
 
 const Timeline = styled.ul`
   line-height: 1.5;

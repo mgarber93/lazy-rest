@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {OpenAiConfiguration} from '../../models/provider-config';
 import {configureOpenAi} from '../features/models';
 import {useAppDispatch, useAppSelector} from '../features/store';
-import {Control, Footer, Form, Group, Label, Header} from '../styled/form';
+import {Control, Footer, Form, Group, Header, Label} from '../styled/form';
 import {Button} from '../styled/button';
 
 function OpenAiConfigForm() {

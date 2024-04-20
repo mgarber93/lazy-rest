@@ -25,19 +25,21 @@ const Div = styled.div`
   & * {
     -webkit-app-region: no-drag;
   }
-  
+
   svg {
     padding: 0.2rem 0 0 3px;
     width: 3rem;
     height: 1.6rem;
+
     &:hover {
       background-color: var(--background-color-3);
     }
   }
-  
+
   .active {
     background-color: var(--background-color-9);
     border-radius: 0.2rem;
+
     &:hover {
       background-color: var(--background-color-9);
     }
