@@ -11,6 +11,7 @@ const Div = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  height: 36px;
 
   .breadcrumb {
     margin-bottom: 0.5rem;
