@@ -18,7 +18,6 @@ export const Control = styled.input`
   background-color: rgba(34, 37, 28, 0.17);
   margin-top: 1rem;
   outline-width: 0;
-  border: none;
   border: 2px solid var(--primary-3);
   border-radius: var(--border-radius);
   -moz-text-decoration-color: var(--background-color-9);
