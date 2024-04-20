@@ -10,7 +10,7 @@ const Timeline = styled.ul`
   list-style: none;
   border: 1px solid var(--background-color-1);
   border-radius: var(--border-radius);
-  padding: 0.2rem 0.2rem 1rem 0.2rem;
+  padding: 0rem 0.2rem 1rem 0.2rem;
 
   .timeline-dot {
     fill: var(--timeline);
@@ -39,7 +39,7 @@ const Timeline = styled.ul`
   }
 
   .TimelineItem-body {
-    padding: 0 0.2rem 1rem 0.2rem;
+    padding: 0 0.2rem 0.2rem 0.2rem;
     flex: auto;
     max-width: 100%;
     min-width: 0;
@@ -47,7 +47,7 @@ const Timeline = styled.ul`
     min-height: 3rem;
     border-radius: var(--border-radius);
     .TimelineItem-event {
-      padding: 0.3rem;
+      padding: 0rem 0.3rem 0rem 0.3rem;
       background-color: var(--background-color-1);
       border: 1px solid var(--background-color-1);
       border-radius: var(--border-radius);

@@ -6,7 +6,6 @@ const Div = styled.div`
   border: 1px solid var(--background-color-3);
   background: linear-gradient(45deg, var(--primary-4), var(--primary-2) 30%, var(--primary-2), var(--primary-2));
   padding: 1rem;
-  max-width: 36rem;
   
   &:hover {
     border: 1px solid var(--background-color-4);
@@ -19,10 +18,14 @@ const Div = styled.div`
 
   margin: 0;
   transition: 0.4s ease-in-out border;
+  
+  &.slim {
+    padding: 0.2rem 1rem;
+  }
 `;
 
-export function Card(props: {children: ReactNode}) {
-  return <Div>
+export function Card(props: {children: ReactNode, slim?: boolean}) {
+  return <Div className={props?.slim ? 'slim' : ''}>
     {props.children}
   </Div>
 }

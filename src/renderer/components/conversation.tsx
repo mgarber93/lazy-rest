@@ -16,6 +16,7 @@ const MessagesContainer = styled.div`
   padding-top: 1rem;
   padding-bottom: 2.5rem;
   overflow-y: auto;
+  gap: 1rem;
 
   &::-webkit-scrollbar {
     display: none;

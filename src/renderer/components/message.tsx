@@ -4,14 +4,16 @@ import {AuthoredContent} from '../../models/content';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
 import {useAppSelector} from '../features/store';
+import {Card} from '../wrapper/card';
 
 const StyledDiv = styled.div`
   display: grid;
-  grid-template-columns: var(--name-gutter) 1fr;
+  grid-template-columns: 1fr var(--name-gutter);
 
   .author {
     color: var(--accent-text);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+    text-align: center;
 
     &.user {
       color: var(--dark-grey);
@@ -32,7 +34,6 @@ const StyledDiv = styled.div`
   border-image-slice: 1;
   color: var(--text-color);
   border: none;
-  padding: 0.5rem 0.2rem;
   font-size: var(--bs-body-font-size);
 
   p {
@@ -48,24 +49,23 @@ export function Message({content}: { content: AuthoredContent }) {
   const userName = useAppSelector(state => state.user?.username);
   const isUser = content.author === userName;
   const author = content.author?.length
-  
+
   if (content.role === 'system') {
     return (
       <StyledDiv>
+        <div>{content.author}</div>
         <p className={"author"}>
           {content.role}
         </p>
-        <div>{content.author}</div>
       </StyledDiv>
     );
   }
-  
-  return (
-    <StyledDiv>
-      <p className={"author" + (isUser ? ' user' : '')}>
-        {content.author?.substring(Math.max(author - 14, 0), Math.max(author, 14))}
-      </p>
-      <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message.replace(/(\n)+/g, '  \n')}</Markdown>
-    </StyledDiv>
-  );
+  const node =       <StyledDiv>
+    <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message.replace(/(\n)+/g, '  \n')}</Markdown>
+    <p className={"author" + (isUser ? ' user' : '')}>
+      {content.author?.substring(Math.max(author - 14, 0), Math.max(author, 14))}
+    </p>
+  </StyledDiv>;
+
+  return <Card slim={isUser}>{node}</Card>;
 }

@@ -11,7 +11,6 @@ const SendMessageContainer = styled.div`
   bottom: 2.5rem;
   flex-direction: row;
   background-color: var(--background-color-1);
-  border: 1px solid var(--background-color-2);
   width: 871px;
   height: fit-content;
   display: flex;

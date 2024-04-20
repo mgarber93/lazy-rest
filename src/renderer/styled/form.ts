@@ -30,7 +30,7 @@ export const Control = styled.input`
   padding: 0.4rem 1rem;
 `
 export const Footer = styled.div`
-  padding: 10px;
+  padding: 0;
   margin-top: auto;
 `
 

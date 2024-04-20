@@ -5,8 +5,8 @@
   --sage-bg: rgba(181, 189, 137, 0.17);
   --moonstone-bg: rgba(114, 158, 161, 0.15);
   --moonstone: #729EA1;
-  --coral: #EC919250;
-  --blush: #DB537550;
+  --coral: #EC9192;
+  --blush: #DB5375;
   --gold: #FCA311;
   --green: #063620;
   --blackish: #16171A;
@@ -107,7 +107,7 @@ $color-mode-type: media-query;
 $theme-colors: (
         info: #DFBE9950,
         success: #8cff0050,
-        primary: rgba(110, 113, 83, 0.77),
+        primary: rgba(255, 136, 0, 0.77),
         emphasis: #EC919250,
         danger: #DB537550,
         warning: #FCA31150
