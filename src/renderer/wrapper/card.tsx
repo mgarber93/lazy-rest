@@ -4,7 +4,7 @@ import {ReactNode} from 'react';
 const Div = styled.div`
   border-radius: 1rem;
   border: 1px solid var(--background-color-3);
-  background: linear-gradient(45deg, var(--primary-4), var(--primary-2) 30%, var(--primary-2), var(--primary-2));
+  background: var(--card);
   padding: 1rem;
   
   &:hover {
