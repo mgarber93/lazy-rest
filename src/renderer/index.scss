@@ -2,7 +2,7 @@
   --tan: #DFBE99;
   --tan-bg: rgba(223, 190, 153, 0.15);
   --sage: #B5BD89;
-  --sage-bg: rgba(181, 189, 137, 0.17);
+  --sage-bg: rgba(181, 189, 137, 0.85);
   --moonstone-bg: rgba(114, 158, 161, 0.15);
   --moonstone: #729EA1;
   --coral: #EC9192;
@@ -51,6 +51,8 @@
   --shadow: 0.2rem 0.15rem var(--box-shadow-background);
   --primary: #8cff00;
   --timeline: #696969;
+  --card: linear-gradient(45deg, var(--primary-4), var(--primary-2) 30%, var(--primary-2), var(--primary-2));
+  --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
 }
 
 @media (prefers-color-scheme: light) {
@@ -76,6 +78,7 @@
     --moonstone: #253434;
     --accent-text: var(--moonstone);
     --border-color: #0001;
+    --call-to-action: linear-gradient(30deg, var(--primary), var(--coral) 95%);
   }
 }
 
