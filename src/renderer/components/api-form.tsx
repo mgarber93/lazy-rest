@@ -1,8 +1,11 @@
 import {SetStateAction, useCallback, useMemo, useState} from 'react';
+import {parse} from 'yaml'
+import {v4} from 'uuid';
 import {Control, Footer, Form, Label} from '../styled/form';
 import {Button} from '../styled/button';
-import {parse} from 'yaml'
 import {OpenApiSpec} from '../../models/open-api-spec';
+import {useAppDispatch} from '../features/store';
+import {addApiConfiguration} from '../features/tools';
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -10,6 +13,7 @@ export function ApiForm() {
   const [clientId, setClientId] = useState('')
   const [clientSecret, setClientSecret] = useState('')
   const [fileSaved, setFileSaved] = useState(false);
+  const dispatch = useAppDispatch();
   
   const handleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -20,14 +24,18 @@ export function ApiForm() {
         setName(yaml.info.contact.name);
         setBaseUrl(yaml.servers[0].url);
         setFileSaved(true);
+        const key = v4();
+        localStorage.setItem(key, JSON.stringify(yaml));
+        dispatch(addApiConfiguration({key, configuration: {name, baseUrl, clientId, clientSecret}}));
       };
       reader.readAsText(file);  // You can read it as Array Buffer or Binary String alternatively
     }
-  }, [setName, setBaseUrl, setFileSaved]);
-  
+  }, [setName, setBaseUrl, setFileSaved, dispatch]);
+
   const isValid = useMemo(() => {
-    return clientId && clientSecret && fileSaved && name && baseUrl;
+    return name && baseUrl && clientId && clientSecret && fileSaved;
   }, [name, baseUrl, clientId, clientSecret, fileSaved]);
+
   return <Form>
     <Label>Open Api Spec</Label>
     <Control type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
