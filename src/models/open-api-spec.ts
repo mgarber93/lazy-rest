@@ -3,6 +3,9 @@ export interface OpenApiSpec {
   info: {
     description: string
     title: string
+    contact: {
+      name: string
+    }
   }
   servers: { url: string } []
   tags: { name: string }[]

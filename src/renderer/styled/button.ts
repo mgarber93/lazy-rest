@@ -10,4 +10,8 @@ export const Button = styled.button`
   &:hover {
     box-shadow: 4px 0px 2rem var(--primary-2);
   }
+
+  &:disabled {
+    background: var(--background-color-2);
+  }
 `
