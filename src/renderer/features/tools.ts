@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-
 export interface ApiConfiguration {
   fileHandle: string;
   name: string;

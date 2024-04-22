@@ -5,6 +5,8 @@ import OpenAiConfigForm from '../components/open-api-form';
 import {Card} from '../wrapper/card';
 import {ApiForm} from '../components/api-form';
 import {FormGroup} from '../wrapper/form-group';
+import {useAppSelector} from '../features/store';
+import {ApiConfiguration} from '../features/tools';
 
 const Div = styled.div`
   display: flex;
@@ -29,8 +31,13 @@ const Div = styled.div`
   }
 `;
 
+export function ApiToolPreview() {
+  return <Card>hello world</Card>
+}
+
 
 export function Home() {
+  const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> };
   return (
     <PageContainer activeRoute={"/home"}>
       <Div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
@@ -40,7 +47,10 @@ export function Home() {
               <OpenAiConfigForm/>
             </Card>
           </FormGroup>
-          <FormGroup name={"Api"}>
+          <FormGroup name={"Tools"}>
+            <div className={"d-flex flex-row align-items-center"}>
+              {Object.values(tools.api).map(tool => <ApiToolPreview key={tool.fileHandle}/>)}
+            </div>
             <Card>
               <ApiForm></ApiForm>
             </Card>
