@@ -57,12 +57,12 @@ export function ApiForm() {
                target: { value: SetStateAction<string>; };
              }) => setBaseUrl(event.target.value)}/>
     <Label>Client ID</Label>
-    <Control type="text" placeholder="Client ID" value={clientId}
+    <Control type="password" placeholder="Client ID" value={clientId}
              onChange={(event: {
                target: { value: SetStateAction<string>; };
              }) => setClientId(event.target.value)}/>
     <Label>Client Secret</Label>
-    <Control type="text" placeholder="Client secret" value={clientSecret}
+    <Control type="password" placeholder="Client secret" value={clientSecret}
              onChange={(event: {
                target: { value: SetStateAction<string>; };
              }) => setClientSecret(event.target.value)}/>
