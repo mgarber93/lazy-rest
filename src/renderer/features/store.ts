@@ -6,6 +6,7 @@ import {currentChatSlice} from './current-chat';
 import {contextMenuSlice} from './context-menu';
 import {modelsSlice} from './models';
 import {localStorageMiddleware} from '../middleware/local-storage';
+import {toolsSlice} from './tools';
 
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     currentChat: currentChatSlice.reducer,
     contextMenu: contextMenuSlice.reducer,
     models: modelsSlice.reducer,
+    tools: toolsSlice.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
