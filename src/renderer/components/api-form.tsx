@@ -23,7 +23,7 @@ export function ApiForm() {
       };
       reader.readAsText(file);  // You can read it as Array Buffer or Binary String alternatively
     }
-  }, [setName, setBaseUrl]);
+  }, [setName, setBaseUrl, setFileSaved]);
   
   const isValid = useMemo(() => {
     return clientId && clientSecret && fileSaved && name && baseUrl;
