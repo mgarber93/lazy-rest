@@ -31,12 +31,18 @@ const Div = styled.div`
   }
 `;
 
-export function ApiToolPreview() {
-  return <Card>hello world</Card>
+export function ApiToolPreview({api}: {api: ApiConfiguration}) {
+  return <Card>
+    <div className="d-flex flex-column gap-3">
+      <div>{api.name}</div>
+      <div>{api.baseUrl}</div>
+    </div>
+  </Card>
 }
 
 
 export function Home() {
+  const [creatingNewApi, setCreatingNewApi] = React.useState(false);
   const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> };
   return (
     <PageContainer activeRoute={"/home"}>
@@ -48,12 +54,13 @@ export function Home() {
             </Card>
           </FormGroup>
           <FormGroup name={"Tools"}>
-            <div className={"d-flex flex-row align-items-center"}>
-              {Object.values(tools.api).map(tool => <ApiToolPreview key={tool.fileHandle}/>)}
+            <div className={"d-flex flex-row align-content-around justify-content-start g-2 gap-3"}>
+              {Object.values(tools.api).map(api => <ApiToolPreview api={api} key={api.fileHandle}/>)}
+              <Card>
+                <ApiForm></ApiForm>
+              </Card>
             </div>
-            <Card>
-              <ApiForm></ApiForm>
-            </Card>
+
           </FormGroup>
         </div>
       </Div>
