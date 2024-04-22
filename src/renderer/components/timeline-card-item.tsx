@@ -1,10 +1,10 @@
+import moment from 'moment';
+import {CloseButton} from 'react-bootstrap';
+import {useCallback, useState} from 'react';
 import {useAppDispatch} from '../features/store';
 import {selectChat} from '../features/current-chat';
 import {removeChat, startNewChat} from '../features/chat';
-import moment from 'moment';
-import {CloseButton} from 'react-bootstrap';
 import {Conversation, createConversation} from '../../models/conversation';
-import {useCallback, useState} from 'react';
 
 
 export function TimelineItem({item}: { item: Conversation }) {
