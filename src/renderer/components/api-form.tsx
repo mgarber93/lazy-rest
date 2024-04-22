@@ -1,6 +1,6 @@
 import {SetStateAction, useState} from 'react';
 import {Control, Footer, Form, Label} from '../styled/form';
-import {Button} from 'react-bootstrap';
+import {Button} from '../styled/button';
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -9,6 +9,12 @@ export function ApiForm() {
   const [clientSecret, setClientSecret] = useState('')
 
   return <Form>
+    <Label>Api swagger</Label>
+    <Control type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
+             onChange={(event: {
+               target: { value: SetStateAction<string>; };
+             }) => setClientSecret(event.target.value)}/>
+    
     <Label>Name</Label>
     <Control type="text" placeholder="Api name (eg spotify)" value={name}
              onChange={(event: {
@@ -33,14 +39,8 @@ export function ApiForm() {
                target: { value: SetStateAction<string>; };
              }) => setClientSecret(event.target.value)}/>
 
-    <Label>Api swagger</Label>
-    <Control type="file" placeholder="Swagger OAS file"
-             onChange={(event: {
-               target: { value: SetStateAction<string>; };
-             }) => setClientSecret(event.target.value)}/>
-
     <Footer>
-      <Button variant="primary" type="submit" size={"sm"}>Submit</Button>
+      <Button type="submit">Save</Button>
     </Footer>
   </Form>;
 }

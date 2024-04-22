@@ -35,7 +35,7 @@ function OpenAiConfigForm() {
         />
       </Group>
       <Footer>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </Footer>
     </Form>);
 }
