@@ -9,9 +9,4 @@ export const plugins = [
   new ForkTsCheckerWebpackPlugin({
     logger: 'webpack-infrastructure',
   }),
-  new CopyPlugin({
-    patterns: [
-      {from: "oas", to: "oas"},
-    ],
-  }),
 ];
