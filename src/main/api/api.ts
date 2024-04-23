@@ -1,6 +1,7 @@
 import {AuthoredContent} from '../../models/content';
-import {isModel, Responder, TProvider} from '../../models/responder';
+import {isModel, isOrganization, Responder, TProvider} from '../../models/responder';
 import {getModels as listOpenAiModels, prompt, streamedPrompt} from './openai';
+import {restApiOrganization} from '../api-loop';
 
 
 export async function chat(responder: Responder, content: AuthoredContent[]): Promise<{
@@ -30,7 +31,17 @@ export async function streamedChat(responder: Responder, content: AuthoredConten
         throw new Error('not implemented');
       }
     }
+  } else if (isOrganization(responder)) {
+    debugger
+    // @todo handle organization here
+    // assume we're rest GPT for now
+    if (content.length < 1)
+      throw new Error('No user prompt for org to handle')
+
+    const prompt = content[content.length - 1];
+    return restApiOrganization(responder, prompt, chatId, messageId);
   }
+
   throw new Error(`Cant respond`);
 }
 
