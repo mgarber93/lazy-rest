@@ -6,13 +6,14 @@ export type TSender = (eventName: string, ...args: any[]) => void;
 export class WindowSender<T = any> {
   private _sender: TSender | null = null;
   private promiseMap = new Map<string, (value: unknown) => void>();
-  
   constructor(private _queue: { eventName: TChannel, args: any[] }[] = []) {
   }
-  
   hasFinishedLoading(sender: TSender) {
     this._sender = sender;
     for (const message of this._queue) {
+      if (this.promiseMap.has(message.args[0])) {
+        this.promiseMap.delete(message.args[0]);
+      }
       this._sender(message.eventName, ...message.args);
     }
   }
@@ -26,22 +27,21 @@ export class WindowSender<T = any> {
       this._queue.push({eventName, args: [...args]});
     }
   }
-
   send(eventName: TChannel, ...args: any[]): void {
     return this.sendOrQueue(eventName, args);
   }
   asyncSend(eventName: TChannel, id: string, ...args: any[]): Promise<T> {
     return new Promise((resolve, reject) => {
       const nextArgs = [id, ...args];
-      if (this.promiseMap.has(id)) {
-        // throw duplication error
-        throw new Error(`${id} is already registered`)
-      }
-      this.promiseMap.set(id, resolve);
       if (this._sender) {
         // we're resolving right away
-        this._sender(eventName, ...nextArgs);
+        return this._sender(eventName, ...nextArgs);
       } else {
+        if (this.promiseMap.has(id)) {
+          // throw duplication error
+          throw new Error(`${id} is already registered`)
+        }
+        this.promiseMap.set(id, resolve);
         this._queue.push({eventName, args: nextArgs});
       }
     });

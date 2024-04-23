@@ -2,6 +2,26 @@ import {WindowSender} from './window-sender';
 import {v4} from 'uuid';
 
 describe('WindowSender', () => {
+  it('should send before sender', () => {
+    const windowSender = new WindowSender();
+    const spy = jest.fn();
+    const argOne = 'load-oas';
+    const argTwo = {}
+    windowSender.send(argOne, argTwo);
+    // expect spy to have been called with argOne argTwo
+    windowSender.hasFinishedLoading(spy);
+    expect(spy).toHaveBeenCalledWith(argOne, argTwo);
+  });
+  it('should send after sender', () => {
+    const windowSender = new WindowSender();
+    const spy = jest.fn();
+    const argOne = 'load-oas';
+    const argTwo = {}
+    windowSender.hasFinishedLoading(spy);
+    windowSender.send(argOne, argTwo);
+    // expect spy to have been called with argOne argTwo
+    expect(spy).toHaveBeenCalledWith(argOne, argTwo);
+  });
   it('should resolve with the sent values before hasFinishedLoading has been called', async () => {
     const windowSender = new WindowSender();
     const argOne = 'load-oas';
@@ -11,11 +31,13 @@ describe('WindowSender', () => {
       expect(args[0]).toEqual(argOne);
       expect(args[1]).toEqual(argTwo);
       expect(args[2]).toEqual(argThree);
+
     };
     windowSender.asyncSend(argOne, argTwo, argThree)
       .then(callback);
     expect(windowSender['promiseMap'].size).toBe(1);
     windowSender.hasFinishedLoading(callback);
+    expect(windowSender['promiseMap'].size).toBe(0);
     // callback shouldn't have been called yet because there are no messages in queue
     // some async process goes on then invokes the callback
     // windowSender.callback(id, arg);
@@ -34,7 +56,7 @@ describe('WindowSender', () => {
     windowSender.hasFinishedLoading(callback);
     windowSender.asyncSend(argOne, argTwo, argThree)
       .then(callback);
-    expect(windowSender['promiseMap'].size).toBe(1);
+    expect(windowSender['promiseMap'].size).toBe(0);
     // callback shouldn't have been called yet because there are no messages in queue
     // some async process goes on then invokes the callback
     // windowSender.callback(id, arg);
