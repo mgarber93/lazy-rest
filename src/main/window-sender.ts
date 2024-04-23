@@ -11,9 +11,6 @@ export class WindowSender<T = any> {
   hasFinishedLoading(sender: TSender) {
     this._sender = sender;
     for (const message of this._queue) {
-      if (this.promiseMap.has(message.args[0])) {
-        this.promiseMap.delete(message.args[0]);
-      }
       this._sender(message.eventName, ...message.args);
     }
   }
@@ -32,16 +29,17 @@ export class WindowSender<T = any> {
   }
   asyncSend(eventName: TChannel, id: string, ...args: any[]): Promise<T> {
     return new Promise((resolve, reject) => {
+      if (this.promiseMap.has(id)) {
+        // throw duplication error
+        throw new Error(`${id} is already registered`)
+      }
+      this.promiseMap.set(id, resolve);
+
       const nextArgs = [id, ...args];
       if (this._sender) {
         // we're resolving right away
-        return this._sender(eventName, ...nextArgs);
+         this._sender(eventName, ...nextArgs);
       } else {
-        if (this.promiseMap.has(id)) {
-          // throw duplication error
-          throw new Error(`${id} is already registered`)
-        }
-        this.promiseMap.set(id, resolve);
         this._queue.push({eventName, args: nextArgs});
       }
     });

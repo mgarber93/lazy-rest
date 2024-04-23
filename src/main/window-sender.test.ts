@@ -27,16 +27,19 @@ describe('WindowSender', () => {
     const argOne = 'load-oas';
     const argTwo = v4();
     const argThree = {arg: 'hello world'}
-    let callback = (...args: any[]) => {
+    let sender = (...args: any[]) => {
       expect(args[0]).toEqual(argOne);
       expect(args[1]).toEqual(argTwo);
-      expect(args[2]).toEqual(argThree);
-
     };
-    windowSender.asyncSend(argOne, argTwo, argThree)
-      .then(callback);
+    let resolve = (...args: any[]) => {
+      expect(args[0]).toEqual(argThree);
+      expect(windowSender['promiseMap'].size).toBe(0);
+    }
+    windowSender.asyncSend(argOne, argTwo)
+      .then(resolve);
     expect(windowSender['promiseMap'].size).toBe(1);
-    windowSender.hasFinishedLoading(callback);
+    windowSender.hasFinishedLoading(sender);
+    windowSender.callback(argTwo, argThree);
     expect(windowSender['promiseMap'].size).toBe(0);
     // callback shouldn't have been called yet because there are no messages in queue
     // some async process goes on then invokes the callback
@@ -51,12 +54,14 @@ describe('WindowSender', () => {
     let callback = (...args: any[]) => {
       expect(args[0]).toEqual(argOne);
       expect(args[1]).toEqual(argTwo);
-      expect(args[2]).toEqual(argThree);
     };
+    let resolve = (...args: any[]) => {
+      expect(args[0]).toEqual(argThree);
+      expect(windowSender['promiseMap'].size).toBe(0);
+    }
     windowSender.hasFinishedLoading(callback);
-    windowSender.asyncSend(argOne, argTwo, argThree)
-      .then(callback);
-    expect(windowSender['promiseMap'].size).toBe(0);
+    windowSender.asyncSend(argOne, argTwo)
+      .then(resolve);
     // callback shouldn't have been called yet because there are no messages in queue
     // some async process goes on then invokes the callback
     // windowSender.callback(id, arg);
