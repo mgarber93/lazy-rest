@@ -12,7 +12,7 @@ describe('WindowSender', () => {
       expect(args[1]).toEqual(argTwo);
       expect(args[2]).toEqual(argThree);
     };
-    windowSender.send(argOne, argTwo, argThree)
+    windowSender.asyncSend(argOne, argTwo, argThree)
       .then(callback);
     expect(windowSender['promiseMap'].size).toBe(1);
     windowSender.hasFinishedLoading(callback);
@@ -32,7 +32,7 @@ describe('WindowSender', () => {
       expect(args[2]).toEqual(argThree);
     };
     windowSender.hasFinishedLoading(callback);
-    windowSender.send(argOne, argTwo, argThree)
+    windowSender.asyncSend(argOne, argTwo, argThree)
       .then(callback);
     expect(windowSender['promiseMap'].size).toBe(1);
     // callback shouldn't have been called yet because there are no messages in queue
