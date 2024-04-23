@@ -44,7 +44,7 @@ export class WindowSender<T = any> {
       }
     });
   }
-  callback(id:string , response: T) {
+  callback(id:string, response: T) {
     const resolve = this.promiseMap.get(id);
     if (resolve) {
       this.promiseMap.delete(id);

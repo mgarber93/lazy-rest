@@ -18,6 +18,7 @@ export interface PreloadedApi {
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
   remove: (channel: TChannel, func: (...args: any[]) => void) => void;
   setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>;
+  callback: (id: string, arg: any[]) => void;
 }
 
 const validChannels: TChannel[] = ['message-delta', 'tool-request'];
@@ -52,4 +53,5 @@ contextBridge.exposeInMainWorld('main', {
   getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),
   loadOasSpec: ipcRenderer.invoke.bind(ipcRenderer, 'loadOasSpec'),
   setOpenAiConfiguration: ipcRenderer.invoke.bind(ipcRenderer, 'setOpenAiConfiguration'),
+  callback: ipcRenderer.invoke.bind(ipcRenderer, 'callback'),
 } as PreloadedApi)
