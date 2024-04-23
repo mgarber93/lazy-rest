@@ -35,8 +35,8 @@ export function UserInputText({placeholder}: { placeholder: string }) {
   }, [dispatch]);
 
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
-    e.preventDefault();
     if (e.key === 'Enter' && !e.shiftKey && inputValue && currentConversation.responder) {
+      e.preventDefault();
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
       dispatch(respond(prompt))
       const placeHolder = createContent('', currentConversation.id, getModel(currentConversation.responder), 'assistant')
