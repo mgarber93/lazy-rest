@@ -1,3 +1,6 @@
+import {types} from 'sass';
+import Error = types.Error;
+
 export type TChannel = "message-delta" | "tool-request" | "tool-approval" | "load-oas";
 
 // first id is id for co-ordination
@@ -49,6 +52,8 @@ export class WindowSender<T = any> {
     if (resolve) {
       this.promiseMap.delete(id);
       return resolve(response);
+    } else {
+      throw new Error(`No promise found for id: ${id}`);
     }
   }
 }

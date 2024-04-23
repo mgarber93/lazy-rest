@@ -2,12 +2,29 @@ import {Conversation, createConversation} from '../models/conversation';
 import {apiPlanner} from '../prompts/api-planner';
 import {apiSelector} from '../prompts/api-selector';
 import {buildCallerPrompt} from '../prompts/api-caller';
-import {copy, createContent} from '../models/content';
+import {AuthoredContent, createContent} from '../models/content';
 import {TAgent} from './api-loop';
+import {Responder} from '../models/responder';
 
-export function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
-  const conversation = createConversation() as Conversation;
-  const userContent = user.content[user.content.length - 1]; // assume user request is the last message
+export interface AgentConstructionArgs {
+  endpoints?: string;
+  roughPlan?: string; // used for selector to create calling plan from
+  responder: Responder;
+}
+
+/**
+ * An Agent initial conversation has two contents:
+ * 1) a system prompt describing its role
+ * 2) a user prompt to respond to using the guidelines
+ *
+ * @param agent - type of agent
+ * @param userContent - Content to respond to
+ * @param args
+ */
+export async function startAgentConversation(agent: TAgent, userContent: AuthoredContent, args?: AgentConstructionArgs): Promise<Conversation> {
+  const agentInternalConversation = createConversation(agent);
+  const {roughPlan, responder, endpoints} = args ?? {};
+  agentInternalConversation.responder = responder;
   let plannerMessage;
   switch (agent) {
     case "planner": {
@@ -15,10 +32,9 @@ export function startAgentConversation(user: Conversation, agent: TAgent, endpoi
       break;
     }
     case "selector": {
-      if (!endpoints)
-        throw new Error('no endpoints')
       if (!roughPlan)
         throw new Error('no rough plan')
+
       plannerMessage = apiSelector('spotify', endpoints, roughPlan);
       break;
     }
@@ -27,8 +43,7 @@ export function startAgentConversation(user: Conversation, agent: TAgent, endpoi
       break;
     }
   }
-  const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
-  conversation.content.push(plan);
-  conversation.content.push(copy(userContent));
-  return conversation;
+  const plan = createContent(plannerMessage, agentInternalConversation.id, 'system', 'system')
+  agentInternalConversation.content.push(plan);
+  return agentInternalConversation;
 }
