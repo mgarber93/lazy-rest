@@ -32,7 +32,6 @@ export async function streamedChat(responder: Responder, content: AuthoredConten
       }
     }
   } else if (isOrganization(responder)) {
-    debugger
     // @todo handle organization here
     // assume we're rest GPT for now
     if (content.length < 1)

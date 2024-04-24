@@ -34,6 +34,7 @@ async function createArgs() {
 
 /**
  * Flagship organization for product
+ * Move to renderer?
  * @param user
  */
 export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<void> {

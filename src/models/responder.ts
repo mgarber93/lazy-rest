@@ -10,7 +10,9 @@ export interface Model extends Responder {
   model: string;
 }
 
-export interface Organization extends Model {
+export interface Organization extends Responder {
+  type: "organization";
+  orgId: string;
 }
 
 export interface Agent extends Model {

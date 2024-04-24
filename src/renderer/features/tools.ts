@@ -9,7 +9,7 @@ const tools = JSON.parse(serializedTools) ?? {
 
 export const toolsSlice = createSlice({
   name: 'tools',
-  initialState: tools,
+  initialState: tools as {api: Record<string, ApiConfiguration>},
   reducers: {
     addApiConfiguration: (state, action) => {
       const {key, configuration} = action.payload;

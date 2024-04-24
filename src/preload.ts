@@ -18,10 +18,10 @@ export interface PreloadedApi {
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
   remove: (channel: TChannel, func: (...args: any[]) => void) => void;
   setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>;
-  callback: (id: string, arg: any[]) => void;
+  callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'tool-request', 'load-oas'];
+const validChannels: TChannel[] = ['message-delta', 'tool-request', 'load-oas', 'callback'];
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,

@@ -9,6 +9,7 @@ import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useSta
 import {getModel} from '../../models/responder';
 
 const TextArea = styled.textarea`
+  border: 1px solid var(--background-color-9);
   width: 100%;
   resize: none;
   background-color: var(--background-color-2);
@@ -16,7 +17,6 @@ const TextArea = styled.textarea`
   font-size: larger;
   outline: none;
   border-radius: var(--border-radius);
-  border: 1px solid var(--background-color-1);
   height: fit-content;
   margin: 0;
 `

@@ -1,7 +1,7 @@
 import {types} from 'sass';
 import Error = types.Error;
 
-export type TChannel = "message-delta" | "tool-request" | "tool-approval" | "load-oas";
+export type TChannel = "message-delta" | "tool-request" | "tool-approval" | "load-oas" | 'callback';
 
 // first id is id for co-ordination
 export type TSender = (eventName: string, ...args: any[]) => void;

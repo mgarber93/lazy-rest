@@ -4,32 +4,11 @@ import {Conversation, createConversation} from '../../models/conversation';
 import {TAutoPrompter} from '../../models/auto-prompter';
 import {Responder} from '../../models/responder';
 import {RootState} from './store';
-import {AsyncThunkConfig, GetThunkAPI} from '@reduxjs/toolkit/dist/createAsyncThunk';
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 const initialState: Conversation[] = chats ?? [createConversation()];
 const name = 'chats';
-
-function callbacks(thunkAPI: GetThunkAPI<AsyncThunkConfig>) {
-  const channel = 'message-delta';
-  const callBack = (electronEvent: any, authoredContentDelta: any) => {
-    const {chatId, messageId, delta, closed} = authoredContentDelta;
-    if (closed) {
-      window.main.remove(channel, callBack);
-      return
-    }
-    thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
-  };
-  window.main.receive(channel, callBack);
-  const toolApproval = (electronEvent: any, authoredContentDelta: any) => {
-    console.log('wants tool approval!');
-  };
-  window.main.receive('tool-request', toolApproval);
-  // @todo load from local storage
-  // @todo load configuration from local storage or thunk api
-  // send oas as a callback
-}
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
@@ -46,7 +25,6 @@ export const streamResponse = createAsyncThunk(
     if (!response)
       return null
 
-    callbacks(thunkAPI);
     await window.main.streamedChat(conversation, response.id);
   },
 );
