@@ -6,7 +6,7 @@ import {Card} from '../wrapper/card';
 import {ApiForm} from '../components/api-form';
 import {FormGroup} from '../wrapper/form-group';
 import {useAppSelector} from '../features/store';
-import {ApiConfiguration} from '../features/tools';
+import {ApiConfiguration} from '../../models/api-configuration';
 
 const Div = styled.div`
   display: flex;

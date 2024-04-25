@@ -2,6 +2,7 @@ import {ChatCompletionMessageParam} from 'openai/resources';
 import {AuthoredContent, ContentDelta, isToolCall} from '../../models/content';
 import windowSender from '../window-sender';
 import providerManager from '../provider-manager';
+import {RoleContent} from './api';
 
 // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
 export async function getModels(): Promise<string> {
@@ -34,10 +35,7 @@ export function mapAuthoredContentToChatCompletion(content: AuthoredContent): Ch
 }
 
 
-export async function prompt(model: string, content: AuthoredContent[]): Promise<{
-  role: "system" | "assistant" | "user",
-  content: string
-}> {
+export async function prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
   const openai = providerManager.getOpenAi();

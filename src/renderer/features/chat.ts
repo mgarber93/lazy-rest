@@ -5,7 +5,6 @@ import {TAutoPrompter} from '../../models/auto-prompter';
 import {Responder} from '../../models/responder';
 import {RootState} from './store';
 
-
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 const initialState: Conversation[] = chats ?? [createConversation()];
@@ -18,28 +17,17 @@ export const streamResponse = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
     await window.main.setOpenAiConfiguration(state.models.providers.openAi);
     const conversation = state.chats.find(chat => chat.id === conversationId);
-    // Cant respond unless a responder is set and an auto prompter isn't
+    // Cant respond unless a responder is set
     if (!conversation || !conversation.responder)
       return null;
-    
+
     const response = conversation.content.find(content => content.id === contentId)
     if (!response)
       return null
-    
-    const channel = 'message-delta';
-    const callBack = (electronEvent: any, authoredContentDelta: any) => {
-      const {chatId, messageId, delta, closed} = authoredContentDelta;
-      if (closed) {
-        window.main.remove(channel, callBack);
-        return
-      }
-      thunkAPI.dispatch(appendDelta({chatId, messageId, delta}));
-    };
-    window.main.receive(channel, callBack);
+
     await window.main.streamedChat(conversation, response.id);
   },
-)
-
+);
 
 export const chatsSlice = createSlice({
   name,

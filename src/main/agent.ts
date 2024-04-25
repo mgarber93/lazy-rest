@@ -1,34 +1,76 @@
 import {Conversation, createConversation} from '../models/conversation';
-import {apiPlanner} from '../prompts/api-planner';
-import {apiSelector} from '../prompts/api-selector';
+import {selector} from '../prompts/rest-gpt/selector';
 import {buildCallerPrompt} from '../prompts/api-caller';
-import {copy, createContent} from '../models/content';
+import {AuthoredContent, createContent} from '../models/content';
 import {TAgent} from './api-loop';
+import {Model, Responder, TProvider} from '../models/responder';
+import {plannerTemplate} from '../prompts/rest-gpt/planner';
 
-export function startAgentConversation(user: Conversation, agent: TAgent, endpoints?: string, roughPlan?: string) {
-  const conversation = createConversation() as Conversation;
-  const userContent = user.content[user.content.length - 1]; // assume user request is the last message
-  let plannerMessage;
+export interface AgentConstructionArgs {
+  endpoints?: string;
+  roughPlan?: string; // used for selector to create calling plan from
+  responder: Responder;
+}
+function dynamicallyPickResponder(agent: TAgent): Model {
+  let defaultResponder = {
+    type: 'chat',
+    provider: "openai" as TProvider,
+    model: "gpt-3.5-turbo"
+  } as Model;
   switch (agent) {
     case "planner": {
-      plannerMessage = apiPlanner('spotify');
+      return defaultResponder;
+    }
+    case "selector": {
+      return {
+        type: 'chat',
+        provider: "openai" as TProvider,
+        model: "gpt-4-turbo-preview"
+      };
+    }
+    default: {
+      return defaultResponder;
+    }
+  }
+}
+/**
+ * An Agent initial conversation has two contents:
+ * 1) a system prompt describing its role
+ * 2) a user prompt to respond to using the guidelines
+ *
+ * @param agent - type of agent
+ * @param userContent - Content to respond to
+ * @param args
+ */
+export async function createAgent(agent: TAgent, userContent: AuthoredContent, args?: AgentConstructionArgs): Promise<Conversation> {
+  const agentInternalConversation = createConversation(agent);
+  const {roughPlan, responder, endpoints} = args ?? {};
+  const model = dynamicallyPickResponder(agent)
+
+  if (!responder) {
+    throw new Error('unknown responder' + responder);
+  }
+  agentInternalConversation.responder = model;
+  let systemInstructions;
+  switch (agent) {
+    case "planner": {
+      systemInstructions = plannerTemplate;
       break;
     }
     case "selector": {
-      if (!endpoints)
-        throw new Error('no endpoints')
-      if (!roughPlan)
-        throw new Error('no rough plan')
-      plannerMessage = apiSelector('spotify', endpoints, roughPlan);
+      if (!endpoints) {
+        throw new Error('missing endpoints');
+      }
+      systemInstructions = selector(endpoints);
       break;
     }
     case "executor": {
-      plannerMessage = buildCallerPrompt(userContent.message, endpoints);
+      systemInstructions = buildCallerPrompt(userContent.message, endpoints);
       break;
     }
   }
-  const plan = createContent(plannerMessage, conversation.id, 'system', 'system')
-  conversation.content.push(plan);
-  conversation.content.push(copy(userContent));
-  return conversation;
+  const plan = createContent(systemInstructions, agentInternalConversation.id, 'system', 'system')
+  agentInternalConversation.content.push(plan);
+  agentInternalConversation.content.push(userContent);
+  return agentInternalConversation;
 }

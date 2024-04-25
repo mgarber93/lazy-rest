@@ -1,12 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-
-export interface ApiConfiguration {
-  fileHandle: string;
-  name: string;
-  baseUrl: string;
-  clientId: string;
-  clientSecret: string;
-}
+import {ApiConfiguration} from '../../models/api-configuration';
 
 const serializedTools = localStorage.getItem('tools')
 const tools = JSON.parse(serializedTools) ?? {
@@ -16,7 +9,7 @@ const tools = JSON.parse(serializedTools) ?? {
 
 export const toolsSlice = createSlice({
   name: 'tools',
-  initialState: tools,
+  initialState: tools as {api: Record<string, ApiConfiguration>},
   reducers: {
     addApiConfiguration: (state, action) => {
       const {key, configuration} = action.payload;

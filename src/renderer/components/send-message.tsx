@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import {useAppSelector} from '../features/store';
 import {useCurrentConversation} from '../hooks/current-conversation';
 import {UserInputText} from './user-input-text';
-import {Model, Responder} from '../../models/responder';
+import {Model, Organization, Responder} from '../../models/responder';
 
 const SendMessageContainer = styled.div`
   position: sticky;
   margin-top: auto;
   bottom: 2.5rem;
   flex-direction: row;
-  background-color: var(--background-color-1);
   width: 871px;
   height: fit-content;
   display: flex;
@@ -20,6 +19,9 @@ function mapResponderToPlaceholder(responder: Responder) {
   switch (responder?.type ?? '') {
     case "chat": {
       return `Message ${(responder as Model)?.model}`
+    }
+    case "organization": {
+      return `Message ${(responder as Organization).orgId}`
     }
     default:
       return `Select a model`;

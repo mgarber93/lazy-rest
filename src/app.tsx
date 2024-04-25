@@ -5,10 +5,12 @@ import {Provider} from 'react-redux';
 import ConversationPage from './renderer/pages/conversations';
 import {store} from './renderer/features/store'
 import {Home} from './renderer/pages/home';
+import {connectCallbacks} from './connect-callbacks';
+
+connectCallbacks(store);
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-
 const router = createHashRouter([
   {
     path: "*",

@@ -38,7 +38,7 @@ export function ApiForm() {
 
   const handleSubmit = useCallback((event: React.FormEvent) => {
     event.preventDefault();
-    localStorage.setItem(fileHandle, oas);
+    localStorage.setItem(fileHandle, JSON.stringify(oas));
     dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}));
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle]);
 

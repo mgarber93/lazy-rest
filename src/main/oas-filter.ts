@@ -8,6 +8,11 @@ function setEndpointDescription(object: Record<string, any>, path: string, key: 
   object[path][key] = value.replace('\n', ' ').trim();
 }
 
+/**
+ * gets the description of paths in the specification
+ * It does not read the description of the oas overall, which is also available
+ * @param oasSpec
+ */
 export function oasToDescriptions(oasSpec: OpenApiSpec): object {
   const spec = {};
   for (const key in oasSpec.paths) {

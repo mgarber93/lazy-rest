@@ -10,6 +10,11 @@ export interface Model extends Responder {
   model: string;
 }
 
+export interface Organization extends Responder {
+  type: "organization";
+  orgId: string;
+}
+
 export interface Agent extends Model {
   instructions: string;
 }
@@ -27,8 +32,9 @@ export function getModel(responder: Responder): string {
 }
 
 export function isModel(responder: Responder): responder is Model {
-  const castedResponder = responder as Model;
-  const hasProvider = !!castedResponder?.provider;
-  const hasModel = !!castedResponder?.model;
-  return hasProvider && hasModel;
+  return responder.type === 'chat';
+}
+
+export function isOrganization(responder: Responder): responder is Organization {
+  return responder.type === 'organization';
 }
