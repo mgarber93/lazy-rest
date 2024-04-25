@@ -19,7 +19,7 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'tool-request', 'load-oas', 'callback'];
+const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'calling-plan-approval'];
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
