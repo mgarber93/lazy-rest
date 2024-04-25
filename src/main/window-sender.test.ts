@@ -41,10 +41,6 @@ describe('WindowSender', () => {
     windowSender.hasFinishedLoading(sender);
     windowSender.callback(argTwo, argThree);
     expect(windowSender['promiseMap'].size).toBe(0);
-    // callback shouldn't have been called yet because there are no messages in queue
-    // some async process goes on then invokes the callback
-    // windowSender.callback(id, arg);
-    // promise resolves
   });
   it('should resolve with the sent values after have finished loading has happened', async () => {
     const windowSender = new WindowSender();
