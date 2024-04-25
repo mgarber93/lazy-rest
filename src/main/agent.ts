@@ -71,5 +71,6 @@ export async function createAgent(agent: TAgent, userContent: AuthoredContent, a
   }
   const plan = createContent(systemInstructions, agentInternalConversation.id, 'system', 'system')
   agentInternalConversation.content.push(plan);
+  agentInternalConversation.content.push(userContent);
   return agentInternalConversation;
 }

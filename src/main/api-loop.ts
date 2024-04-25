@@ -20,7 +20,6 @@ export type TAgent = "planner" | "selector" | "executor";
  */
 async function promptAgent(agentType: TAgent, content: AuthoredContent, windowReference: WindowReference, args?: AgentConstructionArgs): Promise<void> {
   const agent = await createAgent(agentType, content, args);
-  agent.content.push(content);
   await streamedChat(agent.responder, agent.content, windowReference);
 }
 
