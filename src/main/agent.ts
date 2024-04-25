@@ -25,7 +25,7 @@ function dynamicallyPickResponder(agent: TAgent): Model {
       return {
         type: 'chat',
         provider: "openai" as TProvider,
-        model: "gpt-4.5-turbo"
+        model: "gpt-4-turbo-preview"
       };
     }
     default: {
@@ -58,9 +58,9 @@ export async function createAgent(agent: TAgent, userContent: AuthoredContent, a
       break;
     }
     case "selector": {
-      if (!roughPlan)
-        throw new Error('no rough plan')
-
+      if (!endpoints) {
+        throw new Error('missing endpoints');
+      }
       systemInstructions = selector(endpoints);
       break;
     }
