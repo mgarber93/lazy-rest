@@ -58,9 +58,5 @@ describe('WindowSender', () => {
     windowSender.hasFinishedLoading(callback);
     windowSender.asyncSend(argOne, argTwo)
       .then(resolve);
-    // callback shouldn't have been called yet because there are no messages in queue
-    // some async process goes on then invokes the callback
-    // windowSender.callback(id, arg);
-    // promise resolves
   });
 });
