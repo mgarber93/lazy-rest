@@ -1,5 +1,5 @@
 import {ChatCompletionMessageParam} from 'openai/resources';
-import {AuthoredContent, ContentDelta, isToolCall} from '../../models/content';
+import {AuthoredContent, ContentDelta, createContent, isToolCall} from '../../models/content';
 import windowSender from '../window-sender';
 import providerManager from '../provider-manager';
 import {RoleContent} from './api';
@@ -46,21 +46,26 @@ export async function prompt(model: string, content: AuthoredContent[]): Promise
   return chatCompletion.choices[0].message;
 }
 
-export async function streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<void> {
+export async function streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
   const openai = providerManager.getOpenAi();
+  // @todo replace model when done testing
   const stream = await openai.chat.completions.create({
-    model,
+    model: 'gpt-3.5-turbo',
     messages: messages,
     stream: true,
   });
+  const responseContent = createContent('', chatId, model, 'assistant')
   for await (const chunk of stream) {
     const delta = chunk.choices[0]?.delta?.content || "";
+    responseContent.message += delta;
     process.stdout.write(delta);
     windowSender.send('message-delta', {delta, chatId, messageId} as ContentDelta)
   }
   windowSender.send('message-delta', {delta: '', chatId, messageId, closed: true});
+  content.push(responseContent);
+  return content
 }
 
 interface ToolParameter {

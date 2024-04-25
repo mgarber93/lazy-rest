@@ -24,7 +24,7 @@ export async function chat(responder: Responder, content: AuthoredContent[]): Pr
   throw new Error(`Cant respond`);
 }
 
-export async function streamedChat(responder: Responder, content: AuthoredContent[], windowReference:WindowReference): Promise<void> {
+export async function streamedChat(responder: Responder, content: AuthoredContent[], windowReference:WindowReference): Promise<AuthoredContent[]> {
   const {chatId, messageId} = windowReference;
   if (isModel(responder)) {
     switch (responder.provider) {

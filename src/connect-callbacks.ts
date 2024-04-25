@@ -29,4 +29,11 @@ export const connectCallbacks = (store: EnhancedStore) => {
     window.main.callback(id, responses);
   }
   window.main.receive('load-oas', handleLoadOas);
+
+  const handleApproval = (event: any, id: string, serializedPlan: string) => {
+    debugger;
+    const plan = JSON.parse(serializedPlan);
+    // @todo prompt user with serialized plan or print to window, and toast a yes, no ?
+  }
+  window.main.receive('calling-plan-approval', handleApproval);
 }

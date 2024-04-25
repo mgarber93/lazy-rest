@@ -6,6 +6,10 @@ import {OpenApiSpec} from '../models/open-api-spec';
 import {AuthoredContent} from '../models/content';
 import {loadOas} from './load-oas';
 import {WindowReference} from '../models/window-reference';
+import {parseCalls} from './utils';
+import OpenAI from 'openai';
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
+import windowSender from './window-sender';
 
 export type TAgent = "planner" | "selector" | "executor";
 
@@ -18,9 +22,10 @@ export type TAgent = "planner" | "selector" | "executor";
  * @param args
  * @returns {Promise<ChatConversation>} - The internal conversation with the agent.
  */
-async function promptAgent(agentType: TAgent, content: AuthoredContent, windowReference: WindowReference, args?: AgentConstructionArgs): Promise<void> {
+async function promptAgent(agentType: TAgent, content: AuthoredContent, windowReference: WindowReference, args?: AgentConstructionArgs): Promise<AuthoredContent[]> {
   const agent = await createAgent(agentType, content, args);
-  await streamedChat(agent.responder, agent.content, windowReference);
+  const response = await streamedChat(agent.responder, agent.content, windowReference);
+  return response;
 }
 
 function specToOas(spec: OpenApiSpec): string {
@@ -41,14 +46,18 @@ async function createArgs() {
  * Move to renderer?
  * @param user
  */
-export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<void> {
+export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<AuthoredContent[]> {
   const args = await createArgs();
   const windowReference = {chatId: chatId, messageId: messageId};
-  const selector = await promptAgent('selector', userContent, windowReference, args);
+  const selectionAgentConversation = await promptAgent('selector', userContent, windowReference, args);
+  const selectedPlan = selectionAgentConversation[selectionAgentConversation.length - 1];
+  const calls = parseCalls(selectedPlan.message)
+  const approved = await windowSender.asyncSend('calling-plan-approval', JSON.stringify(calls));
+  if (!approved) {
+    return selectionAgentConversation;
+  }
 
-  //
-  // const calls = parseCalls(selectedPlan.content)
-  // let toolPlan: ChatCompletionMessage;
+  let toolPlan: ChatCompletionMessage;
   //
   // for (const plannedCall of calls) {
   //   const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
