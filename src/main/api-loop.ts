@@ -1,41 +1,39 @@
 import {oasToDescriptions} from './oas-filter';
 import {AgentConstructionArgs, createAgent} from './agent';
-import {chat, RoleContent} from './api/api';
-import {Model, Responder, TProvider, TResponder} from '../models/responder';
+import {chat, RoleContent, streamedChat} from './api/api';
+import {Responder, TResponder} from '../models/responder';
 import {OpenApiSpec} from '../models/open-api-spec';
 import {AuthoredContent} from '../models/content';
 import {loadOas} from './load-oas';
+import {WindowReference} from '../models/window-reference';
 
 export type TAgent = "planner" | "selector" | "executor";
-
-
 
 /**
  * Starts a conversation with the specified agent type and user content.
  *
  * @param {TAgent} agentType - The type of agent to prompt.
  * @param {AuthoredContent} content - The content authored by the user.
+ * @param windowReference - A place in the window to stream the response to
+ * @param args
  * @returns {Promise<ChatConversation>} - The internal conversation with the agent.
  */
-async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs): Promise<RoleContent> {
+async function promptAgent(agentType: TAgent, content: AuthoredContent, windowReference: WindowReference, args?: AgentConstructionArgs): Promise<void> {
   const agent = await createAgent(agentType, content, args);
-  // how to set responder of an agent?
-  const internalConversation = await chat(agent.responder, agent.content);
-  console.log(`${agentType} internal conversation:`, internalConversation.content);
-  return internalConversation;
+  agent.content.push(content);
+  await streamedChat(agent.responder, agent.content, windowReference);
 }
-//
+
 function specToOas(spec: OpenApiSpec): string {
-  return JSON.stringify(oasToDescriptions(spec));
+  return JSON.stringify(oasToDescriptions(spec), null, 2);
 }
 
 async function createArgs() {
   const oasSpec = await loadOas();
-  const filtered = oasSpec.reduce((acc: string, spec) => acc + specToOas(spec), '');
-  const endpoints = JSON.stringify(filtered, null, 2)
+  const endpoints = oasSpec.reduce((acc: string, spec) => acc + specToOas(spec), '');
   return {
     endpoints,
-    responder: {type: 'gpt-4-turbo-preview' as TResponder}
+    responder: {type: 'gpt-3.5-turbo' as TResponder}
   } as AgentConstructionArgs;
 }
 
@@ -46,7 +44,8 @@ async function createArgs() {
  */
 export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<void> {
   const args = await createArgs();
-  const selector = await promptAgent('selector', userContent, args);
+  const windowReference = {chatId: chatId, messageId: messageId};
+  const selector = await promptAgent('selector', userContent, windowReference, args);
 
   //
   // const calls = parseCalls(selectedPlan.content)

@@ -5,11 +5,6 @@ import {appendDelta} from './renderer/features/chat';
 export const connectCallbacks = (store: EnhancedStore) => {
   const handleMessageDelta = (electronEvent: any, authoredContentDelta: any) => {
     const {chatId, messageId, delta, closed} = authoredContentDelta;
-    // if (closed) {
-    //   window.main.remove('message-delta', handleMessageDelta);
-    //   // live for the life of the window
-    //   return
-    // }
     store.dispatch(appendDelta({chatId, messageId, delta}));
   };
   window.main.receive('message-delta', handleMessageDelta);

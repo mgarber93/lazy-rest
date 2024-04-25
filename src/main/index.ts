@@ -29,7 +29,8 @@ async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conve
   if (!contentToRespondTo) {
     throw new Error('Unable to find response id in handleStreamedChat');
   }
-  await streamedChat(conversation.responder, contentToRespondTo, conversation.id, responseId);
+  const windowReference = {chatId: conversation.id, messageId: responseId};
+  await streamedChat(conversation.responder, contentToRespondTo, windowReference);
 }
 
 async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {
