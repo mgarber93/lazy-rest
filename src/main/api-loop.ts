@@ -1,30 +1,37 @@
-import {oasToDescriptions, treeShake} from './oas-filter';
-import {parseCalls} from './utils';
-import {get} from './api/spotify';
-import OpenAI from 'openai';
-import {ChatCompletionMessageParam} from 'openai/resources';
-import windowSender from './window-sender';
-import {AgentConstructionArgs, startAgentConversation} from './agent';
-import {chat} from './api/api';
-import {agentWithHttp} from './api/openai';
-import {getModel, Responder, TResponder} from '../models/responder';
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
+import {oasToDescriptions} from './oas-filter';
+import {AgentConstructionArgs, createAgent} from './agent';
+import {chat, RoleContent} from './api/api';
+import {Model, Responder, TProvider, TResponder} from '../models/responder';
 import {OpenApiSpec} from '../models/open-api-spec';
 import {AuthoredContent} from '../models/content';
 import {loadOas} from './load-oas';
 
 export type TAgent = "planner" | "selector" | "executor";
 
-async function promptAgent(agentType: TAgent, userContent: AuthoredContent) {
-  const agent = await startAgentConversation(agentType, userContent);
+
+
+/**
+ * Starts a conversation with the specified agent type and user content.
+ *
+ * @param {TAgent} agentType - The type of agent to prompt.
+ * @param {AuthoredContent} content - The content authored by the user.
+ * @returns {Promise<ChatConversation>} - The internal conversation with the agent.
+ */
+async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs): Promise<RoleContent> {
+  const agent = await createAgent(agentType, content, args);
+  // how to set responder of an agent?
   const internalConversation = await chat(agent.responder, agent.content);
   console.log(`${agentType} internal conversation:`, internalConversation.content);
   return internalConversation;
 }
+//
+function specToOas(spec: OpenApiSpec): string {
+  return JSON.stringify(oasToDescriptions(spec));
+}
 
 async function createArgs() {
   const oasSpec = await loadOas();
-  const filtered = oasSpec.reduce((acc: string, spec) => acc + oasToDescriptions(spec), '');
+  const filtered = oasSpec.reduce((acc: string, spec) => acc + specToOas(spec), '');
   const endpoints = JSON.stringify(filtered, null, 2)
   return {
     endpoints,
@@ -39,8 +46,8 @@ async function createArgs() {
  */
 export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<void> {
   const args = await createArgs();
-  const planner = await promptAgent('planner', userContent);
-  // const selector = await promptAgent('selector', userContent, args);
+  const selector = await promptAgent('selector', userContent, args);
+
   //
   // const calls = parseCalls(selectedPlan.content)
   // let toolPlan: ChatCompletionMessage;

@@ -3,11 +3,13 @@ import {isModel, isOrganization, Responder, TProvider} from '../../models/respon
 import {getModels as listOpenAiModels, prompt, streamedPrompt} from './openai';
 import {restApiOrganization} from '../api-loop';
 
-
-export async function chat(responder: Responder, content: AuthoredContent[]): Promise<{
+export interface RoleContent {
   role: "system" | "assistant" | "user",
   content: string
-}> {
+}
+
+
+export async function chat(responder: Responder, content: AuthoredContent[]): Promise<RoleContent> {
   if (isModel(responder)) {
     switch (responder.provider) {
       case "openai": {

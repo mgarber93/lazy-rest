@@ -2,7 +2,6 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import {contextBridge, ipcRenderer} from 'electron';
-import {TApi} from './prompts/api-to-icl-examples';
 import {Conversation} from './models/conversation';
 import {TChannel} from './main/window-sender';
 import {TProvider} from './models/responder';
@@ -13,7 +12,6 @@ export interface PreloadedApi {
   getModels: (provider: TProvider) => Promise<string>;
   chat: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   streamedChat: (conversation: Conversation, responseId: string) => Promise<void>;
-  loadOasSpec: (api: TApi) => Promise<string>;
   apiAutoPrompt: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
   remove: (channel: TChannel, func: (...args: any[]) => void) => void;
