@@ -7,10 +7,6 @@ export async function serviceToService(): Promise<string> {
   const response = await requestUserForApproval({
     type: "SecretRequest",
   })
-  if (!approvalResponseIsApproved(response)) {
-    // @todo
-    throw new Error('refused secret request');
-  }
   const {clientId, clientSecret} = response;
 
   if (!clientId) {
