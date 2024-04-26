@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {ReactNode} from 'react';
 
 const Div = styled.div`
-  border-radius: 1rem;
+  border-radius: var(--border-radius-comfy);
   border: 1px solid var(--background-color-3);
   background: var(--card);
   padding: 1rem;
@@ -20,7 +20,7 @@ const Div = styled.div`
   transition: 0.4s ease-in-out border;
   
   &.slim {
-    padding: 0.2rem 1rem;
+    padding: 0.3rem 1rem;
   }
 `;
 
