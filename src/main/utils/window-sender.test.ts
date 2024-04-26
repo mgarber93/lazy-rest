@@ -42,7 +42,6 @@ describe('WindowSender', () => {
     expect(windowSender['promiseMap'].size).toBe(0);
   });
   it('should resolve with the sent values after have finished loading has happened', async () => {
-    debugger
     const windowSender = new WindowSender();
     const argOne = 'load-oas';
     const argThree = {arg: 'hello world'}
