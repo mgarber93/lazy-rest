@@ -1,7 +1,13 @@
 import {EnhancedStore} from '@reduxjs/toolkit';
 import {RootState} from './renderer/features/store';
 import {appendDelta} from './renderer/features/chat';
+import {Approval, ApprovedResponse} from './models/approval';
 
+/**
+ * Is this a middleware?
+ * Is this a view Provider thingy like react redux's provider component
+ * @param store
+ */
 export const connectCallbacks = (store: EnhancedStore) => {
   const handleMessageDelta = (electronEvent: any, authoredContentDelta: any) => {
     const {chatId, messageId, delta, closed} = authoredContentDelta;
@@ -29,4 +35,26 @@ export const connectCallbacks = (store: EnhancedStore) => {
     window.main.callback(id, responses);
   }
   window.main.receive('load-oas', handleLoadOas);
+
+  const handleApproval = (event: any, id: string, approvalRequest: Approval) => {
+    // @todo do something based on user input with the request object. Clearing requests can vary so theres some
+    // switching to do here
+    const state = store.getState() as RootState;
+
+    const keys = Object.keys(state.tools.api)
+    if (keys.length === 0) {
+      alert('no key set');
+      throw Error('');
+    }
+
+    const firstApi = state.tools.api[keys[0]];
+
+    window.main.callback(id, {
+      response: "approve",
+      clientId: firstApi.clientId,
+      clientSecret: firstApi.clientSecret,
+    } as ApprovedResponse);
+    // @todo prompt user with serialized plan or print to window, and toast a yes, no ?
+  }
+  window.main.receive('approval', handleApproval);
 }

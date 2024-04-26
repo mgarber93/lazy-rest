@@ -1,7 +1,6 @@
-import {types} from 'sass';
-import Error = types.Error;
+import {v4} from 'uuid';
 
-export type TChannel = "message-delta" | "tool-request" | "tool-approval" | "load-oas" | 'callback';
+export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval';
 
 // first id is id for co-ordination
 export type TSender = (eventName: string, ...args: any[]) => void;
@@ -30,7 +29,8 @@ export class WindowSender<T = any> {
   send(eventName: TChannel, ...args: any[]): void {
     return this.sendOrQueue(eventName, args);
   }
-  asyncSend(eventName: TChannel, id: string, ...args: any[]): Promise<T> {
+  asyncSend(eventName: TChannel, ...args: any[]): Promise<T> {
+    const id = v4()
     return new Promise((resolve, reject) => {
       if (this.promiseMap.has(id)) {
         // throw duplication error
