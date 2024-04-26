@@ -51,7 +51,7 @@ const Timeline = styled.ul`
       border-radius: var(--border-radius);
       &:hover {
         border: 1px solid var(--background-color-2);
-        background-color: var(--background-color-1);
+        background-color: var(--primary-9);
       }
       transition: 0.4s ease-in border;
     }
