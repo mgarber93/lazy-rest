@@ -32,16 +32,16 @@ const Div = styled.div`
     height: 1.6rem;
 
     &:hover {
-      background-color: var(--background-color-3);
+      background-color: var(--background-color-5);
     }
   }
 
   .active {
-    background-color: var(--background-color-9);
+    background-color: var(--background-color-6);
     border-radius: 0.2rem;
 
     &:hover {
-      background-color: var(--background-color-9);
+      background-color: var(--background-color-6);
     }
   }
 `

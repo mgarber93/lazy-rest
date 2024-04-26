@@ -12,7 +12,7 @@ const TextArea = styled.textarea`
   border: 1px solid var(--background-color-9);
   width: 100%;
   resize: none;
-  background-color: var(--background-color-2);
+  background: var(--card);
   color: var(--text-color);
   font-size: larger;
   outline: none;
