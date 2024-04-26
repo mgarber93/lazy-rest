@@ -2,7 +2,7 @@ import {Conversation, createConversation} from '../models/conversation';
 import {selector} from '../prompts/rest-gpt/selector';
 import {buildCallerPrompt} from '../prompts/api-caller';
 import {AuthoredContent, createContent} from '../models/content';
-import {TAgent} from './api-loop';
+import {TAgent} from './organization';
 import {Model, Responder, TProvider} from '../models/responder';
 import {plannerTemplate} from '../prompts/rest-gpt/planner';
 import {OpenApiSpec} from '../models/open-api-spec';

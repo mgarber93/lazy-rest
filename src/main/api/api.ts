@@ -1,7 +1,7 @@
 import {AuthoredContent} from '../../models/content';
 import {isModel, isOrganization, Responder, TProvider} from '../../models/responder';
 import {getModels as listOpenAiModels, prompt, streamedPrompt} from './openai';
-import {restApiOrganization} from '../api-loop';
+import {restApiOrganization} from '../organization';
 import {WindowReference} from '../../models/window-reference';
 
 export interface RoleContent {

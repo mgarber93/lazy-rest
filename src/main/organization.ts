@@ -70,11 +70,11 @@ async function executeAndParse(plan: ChatCompletionMessage) {
  */
 async function respondTo(conversation: Conversation) {
   const messages: ChatCompletionMessageParam[] = conversation.content
-    .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
+    .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}));
   let toolPlan;
   do {
     const model = getModel(conversation.responder); // responder can change depending on conversation history
-    // create another tool plan and for each call in the plan make the call, but
+    // create another tool plan and for each call in the plan make the call
     toolPlan = await agentWithHttp(model, messages);
     messages.push(toolPlan);
     await executeAndParse(toolPlan);
@@ -134,7 +134,10 @@ async function executeCalls(userContent: AuthoredContent, calls: EndpointCallPla
 /**
  * Flagship organization for product
  * Move to renderer?
- * @param user
+ * @param responder
+ * @param userContent
+ * @param chatId
+ * @param messageId
  */
 export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<AuthoredContent[]> {
   const args = await createArgs();

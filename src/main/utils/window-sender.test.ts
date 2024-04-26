@@ -1,5 +1,4 @@
 import {WindowSender} from './window-sender';
-import {v4} from 'uuid';
 
 describe('WindowSender', () => {
   it('should send before sender', () => {
@@ -25,38 +24,38 @@ describe('WindowSender', () => {
   it('should resolve with the sent values before hasFinishedLoading has been called', async () => {
     const windowSender = new WindowSender();
     const argOne = 'load-oas';
-    const argTwo = v4();
     const argThree = {arg: 'hello world'}
     let sender = (...args: any[]) => {
       expect(args[0]).toEqual(argOne);
-      expect(args[1]).toEqual(argTwo);
     };
     let resolve = (...args: any[]) => {
       expect(args[0]).toEqual(argThree);
       expect(windowSender['promiseMap'].size).toBe(0);
     }
-    windowSender.asyncSend(argOne, argTwo)
+    windowSender.asyncSend(argOne)
       .then(resolve);
     expect(windowSender['promiseMap'].size).toBe(1);
     windowSender.hasFinishedLoading(sender);
-    windowSender.callback(argTwo, argThree);
+    const promiseMap = windowSender['promiseMap']
+    const key = [...promiseMap.keys()][0];
+    windowSender.callback(key, argThree);
     expect(windowSender['promiseMap'].size).toBe(0);
   });
   it('should resolve with the sent values after have finished loading has happened', async () => {
+    debugger
     const windowSender = new WindowSender();
     const argOne = 'load-oas';
-    const argTwo = v4();
     const argThree = {arg: 'hello world'}
     let callback = (...args: any[]) => {
       expect(args[0]).toEqual(argOne);
-      expect(args[1]).toEqual(argTwo);
+      expect(typeof args[1]).toEqual("string");
     };
     let resolve = (...args: any[]) => {
       expect(args[0]).toEqual(argThree);
       expect(windowSender['promiseMap'].size).toBe(0);
     }
     windowSender.hasFinishedLoading(callback);
-    windowSender.asyncSend(argOne, argTwo)
+    windowSender.asyncSend(argOne)
       .then(resolve);
   });
 });
