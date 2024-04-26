@@ -3,7 +3,7 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 import {Conversation} from './models/conversation';
-import {TChannel} from './main/window-sender';
+import {TChannel} from './main/utils/window-sender';
 import {TProvider} from './models/responder';
 import {OpenAiConfiguration} from './models/provider-config';
 
@@ -19,7 +19,7 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'calling-plan-approval'];
+const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval'];
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,

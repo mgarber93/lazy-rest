@@ -1,7 +1,7 @@
-import {oasToDescriptions} from './oas-filter';
+import {oasToDescriptions, treeShake} from './oas-filter';
 import {AgentConstructionArgs, createAgent} from './agent';
-import {chat, RoleContent, streamedChat} from './api/api';
-import {Responder, TResponder} from '../models/responder';
+import {streamedChat} from './api/api';
+import {getModel, Responder, TResponder} from '../models/responder';
 import {OpenApiSpec} from '../models/open-api-spec';
 import {AuthoredContent} from '../models/content';
 import {loadOas} from './load-oas';
@@ -9,7 +9,12 @@ import {WindowReference} from '../models/window-reference';
 import {parseCalls} from './utils';
 import OpenAI from 'openai';
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
-import windowSender from './window-sender';
+import windowSender from './utils/window-sender';
+import {EndpointCallPlan} from '../models/endpoint';
+import {ChatCompletionMessageParam} from 'openai/resources';
+import {Conversation} from '../models/conversation';
+import {agentWithHttp} from './api/openai';
+import {get} from './api/spotify';
 
 export type TAgent = "planner" | "selector" | "executor";
 
@@ -37,9 +42,94 @@ async function createArgs() {
   const endpoints = oasSpec.reduce((acc: string, spec) => acc + specToOas(spec), '');
   return {
     endpoints,
+    oasSpec,
     responder: {type: 'gpt-3.5-turbo' as TResponder}
   } as AgentConstructionArgs;
 }
+
+async function executeAndParse(plan: ChatCompletionMessage) {
+  const messages = [];
+  for (const toolCall of plan?.tool_calls ?? []) {
+    const {function: functionCall, id} = toolCall;
+    const functionCallArgs = JSON.parse(functionCall.arguments);
+    const results = await get(functionCallArgs.endpoint);
+
+    // extend conversation with function response for it to interpret while we have tool calls to interpret
+    messages.push({
+      tool_call_id: id,
+      role: "tool",
+      content: JSON.stringify(results),
+    });
+  }
+  return messages;
+}
+
+/**
+ * Primitive of a conversation, ie hitting next
+ * @param conversation
+ */
+async function respondTo(conversation: Conversation) {
+  const messages: ChatCompletionMessageParam[] = conversation.content
+    .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
+  let toolPlan;
+  do {
+    const model = getModel(conversation.responder); // responder can change depending on conversation history
+    // create another tool plan and for each call in the plan make the call, but
+    toolPlan = await agentWithHttp(model, messages);
+    messages.push(toolPlan);
+    await executeAndParse(toolPlan);
+  } while (toolPlan.tool_calls)
+  return messages;
+}
+
+
+/**
+ * An executor is the loop between the caller and parser.
+ * A caller receives the api calling plan and fills in the details using the specification
+ * A parser receives the actual results and interprets it back to the caller of the executor
+ *
+ * @param userContent
+ * @param calls
+ * @param oasSpec
+ */
+async function executeCalls(userContent: AuthoredContent, calls: EndpointCallPlan[], oasSpec: OpenApiSpec[]): Promise<void> {
+  const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
+    const treeShook = treeShake(spec, calls)
+    for (const key in acc) {
+      acc[key] = treeShook[key]
+    }
+    return acc;
+  }, {} as Record<string, any>);
+
+  const executorAgent = await createAgent("executor", userContent, {
+    endpoints: JSON.stringify(specForPlannedCall),
+    responder: {type: 'gpt-3.5-turbo' as TResponder},
+    oasSpec
+  });
+  const callResults = await respondTo(executorAgent);
+  debugger;
+  // const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
+  // @todo parsing plan
+  // const messages: ChatCompletionMessageParam[] = executor.content
+  //   .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
+  // do {
+  //   const model = getModel(executor.responder);
+  //   toolPlan = await agentWithHttp(model, messages);
+  //   messages.push(toolPlan);
+  //   for (const toolCall of toolPlan?.tool_calls ?? []) {
+  //     const {function: functionCall, id} = toolCall;
+  //     const functionCallArgs = JSON.parse(functionCall.arguments);
+  //     const results = await get(functionCallArgs.endpoint);
+  //     windowSender.send("tool-request", toolPlan)
+  //     messages.push({
+  //       tool_call_id: id,
+  //       role: "tool",
+  //       content: JSON.stringify(results),
+  //     }); // extend conversation with function response
+  //   }
+  // } while (toolPlan.tool_calls)
+}
+
 
 /**
  * Flagship organization for product
@@ -52,42 +142,10 @@ export async function restApiOrganization(responder: Responder, userContent: Aut
   const selectionAgentConversation = await promptAgent('selector', userContent, windowReference, args);
   const selectedPlan = selectionAgentConversation[selectionAgentConversation.length - 1];
   const calls = parseCalls(selectedPlan.message)
-  const approved = await windowSender.asyncSend('calling-plan-approval', JSON.stringify(calls));
+  const approved = await windowSender.asyncSend('approval', JSON.stringify(calls));
   if (!approved) {
     return selectionAgentConversation;
   }
-
-  let toolPlan: ChatCompletionMessage;
-  //
-  // for (const plannedCall of calls) {
-  //   const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
-  //     const treeShook = treeShake(spec, calls)
-  //     for (const key in acc) {
-  //       acc[key] = treeShook[key]
-  //     }
-  //     return acc;
-  //   }, {} as Record<string, any>);
-  //   const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
-  //   // @todo parsing plan
-  //   const messages: ChatCompletionMessageParam[] = executor.content
-  //     .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
-  //   do {
-  //     const model = getModel(executor.responder);
-  //     toolPlan = await agentWithHttp(model, messages);
-  //     messages.push(toolPlan);
-  //     for (const toolCall of toolPlan?.tool_calls ?? []) {
-  //       const {function: functionCall, id} = toolCall;
-  //       const functionCallArgs = JSON.parse(functionCall.arguments);
-  //       const results = await get(functionCallArgs.endpoint);
-  //       windowSender.send("tool-request", toolPlan)
-  //       messages.push({
-  //         tool_call_id: id,
-  //         role: "tool",
-  //         content: JSON.stringify(results),
-  //       }); // extend conversation with function response
-  //     }
-  //   } while (toolPlan.tool_calls)
-  // }
-  // return toolPlan;
+  await executeCalls(userContent, calls, args.oasSpec);
 }
 

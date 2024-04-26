@@ -1,6 +1,6 @@
 import {ChatCompletionMessageParam} from 'openai/resources';
 import {AuthoredContent, ContentDelta, createContent, isToolCall} from '../../models/content';
-import windowSender from '../window-sender';
+import windowSender from '../utils/window-sender';
 import providerManager from '../provider-manager';
 import {RoleContent} from './api';
 

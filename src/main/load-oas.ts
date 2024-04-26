@@ -1,6 +1,6 @@
 import {OpenApiSpec} from '../models/open-api-spec';
 import {v4} from 'uuid';
-import windowSender from './window-sender';
+import windowSender from './utils/window-sender';
 
 /**
  * Load oas from window using asyncSend. Needs to be tested

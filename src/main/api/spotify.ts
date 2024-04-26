@@ -1,10 +1,26 @@
 import fetch from 'node-fetch';
+import {requestUserForApproval} from '../utils/request-user-for-approval';
+import {approvalResponseIsApproved} from '../../models/approval';
 
 // https://developer.spotify.com/dashboard/2c06c406715e489ca12423effe1b1733/settings
 export async function serviceToService(): Promise<string> {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const buffer = Buffer.from(`${client_id}:${client_secret}`);
+  const response = await requestUserForApproval({
+    type: "SecretRequest",
+  })
+  if (!approvalResponseIsApproved(response)) {
+    // @todo
+    throw new Error('refused secret request');
+  }
+  const {clientId, clientSecret} = response;
+
+  if (!clientId) {
+    throw new Error('clientId is required');
+  }
+  if (!clientSecret) {
+    throw new Error('clientSecret is required');
+  }
+
+  const buffer = Buffer.from(`${clientId}:${clientSecret}`);
   
   const authOptions = {
     method: 'POST',

@@ -5,11 +5,13 @@ import {AuthoredContent, createContent} from '../models/content';
 import {TAgent} from './api-loop';
 import {Model, Responder, TProvider} from '../models/responder';
 import {plannerTemplate} from '../prompts/rest-gpt/planner';
+import {OpenApiSpec} from '../models/open-api-spec';
 
 export interface AgentConstructionArgs {
   endpoints?: string;
   roughPlan?: string; // used for selector to create calling plan from
   responder: Responder;
+  oasSpec: OpenApiSpec[];
 }
 function dynamicallyPickResponder(agent: TAgent): Model {
   let defaultResponder = {
