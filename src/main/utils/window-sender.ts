@@ -1,6 +1,6 @@
 import {v4} from 'uuid';
 
-export type TChannel = "message-delta" | "load-oas" | 'callback' | 'calling-plan-approval';
+export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval';
 
 // first id is id for co-ordination
 export type TSender = (eventName: string, ...args: any[]) => void;

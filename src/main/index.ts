@@ -5,7 +5,7 @@ import {getUser} from './user';
 import {Conversation} from '../models/conversation';
 import {chat, getModels, streamedChat} from './api/api';
 import {TProvider} from '../models/responder';
-import windowSender from './window-sender';
+import windowSender from './utils/window-sender';
 
 async function handleChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<{
   content: string,
