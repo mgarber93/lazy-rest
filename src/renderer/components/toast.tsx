@@ -1,7 +1,7 @@
-import Toast from 'react-bootstrap/Toast';
-import React from 'react';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import styled from 'styled-components';
+import Toast from 'react-bootstrap/Toast'
+import React from 'react'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+import styled from 'styled-components'
 
 const Div = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ function Toasts() {
         </Toast.Body>
       </Toast>
     </ToastContainer>
-  );
+  )
 }
 
-export default Toasts;
+export default Toasts

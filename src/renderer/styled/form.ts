@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-`;
+`
 
 export const Group = styled.div`
   padding: 0.5rem 0;
@@ -40,4 +40,4 @@ export const Header = styled.header`
 `
 
 export const Submit = styled.button`
-`;
+`

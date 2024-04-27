@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
-import {OpenAiConfiguration} from '../../models/provider-config';
-import {configureOpenAi} from '../features/models';
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {Control, Footer, Form, Group, Header, Label} from '../styled/form';
-import {Button} from '../styled/button';
+import React, {useState} from 'react'
+import {OpenAiConfiguration} from '../../models/provider-config'
+import {configureOpenAi} from '../features/models'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {Control, Footer, Form, Group, Header, Label} from '../styled/form'
+import {Button} from '../styled/button'
 
 function OpenAiConfigForm() {
-  const providerConfig = useAppSelector(state => state.models.providers.openAi);
-  const dispatch = useAppDispatch();
-  const [apiKey, setApiKey] = useState(providerConfig?.apiKey ?? '');
-  const [baseUrl, setBaseUrl] = useState(providerConfig?.baseUrl ?? '');
+  const providerConfig = useAppSelector(state => state.models.providers.openAi)
+  const dispatch = useAppDispatch()
+  const [apiKey, setApiKey] = useState(providerConfig?.apiKey ?? '')
+  const [baseUrl, setBaseUrl] = useState(providerConfig?.baseUrl ?? '')
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const config: OpenAiConfiguration = {apiKey, baseUrl};
-    dispatch(configureOpenAi(config));
-  };
+    event.preventDefault()
+    const config: OpenAiConfiguration = {apiKey, baseUrl}
+    dispatch(configureOpenAi(config))
+  }
   return (
     <Form onSubmit={handleSubmit}>
       <Header>Open AI</Header>
@@ -37,7 +37,7 @@ function OpenAiConfigForm() {
       <Footer>
         <Button type="submit">Save</Button>
       </Footer>
-    </Form>);
+    </Form>)
 }
 
-export default OpenAiConfigForm;
+export default OpenAiConfigForm

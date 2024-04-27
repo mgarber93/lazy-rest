@@ -1,6 +1,6 @@
-import {Select} from '../../components/select';
-import {ModelSelector} from './model-selector';
-import {useCallback} from 'react';
+import {Select} from '../../components/select'
+import {ModelSelector} from './model-selector'
+import {useCallback} from 'react'
 
 export function AgentSelector() {
   const callback = useCallback(() => {
@@ -12,5 +12,5 @@ export function AgentSelector() {
       options={[{display: 'api-planner', value: 'api-planner'}, {display: 'api-value', value: 'api-value'}]}
     />
     <ModelSelector/>
-  </>;
+  </>
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const StyledDiv = styled.div`
     display: grid;
@@ -61,4 +61,4 @@ export const StyledDiv = styled.div`
 
     width: 100%;
     cursor: default;
-`;
+`

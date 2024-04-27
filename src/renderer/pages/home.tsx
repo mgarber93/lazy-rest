@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import {PageContainer} from '../wrapper/responder-type/page-container';
-import OpenAiConfigForm from '../components/open-api-form';
-import {Card} from '../wrapper/card';
-import {ApiForm} from '../components/api-form';
-import {FormGroup} from '../wrapper/form-group';
-import {useAppSelector} from '../features/store';
-import {ApiConfiguration} from '../../models/api-configuration';
+import React from 'react'
+import styled from 'styled-components'
+import {PageContainer} from '../wrapper/responder-type/page-container'
+import OpenAiConfigForm from '../components/open-api-form'
+import {Card} from '../wrapper/card'
+import {ApiForm} from '../components/api-form'
+import {FormGroup} from '../wrapper/form-group'
+import {useAppSelector} from '../features/store'
+import {ApiConfiguration} from '../../models/api-configuration'
 
 const Div = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Div = styled.div`
     overflow: auto; /* to handle its own inner overflow */
     padding: 5rem;
   }
-`;
+`
 
 export function ApiToolPreview({api}: {api: ApiConfiguration}) {
   return <Card>
@@ -42,8 +42,8 @@ export function ApiToolPreview({api}: {api: ApiConfiguration}) {
 
 
 export function Home() {
-  const [creatingNewApi, setCreatingNewApi] = React.useState(false);
-  const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> };
+  const [creatingNewApi, setCreatingNewApi] = React.useState(false)
+  const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> }
   return (
     <PageContainer activeRoute={"/home"}>
       <Div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
@@ -65,5 +65,5 @@ export function Home() {
         </div>
       </Div>
     </PageContainer>
-  );
+  )
 }

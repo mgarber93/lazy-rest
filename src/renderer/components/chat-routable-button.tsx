@@ -1,9 +1,9 @@
-import {ChangeEvent, ChangeEventHandler, MouseEvent, useMemo, useState} from 'react';
-import {Conversation} from '../../models/conversation';
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {selectChat} from '../features/current-chat';
-import styled from 'styled-components';
-import {updateTitle} from '../features/chat';
+import {ChangeEvent, ChangeEventHandler, MouseEvent, useMemo, useState} from 'react'
+import {Conversation} from '../../models/conversation'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {selectChat} from '../features/current-chat'
+import styled from 'styled-components'
+import {updateTitle} from '../features/chat'
 
 const Input = styled.input`
   width: 100%;
@@ -37,12 +37,12 @@ const Input = styled.input`
       border-bottom: 2px solid var(--background-color-0);
     }
   }
-`;
+`
 
 export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {
   const [isDisabled, setDisabled] = useState(true)
-  const dispatch = useAppDispatch();
-  const currentChat = useAppSelector((state) => state.currentChat);
+  const dispatch = useAppDispatch()
+  const currentChat = useAppSelector((state) => state.currentChat)
   const handleClip = useMemo(() =>
     (event: MouseEvent) => {
       if (event.button === 2) {
@@ -50,16 +50,16 @@ export const ChatRoutableButton = ({chat}: { chat: Conversation }) => {
       }
       if (event.button === 0) {
         dispatch(selectChat(chat.id))
-        setDisabled(true);
+        setDisabled(true)
       }
     }, [dispatch, chat, setDisabled, isDisabled],
-  );
+  )
   const handleChange = useMemo(() => (event: ChangeEvent<HTMLInputElement>) => {
     if (isDisabled)
       return
-    const newTitle = event.target.value;
-    dispatch(updateTitle({id: chat.id, title: newTitle}));
-  }, [dispatch, chat, isDisabled]) as ChangeEventHandler<HTMLInputElement>;
+    const newTitle = event.target.value
+    dispatch(updateTitle({id: chat.id, title: newTitle}))
+  }, [dispatch, chat, isDisabled]) as ChangeEventHandler<HTMLInputElement>
   const classNames = ["chatsContainer"]
   if (chat.id === currentChat)
     classNames.push('active')

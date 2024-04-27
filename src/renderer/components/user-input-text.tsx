@@ -1,12 +1,12 @@
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {useCurrentConversation} from '../hooks/current-conversation';
-import {User} from '../../models/user';
-import {listModels} from '../features/models';
-import {createContent} from '../../models/content';
-import {respond, streamResponse} from '../features/chat';
-import styled from 'styled-components';
-import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react';
-import {getModel} from '../../models/responder';
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {useCurrentConversation} from '../hooks/current-conversation'
+import {User} from '../../models/user'
+import {listModels} from '../features/models'
+import {createContent} from '../../models/content'
+import {respond, streamResponse} from '../features/chat'
+import styled from 'styled-components'
+import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
+import {getModel} from '../../models/responder'
 
 const TextArea = styled.textarea`
   border: 1px solid var(--background-color-9);
@@ -22,32 +22,32 @@ const TextArea = styled.textarea`
 `
 
 export function UserInputText({placeholder}: { placeholder: string }) {
-  const [inputValue, setValue] = useState('');
-  const dispatch = useAppDispatch();
-  const currentConversation = useCurrentConversation();
-  const user = useAppSelector((state) => state.user) as User;
+  const [inputValue, setValue] = useState('')
+  const dispatch = useAppDispatch()
+  const currentConversation = useCurrentConversation()
+  const user = useAppSelector((state) => state.user) as User
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setValue(e.target.value);
-  };
+    setValue(e.target.value)
+  }
   useEffect(() => {
-    dispatch(listModels());
-  }, [dispatch]);
+    dispatch(listModels())
+  }, [dispatch])
 
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey && inputValue && currentConversation.responder) {
-      e.preventDefault();
-      const prompt = createContent(inputValue, currentConversation.id, user.username, 'user');
+      e.preventDefault()
+      const prompt = createContent(inputValue, currentConversation.id, user.username, 'user')
       dispatch(respond(prompt))
       const placeHolder = createContent('', currentConversation.id, getModel(currentConversation.responder), 'assistant')
-      dispatch(respond(placeHolder));
-      dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}));
-      setValue('');
+      dispatch(respond(placeHolder))
+      dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}))
+      setValue('')
     }
   }, [currentConversation, inputValue])
 
   // @todo refactor this magic number
-  const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1);
+  const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1)
   return <TextArea
     rows={rows}
     placeholder={placeholder}

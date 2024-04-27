@@ -26,5 +26,5 @@ export interface ApprovedResponse extends ApprovalResponse {
 }
 
 export function approvalResponseIsApproved(response: ApprovalResponse): response is ApprovedResponse {
-  return response.response === "approve";
+  return response.response === "approve"
 }

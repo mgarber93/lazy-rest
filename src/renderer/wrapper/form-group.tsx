@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {ReactNode} from 'react';
+import styled from 'styled-components'
+import {ReactNode} from 'react'
 
 const Section = styled.section`
   .divider {
@@ -18,7 +18,7 @@ const Section = styled.section`
   transition: 2s ease-in border;
 
   background: var(--card);
-`;
+`
 
 export function FormGroup(props: {name: string, children: ReactNode}) {
   return <Section className="provider">

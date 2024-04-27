@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 const Div = styled.div`
   position: sticky;
@@ -48,7 +48,7 @@ const Div = styled.div`
 
 
 export function Header(props: {activeRoute: string}) {
-  const {activeRoute} = props;
+  const {activeRoute} = props
   // https://icons.getbootstrap.com/icons/house-fill/
   return <Div>
     <Link to={"/home"}>

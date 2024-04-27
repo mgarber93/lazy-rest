@@ -50,4 +50,4 @@ API response: Yellow is added to the player queue
 
 Note, if the API path contains "{}", it means that it is a variable and you should replace it with the a value from a previous API calling or from the background. For example, if the path is "/users/{user_id}/tweets", you should replace "{user_id}}" with the user id. "{" and "}" cannot appear in the url. In most cases, the id value is in the background or the API response. Just copy the id faithfully. If the id is not in the background, instead of creating one, call other APIs to query the id. For example, before you call "/users/{user_id}/playlists", you should get the user_id via "GET /me" first. Another example is that before you call "/person/{person_id}", you should get the movie_id via "/search/person" first.
 
-Begin!`.replace(/(\n)+/g, '  \n');
+Begin!`.replace(/(\n)+/g, '  \n')

@@ -1,11 +1,11 @@
-import {Endpoint, OpenApiSpec} from '../models/open-api-spec';
-import {EndpointCallPlan} from '../models/endpoint';
+import {Endpoint, OpenApiSpec} from '../models/open-api-spec'
+import {EndpointCallPlan} from '../models/endpoint'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {
-    object[path] = {};
+    object[path] = {}
   }
-  object[path][key] = value.replace('\n', ' ').trim();
+  object[path][key] = value.replace('\n', ' ').trim()
 }
 
 /**
@@ -14,64 +14,64 @@ function setEndpointDescription(object: Record<string, any>, path: string, key: 
  * @param oasSpec
  */
 export function oasToDescriptions(oasSpec: OpenApiSpec): object {
-  const spec = {};
+  const spec = {}
   for (const key in oasSpec.paths) {
-    const endpoint = oasSpec.paths[key];
+    const endpoint = oasSpec.paths[key]
     if (endpoint.get?.description) {
-      setEndpointDescription(spec, key, 'get', endpoint.get.description);
+      setEndpointDescription(spec, key, 'get', endpoint.get.description)
     }
     if (endpoint.put?.description) {
-      setEndpointDescription(spec, key, 'put', endpoint.put.description);
+      setEndpointDescription(spec, key, 'put', endpoint.put.description)
     }
     if (endpoint.patch?.description) {
-      setEndpointDescription(spec, key, 'patch', endpoint.patch.description);
+      setEndpointDescription(spec, key, 'patch', endpoint.patch.description)
     }
     if (endpoint.post?.description) {
-      setEndpointDescription(spec, key, 'post', endpoint.post.description);
+      setEndpointDescription(spec, key, 'post', endpoint.post.description)
     }
     if (endpoint.delete?.description) {
-      setEndpointDescription(spec, key, 'delete', endpoint.delete.description);
+      setEndpointDescription(spec, key, 'delete', endpoint.delete.description)
     }
   }
-  return spec;
+  return spec
 }
 
 export function fuzzyMatch(a: string, b: string): boolean {
-  const aSegments = a.split("/");
-  const bSegments = b.split("/");
+  const aSegments = a.split("/")
+  const bSegments = b.split("/")
   
   if (aSegments.length !== bSegments.length) {
-    return false;
+    return false
   }
   
   for (let i = 0; i < aSegments.length; i++) {
-    const aSegment = aSegments[i];
-    const bSegment = bSegments[i];
+    const aSegment = aSegments[i]
+    const bSegment = bSegments[i]
     // if a segment is surrounded by curly braces, acts like a wild card
     if (aSegment.startsWith("{") && aSegment.endsWith("}")) {
-      continue;
+      continue
     }
     if (bSegment.startsWith("{") && bSegment.endsWith("}")) {
-      continue;
+      continue
     }
     if (aSegments[i] !== bSegments[i]) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 export function treeShake(oasSpec: OpenApiSpec, plans: EndpointCallPlan[]) {
-  const spec = {} as Record<string, any>;
+  const spec = {} as Record<string, any>
   for (const endpointPath in oasSpec.paths) {
     for (const plan of plans) {
       if (fuzzyMatch(endpointPath, plan.path)) {
-        const matched = oasSpec.paths[endpointPath];
-        const verb = plan.method.toLowerCase();
-        spec[endpointPath] = {};
-        spec[endpointPath][verb] = matched[verb as keyof Endpoint];
+        const matched = oasSpec.paths[endpointPath]
+        const verb = plan.method.toLowerCase()
+        spec[endpointPath] = {}
+        spec[endpointPath][verb] = matched[verb as keyof Endpoint]
       }
     }
   }
-  return spec;
+  return spec
 }

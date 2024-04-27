@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import {AuthoredContent} from '../../models/content';
-import Markdown from 'react-markdown';
+import React from 'react'
+import styled from 'styled-components'
+import {AuthoredContent} from '../../models/content'
+import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import {useAppSelector} from '../features/store';
-import {Card} from '../wrapper/card';
+import {useAppSelector} from '../features/store'
+import {Card} from '../wrapper/card'
 
 const StyledDiv = styled.div`
   display: grid;
@@ -43,11 +43,11 @@ const StyledDiv = styled.div`
   transition: background-color 0.2s ease-in-out;
   width: 100%;
   cursor: default;
-`;
+`
 
 export function Message({content}: { content: AuthoredContent }) {
-  const userName = useAppSelector(state => state.user?.username);
-  const isUser = content.author === userName;
+  const userName = useAppSelector(state => state.user?.username)
+  const isUser = content.author === userName
   const author = content.author?.length
 
   if (content.role === 'system') {
@@ -58,14 +58,14 @@ export function Message({content}: { content: AuthoredContent }) {
           {content.role}
         </p>
       </StyledDiv>
-    );
+    )
   }
   const node = <StyledDiv>
     <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message.replace(/(\n)+/g, '  \n')}</Markdown>
     <p className={"author" + (isUser ? ' user' : '')}>
       {content.author?.substring(Math.max(author - 14, 0), Math.max(author, 14))}
     </p>
-  </StyledDiv>;
+  </StyledDiv>
 
-  return <Card slim={isUser}>{node}</Card>;
+  return <Card slim={isUser}>{node}</Card>
 }

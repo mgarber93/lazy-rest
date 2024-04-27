@@ -1,11 +1,11 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import {contextBridge, ipcRenderer} from 'electron';
-import {Conversation} from './models/conversation';
-import {TChannel} from './main/utils/window-sender';
-import {TProvider} from './models/responder';
-import {OpenAiConfiguration} from './models/provider-config';
+import {contextBridge, ipcRenderer} from 'electron'
+import {Conversation} from './models/conversation'
+import {TChannel} from './main/utils/window-sender'
+import {TProvider} from './models/responder'
+import {OpenAiConfiguration} from './models/provider-config'
 
 export interface PreloadedApi {
   getMachineName: () => Promise<string>;
@@ -19,30 +19,30 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval'];
+const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval']
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
   send: (channel: TChannel, data: any) => {
     // whitelist channels
     if (validChannels.includes(channel)) {
-      ipcRenderer.send(channel, data);
+      ipcRenderer.send(channel, data)
     }
   },
   receive: (channel: TChannel, func: (...args: any[]) => void) => {
     if (!validChannels.includes(channel)) {
-      console.error(channel);
+      console.error(channel)
       return
     }
-    ipcRenderer.addListener(channel, func);
+    ipcRenderer.addListener(channel, func)
   },
   remove: (channel: TChannel, func: (...args: any[]) => void) => {
     if (!validChannels.includes(channel)) {
-      console.error(channel);
+      console.error(channel)
       return
     }
     // @todo rework to remove first argument for func. Maybe Record<TChannel, cb[]>?
-    ipcRenderer.removeAllListeners(channel);
+    ipcRenderer.removeAllListeners(channel)
   },
   apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
   chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),

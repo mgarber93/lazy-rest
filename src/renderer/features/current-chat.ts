@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-const initialState = JSON.parse(localStorage.getItem('currentChat'));
+const initialState = JSON.parse(localStorage.getItem('currentChat'))
 
 export const currentChatSlice = createSlice({
   name: 'currentChat',
@@ -8,7 +8,7 @@ export const currentChatSlice = createSlice({
   reducers: {
     selectChat: (state, action: PayloadAction<string>) => state = action.payload,
   },
-});
+})
 
 
-export const {selectChat} = currentChatSlice.actions;
+export const {selectChat} = currentChatSlice.actions

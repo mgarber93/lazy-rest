@@ -1,116 +1,116 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AuthoredContent, ContentDelta} from '../../models/content';
-import {Conversation, createConversation} from '../../models/conversation';
-import {TAutoPrompter} from '../../models/auto-prompter';
-import {Responder} from '../../models/responder';
-import {RootState} from './store';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {AuthoredContent, ContentDelta} from '../../models/content'
+import {Conversation, createConversation} from '../../models/conversation'
+import {TAutoPrompter} from '../../models/auto-prompter'
+import {Responder} from '../../models/responder'
+import {RootState} from './store'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
-const initialState: Conversation[] = chats ?? [createConversation()];
-const name = 'chats';
+const initialState: Conversation[] = chats ?? [createConversation()]
+const name = 'chats'
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
   async (arg: { conversationId: string, contentId: string }, thunkAPI) => {
-    const {conversationId, contentId} = arg;
-    const state = thunkAPI.getState() as RootState;
-    await window.main.setOpenAiConfiguration(state.models.providers.openAi);
-    const conversation = state.chats.find(chat => chat.id === conversationId);
+    const {conversationId, contentId} = arg
+    const state = thunkAPI.getState() as RootState
+    await window.main.setOpenAiConfiguration(state.models.providers.openAi)
+    const conversation = state.chats.find(chat => chat.id === conversationId)
     // Cant respond unless a responder is set
     if (!conversation || !conversation.responder)
-      return null;
+      return null
 
     const response = conversation.content.find(content => content.id === contentId)
     if (!response)
       return null
 
-    await window.main.streamedChat(conversation, response.id);
+    await window.main.streamedChat(conversation, response.id)
   },
-);
+)
 
 export const chatsSlice = createSlice({
   name,
   initialState,
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
-      const {id, chatId} = action.payload;
+      const {id, chatId} = action.payload
       if (!id)
         throw new Error('no id')
-      const conversation = state.find(conversation => conversation.id === chatId);
+      const conversation = state.find(conversation => conversation.id === chatId)
       if (!conversation) {
-        return state;
+        return state
       }
-      const contentIndex = conversation.content.findIndex(m => m.id === id);
+      const contentIndex = conversation.content.findIndex(m => m.id === id)
       if (contentIndex > -1) {
-        conversation.content[contentIndex] = action.payload;
+        conversation.content[contentIndex] = action.payload
       } else {
-        conversation.content.push(action.payload);
+        conversation.content.push(action.payload)
       }
-      return state;
+      return state
     },
     appendDelta: (state, action: PayloadAction<ContentDelta>) => {
-      const {chatId, messageId, delta} = action.payload;
-      const conversation = state.find(conversation => conversation.id === chatId);
+      const {chatId, messageId, delta} = action.payload
+      const conversation = state.find(conversation => conversation.id === chatId)
       if (!conversation) {
-        return state;
+        return state
       }
-      const chat = conversation.content.find(content => content.id === messageId);
+      const chat = conversation.content.find(content => content.id === messageId)
       if (!chat) {
-        return state;
+        return state
       }
-      chat.message += delta;
-      return state;
+      chat.message += delta
+      return state
     },
     startNewChat: (state, action: PayloadAction<Conversation | null>) => {
       if (action.payload) {
-        const newChat = {...action.payload, created: Date()};
-        state.push(newChat);
+        const newChat = {...action.payload, created: Date()}
+        state.push(newChat)
       } else {
-        const newChat: Conversation = createConversation();
-        state.push(newChat);
+        const newChat: Conversation = createConversation()
+        state.push(newChat)
       }
     },
     updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
-      const chat = state.find(chat => chat.id === action.payload.id);
+      const chat = state.find(chat => chat.id === action.payload.id)
       if (action.payload.title) {
-        chat.title = action.payload.title.slice(0, 14);
+        chat.title = action.payload.title.slice(0, 14)
       } else {
-        const index = state.findIndex(chat => chat.id === action.payload.id);
-        chat.title = 'chat' + index;
+        const index = state.findIndex(chat => chat.id === action.payload.id)
+        chat.title = 'chat' + index
       }
     },
     removeChat: (state, action: PayloadAction<string>) => {
-      return state.filter(chat => chat.id !== action.payload);
+      return state.filter(chat => chat.id !== action.payload)
     },
     selectModelChat: (state, action: PayloadAction<{ chat: string, model: Responder }>) => {
-      const {chat, model} = action.payload;
-      const conversationIndex = state.findIndex(conversation => conversation.id === chat);
+      const {chat, model} = action.payload
+      const conversationIndex = state.findIndex(conversation => conversation.id === chat)
       if (conversationIndex === -1) {
-        return state;
+        return state
       }
-      state[conversationIndex].responder = model;
+      state[conversationIndex].responder = model
     },
     selectAutoPrompter: (state, action: PayloadAction<{ chatId: string, model: TAutoPrompter }>) => {
-      const {chatId} = action.payload;
-      const chat = state.find(chat => chat.id === chatId);
+      const {chatId} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
     },
     removeAutoPrompter: (state, action: PayloadAction<{ chatId: string }>) => {
-      const {chatId} = action.payload;
-      const chat = state.find(chat => chat.id === chatId);
+      const {chatId} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
     },
     setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
-      const {chatId, responder} = action.payload;
-      const foundChat = state.find(chat => chat.id === chatId);
+      const {chatId, responder} = action.payload
+      const foundChat = state.find(chat => chat.id === chatId)
       if (!foundChat) {
         console.error('no matching chat found when setting responder')
       }
-      foundChat.responder = responder;
+      foundChat.responder = responder
     },
   },
   extraReducers: (builder) => {
   },
-});
+})
 
 // Export actions to use dispatch in component
 export const {
@@ -123,6 +123,6 @@ export const {
   removeAutoPrompter,
   appendDelta,
   setResponder,
-} = chatsSlice.actions;
+} = chatsSlice.actions
 
 

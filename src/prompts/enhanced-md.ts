@@ -85,4 +85,4 @@ Superscript X^2^
 Before responding, reread your response to the user. Consider what points of your response can leverage a feature of markdown and respond with that markdown.
 For example, if responding with more than 3 elements that are contrastable, consider a table to present the data in a straightforward, understandable manner.
 Remember the user does not know or care what markdown is! Do not describe markdown to the user, just use its features to better make your point!
-`;
+`

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {ReactNode} from 'react';
+import styled from 'styled-components'
+import {ReactNode} from 'react'
 
 const Div = styled.div`
   border-radius: var(--border-radius-comfy);
@@ -22,7 +22,7 @@ const Div = styled.div`
   &.slim {
     padding: 0.3rem 1rem;
   }
-`;
+`
 
 export function Card(props: {children: ReactNode, slim?: boolean}) {
   return <Div className={props?.slim ? 'slim' : ''}>

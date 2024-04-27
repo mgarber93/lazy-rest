@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {ChangeEventHandler} from 'react';
+import styled from 'styled-components'
+import {ChangeEventHandler} from 'react'
 
 const Selecter = styled.select`
   width: var(--name-gutter);
@@ -29,10 +29,10 @@ export function MessageRoleSelector(props: {
   currentUser: string,
   roles: { value: string, display: string }[]
 }) {
-  const {role, handleChange, currentUser, roles} = props;
+  const {role, handleChange, currentUser, roles} = props
   return (
     <Selecter value={role} onChange={handleChange} disabled={roles.length === 1}>
       {roles.map(r => <option key={r.display} value={r.value}>{r.display}</option>)}
     </Selecter>
-  );
+  )
 }

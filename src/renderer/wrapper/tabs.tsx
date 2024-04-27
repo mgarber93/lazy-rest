@@ -1,9 +1,9 @@
-import {Conversation} from '../../models/conversation';
-import {Card} from './card';
-import styled from 'styled-components';
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {useCallback} from 'react';
-import {selectChat} from '../features/current-chat';
+import {Conversation} from '../../models/conversation'
+import {Card} from './card'
+import styled from 'styled-components'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {useCallback} from 'react'
+import {selectChat} from '../features/current-chat'
 
 const TopNavContainer = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const TopNavContainer = styled.div`
   padding: 0.2rem;
   font-size: small;
   background-color: var(--background-color-2);
-`;
+`
 
 const Button = styled.button`
   border: none;
@@ -21,10 +21,10 @@ const Button = styled.button`
   text-overflow: clip;
   white-space: nowrap;
   background-color: transparent;
-`;
+`
 
 function Tab({conversation}: {conversation: Conversation}) {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   const handleClick = useCallback(() => {
     dispatch(selectChat(conversation.id))
   }, [dispatch])
@@ -34,7 +34,7 @@ function Tab({conversation}: {conversation: Conversation}) {
 }
 
 export function Tabs() {
-  const conversations = useAppSelector(state => state.chats);
+  const conversations = useAppSelector(state => state.chats)
   return <TopNavContainer>
     {conversations.map(chat => <Card><Tab key={chat.id} conversation={chat}/></Card>)}
   </TopNavContainer>

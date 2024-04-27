@@ -1,20 +1,20 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {User} from '../../models/user';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {User} from '../../models/user'
 
 const serializedChats = localStorage.getItem('user')
-const user = JSON.parse(serializedChats) ?? {};
+const user = JSON.parse(serializedChats) ?? {}
 
 export const getMachineName = createAsyncThunk(
   'user/getMachineName',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as { user: User | null };
+    const state = thunkAPI.getState() as { user: User | null }
     if (state.user?.username) {
-      return state.user.username;
+      return state.user.username
     } else {
-      return await window.main.getMachineName();
+      return await window.main.getMachineName()
     }
   },
-);
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -24,10 +24,10 @@ export const userSlice = createSlice({
     builder.addCase(getMachineName.fulfilled, (state, action) => {
       if (!state.username)
         state = {username: action.payload}
-      localStorage.setItem('user', JSON.stringify(state));
-      return state;
-    });
+      localStorage.setItem('user', JSON.stringify(state))
+      return state
+    })
   },
-});
+})
 
-export const {} = userSlice.actions;
+export const {} = userSlice.actions

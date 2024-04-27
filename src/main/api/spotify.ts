@@ -1,22 +1,22 @@
-import fetch from 'node-fetch';
-import {requestUserForApproval} from '../utils/request-user-for-approval';
-import {approvalResponseIsApproved} from '../../models/approval';
+import fetch from 'node-fetch'
+import {requestUserForApproval} from '../utils/request-user-for-approval'
+import {approvalResponseIsApproved} from '../../models/approval'
 
 // https://developer.spotify.com/dashboard/2c06c406715e489ca12423effe1b1733/settings
 export async function serviceToService(): Promise<string> {
   const response = await requestUserForApproval({
     type: "SecretRequest",
   })
-  const {clientId, clientSecret} = response;
+  const {clientId, clientSecret} = response
 
   if (!clientId) {
-    throw new Error('clientId is required');
+    throw new Error('clientId is required')
   }
   if (!clientSecret) {
-    throw new Error('clientSecret is required');
+    throw new Error('clientSecret is required')
   }
 
-  const buffer = Buffer.from(`${clientId}:${clientSecret}`);
+  const buffer = Buffer.from(`${clientId}:${clientSecret}`)
   
   const authOptions = {
     method: 'POST',
@@ -25,23 +25,23 @@ export async function serviceToService(): Promise<string> {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: 'grant_type=client_credentials',
-  };
+  }
   
   try {
-    const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
-    if (!response.ok) throw new Error('Network response was not ok.');
-    const result = await response.json() as { access_token: string };
-    const token = result.access_token;
-    return token;
+    const response = await fetch('https://accounts.spotify.com/api/token', authOptions)
+    if (!response.ok) throw new Error('Network response was not ok.')
+    const result = await response.json() as { access_token: string }
+    const token = result.access_token
+    return token
   } catch (error) {
-    console.log('There has been a problem getting token: ', error);
+    console.log('There has been a problem getting token: ', error)
     throw new Error('Problem calling spotify')
   }
 }
 
 export async function get(endpoint: string): Promise<object> {
   try {
-    const token = await serviceToService();
+    const token = await serviceToService()
     const options = {
       method: 'GET',
       headers: {
@@ -49,15 +49,15 @@ export async function get(endpoint: string): Promise<object> {
         'Content-Type': 'application/json',
       },
     }
-    const response = await fetch(`https://api.spotify.com/v1${endpoint}`, options);
+    const response = await fetch(`https://api.spotify.com/v1${endpoint}`, options)
     if (response.ok) {
-      const data = await response.json() as object;
-      return data;
+      const data = await response.json() as object
+      return data
     } else {
       return {
         statusCode: response.status,
         statusText: response.statusText,
-      };
+      }
     }
   } catch (e) {
     throw new Error('Problem calling spotify')

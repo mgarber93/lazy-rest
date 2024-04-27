@@ -1,7 +1,7 @@
-import React, {useCallback} from "react";
-import styled from 'styled-components';
-import {useAppDispatch, useAppSelector} from '../features/store';
-import {ContextItem} from '../features/context-menu';
+import React, {useCallback} from "react"
+import styled from 'styled-components'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {ContextItem} from '../features/context-menu'
 
 const Button = styled.button`
     background-color: unset;
@@ -11,23 +11,23 @@ const Button = styled.button`
         text-decoration: underline;
         background-color: var(--background-color-1);
     }
-`;
+`
 
 const ContextMenuButton = ({item}: { item: ContextItem }) => {
   const dispatch = useAppDispatch()
-  const {display} = item;
+  const {display} = item
   const handleMouse = useCallback((e: any) => {
     if (e.target === e.currentTarget) {
       dispatch(item.action)
     }
-  }, [dispatch, item]);
-  return <Button onMouseUpCapture={handleMouse}>{display}</Button>;
+  }, [dispatch, item])
+  return <Button onMouseUpCapture={handleMouse}>{display}</Button>
 }
 
 const ContextMenu = () => {
   const {visible, x, y, items} = useAppSelector(state => state.contextMenu)
   if (!visible) {
-    return null;
+    return null
   }
   return (
     <div
@@ -49,6 +49,6 @@ const ContextMenu = () => {
       }
     </div>
   )
-};
+}
 
-export default ContextMenu;
+export default ContextMenu

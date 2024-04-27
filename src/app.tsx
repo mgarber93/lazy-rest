@@ -1,16 +1,16 @@
-import {createRoot} from 'react-dom/client';
-import React from 'react';
-import {createHashRouter, RouterProvider} from 'react-router-dom';
-import {Provider} from 'react-redux';
-import ConversationPage from './renderer/pages/conversations';
+import {createRoot} from 'react-dom/client'
+import React from 'react'
+import {createHashRouter, RouterProvider} from 'react-router-dom'
+import {Provider} from 'react-redux'
+import ConversationPage from './renderer/pages/conversations'
 import {store} from './renderer/features/store'
-import {Home} from './renderer/pages/home';
-import {connectCallbacks} from './connect-callbacks';
+import {Home} from './renderer/pages/home'
+import {connectCallbacks} from './connect-callbacks'
 
-connectCallbacks(store);
+connectCallbacks(store)
 
-const container = document.getElementById('root');
-const root = createRoot(container);
+const container = document.getElementById('root')
+const root = createRoot(container)
 const router = createHashRouter([
   {
     path: "*",
@@ -20,7 +20,7 @@ const router = createHashRouter([
     path: "/conversations",
     element: <ConversationPage/>,
   },
-]);
+])
 
 const App = () => (
   <Provider store={store}>
@@ -29,4 +29,4 @@ const App = () => (
 )
 
 
-root.render(<React.StrictMode><App/></React.StrictMode>);
+root.render(<React.StrictMode><App/></React.StrictMode>)

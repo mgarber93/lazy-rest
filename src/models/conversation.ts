@@ -1,9 +1,9 @@
-import {v4} from 'uuid';
-import {AuthoredContent} from './content';
-import {Responder} from './responder';
+import {v4} from 'uuid'
+import {AuthoredContent} from './content'
+import {Responder} from './responder'
 
 
-export function createConversation(title: string = ''): Conversation {
+export function createConversation(title = ''): Conversation {
   return {
     id: v4(),
     content: [] as AuthoredContent[],

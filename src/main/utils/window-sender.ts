@@ -1,29 +1,29 @@
-import {v4} from 'uuid';
+import {v4} from 'uuid'
 
-export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval';
+export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval'
 
-export type TSender = (eventName: string, ...args: any[]) => void;
+export type TSender = (eventName: string, ...args: any[]) => void
 
 export class WindowSender {
-  private _sender: TSender | null = null;
-  private promiseMap = new Map<string, (value: unknown) => void>();
+  private _sender: TSender | null = null
+  private promiseMap = new Map<string, (value: unknown) => void>()
   constructor(private _queue: { eventName: TChannel, args: any[] }[] = []) {
   }
   hasFinishedLoading(sender: TSender) {
-    this._sender = sender;
+    this._sender = sender
     for (const message of this._queue) {
-      this._sender(message.eventName, ...message.args);
+      this._sender(message.eventName, ...message.args)
     }
   }
   private sendOrQueue(eventName: TChannel, args: any[]) {
     if (this._sender) {
-      this._sender(eventName, ...args);
+      this._sender(eventName, ...args)
     } else {
-      this._queue.push({eventName, args: [...args]});
+      this._queue.push({eventName, args: [...args]})
     }
   }
   send(eventName: TChannel, ...args: any[]): void {
-    return this.sendOrQueue(eventName, args);
+    return this.sendOrQueue(eventName, args)
   }
 
   /**
@@ -36,27 +36,27 @@ export class WindowSender {
     const id = v4()
     return new Promise((resolve, reject) => {
       if (this.promiseMap.has(id)) {
-        throw new Error(`${id} is already registered (do we need to set a random seed?)`);
+        throw new Error(`${id} is already registered (do we need to set a random seed?)`)
       }
-      this.promiseMap.set(id, resolve);
+      this.promiseMap.set(id, resolve)
 
-      const nextArgs = [id, ...args];
+      const nextArgs = [id, ...args]
       if (this._sender) {
-         this._sender(eventName, ...nextArgs);
+         this._sender(eventName, ...nextArgs)
       } else {
-        this._queue.push({eventName, args: nextArgs});
+        this._queue.push({eventName, args: nextArgs})
       }
-    });
+    })
   }
   callback(id:string, response: any) {
-    const resolve = this.promiseMap.get(id);
+    const resolve = this.promiseMap.get(id)
     if (resolve) {
-      this.promiseMap.delete(id);
-      return resolve(response);
+      this.promiseMap.delete(id)
+      return resolve(response)
     } else {
-      throw new Error(`No promise found for id: ${id}`);
+      throw new Error(`No promise found for id: ${id}`)
     }
   }
 }
 
-export default new WindowSender();
+export default new WindowSender()

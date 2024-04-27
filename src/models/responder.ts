@@ -1,5 +1,5 @@
-export type TResponder = "chat" | "agent" | "organization";
-export type TProvider = "openai" | "anthropic";
+export type TResponder = "chat" | "agent" | "organization"
+export type TProvider = "openai" | "anthropic"
 
 export interface Responder {
   type: TResponder;
@@ -24,17 +24,17 @@ export function createModelResponder(type: TResponder, model: string, provider: 
     type,
     model,
     provider,
-  };
+  }
 }
 
 export function getModel(responder: Responder): string {
-  return (responder as Model)?.model;
+  return (responder as Model)?.model
 }
 
 export function isModel(responder: Responder): responder is Model {
-  return responder.type === 'chat';
+  return responder.type === 'chat'
 }
 
 export function isOrganization(responder: Responder): responder is Organization {
-  return responder.type === 'organization';
+  return responder.type === 'organization'
 }

@@ -1,46 +1,46 @@
-import {SetStateAction, useCallback, useMemo, useState} from 'react';
+import {SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
-import {v4} from 'uuid';
-import {Control, Footer, Form, Label} from '../styled/form';
-import {Button} from '../styled/button';
-import {OpenApiSpec} from '../../models/open-api-spec';
-import {useAppDispatch} from '../features/store';
-import {addApiConfiguration} from '../features/tools';
+import {v4} from 'uuid'
+import {Control, Footer, Form, Label} from '../styled/form'
+import {Button} from '../styled/button'
+import {OpenApiSpec} from '../../models/open-api-spec'
+import {useAppDispatch} from '../features/store'
+import {addApiConfiguration} from '../features/tools'
 
 export function ApiForm() {
   const [name, setName] = useState('')
   const [baseUrl, setBaseUrl] = useState('')
   const [clientId, setClientId] = useState('')
   const [clientSecret, setClientSecret] = useState('')
-  const [oas, setOas] = useState(null);
+  const [oas, setOas] = useState(null)
   const [fileHandle, setFileHandle] = useState('')
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   
   const handleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        const yaml = parse(reader.result as string) as OpenApiSpec;
-        setName(yaml.info.contact.name);
-        setBaseUrl(yaml.servers[0].url);
-        setOas(yaml);
-        const key = v4();
-        setFileHandle(key);
-      };
-      reader.readAsText(file);  // You can read it as Array Buffer or Binary String alternatively
+        const yaml = parse(reader.result as string) as OpenApiSpec
+        setName(yaml.info.contact.name)
+        setBaseUrl(yaml.servers[0].url)
+        setOas(yaml)
+        const key = v4()
+        setFileHandle(key)
+      }
+      reader.readAsText(file)  // You can read it as Array Buffer or Binary String alternatively
     }
-  }, [setName, setBaseUrl, setOas, setFileHandle, dispatch]);
+  }, [setName, setBaseUrl, setOas, setFileHandle, dispatch])
 
   const isValid = useMemo(() => {
-    return name && baseUrl && clientId && clientSecret && oas !== null;
-  }, [name, baseUrl, clientId, clientSecret, oas]);
+    return name && baseUrl && clientId && clientSecret && oas !== null
+  }, [name, baseUrl, clientId, clientSecret, oas])
 
   const handleSubmit = useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    localStorage.setItem(fileHandle, JSON.stringify(oas));
-    dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}));
-  }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle]);
+    event.preventDefault()
+    localStorage.setItem(fileHandle, JSON.stringify(oas))
+    dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}))
+  }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
 
   return <Form onSubmit={handleSubmit}>
     <Label>Open Api Spec</Label>
@@ -69,5 +69,5 @@ export function ApiForm() {
     <Footer>
       <Button disabled={!isValid} type="submit">Save</Button>
     </Footer>
-  </Form>;
+  </Form>
 }

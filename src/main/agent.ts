@@ -1,12 +1,12 @@
-import {Conversation, createConversation} from '../models/conversation';
-import {selector} from '../prompts/rest-gpt/selector';
-import {buildCallerPrompt} from '../prompts/api-caller';
-import {AuthoredContent, createContent} from '../models/content';
-import {TAgent} from './organization';
-import {Responder} from '../models/responder';
-import {plannerTemplate} from '../prompts/rest-gpt/planner';
-import {OpenApiSpec} from '../models/open-api-spec';
-import {dynamicallyPickResponder} from './map-agent-to-model';
+import {Conversation, createConversation} from '../models/conversation'
+import {selector} from '../prompts/rest-gpt/selector'
+import {buildCallerPrompt} from '../prompts/api-caller'
+import {AuthoredContent, createContent} from '../models/content'
+import {TAgent} from './organization'
+import {Responder} from '../models/responder'
+import {plannerTemplate} from '../prompts/rest-gpt/planner'
+import {OpenApiSpec} from '../models/open-api-spec'
+import {dynamicallyPickResponder} from './map-agent-to-model'
 
 export interface AgentConstructionArgs {
   endpoints?: string;
@@ -25,30 +25,30 @@ export interface AgentConstructionArgs {
  * @param args
  */
 export async function createAgent(agent: TAgent, userContent: AuthoredContent, args?: AgentConstructionArgs): Promise<Conversation> {
-  const agentInternalConversation = createConversation(agent);
-  const {endpoints} = args ?? {};
+  const agentInternalConversation = createConversation(agent)
+  const {endpoints} = args ?? {}
   const model = dynamicallyPickResponder(agent)
-  agentInternalConversation.responder = model;
-  let systemInstructions;
+  agentInternalConversation.responder = model
+  let systemInstructions
   switch (agent) {
     case "planner": {
-      systemInstructions = plannerTemplate;
-      break;
+      systemInstructions = plannerTemplate
+      break
     }
     case "selector": {
       if (!endpoints) {
-        throw new Error('missing endpoints');
+        throw new Error('missing endpoints')
       }
-      systemInstructions = selector(endpoints);
-      break;
+      systemInstructions = selector(endpoints)
+      break
     }
     case "executor": {
-      systemInstructions = buildCallerPrompt(userContent.message, endpoints);
-      break;
+      systemInstructions = buildCallerPrompt(userContent.message, endpoints)
+      break
     }
   }
   const plan = createContent(systemInstructions, agentInternalConversation.id, 'system', 'system')
-  agentInternalConversation.content.push(plan);
-  agentInternalConversation.content.push(userContent);
-  return agentInternalConversation;
+  agentInternalConversation.content.push(plan)
+  agentInternalConversation.content.push(userContent)
+  return agentInternalConversation
 }

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import {TimelineExtend, TimelineItem} from './timeline-card-item';
-import {Conversation} from '../../models/conversation';
-import {newestToOldest} from '../utils/sort-date';
-import {Card} from '../wrapper/card';
+import styled from 'styled-components'
+import {TimelineExtend, TimelineItem} from './timeline-card-item'
+import {Conversation} from '../../models/conversation'
+import {newestToOldest} from '../utils/sort-date'
+import {Card} from '../wrapper/card'
 
 const Timeline = styled.ul`
   line-height: 1.5;
@@ -107,11 +107,11 @@ const Timeline = styled.ul`
   .time {
     color: var(--grey);
   }
-`;
+`
 
 
 export function TimelineCard({items}: { items: Conversation[] }) {
-  const sorted = [...items].sort((a, b) => newestToOldest(a.created, b.created));
+  const sorted = [...items].sort((a, b) => newestToOldest(a.created, b.created))
   return <Card>
     <Timeline>
       <TimelineExtend/>
@@ -120,4 +120,4 @@ export function TimelineCard({items}: { items: Conversation[] }) {
   </Card>
 }
 
-export default TimelineCard;
+export default TimelineCard

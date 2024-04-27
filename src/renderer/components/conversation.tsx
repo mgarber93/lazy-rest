@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import {Message} from './message';
-import {SendMessage} from './send-message';
-import {useCurrentConversation} from '../hooks/current-conversation';
+import React from 'react'
+import styled from 'styled-components'
+import {Message} from './message'
+import {SendMessage} from './send-message'
+import {useCurrentConversation} from '../hooks/current-conversation'
 
 const StyledDiv = styled.div`
   display: flex;
@@ -35,5 +35,5 @@ export const ConversationComponent = () => {
       </MessagesContainer>
       <SendMessage/>
     </StyledDiv>
-  );
-};
+  )
+}

@@ -13,5 +13,5 @@ ${apiDocs}
 If the API path contains "{}", it means that it is a variable and you should replace it with the appropriate value. For example, if the path is "/users/{user_id}/tweets", you should replace "{user_id}" with the user id. "{" and "}" cannot appear in the url.
 
 You can use http request methods, i.e., GET, POST, DELETE, PATCH, PUT, and generate the corresponding parameters according to the tools description.
-`;
+`
 }

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import {ReactNode} from 'react';
-import {Header} from '../header';
+import styled from 'styled-components'
+import {ReactNode} from 'react'
+import {Header} from '../header'
 
 const Container = styled.div`
   width: 100%;
@@ -15,5 +15,5 @@ export function PageContainer(props: { children: ReactNode, activeRoute: string 
       <Header activeRoute={props.activeRoute}/>
       {props.children}
     </Container>
-  );
+  )
 }
