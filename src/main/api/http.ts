@@ -1,12 +1,13 @@
 import fetch from 'node-fetch'
 import {requestUserForApproval} from '../utils/request-user-for-approval'
-import {approvalResponseIsApproved} from '../../models/approval'
+import {CallingPlan, SecretRequest} from '../../models/approval'
 
 // https://developer.spotify.com/dashboard/2c06c406715e489ca12423effe1b1733/settings
-export async function serviceToService(): Promise<string> {
+export async function serviceToService(callingPlan: CallingPlan): Promise<string> {
   const response = await requestUserForApproval({
     type: "SecretRequest",
-  })
+    plan: callingPlan,
+  } as SecretRequest)
   const {clientId, clientSecret} = response
 
   if (!clientId) {
@@ -39,9 +40,9 @@ export async function serviceToService(): Promise<string> {
   }
 }
 
-export async function get(endpoint: string): Promise<object> {
+export async function get(endpoint: string, callingPlan: CallingPlan): Promise<object> {
   try {
-    const token = await serviceToService()
+    const token = await serviceToService(callingPlan)
     const options = {
       method: 'GET',
       headers: {

@@ -8,13 +8,12 @@ import {loadOas} from './load-oas'
 import {WindowReference} from '../models/window-reference'
 import {parseCalls} from './utils'
 import OpenAI from 'openai'
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage
-import windowSender from './utils/window-sender'
 import {EndpointCallPlan} from '../models/endpoint'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {Conversation} from '../models/conversation'
 import {agentWithHttp} from './api/openai'
-import {get} from './api/spotify'
+import {get} from './api/http'
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
 export type TAgent = "planner" | "selector" | "executor"
 
@@ -52,7 +51,7 @@ async function executeAndParse(plan: ChatCompletionMessage) {
   for (const toolCall of plan?.tool_calls ?? []) {
     const {function: functionCall, id} = toolCall
     const functionCallArgs = JSON.parse(functionCall.arguments)
-    const results = await get(functionCallArgs.endpoint)
+    const results = await get(functionCallArgs.endpoint, plan)
 
     // extend conversation with function response for it to interpret while we have tool calls to interpret
     messages.push({
@@ -107,27 +106,6 @@ async function executeCalls(userContent: AuthoredContent, calls: EndpointCallPla
     oasSpec
   })
   const callResults = await respondTo(executorAgent)
-  debugger
-  // const executor = startAgentConversation(user, 'executor', JSON.stringify(specForPlannedCall, null, 2));
-  // @todo parsing plan
-  // const messages: ChatCompletionMessageParam[] = executor.content
-  //   .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
-  // do {
-  //   const model = getModel(executor.responder);
-  //   toolPlan = await agentWithHttp(model, messages);
-  //   messages.push(toolPlan);
-  //   for (const toolCall of toolPlan?.tool_calls ?? []) {
-  //     const {function: functionCall, id} = toolCall;
-  //     const functionCallArgs = JSON.parse(functionCall.arguments);
-  //     const results = await get(functionCallArgs.endpoint);
-  //     windowSender.send("tool-request", toolPlan)
-  //     messages.push({
-  //       tool_call_id: id,
-  //       role: "tool",
-  //       content: JSON.stringify(results),
-  //     }); // extend conversation with function response
-  //   }
-  // } while (toolPlan.tool_calls)
 }
 
 
@@ -145,10 +123,7 @@ export async function restApiOrganization(responder: Responder, userContent: Aut
   const selectionAgentConversation = await promptAgent('selector', userContent, windowReference, args)
   const selectedPlan = selectionAgentConversation[selectionAgentConversation.length - 1]
   const calls = parseCalls(selectedPlan.message)
-  const approved = await windowSender.asyncSend('approval', JSON.stringify(calls))
-  if (!approved) {
-    return selectionAgentConversation
-  }
-  await executeCalls(userContent, calls, args.oasSpec)
+  const authoredContent = await executeCalls(userContent, calls, args.oasSpec)
+  return selectionAgentConversation
 }
 
