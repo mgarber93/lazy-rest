@@ -34,7 +34,6 @@ export function mapAuthoredContentToChatCompletion(content: AuthoredContent): Ch
   }
 }
 
-
 export async function prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
@@ -50,9 +49,8 @@ export async function streamedPrompt(model: string, content: AuthoredContent[], 
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
   const openai = providerManager.getOpenAi()
-  // @todo replace model when done testing
   const stream = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model,
     messages: messages,
     stream: true,
   })
