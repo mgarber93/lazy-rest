@@ -38,6 +38,7 @@ const Timeline = styled.ul`
   }
 
   .TimelineItem-body {
+    width: 100%;
     padding: 0 0.2rem 0.2rem 0.2rem;
     flex: auto;
     max-width: 100%;
@@ -57,6 +58,8 @@ const Timeline = styled.ul`
     }
 
     &.extend {
+      margin-left: 0.3rem;
+      background-color: var(--background-color-3);
       padding: 0.2rem;
       z-index: 1;
       min-height: 1.5rem;

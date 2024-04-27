@@ -5,6 +5,31 @@ import {useAppDispatch} from '../features/store'
 import {selectChat} from '../features/current-chat'
 import {removeChat, startNewChat} from '../features/chat'
 import {Conversation, createConversation} from '../../models/conversation'
+import styled from 'styled-components'
+
+const Button = styled.button`
+  min-width: 17.6rem;
+  transition: 0.2s ease-in-out background;
+
+  &:hover {
+    background: var(--grey);
+  }
+
+  z-index: auto;
+  border: 1px solid var(--grey);
+  color: black;
+  border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
+  margin-bottom: 1rem;
+  margin-left: 0.44rem;
+`
+
+const Wrapper = styled.div`
+  .close-button {
+    top: 0.75rem;
+    right: 0.05rem;
+    position: relative;
+  }
+`
 
 
 export function TimelineItem({item}: { item: Conversation }) {
@@ -29,10 +54,11 @@ export function TimelineItem({item}: { item: Conversation }) {
     </svg>
     <div className={"TimelineItem-body"}>
       <div className="TimelineItem-event">
-        <div className={"time"}>
+        <Wrapper className={"time"}>
           {moment(item.created).fromNow()}
-          {<CloseButton className={"right-align-button" + (isHovered ? ' hovered' : '')} onClick={handleRemoveChat}/>}
-        </div>
+          {<CloseButton className={"right-align-button close-button" + (isHovered ? ' hovered' : '')}
+                        onClick={handleRemoveChat}/>}
+        </Wrapper>
         <a onClick={handleClick}>{item.content?.[0]?.message || item.id}</a>
       </div>
     </div>
@@ -47,8 +73,8 @@ export function TimelineExtend() {
     dispatch(selectChat(item.id))
   }, [dispatch])
   return <li className={"TimelineItem list-style-none"}>
-    <div className={"TimelineItem-body extend time"}>
-      <a onClick={handleClick}>new</a>
+    <div>
+      <Button onClick={handleClick}>new</Button>
     </div>
   </li>
 }
