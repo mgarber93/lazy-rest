@@ -33,25 +33,28 @@ resource "aws_acm_certificate_validation" "cert" {
 module "bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   bucket = "lazy-rest"
-  policy = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": "*",
-        "Action": "s3:GetObject",
-        "Resource": "arn:aws:s3:::lazy-rest/*"
-      }
-    ]
-  }
-  POLICY
 }
+resource "aws_cloudfront_origin_access_identity" "oai" {
+  comment = "OAI for CloudFront distribution"
+}
+data "aws_iam_policy_document" "restriction_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${module.bucket.s3_bucket_arn}/*"]
 
+    principals {
+      type        = "AWS"
+      identifiers = ["${aws_cloudfront_origin_access_identity.oai.iam_arn}"]
+    }
+  }
+}
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = module.bucket.s3_bucket_id
+  policy = data.aws_iam_policy_document.restriction_policy.json
+}
 module "cdn" {
   source = "terraform-aws-modules/cloudfront/aws"
-
-  #   aliases = [""]
+  aliases = [local.site]
 
   comment = "CloudFront"
   enabled             = true
@@ -60,10 +63,7 @@ module "cdn" {
   retain_on_delete    = false
   wait_for_deployment = false
 
-  create_origin_access_identity = true
-  origin_access_identities = {
-    s3_bucket_one = "CloudFront can access"
-  }
+  create_origin_access_identity = false
 
   origin = {
     webfront = {
@@ -74,6 +74,21 @@ module "cdn" {
         origin_protocol_policy = "match-viewer"
         origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
       }
+      custom_header = [
+        {
+          name  = "X-Forwarded-Scheme"
+          value = "https"
+        },
+        {
+          name  = "X-Frame-Options"
+          value = "SAMEORIGIN"
+        }
+      ]
+
+      origin_shield = {
+        enabled              = true
+        origin_shield_region = "us-east-1"
+      }
     }
   }
 
@@ -82,7 +97,7 @@ module "cdn" {
     viewer_protocol_policy = "redirect-to-https"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    cached_methods  = ["GET", "HEAD"]
+    cached_methods = ["GET", "HEAD", "OPTIONS"]
     compress        = true
     query_string    = true
   }
@@ -93,4 +108,5 @@ module "cdn" {
   }
 
   depends_on = [aws_acm_certificate_validation.cert]
+  default_root_object = "index.html"
 }
