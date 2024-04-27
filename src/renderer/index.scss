@@ -52,7 +52,7 @@
   --shadow: 0.2rem 0.15rem var(--box-shadow-background);
   --primary: #8cff00;
   --timeline: #696969;
-  --card: linear-gradient(45deg, var(--primary-4), var(--primary-2) 30%, var(--primary-2), var(--primary-2));
+  --card: linear-gradient(to right bottom, var(--background-color-1), var(--background-color-0));
   --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
 }
 
