@@ -42,7 +42,6 @@ export function ApiToolPreview({api}: {api: ApiConfiguration}) {
 
 
 export function Home() {
-  const [creatingNewApi, setCreatingNewApi] = React.useState(false)
   const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> }
   return (
     <PageContainer activeRoute={"/home"}>
@@ -60,7 +59,6 @@ export function Home() {
                 <ApiForm></ApiForm>
               </Card>
             </div>
-
           </FormGroup>
         </div>
       </Div>
