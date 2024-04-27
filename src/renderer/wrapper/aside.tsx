@@ -15,14 +15,20 @@ const AsideContainer = styled.div`
   justify-content: flex-start;
   align-content: flex-start;
   gap: 1rem;
+  .footer {
+    width: 100%;
+    margin-top: auto;
+    padding-bottom: 2.5rem;
+  }
 `
 
 function Aside() {
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[]
   return <AsideContainer>
     <TimelineCard items={chats}/>
-
-    <ResponderType/>
+    <div className="footer">
+      <ResponderType/>
+    </div>
   </AsideContainer>
 }
 

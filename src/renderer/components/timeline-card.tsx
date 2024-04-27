@@ -52,16 +52,19 @@ const Timeline = styled.ul`
       border-radius: var(--border-radius);
       &:hover {
         border: 1px solid var(--background-color-2);
-        background-color: var(--primary-9);
+        background-color: var(--background-color-0);
         &.active {
-          background-color: var(--primary-9);
+          background-color: var(--background-color-0);
         }
       }
       transition: 0.4s ease-in border, 0.7s ease-in-out background-color, 0.4s ease-in-out margin-right;
       &.active {
-        background-color: var(--primary-4);
+        background-color: var(--background-color-2);
         margin-right: 0.75rem;
         overflow: hidden;
+      }
+      a:hover {
+        text-decoration: none !important;
       }
     }
 
@@ -125,12 +128,11 @@ const Timeline = styled.ul`
 
 export function TimelineCard({items}: { items: Conversation[] }) {
   const sorted = [...items].sort((a, b) => newestToOldest(a.created, b.created))
-  return <Card>
-    <Timeline>
+  return <Timeline>
       <TimelineExtend/>
       {sorted.map(item => <TimelineItem item={item} key={item.id} />)}
     </Timeline>
-  </Card>
+
 }
 
 export default TimelineCard

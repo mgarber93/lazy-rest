@@ -34,8 +34,9 @@ export function ResponderType() {
     setType(type)
   }, [setType])
   
-  return <Card>
-  <SelectResponderType type={type as TResponder} setType={handleValueChange}/>
-      {agentSelectorForm(type as TResponder)}
-  </Card>
+  return <>
+    {agentSelectorForm(type as TResponder)}
+    <SelectResponderType type={type as TResponder} setType={handleValueChange}/>
+  </>
+
 }
