@@ -6,6 +6,7 @@ import {selectChat} from '../features/current-chat'
 import {removeChat, startNewChat} from '../features/chat'
 import {Conversation, createConversation} from '../../models/conversation'
 import styled from 'styled-components'
+import {useCurrentConversation} from '../hooks/current-conversation';
 
 const Button = styled.button`
   min-width: 17.6rem;
@@ -47,13 +48,17 @@ export function TimelineItem({item}: { item: Conversation }) {
   const handleMouseLeave = useCallback(() => {
     setHovered(false)
   }, [setHovered])
+  const currentConversation = useCurrentConversation()
+  const isActive = currentConversation?.id === item.id
+  const className = "TimelineItem list-style-none "
+  const bodyStyles = "TimelineItem-event " + (isActive && "active")
 
-  return <li key={item.id} className={"TimelineItem list-style-none"} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+  return <li key={item.id} className={className} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
       <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
     </svg>
     <div className={"TimelineItem-body"}>
-      <div className="TimelineItem-event">
+      <div className={bodyStyles}>
         <Wrapper className={"time"}>
           {moment(item.created).fromNow()}
           {<CloseButton className={"right-align-button close-button" + (isHovered ? ' hovered' : '')}

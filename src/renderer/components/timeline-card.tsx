@@ -53,13 +53,18 @@ const Timeline = styled.ul`
       &:hover {
         border: 1px solid var(--background-color-2);
         background-color: var(--primary-9);
+        &.active {
+          background-color: var(--primary-9);
+        }
       }
-      transition: 0.4s ease-in border;
+      transition: 0.4s ease-in border, 0.4s ease-in-out background-color;
+      &.active {
+        background-color: var(--primary-4);
+      }
     }
 
     &.extend {
       margin-left: 0.3rem;
-      background-color: var(--background-color-3);
       padding: 0.2rem;
       z-index: 1;
       min-height: 1.5rem;
@@ -109,6 +114,9 @@ const Timeline = styled.ul`
 
   .time {
     color: var(--grey);
+  }
+  .active {
+    background-color: var(--primary-5);
   }
 `
 
