@@ -57,9 +57,11 @@ const Timeline = styled.ul`
           background-color: var(--primary-9);
         }
       }
-      transition: 0.4s ease-in border, 0.4s ease-in-out background-color;
+      transition: 0.4s ease-in border, 0.7s ease-in-out background-color, 0.4s ease-in-out margin-right;
       &.active {
         background-color: var(--primary-4);
+        margin-right: 0.75rem;
+        overflow: hidden;
       }
     }
 

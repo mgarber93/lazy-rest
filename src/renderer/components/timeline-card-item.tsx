@@ -1,12 +1,13 @@
 import moment from 'moment'
 import {CloseButton} from 'react-bootstrap'
 import {useCallback, useState} from 'react'
+
+import styled from 'styled-components'
 import {useAppDispatch} from '../features/store'
 import {selectChat} from '../features/current-chat'
 import {removeChat, startNewChat} from '../features/chat'
 import {Conversation, createConversation} from '../../models/conversation'
-import styled from 'styled-components'
-import {useCurrentConversation} from '../hooks/current-conversation';
+import {useCurrentConversation} from '../hooks/current-conversation'
 
 const Button = styled.button`
   min-width: 17.6rem;
