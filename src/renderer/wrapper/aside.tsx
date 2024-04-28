@@ -7,7 +7,7 @@ import TimelineCard from '../components/timeline-card'
 import {ResponderType} from './responder-type'
 
 const AsideContainer = styled.div`
-  padding: 1rem 0.5rem 0.5rem 0.5rem;
+  padding: 1rem 0.5rem 0rem 0rem;
   font-size: small;
   display: flex;
   border-right: var(--dashed);
