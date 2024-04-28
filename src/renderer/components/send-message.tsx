@@ -10,9 +10,10 @@ const SendMessageContainer = styled.div`
   margin-top: auto;
   bottom: 2.5rem;
   flex-direction: row;
-  width: 871px;
+  width: 100%;
   height: fit-content;
   display: flex;
+  border-top: var(--dashed);
 `
 
 function mapResponderToPlaceholder(responder: Responder) {

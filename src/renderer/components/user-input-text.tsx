@@ -9,14 +9,13 @@ import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useSta
 import {getRespondingModel} from '../../models/responder'
 
 const TextArea = styled.textarea`
-  border: 1px solid var(--background-color-9);
+  border: none;
   width: 100%;
   resize: none;
-  background: var(--card);
+  background: none;
   color: var(--text-color);
   font-size: larger;
   outline: none;
-  border-radius: var(--border-radius);
   height: fit-content;
   margin: 0;
 `

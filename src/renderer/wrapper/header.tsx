@@ -24,7 +24,7 @@ const Div = styled.div`
   background-color: var(--background-color-0);
   min-height: 2rem;
   z-index: 3;
-  border-bottom: 2px dashed var(--background-color-1);
+  border-bottom: var(--dashed);
 
   & * {
     -webkit-app-region: no-drag;
@@ -41,7 +41,10 @@ const Div = styled.div`
   }
 
   .active {
-    background-color: var(--background-color-2);
+    background-color: var(--background-color-9);
+    & * {
+      color: var(--background-color-0);
+    }
     border-radius: 0.2rem;
 
     &:hover {
