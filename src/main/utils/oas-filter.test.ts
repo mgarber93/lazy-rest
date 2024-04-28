@@ -1,7 +1,7 @@
 import {fuzzyMatch, oasToDescriptions, treeShake} from './oas-filter'
-import spec from '../../oas/spotify-oas.json'
-import {OpenApiSpec} from '../models/open-api-spec'
-import {THttp} from '../models/endpoint'
+import spec from '../../../oas/spotify-oas.json'
+import {OpenApiSpec} from '../../models/open-api-spec'
+import {THttp} from '../../models/endpoint'
 
 const openApiSpec = spec as unknown as OpenApiSpec
 

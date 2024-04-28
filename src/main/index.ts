@@ -1,21 +1,11 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron'
 import {OpenAiConfiguration} from '../models/provider-config'
-import providerManager from './provider-manager'
-import {getUser} from './user'
+import providerManager from './providers/provider-manager'
+import {getUser} from './utils/user'
 import {Conversation} from '../models/conversation'
-import {chat, getModels, streamedChat} from './api/api'
 import {TProvider} from '../models/responder'
 import windowSender from './utils/window-sender'
-
-async function handleChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<{
-  content: string,
-  role: string
-}> {
-  if (!conversation) {
-    throw new Error('Unable to parse in handleChat')
-  }
-  return chat(conversation.responder, conversation.content)
-}
+import {getAllProviderModels, streamedChat} from './tools/api'
 
 
 /**
@@ -34,7 +24,7 @@ async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conve
 }
 
 async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {
-  const models = await getModels(provider)
+  const models = await getAllProviderModels(provider)
   return models
 }
 
@@ -50,7 +40,6 @@ async function handleCallback(event: IpcMainInvokeEvent, id: string, arg: any) {
 export function registerHandlers() {
   ipcMain.handle('getModels', handleGetModels)
   ipcMain.handle('getMachineName', getUser)
-  ipcMain.handle('chat', handleChat)
   ipcMain.handle('streamedChat', handleStreamedChat)
   ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)
   ipcMain.handle('callback', handleCallback)

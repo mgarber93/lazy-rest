@@ -1,49 +1,25 @@
-import {oasToDescriptions, treeShake} from './oas-filter'
-import {AgentConstructionArgs, createAgent} from './agent'
-import {streamedChat} from './api/api'
-import {getModel, Responder, TResponder} from '../models/responder'
-import {OpenApiSpec} from '../models/open-api-spec'
-import {AuthoredContent} from '../models/content'
-import {loadOas} from './load-oas'
-import {WindowReference} from '../models/window-reference'
-import {parseCalls} from './utils'
+import {treeShake} from '../utils/oas-filter'
+import {AgentConstructionArgs, createAgent} from '../agents/agent'
+import {getModel, TResponder} from '../../models/responder'
+import {OpenApiSpec} from '../../models/open-api-spec'
+import {AuthoredContent} from '../../models/content'
+import {parseCalls} from '../utils/utils'
 import OpenAI from 'openai'
-import {EndpointCallPlan} from '../models/endpoint'
+import {EndpointCallPlan} from '../../models/endpoint'
 import {ChatCompletionMessageParam} from 'openai/resources'
-import {Conversation} from '../models/conversation'
-import {agentWithHttp} from './api/openai'
-import {get} from './api/http'
+import {Conversation} from '../../models/conversation'
+
+import {createArgs} from './create-args'
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
 export type TAgent = "planner" | "selector" | "executor"
 
-/**
- * Starts a conversation with the specified agent type and user content.
- *
- * @param {TAgent} agentType - The type of agent to prompt.
- * @param {AuthoredContent} content - The content authored by the user.
- * @param windowReference - A place in the window to stream the response to
- * @param args
- * @returns {Promise<ChatConversation>} - The internal conversation with the agent.
- */
-async function promptAgent(agentType: TAgent, content: AuthoredContent, windowReference: WindowReference, args?: AgentConstructionArgs): Promise<AuthoredContent[]> {
+
+async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs) {
   const agent = await createAgent(agentType, content, args)
-  const response = await streamedChat(agent.responder, agent.content, windowReference)
-  return response
-}
-
-function specToOas(spec: OpenApiSpec): string {
-  return JSON.stringify(oasToDescriptions(spec), null, 2)
-}
-
-async function createArgs() {
-  const oasSpec = await loadOas()
-  const endpoints = oasSpec.reduce((acc: string, spec) => acc + specToOas(spec), '')
-  return {
-    endpoints,
-    oasSpec,
-    responder: {type: 'gpt-3.5-turbo' as TResponder}
-  } as AgentConstructionArgs
+  const response = await chat(agent.responder, agent.content)
+  agent.content.push(response)
+  return agent
 }
 
 async function executeAndParse(plan: ChatCompletionMessage) {
@@ -112,18 +88,17 @@ async function executeCalls(userContent: AuthoredContent, calls: EndpointCallPla
 /**
  * Flagship organization for product
  * Move to renderer?
- * @param responder
  * @param userContent
  * @param chatId
  * @param messageId
  */
-export async function restApiOrganization(responder: Responder, userContent: AuthoredContent, chatId: string, messageId: string): Promise<AuthoredContent[]> {
+export async function restApiOrganization(userContent: AuthoredContent, chatId: string, messageId: string): Promise<AuthoredContent[]> {
   const args = await createArgs()
   const windowReference = {chatId: chatId, messageId: messageId}
-  const selectionAgentConversation = await promptAgent('selector', userContent, windowReference, args)
-  const selectedPlan = selectionAgentConversation[selectionAgentConversation.length - 1]
+  const selectionAgent = await promptAgent('selector', userContent, args)
+  const selectedPlan = selectionAgent.content[selectionAgent.content.length - 1]
   const calls = parseCalls(selectedPlan.message)
   const authoredContent = await executeCalls(userContent, calls, args.oasSpec)
-  return selectionAgentConversation
+
 }
 

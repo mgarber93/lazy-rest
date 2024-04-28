@@ -1,4 +1,4 @@
-import {OpenAiConfiguration} from '../models/provider-config'
+import {OpenAiConfiguration} from '../../models/provider-config'
 import OpenAI from 'openai'
 
 // manages provider config and high level llm queries like get fast, get cheap, etc
