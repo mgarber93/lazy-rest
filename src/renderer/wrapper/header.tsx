@@ -2,14 +2,18 @@ import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 
 const Div = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+
   position: sticky;
   top: 0px;
   -webkit-app-region: drag;
-  padding: 0.4rem 1rem 0rem 5rem;
+  padding: 0rem 1rem 0rem 5rem;
   font-size: smaller;
   width: 100%;
-  display: flex;
-  flex-direction: row;
+
   gap: 0.1rem;
   height: 36px;
 
@@ -27,8 +31,8 @@ const Div = styled.div`
   }
 
   svg {
-    padding: 0.2rem 0 0 3px;
-    width: 3rem;
+    padding: 0.3rem 0 0 0.3rem;
+    width: 1.6rem;
     height: 1.6rem;
 
     &:hover {
@@ -37,11 +41,11 @@ const Div = styled.div`
   }
 
   .active {
-    background-color: var(--background-color-6);
+    background-color: var(--background-color-2);
     border-radius: 0.2rem;
 
     &:hover {
-      background-color: var(--background-color-6);
+      background-color: var(--background-color-3);
     }
   }
 `
