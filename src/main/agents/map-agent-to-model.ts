@@ -11,6 +11,7 @@ export function dynamicallyPickResponder(agent: TAgent): Model {
     case "planner": {
       return defaultResponder
     }
+    case "executor":
     case "selector": {
       return {
         type: 'chat',
