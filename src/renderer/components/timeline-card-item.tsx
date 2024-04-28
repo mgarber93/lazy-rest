@@ -55,7 +55,7 @@ export function TimelineItem({item}: { item: Conversation }) {
   const bodyStyles = "TimelineItem-event " + (isActive && "active")
 
   return <li key={item.id} className={className} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
+    <svg aria-hidden="true" height="21" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
       <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
     </svg>
     <div className={"TimelineItem-body"} onClick={handleClick}>
