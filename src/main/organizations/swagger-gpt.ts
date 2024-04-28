@@ -6,7 +6,6 @@ import {AuthoredContent} from '../../models/content'
 import {parseCalls} from '../utils/utils'
 import OpenAI from 'openai'
 import {ChatCompletionMessageParam} from 'openai/resources'
-import {Conversation} from '../../models/conversation'
 
 import {createArgs} from './create-args'
 import {agentWithHttp} from '../providers/openai'
@@ -42,15 +41,6 @@ async function executeAndParse(plan: ChatCompletionMessage, approvedPlan: Callin
   }
   return messages
 }
-
-/**
- * Primitive of a conversation, ie hitting next
- * @param conversation
- */
-async function respondTo(conversation: Conversation) {
-
-}
-
 
 /**
  * An executor is the loop between the caller and parser.
