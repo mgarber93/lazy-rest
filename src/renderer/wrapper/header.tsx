@@ -17,10 +17,10 @@ const Div = styled.div`
     margin-bottom: 0.5rem;
   }
 
+  background-color: var(--background-color-0);
   min-height: 2rem;
-  background-color: var(--background-color-2);
   z-index: 3;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px dashed var(--background-color-1);
 
   & * {
     -webkit-app-region: no-drag;

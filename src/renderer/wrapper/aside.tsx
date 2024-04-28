@@ -10,7 +10,7 @@ const AsideContainer = styled.div`
   padding: 1rem 0.5rem 0.5rem 0.5rem;
   font-size: small;
   display: flex;
-  border-right: 2px dashed var(--background-color-4);
+  border-right: 2px dashed var(--background-color-1);
   flex-direction: column;
   justify-content: flex-start;
   align-content: flex-start;
