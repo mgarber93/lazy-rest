@@ -1,17 +1,15 @@
-import {Conversation, createConversation} from '../models/conversation'
-import {selector} from '../prompts/rest-gpt/selector'
-import {buildCallerPrompt} from '../prompts/api-caller'
-import {AuthoredContent, createContent} from '../models/content'
-import {TAgent} from './organization'
-import {Responder} from '../models/responder'
-import {plannerTemplate} from '../prompts/rest-gpt/planner'
-import {OpenApiSpec} from '../models/open-api-spec'
+import {Conversation, createConversation} from '../../models/conversation'
+import {selector} from '../../prompts/rest-gpt/selector'
+import {buildCallerPrompt} from '../../prompts/api-caller'
+import {AuthoredContent, createContent} from '../../models/content'
+import {TAgent} from '../organizations/swagger-gpt'
+import {plannerTemplate} from '../../prompts/rest-gpt/planner'
+import {OpenApiSpec} from '../../models/open-api-spec'
 import {dynamicallyPickResponder} from './map-agent-to-model'
 
 export interface AgentConstructionArgs {
   endpoints?: string;
   roughPlan?: string; // used for selector to create calling plan from
-  responder: Responder;
   oasSpec: OpenApiSpec[];
 }
 

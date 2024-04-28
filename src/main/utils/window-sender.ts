@@ -4,6 +4,9 @@ export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval'
 
 export type TSender = (eventName: string, ...args: any[]) => void
 
+/**
+ * @usage Don't use this class directly, instead use a function that type narrows the response
+ */
 export class WindowSender {
   private _sender: TSender | null = null
   private promiseMap = new Map<string, (value: unknown) => void>()

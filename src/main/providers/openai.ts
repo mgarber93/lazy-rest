@@ -1,17 +1,21 @@
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent, ContentDelta, createContent, isToolCall} from '../../models/content'
 import windowSender from '../utils/window-sender'
-import providerManager from '../provider-manager'
-import {RoleContent} from './api'
+import providerManager from './provider-manager'
+import {RoleContent} from '../tools/api'
+
+export async function listOpenAiModels() {
+  const openai = providerManager.getOpenAi()
+  const models = await openai.models.list()
+  return models.data
+    .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
+    .map(item => item.id)
+    .join(',')
+}
 
 // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
 export async function getModels(): Promise<string> {
   return ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-preview'].join(',')
-  // const models = await openai.models.list();
-  // return models.data
-  //   .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
-  //   .map(item => item.id)
-  //   .join(',');
 }
 
 export function mapAuthoredContentToChatCompletion(content: AuthoredContent): ChatCompletionMessageParam {
@@ -34,7 +38,6 @@ export function mapAuthoredContentToChatCompletion(content: AuthoredContent): Ch
   }
 }
 
-
 export async function prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
@@ -50,9 +53,8 @@ export async function streamedPrompt(model: string, content: AuthoredContent[], 
   const messages = content
     .map(mapAuthoredContentToChatCompletion)
   const openai = providerManager.getOpenAi()
-  // @todo replace model when done testing
   const stream = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model,
     messages: messages,
     stream: true,
   })

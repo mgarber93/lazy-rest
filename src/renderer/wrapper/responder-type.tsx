@@ -6,7 +6,13 @@ import {TResponder} from '../../models/responder'
 import {SelectResponderType} from './responder-type/select-responder-type'
 import {AgentSelector} from './responder-type/agent-selector'
 import {OrganizationSelector} from './responder-type/organization-selector'
+import styled from 'styled-components'
 
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
 
 function agentSelectorForm(type: TResponder) {
   switch (type) {
@@ -34,9 +40,9 @@ export function ResponderType() {
     setType(type)
   }, [setType])
   
-  return <>
+  return <Div>
     {agentSelectorForm(type as TResponder)}
     <SelectResponderType type={type as TResponder} setType={handleValueChange}/>
-  </>
+  </Div>
 
 }

@@ -1,5 +1,5 @@
-import {TAgent} from './organization'
-import {Model, TProvider} from '../models/responder'
+import {TAgent} from '../organizations/swagger-gpt'
+import {Model, TProvider} from '../../models/responder'
 
 export function dynamicallyPickResponder(agent: TAgent): Model {
   const defaultResponder = {
@@ -11,6 +11,7 @@ export function dynamicallyPickResponder(agent: TAgent): Model {
     case "planner": {
       return defaultResponder
     }
+    case "executor":
     case "selector": {
       return {
         type: 'chat',

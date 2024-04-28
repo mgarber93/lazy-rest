@@ -1,4 +1,4 @@
-import {EndpointCallPlan, THttp} from '../models/endpoint'
+import {EndpointCallPlan, THttp} from '../../models/endpoint'
 
 
 export function parseCalls(plan: string): EndpointCallPlan[] {

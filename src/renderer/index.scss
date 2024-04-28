@@ -52,7 +52,7 @@
   --shadow: 0.2rem 0.15rem var(--box-shadow-background);
   --primary: #8cff00;
   --timeline: #696969;
-  --card: linear-gradient(to right bottom, var(--background-color-1), var(--background-color-0));
+  --card: var(--background-color-1);
   --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
 }
 
@@ -138,7 +138,7 @@ html, body, #root, #root > div {
 }
 
 svg {
-  color: var(--accent-text);
+  color: buttonface;
 }
 
 .blush {

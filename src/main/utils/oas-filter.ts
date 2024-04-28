@@ -1,5 +1,5 @@
-import {Endpoint, OpenApiSpec} from '../models/open-api-spec'
-import {EndpointCallPlan} from '../models/endpoint'
+import {Endpoint, OpenApiSpec} from '../../models/open-api-spec'
+import {EndpointCallPlan} from '../../models/endpoint'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {

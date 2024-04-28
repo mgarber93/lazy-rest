@@ -1,4 +1,4 @@
-import {mapAuthoredContentToChatCompletion} from './openai'
+import {mapAuthoredContentToChatCompletion} from '../providers/openai'
 import {describe, expect, it} from '@jest/globals'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent} from '../../models/content'
