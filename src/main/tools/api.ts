@@ -36,7 +36,7 @@ export async function chat(responder: Responder, content: AuthoredContent[]): Pr
  * @param content
  * @param windowReference
  */
-export async function streamedChat(responder: Responder, content: AuthoredContent[], windowReference: WindowReference): Promise<AuthoredContent[]> {
+export async function streamedChat(responder: Responder, content: AuthoredContent[], windowReference: WindowReference) {
   const {chatId, messageId} = windowReference
   if (isModel(responder)) {
     switch (responder.provider) {
