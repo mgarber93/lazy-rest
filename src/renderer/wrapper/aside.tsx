@@ -18,7 +18,7 @@ const AsideContainer = styled.div`
   .footer {
     width: 100%;
     margin-top: auto;
-    padding-bottom: 2.5rem;
+    padding-bottom: 2rem;
   }
 `
 
