@@ -5,7 +5,6 @@ import {OpenApiSpec} from '../../models/open-api-spec'
 import {AuthoredContent} from '../../models/content'
 import {parseCalls} from '../utils/utils'
 import OpenAI from 'openai'
-import {EndpointCallPlan} from '../../models/endpoint'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {Conversation} from '../../models/conversation'
 
