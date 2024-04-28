@@ -8,10 +8,11 @@ export const Button = styled.button`
   padding: 0.5rem 1rem;
 
   &:hover {
-    box-shadow: 4px 0px 2rem var(--primary-2);
+    box-shadow: 0.4rem 0px 0.4rem var(--background-color-9);
   }
 
   &:disabled {
     background: var(--background-color-2);
   }
+  transition: 0.4s ease-in-out;
 `

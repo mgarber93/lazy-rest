@@ -23,7 +23,8 @@ const EditButton = styled(Button)`
   }
   border-radius: 0;
   font-family: "Maple Mono", Tahoma, serif;
-  color: var(--grey)
+  color: var(--grey);
+  border: none;
 `
 
 function agentSelectorForm(type: TResponder) {
