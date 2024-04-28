@@ -58,14 +58,14 @@ export function TimelineItem({item}: { item: Conversation }) {
     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
       <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
     </svg>
-    <div className={"TimelineItem-body"}>
+    <div className={"TimelineItem-body"} onClick={handleClick}>
       <div className={bodyStyles}>
         <Wrapper className={"time"}>
           {moment(item.created).fromNow()}
           {<CloseButton className={"right-align-button close-button" + (isHovered ? ' hovered' : '')}
                         onClick={handleRemoveChat}/>}
         </Wrapper>
-        <a onClick={handleClick}>{item.content?.[0]?.message || item.id}</a>
+        <a>{item.content?.[0]?.message || item.id}</a>
       </div>
     </div>
   </li>
