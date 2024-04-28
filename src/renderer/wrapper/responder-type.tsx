@@ -9,19 +9,20 @@ import styled from 'styled-components'
 import {Button} from '../styled/button'
 
 const Div = styled.div`
-  border-top: var(--dashed);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem 1rem;
+  border-top: var(--dashed);
 `
 
 const EditButton = styled(Button)`
   background: none;
   height: 2.55rem;
   &:hover {
-    background: linear-gradient(to top left, var(--background-color-0), var(--background-color-3));
+    box-shadow: inset 0.6rem 0.6rem 0.6rem var(--background-color-3), inset -1rem -0.6rem 0.6rem var(--background-color-3);
   }
-  border-radius: 0;
+  border-radius: var(--border-radius);
   font-family: "Maple Mono", Tahoma, serif;
   color: var(--grey);
   border: none;
