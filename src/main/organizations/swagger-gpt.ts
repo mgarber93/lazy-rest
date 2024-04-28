@@ -63,21 +63,18 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
 
   const executorAgent = await createAgent("executor", userContent, {
     endpoints: JSON.stringify(specForPlannedCall),
-    responder: {type: 'gpt-3.5-turbo' as TResponder},
     oasSpec
   })
 
   const messages: ChatCompletionMessageParam[] = executorAgent.content
     .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
-  let toolPlan
-  do {
-    const model = getRespondingModel(executorAgent.responder)
-    // responder can change depending on conversation history
-    // create another tool plan and for each call in the plan make the call
-    toolPlan = await agentWithHttp(model, messages)
-    messages.push(toolPlan)
-    await executeAndParse(toolPlan, callingPlan)
-  } while (toolPlan.tool_calls)
+
+  const model = getRespondingModel(executorAgent.responder)
+  // responder can change depending on conversation history
+  // create another tool plan and for each call in the plan make the call
+  const toolPlan = await agentWithHttp(model, messages)
+  messages.push(toolPlan)
+  await executeAndParse(toolPlan, callingPlan)
 }
 
 
@@ -88,7 +85,7 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
  * @param chatId
  * @param messageId
  */
-export async function restApiOrganization(userContent: AuthoredContent, chatId: string, messageId: string): Promise<void> {
+export async function restApiOrganization(userContent: AuthoredContent, chatId: string, messageId: string){
   const args = await createArgs()
   const windowReference = {chatId: chatId, messageId: messageId}
   const selectionAgent = await promptAgent('selector', userContent, args)
