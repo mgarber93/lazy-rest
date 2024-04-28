@@ -27,7 +27,7 @@ export function createModelResponder(type: TResponder, model: string, provider: 
   }
 }
 
-export function getModel(responder: Responder): string {
+export function getRespondingModel(responder: Responder): string {
   return (responder as Model)?.model
 }
 

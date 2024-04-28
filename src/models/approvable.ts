@@ -1,17 +1,19 @@
+import {EndpointCallPlan} from './endpoint'
+
 /**
  * Renderer process must approve some actions. This is mediated using makeRequest
  *
  */
-export interface Approval {
+export interface Approvable {
   type: "CallingPlan" | "SecretRequest"
 }
 
-export interface CallingPlan extends Approval {
+export interface CallingPlan extends Approvable {
   type: "CallingPlan"
-  plan: string
+  calls: EndpointCallPlan[]
 }
 
-export interface SecretRequest extends Approval {
+export interface SecretRequest extends Approvable {
   type: "SecretRequest"
 }
 

@@ -6,7 +6,7 @@ import {createContent} from '../../models/content'
 import {respond, streamResponse} from '../features/chat'
 import styled from 'styled-components'
 import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
-import {getModel} from '../../models/responder'
+import {getRespondingModel} from '../../models/responder'
 
 const TextArea = styled.textarea`
   border: 1px solid var(--background-color-9);
@@ -39,7 +39,7 @@ export function UserInputText({placeholder}: { placeholder: string }) {
       e.preventDefault()
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user')
       dispatch(respond(prompt))
-      const placeHolder = createContent('', currentConversation.id, getModel(currentConversation.responder), 'assistant')
+      const placeHolder = createContent('', currentConversation.id, getRespondingModel(currentConversation.responder), 'assistant')
       dispatch(respond(placeHolder))
       dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}))
       setValue('')

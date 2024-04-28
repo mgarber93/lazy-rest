@@ -1,7 +1,7 @@
 import {EnhancedStore} from '@reduxjs/toolkit'
 import {RootState} from './renderer/features/store'
 import {appendDelta} from './renderer/features/chat'
-import {Approval, ApprovedResponse} from './models/approval'
+import {Approvable, ApprovedResponse} from './models/approvable'
 
 /**
  * Is this a middleware?
@@ -36,7 +36,7 @@ export const connectCallbacks = (store: EnhancedStore) => {
   }
   window.main.receive('load-oas', handleLoadOas)
 
-  const handleApproval = (event: any, id: string, approvalRequest: Approval) => {
+  const handleApproval = (event: any, id: string, approvalRequest: Approvable) => {
     // @todo do something based on user input with the request object. Clearing requests can vary so theres some
     // switching to do here
     const state = store.getState() as RootState

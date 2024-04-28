@@ -10,7 +10,6 @@ import {OpenAiConfiguration} from './models/provider-config'
 export interface PreloadedApi {
   getMachineName: () => Promise<string>;
   getModels: (provider: TProvider) => Promise<string>;
-  chat: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   streamedChat: (conversation: Conversation, responseId: string) => Promise<void>;
   apiAutoPrompt: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
@@ -45,7 +44,6 @@ contextBridge.exposeInMainWorld('main', {
     ipcRenderer.removeAllListeners(channel)
   },
   apiAutoPrompt: ipcRenderer.invoke.bind(ipcRenderer, 'apiAutoPrompt'),
-  chat: ipcRenderer.invoke.bind(ipcRenderer, 'chat'),
   streamedChat: ipcRenderer.invoke.bind(ipcRenderer, 'streamedChat'),
   getMachineName: ipcRenderer.invoke.bind(ipcRenderer, 'getMachineName'),
   getModels: ipcRenderer.invoke.bind(ipcRenderer, 'getModels'),

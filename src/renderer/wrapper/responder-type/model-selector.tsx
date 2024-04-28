@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {useAppDispatch, useAppSelector} from '../../features/store'
 import {useCurrentConversation} from '../../hooks/current-conversation'
 import {setResponder} from '../../features/chat'
-import {createModelResponder, getModel} from '../../../models/responder'
+import {createModelResponder, getRespondingModel} from '../../../models/responder'
 
 const Label = styled.label`
   display: flex;
@@ -47,7 +47,7 @@ function ModelSelectRadio(props: { type: string, selected: string }) {
 
 export function ModelSelector() {
   const currentConversation = useCurrentConversation()
-  const selectedType = currentConversation ? getModel(currentConversation.responder) : 'none'
+  const selectedType = currentConversation ? getRespondingModel(currentConversation.responder) : 'none'
   const {models} = useAppSelector(state => state.models)
   return <Form>
     {models.map((type: string) => <ModelSelectRadio key={type} selected={selectedType} type={type}/>)}
