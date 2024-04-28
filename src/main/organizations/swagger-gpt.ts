@@ -1,6 +1,6 @@
 import {treeShake} from '../utils/oas-filter'
 import {AgentConstructionArgs, createAgent} from '../agents/agent'
-import {getRespondingModel, TResponder} from '../../models/responder'
+import {getRespondingModel} from '../../models/responder'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {AuthoredContent} from '../../models/content'
 import {parseCalls} from '../utils/utils'
@@ -10,9 +10,9 @@ import {ChatCompletionMessageParam} from 'openai/resources'
 import {createArgs} from './create-args'
 import {agentWithHttp} from '../providers/openai'
 import {chat} from '../tools/api'
-import {get, approveCallingPlan} from '../tools/http'
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage
+import {approveCallingPlan, get} from '../tools/http'
 import {CallingPlan} from '../../models/approvable'
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
 export type TAgent = "planner" | "selector" | "executor"
 
