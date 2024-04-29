@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {EndpointCallPlan} from '../../models/endpoint'
-import {Card} from '../wrapper/card'
 import {Icon} from './icon'
+import {FormGroup} from '../wrapper/form-group'
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,16 +79,13 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
       <Icon type={"erasure"}/>
     </span>
   </Div>
+
 }
 
 export function CallingPlanApproval(props: any) {
-  return <Card>
+  return <FormGroup name={'Calling Plan Approval Needed'}>
     <Wrapper>
-      <div className="d-flex flex-row gap-2">
-        Calling Plan Approval Needed
-        <Icon type={"save"}></Icon>
-      </div>
       {plan.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
     </Wrapper>
-  </Card>
+  </FormGroup>
 }
