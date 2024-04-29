@@ -54,7 +54,7 @@
   --timeline: #696969;
   --card: var(--background-color-1);
   --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
-  --dashed: 2px dashed var(--background-color-9);
+  --dashed: 2px dashed var(--background-color-3);
   --header-icon: buttonface;
 }
 
@@ -77,8 +77,12 @@
     --sage-bg: #ffffd6;
     --moonstone-bg: rgb(241, 249, 255);
     --background-gradient: linear-gradient(to right bottom, var(--background-color-1), var(--background-color-3) 30%, var(--background-color-0));
-    --sage: #ecff6d;
-    --moonstone: #253434;
+
+    --sage: #cbdfbd;
+    --primary: #d4e09b;
+    --post: #f19c79;
+
+    --moonstone: #729EA1;
     --accent-text: var(--moonstone);
     --border-color: #0001;
     --call-to-action: linear-gradient(90deg, var(--sage), var(--sage) 60%, var(--sage));

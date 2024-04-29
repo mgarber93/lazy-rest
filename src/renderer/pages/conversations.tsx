@@ -31,7 +31,7 @@ const MainContent = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-  padding: 0rem 1rem 0 0.3rem;
+  padding: 0rem 1rem 0 1rem;
   overflow-y: auto;
 `
 
