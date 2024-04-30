@@ -24,9 +24,12 @@ const Div = styled.div`
     flex-direction: column;
   }
   text-align: left;
-  border-radius: var(--border-radius);
   padding: 1rem 1rem;
-  border: 1px solid var(--background-color-9);
+  margin: 0 1rem;
+  border-bottom: 1px solid var(--background-color-9);
+  &:last-child {
+    border:none;
+  }
   
 
   &.GET {
@@ -74,7 +77,7 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
     </span>
     <span className={"controls"}>
       <Icon type={"checkbox"}/>
-      <Icon type={"erasure"}/>
+      <Icon type={"edit"}/>
     </span>
   </Div>
 
