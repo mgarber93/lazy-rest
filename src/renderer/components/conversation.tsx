@@ -9,11 +9,11 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
 `
 
 const MessagesContainer = styled.div`
-  padding-top: 1rem;
-  padding-bottom: 3.5rem;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -26,15 +26,15 @@ const MessagesContainer = styled.div`
 
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
-  
+
   return (
     <StyledDiv>
       <MessagesContainer>
         {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
+        <CallingPlanApproval></CallingPlanApproval>
       </MessagesContainer>
-      <CallingPlanApproval></CallingPlanApproval>
       <SendMessage/>
     </StyledDiv>
   )
