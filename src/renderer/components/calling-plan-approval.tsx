@@ -20,7 +20,6 @@ const plan = [
 
 const Div = styled.div`
   & * {
-    
     display: flex;
     flex-direction: column;
   }
@@ -43,7 +42,6 @@ const Div = styled.div`
   }
   .method {
     min-width: 4rem;
-    color:  var(--accent);
   }
 
   .path {
