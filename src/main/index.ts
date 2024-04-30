@@ -14,13 +14,8 @@ import {getAllProviderModels, streamedChat} from './tools/api'
  * @param conversation
  * @param responseId - The response is streamed into an authored content object, found by responseId
  */
-async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation, responseId: string): Promise<void> {
-  const contentToRespondTo = conversation.content.filter(content => content.id !== responseId)
-  if (!contentToRespondTo) {
-    throw new Error('Unable to find response id in handleStreamedChat')
-  }
-  const windowReference = {chatId: conversation.id, messageId: responseId}
-  await streamedChat(conversation.responder, contentToRespondTo, windowReference)
+async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<void> {
+  await streamedChat(conversation.responder, conversation)
 }
 
 async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {

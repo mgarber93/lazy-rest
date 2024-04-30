@@ -1,7 +1,11 @@
 import {v4} from 'uuid'
 import {AuthoredContent} from './content'
 import {Responder} from './responder'
+import {EndpointCallPlan} from './endpoint'
 
+export interface PlanController {
+  endpointCallingPlan: EndpointCallPlan[];
+}
 
 export function createConversation(title = ''): Conversation {
   return {
@@ -18,4 +22,5 @@ export interface Conversation {
   title: string;
   responder?: Responder;
   created: string;
+  planController?: PlanController;
 }

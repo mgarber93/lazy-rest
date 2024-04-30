@@ -38,9 +38,8 @@ export function UserInputText({placeholder}: { placeholder: string }) {
       e.preventDefault()
       const prompt = createContent(inputValue, currentConversation.id, user.username, 'user')
       dispatch(respond(prompt))
-      const placeHolder = createContent('', currentConversation.id, getRespondingModel(currentConversation.responder), 'assistant')
-      dispatch(respond(placeHolder))
-      dispatch(streamResponse({conversationId: currentConversation.id, contentId: placeHolder.id}))
+
+      dispatch(streamResponse({conversationId: currentConversation.id}))
       setValue('')
     }
   }, [currentConversation, inputValue])

@@ -2,21 +2,13 @@ import styled from 'styled-components'
 import {EndpointCallPlan} from '../../models/endpoint'
 import {Icon} from './icon'
 import {FormGroup} from '../wrapper/form-group'
+import {PlanController} from '../../models/conversation'
 
 const Wrapper = styled.div`
   display: flex;
   gap: 0.3rem;
   flex-direction: column;
 `
-
-const plan = [
-  {method: "GET", path: "/search", background: "to search for Pink Floyd and get their id"},
-  {method: "GET", path: "/artists/<id>/top-tracks", background: "with country code parameter set to major markets"},
-  {method: "GET", path: "/tracks/<id>", background: "to get the play count of \"Wish you were here\""},
-  {method: "PUT", path: "/search", background: "to search for Pink Floyd and get their id"},
-  {method: "POST", path: "/artists/<id>/top-tracks", background: "with country code parameter set to major markets"},
-  {method: "DELETE", path: "/tracks/<id>", background: "to get the play count of \"Wish you were here\""},
-]
 
 const Div = styled.div`
   & * {
@@ -30,7 +22,6 @@ const Div = styled.div`
   &:last-child {
     border:none;
   }
-  
 
   &.GET {
   }
@@ -83,10 +74,10 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
 
 }
 
-export function CallingPlanApproval(props: any) {
+export function CallingPlanApproval({planController}: {planController: PlanController}) {
   return <FormGroup name={'Calling Plan Approval Needed'}>
     <Wrapper>
-      {plan.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
+      {planController.endpointCallingPlan.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
     </Wrapper>
   </FormGroup>
 }

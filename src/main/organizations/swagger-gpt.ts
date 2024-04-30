@@ -13,6 +13,9 @@ import {chat} from '../tools/api'
 import {approveCallingPlan, get} from '../tools/http'
 import {CallingPlan} from '../../models/approvable'
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage
+import windowSender from '../utils/window-sender'
+import {EndpointCallPlan} from '../../models/endpoint'
+import {presentCallingPlan} from '../utils/respond-to'
 
 export type TAgent = "planner" | "selector" | "executor"
 
@@ -85,16 +88,17 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
  * @param chatId
  * @param messageId
  */
-export async function restApiOrganization(userContent: AuthoredContent, chatId: string, messageId: string){
+export async function restApiOrganization(userContent: AuthoredContent, chatId: string){
   const args = await createArgs()
-  const windowReference = {chatId: chatId, messageId: messageId}
   const selectionAgent = await promptAgent('selector', userContent, args)
   const selectedPlan = selectionAgent.content[selectionAgent.content.length - 1]
   const calls = parseCalls(selectedPlan.message)
-  const callingPlan = {
-    type: "CallingPlan",
-    calls
-  } as CallingPlan
-  const authoredContent = await executeCalls(userContent, callingPlan, args.oasSpec)
+  presentCallingPlan(chatId, calls)
+  // const callingPlan = {
+  //   type: "CallingPlan",
+  //   calls
+  // } as CallingPlan
+  // const authoredContent = await executeCalls(userContent, callingPlan, args.oasSpec)
+  // @todo move execution of calls to different top level function
 }
 

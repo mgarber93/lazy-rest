@@ -10,7 +10,7 @@ import {OpenAiConfiguration} from './models/provider-config'
 export interface PreloadedApi {
   getMachineName: () => Promise<string>;
   getModels: (provider: TProvider) => Promise<string>;
-  streamedChat: (conversation: Conversation, responseId: string) => Promise<void>;
+  streamedChat: (conversation: Conversation) => Promise<void>;
   apiAutoPrompt: (conversation: Conversation) => Promise<{ content: string, role: string }>;
   receive: (channel: TChannel, func: (...args: any[]) => void) => void;
   remove: (channel: TChannel, func: (...args: any[]) => void) => void;
@@ -18,7 +18,7 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval']
+const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval', 'calling-plan', 'respond-to']
 
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
