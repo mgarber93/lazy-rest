@@ -3,7 +3,7 @@
 
 import {contextBridge, ipcRenderer} from 'electron'
 import {Conversation} from './models/conversation'
-import {TChannel} from './main/utils/window-sender'
+import {TChannel, channelAllowList} from './main/utils/window-sender'
 import {TProvider} from './models/responder'
 import {OpenAiConfiguration} from './models/provider-config'
 
@@ -18,25 +18,22 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void;
 }
 
-const validChannels: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval', 'calling-plan', 'respond-to']
-
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
   send: (channel: TChannel, data: any) => {
-    // whitelist channels
-    if (validChannels.includes(channel)) {
+    if (channelAllowList.includes(channel)) {
       ipcRenderer.send(channel, data)
     }
   },
   receive: (channel: TChannel, func: (...args: any[]) => void) => {
-    if (!validChannels.includes(channel)) {
+    if (!channelAllowList.includes(channel)) {
       console.error(channel)
       return
     }
     ipcRenderer.addListener(channel, func)
   },
   remove: (channel: TChannel, func: (...args: any[]) => void) => {
-    if (!validChannels.includes(channel)) {
+    if (!channelAllowList.includes(channel)) {
       console.error(channel)
       return
     }

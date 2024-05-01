@@ -6,6 +6,7 @@ import {TAgent} from '../organizations/swagger-gpt'
 import {plannerTemplate} from '../../prompts/rest-gpt/planner'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {dynamicallyPickResponder} from './map-agent-to-model'
+import {chat} from '../tools/api'
 
 export interface AgentConstructionArgs {
   endpoints?: string;
@@ -49,4 +50,11 @@ export async function createAgent(agent: TAgent, userContent: AuthoredContent, a
   agentInternalConversation.content.push(plan)
   agentInternalConversation.content.push(userContent)
   return agentInternalConversation
+}
+
+export async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs) {
+  const agent = await createAgent(agentType, content, args)
+  const response = await chat(agent.responder, agent.content)
+  agent.content.push(response)
+  return agent
 }

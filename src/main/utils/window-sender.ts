@@ -1,6 +1,8 @@
 import {v4} from 'uuid'
 
 export type TChannel = "message-delta" | "load-oas" | 'callback' | 'approval' | 'calling-plan' | 'respond-to'
+// allow list enforced at runtime
+export const channelAllowList: TChannel[] = ['message-delta', 'load-oas', 'callback', 'approval', 'calling-plan', 'respond-to']
 
 export type TSender = (eventName: string, ...args: any[]) => void
 

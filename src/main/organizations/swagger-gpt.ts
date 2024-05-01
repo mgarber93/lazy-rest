@@ -1,31 +1,20 @@
+import OpenAI from 'openai'
+import {ChatCompletionMessageParam} from 'openai/resources'
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage
+
 import {treeShake} from '../utils/oas-filter'
-import {AgentConstructionArgs, createAgent} from '../agents/agent'
+import {createAgent, promptAgent} from '../agents/agent'
 import {getRespondingModel} from '../../models/responder'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {AuthoredContent} from '../../models/content'
 import {parseCalls} from '../utils/utils'
-import OpenAI from 'openai'
-import {ChatCompletionMessageParam} from 'openai/resources'
-
 import {createArgs} from './create-args'
 import {agentWithHttp} from '../providers/openai'
-import {chat} from '../tools/api'
 import {approveCallingPlan, get} from '../tools/http'
 import {CallingPlan} from '../../models/approvable'
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage
-import windowSender from '../utils/window-sender'
-import {EndpointCallPlan} from '../../models/endpoint'
 import {presentCallingPlan} from '../utils/respond-to'
 
 export type TAgent = "planner" | "selector" | "executor"
-
-
-async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs) {
-  const agent = await createAgent(agentType, content, args)
-  const response = await chat(agent.responder, agent.content)
-  agent.content.push(response)
-  return agent
-}
 
 async function executeAndParse(plan: ChatCompletionMessage, approvedPlan: CallingPlan) {
   const messages = []
@@ -45,14 +34,18 @@ async function executeAndParse(plan: ChatCompletionMessage, approvedPlan: Callin
   return messages
 }
 
+export async function createCallingPlan(userContent: AuthoredContent, chatId: string){
+  const args = await createArgs()
+  const selectionAgent = await promptAgent('selector', userContent, args)
+  const selectedPlan = selectionAgent.content[selectionAgent.content.length - 1]
+  const calls = parseCalls(selectedPlan.message)
+  presentCallingPlan(chatId, calls)
+}
+
 /**
  * An executor is the loop between the caller and parser.
  * A caller receives the api calling plan and fills in the details using the specification
  * A parser receives the actual results and interprets it back to the caller of the executor
- *
- * @param userContent
- * @param callingPlan
- * @param oasSpec
  */
 async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]): Promise<void> {
   const endpoints = callingPlan.calls
@@ -79,25 +72,3 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
   messages.push(toolPlan)
   await executeAndParse(toolPlan, callingPlan)
 }
-
-
-/**
- * Flagship organization for product
- * Move to renderer?
- * @param userContent
- * @param chatId
- */
-export async function restApiOrganization(userContent: AuthoredContent, chatId: string){
-  const args = await createArgs()
-  const selectionAgent = await promptAgent('selector', userContent, args)
-  const selectedPlan = selectionAgent.content[selectionAgent.content.length - 1]
-  const calls = parseCalls(selectedPlan.message)
-  presentCallingPlan(chatId, calls)
-  // const callingPlan = {
-  //   type: "CallingPlan",
-  //   calls
-  // } as CallingPlan
-  // const authoredContent = await executeCalls(userContent, callingPlan, args.oasSpec)
-  // @todo move execution of calls to different top level function
-}
-
