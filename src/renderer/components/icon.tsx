@@ -66,12 +66,12 @@ function Path({type}: { type: string }) {
   }
 }
 
-export function Icon({type, active}: { type: string, active?: boolean }) {
+export function Icon({type, active, handleClick}: { type: string, active?: boolean, handleClick?: () => void }) {
   const height = 24
   const width = 24
   return <SVG width={`${width}px`} height={`${height}px`} viewBox={`0 0 ${height} ${width}`} strokeWidth="1.5"
               fill="none" className={"svg " + (active ? "active" : "")}
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg" onClick={handleClick}>
     <Path type={type}/>
   </SVG>
 }
