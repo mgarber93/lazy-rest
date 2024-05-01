@@ -86,7 +86,6 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
  * Move to renderer?
  * @param userContent
  * @param chatId
- * @param messageId
  */
 export async function restApiOrganization(userContent: AuthoredContent, chatId: string){
   const args = await createArgs()

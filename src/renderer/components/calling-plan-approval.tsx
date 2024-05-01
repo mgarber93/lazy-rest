@@ -75,7 +75,7 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
 }
 
 export function CallingPlanApproval({planController}: {planController: PlanController}) {
-  return <FormGroup name={'Calling Plan Approval Needed'}>
+  return <FormGroup name={'Calling Plan'}>
     <Wrapper>
       {planController.endpointCallingPlan.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
     </Wrapper>
