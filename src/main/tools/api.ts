@@ -1,7 +1,7 @@
 import {AuthoredContent, createContent} from '../../models/content'
 import {isModel, isOrganization, Responder, TProvider, Model} from '../../models/responder'
 import {getModels as listOpenAiModels, prompt, streamedPrompt} from '../providers/openai'
-import {restApiOrganization} from '../organizations/swagger-gpt'
+import {createCallingPlan} from '../organizations/swagger-gpt'
 import {Conversation} from '../../models/conversation'
 import {respondTo} from '../utils/respond-to'
 
@@ -49,7 +49,7 @@ export async function streamedChat(responder: Responder, conversation: Conversat
       throw new Error('No user prompt for org to handle')
 
     const lastMessage = content[content.length - 1]
-    return restApiOrganization(lastMessage, conversation.id)
+    return createCallingPlan(lastMessage, conversation.id)
   }
 
   throw new Error(`Cant respond`)
