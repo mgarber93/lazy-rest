@@ -6,6 +6,7 @@ export class ProviderManager {
   openAiConfig: OpenAiConfiguration | null = null
   
   getOpenAi() {
+    // todo request from windowSender?
     if (!this.openAiConfig) {
       throw new Error('Not configured for openai!')
     }
