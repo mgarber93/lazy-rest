@@ -33,11 +33,7 @@ export function SendMessage() {
   const currentUser = useAppSelector(state => state.user.username)
   const models = useAppSelector(state => state.models.models)
 
-  // Use current conversation to create actions to set each model as it's used model for responding
   const currentConversation = useCurrentConversation()
-  const [roles, setRoles] = useState([{value: "user", display: currentUser}])
-  // if we don't have any non system messages (ie we haven't started talking) add the option to set a system instruction
-  const [role, setRole] = useState("user")
 
   const placeholder = mapResponderToPlaceholder(currentConversation?.responder)
   return (

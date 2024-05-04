@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {AuthoredContent, ContentDelta} from '../../models/content'
-import {Conversation, createConversation} from '../../models/conversation'
-import {TAutoPrompter} from '../../models/auto-prompter'
+import {Conversation, createConversation, PlanController} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
+import {EndpointCallPlan} from '../../models/endpoint'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -12,21 +12,32 @@ const name = 'chats'
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
-  async (arg: { conversationId: string, contentId: string }, thunkAPI) => {
-    const {conversationId, contentId} = arg
+  async (arg: { conversationId: string }, thunkAPI) => {
+    const {conversationId} = arg
     const state = thunkAPI.getState() as RootState
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
     const conversation = state.chats.find(chat => chat.id === conversationId)
+
     // Cant respond unless a responder is set
     if (!conversation || !conversation.responder)
       return null
 
-    const response = conversation.content.find(content => content.id === contentId)
-    if (!response)
-      return null
-
-    await window.main.streamedChat(conversation, response.id)
+    await window.main.streamedChat(conversation)
   },
+)
+
+export const detailCallInPlan = createAsyncThunk(
+  `${name}/detailCallInPlan`,
+  async (arg: {plan: EndpointCallPlan, chatId: string}, thunkAPI) => {
+    const {chatId, plan} = arg
+    const state = thunkAPI.getState() as RootState
+    await window.main.setOpenAiConfiguration(state.models.providers.openAi)
+    const chat = state.chats.find(chat => chat.id === chatId)
+    // assume users query is the last message?
+    const userQuery = chat.content.at(-1)
+    const detailedPlan = await window.main.detailCallInPlan(userQuery, plan)
+    return {chatId, detailedPlan}
+  }
 )
 
 export const chatsSlice = createSlice({
@@ -91,13 +102,14 @@ export const chatsSlice = createSlice({
       }
       state[conversationIndex].responder = model
     },
-    selectAutoPrompter: (state, action: PayloadAction<{ chatId: string, model: TAutoPrompter }>) => {
-      const {chatId} = action.payload
-      const chat = state.find(chat => chat.id === chatId)
-    },
-    removeAutoPrompter: (state, action: PayloadAction<{ chatId: string }>) => {
-      const {chatId} = action.payload
-      const chat = state.find(chat => chat.id === chatId)
+    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: EndpointCallPlan[]}>) => {
+      const {chatId, endpointCallingPlan} = action.payload
+      const conversation = state.find(conversation => conversation.id === chatId)
+      if (conversation) {
+        conversation.planController = {
+          endpointCallingPlan
+        } as PlanController
+      }
     },
     setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
       const {chatId, responder} = action.payload
@@ -109,6 +121,16 @@ export const chatsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
+      // handle the fulfilled case here
+      // you will use the `state` and `action` parameters to modify the state accordingly
+      const {chatId, detailedPlan} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
+      if (!chat.planController.detailedPlan) {
+        chat.planController.detailedPlan = []
+      }
+      chat.planController.detailedPlan.push(detailedPlan)
+    })
   },
 })
 
@@ -118,9 +140,8 @@ export const {
   startNewChat,
   removeChat,
   selectModelChat,
+  setEndpointCallingPlan,
   updateTitle,
-  selectAutoPrompter,
-  removeAutoPrompter,
   appendDelta,
   setResponder,
 } = chatsSlice.actions

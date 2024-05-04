@@ -1,7 +1,9 @@
 import {EnhancedStore} from '@reduxjs/toolkit'
 import {RootState} from './renderer/features/store'
-import {appendDelta} from './renderer/features/chat'
+import {appendDelta, respond, setEndpointCallingPlan} from './renderer/features/chat'
 import {Approvable, ApprovedResponse} from './models/approvable'
+import {EndpointCallPlan} from './models/endpoint'
+import {createContent} from './models/content'
 
 /**
  * Is this a middleware?
@@ -57,4 +59,16 @@ export const connectCallbacks = (store: EnhancedStore) => {
     // @todo prompt user with serialized plan or print to window, and toast a yes, no ?
   }
   window.main.receive('approval', handleApproval)
+
+  const handleCallingPlan = (event: any, chatId: string, endpointCallingPlan: EndpointCallPlan[]) => {
+    store.dispatch(setEndpointCallingPlan({chatId, endpointCallingPlan}))
+  }
+  window.main.receive('calling-plan', handleCallingPlan)
+
+  const handleResponse = (event: any, id: string, chatId: string, author: string) => {
+    const placeHolder = createContent('', chatId, author, 'assistant')
+    store.dispatch(respond(placeHolder))
+    window.main.callback(id, placeHolder)
+  }
+  window.main.receive('respond-to', handleResponse)
 }

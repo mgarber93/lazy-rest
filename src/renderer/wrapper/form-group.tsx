@@ -18,6 +18,9 @@ const Section = styled.section`
   transition: 2s ease-in border;
 
   background: var(--card);
+  h4 {
+    font-size: large;
+  }
 `
 
 export function FormGroup(props: {name: string, children: ReactNode}) {

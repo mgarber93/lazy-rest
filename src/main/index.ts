@@ -6,21 +6,12 @@ import {Conversation} from '../models/conversation'
 import {TProvider} from '../models/responder'
 import windowSender from './utils/window-sender'
 import {getAllProviderModels, streamedChat} from './tools/api'
+import {AuthoredContent} from '../models/content'
+import {detailCallInPlan} from './organizations/swagger-gpt'
+import {EndpointCallPlan} from '../models/endpoint'
 
-
-/**
- *
- * @param event
- * @param conversation
- * @param responseId - The response is streamed into an authored content object, found by responseId
- */
-async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation, responseId: string): Promise<void> {
-  const contentToRespondTo = conversation.content.filter(content => content.id !== responseId)
-  if (!contentToRespondTo) {
-    throw new Error('Unable to find response id in handleStreamedChat')
-  }
-  const windowReference = {chatId: conversation.id, messageId: responseId}
-  await streamedChat(conversation.responder, contentToRespondTo, windowReference)
+async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<void> {
+  await streamedChat(conversation.responder, conversation)
 }
 
 async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {
@@ -36,6 +27,10 @@ async function handleCallback(event: IpcMainInvokeEvent, id: string, arg: any) {
   return windowSender.callback(id, arg)
 }
 
+async function handleDetailCallInPlan(event: IpcMainInvokeEvent, userContent: AuthoredContent, plan: EndpointCallPlan) {
+  return detailCallInPlan(userContent, plan)
+}
+
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
   ipcMain.handle('getModels', handleGetModels)
@@ -43,4 +38,5 @@ export function registerHandlers() {
   ipcMain.handle('streamedChat', handleStreamedChat)
   ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)
   ipcMain.handle('callback', handleCallback)
+  ipcMain.handle('detailCallInPlan', handleDetailCallInPlan)
 }

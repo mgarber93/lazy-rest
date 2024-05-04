@@ -3,16 +3,17 @@ import styled from 'styled-components'
 import {Message} from './message'
 import {SendMessage} from './send-message'
 import {useCurrentConversation} from '../hooks/current-conversation'
+import {CallingPlanApproval} from './calling-plan-approval'
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
 `
 
 const MessagesContainer = styled.div`
-  padding-top: 1rem;
-  padding-bottom: 3.5rem;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -25,12 +26,15 @@ const MessagesContainer = styled.div`
 
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
-  
+  const planController = activeChat?.planController
   return (
     <StyledDiv>
       <MessagesContainer>
         {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
+        }
+        {
+          planController ? <CallingPlanApproval planController={planController}></CallingPlanApproval> : null
         }
       </MessagesContainer>
       <SendMessage/>

@@ -20,7 +20,9 @@ const EditButton = styled(Button)`
   background: none;
   height: 2.55rem;
   &:hover {
-    box-shadow: inset 0.6rem 0.6rem 0.6rem var(--background-color-3), inset -1rem -0.6rem 0.6rem var(--background-color-3);
+    box-shadow: inset 0.6rem 0.6rem 0.6rem var(--background-color-1), inset -1rem -0.6rem 0.6rem var(--background-color-1);
+    background-color: var(--background-color-0);
+    border: 2px solid var(--background-color-1);
   }
   border-radius: var(--border-radius);
   font-family: "Maple Mono", Tahoma, serif;
