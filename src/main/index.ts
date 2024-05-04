@@ -9,7 +9,6 @@ import {getAllProviderModels, streamedChat} from './tools/api'
 import {AuthoredContent} from '../models/content'
 import {detailCallInPlan} from './organizations/swagger-gpt'
 import {EndpointCallPlan} from '../models/endpoint'
-import {HttpRequest} from '../models/http'
 import {approveCallingPlan, get} from './tools/http'
 
 async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<void> {
@@ -33,14 +32,17 @@ async function handleDetailCallInPlan(event: IpcMainInvokeEvent, userContent: Au
   return detailCallInPlan(userContent, plan)
 }
 
-async function processHttpRequest(event: IpcMainInvokeEvent, call: HttpRequest) {
+async function processHttpRequest(event: IpcMainInvokeEvent, call: EndpointCallPlan) {
   const token = await approveCallingPlan(null)
 
-  switch (call.verb) {
+  switch (call.method) {
     case "GET": {
-      await get(token, call.url)
+      const response = await get(token, call.path)
+      console.log(JSON.stringify(response, null, 2))
+      return response
     }
   }
+  throw new Error(`Not implemented`)
 }
 
 // Handles added here need to be registered src/preload.ts
@@ -51,5 +53,5 @@ export function registerHandlers() {
   ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)
   ipcMain.handle('callback', handleCallback)
   ipcMain.handle('detailCallInPlan', handleDetailCallInPlan)
-  ipcMain.handle('get', processHttpRequest)
+  ipcMain.handle('httpCall', processHttpRequest)
 }

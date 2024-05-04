@@ -43,7 +43,8 @@ export const detailCallInPlan = createAsyncThunk(
 export const executeCall = createAsyncThunk(
   `${name}/executeCall`,
   async (arg: {call: EndpointCallPlan}, thunkAPI) => {
-    await window.main.executeCalls()
+    const response = await window.main.httpCall(arg.call)
+    debugger
   }
 )
 

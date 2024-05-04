@@ -4,7 +4,7 @@ import {Icon} from './icon'
 import {FormGroup} from '../wrapper/form-group'
 import {PlanController} from '../../models/conversation'
 import {useCallback} from 'react'
-import {detailCallInPlan} from '../features/chat'
+import {detailCallInPlan, executeCall} from '../features/chat'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch} from '../features/store'
 
@@ -74,13 +74,13 @@ const Div = styled.div`
 export function Plan({plan}: { plan: EndpointCallPlan }) {
   const convo = useCurrentConversation()
   const dispatch = useAppDispatch()
-  const handleClick = useCallback(() => {
-    dispatch(detailCallInPlan({chatId: convo.id, plan}))
+  const fillInDetails = useCallback(() => {
+    // dispatch(detailCallInPlan({chatId: convo.id, plan}))
   }, [convo, dispatch])
-  const executeCall = useCallback(() => {
-    console.log('hello')
-  }, [])
-  return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`} onClick={executeCall}>
+  const attemptCall = useCallback(() => {
+    dispatch(executeCall({call: plan}))
+  }, [plan])
+  return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`} onClick={attemptCall}>
     <span className={"method" }>
       {plan.method}
     </span>
@@ -91,7 +91,7 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
     {plan.background}
     </span>
     <span className={"controls"}>
-      <Icon type={"refresh"} handleClick={executeCall}></Icon>
+      <Icon type={"refresh"} handleClick={fillInDetails}></Icon>
     </span>
   </Div>
 }

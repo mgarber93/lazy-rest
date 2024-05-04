@@ -21,7 +21,7 @@ export interface PreloadedApi {
   callback: (id: string, arg: any) => void
   detailCallInPlan: (userContent: AuthoredContent, callingPlan: EndpointCallPlan) => Promise<DetailedCall>
   executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<DetailedCall> // deprecate
-  get: (call: EndpointCallPlan) => Promise<object>
+  httpCall: (call: EndpointCallPlan) => Promise<object>
 }
 
 contextBridge.exposeInMainWorld('main', {
@@ -54,5 +54,5 @@ contextBridge.exposeInMainWorld('main', {
   callback: ipcRenderer.invoke.bind(ipcRenderer, 'callback'),
   detailCallInPlan: ipcRenderer.invoke.bind(ipcRenderer, 'detailCallInPlan'),
   executeCalls: ipcRenderer.invoke.bind(ipcRenderer, 'executeCalls'),
-  get: ipcRenderer.invoke.bind(ipcRenderer, 'get'),
+  httpCall: ipcRenderer.invoke.bind(ipcRenderer, 'httpCall'),
 } as PreloadedApi)
