@@ -21,7 +21,6 @@ const Div = styled.div`
   }
   text-align: left;
   padding: 1rem 1rem;
-  margin: 0 1rem;
   &:last-child {
     border:none;
   }
@@ -60,6 +59,14 @@ const Div = styled.div`
     & svg {
       background-color: var(--background-color-6);
     }
+  }
+  .method, .path, .background {
+    border-radius: var(--border-radius);
+    padding: 0.2rem 1rem;
+  }
+  .path {
+    background-color: var(--background-color-6);
+
   }
 `
 
