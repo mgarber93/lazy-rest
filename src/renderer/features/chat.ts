@@ -40,6 +40,13 @@ export const detailCallInPlan = createAsyncThunk(
   }
 )
 
+export const executeCall = createAsyncThunk(
+  `${name}/executeCall`,
+  async (arg: {call: EndpointCallPlan}, thunkAPI) => {
+    await window.main.executeCalls()
+  }
+)
+
 export const chatsSlice = createSlice({
   name,
   initialState,

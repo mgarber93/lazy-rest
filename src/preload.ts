@@ -12,15 +12,16 @@ import {OpenApiSpec} from './models/open-api-spec'
 import {DetailedCall, EndpointCallPlan} from './models/endpoint'
 
 export interface PreloadedApi {
-  getMachineName: () => Promise<string>;
-  getModels: (provider: TProvider) => Promise<string>;
-  streamedChat: (conversation: Conversation) => Promise<void>;
-  receive: (channel: TChannel, func: (...args: any[]) => void) => void;
-  remove: (channel: TChannel, func: (...args: any[]) => void) => void;
-  setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>;
-  callback: (id: string, arg: any) => void;
+  getMachineName: () => Promise<string>
+  getModels: (provider: TProvider) => Promise<string>
+  streamedChat: (conversation: Conversation) => Promise<void>
+  receive: (channel: TChannel, func: (...args: any[]) => void) => void
+  remove: (channel: TChannel, func: (...args: any[]) => void) => void
+  setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>
+  callback: (id: string, arg: any) => void
   detailCallInPlan: (userContent: AuthoredContent, callingPlan: EndpointCallPlan) => Promise<DetailedCall>
-  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<DetailedCall>
+  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<DetailedCall> // deprecate
+  get: (call: EndpointCallPlan) => Promise<object>
 }
 
 contextBridge.exposeInMainWorld('main', {
@@ -53,4 +54,5 @@ contextBridge.exposeInMainWorld('main', {
   callback: ipcRenderer.invoke.bind(ipcRenderer, 'callback'),
   detailCallInPlan: ipcRenderer.invoke.bind(ipcRenderer, 'detailCallInPlan'),
   executeCalls: ipcRenderer.invoke.bind(ipcRenderer, 'executeCalls'),
+  get: ipcRenderer.invoke.bind(ipcRenderer, 'get'),
 } as PreloadedApi)
