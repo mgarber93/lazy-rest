@@ -42,11 +42,12 @@ const Div = styled.div`
   &.DELETE {
   }
   .method {
-    min-width: 4rem;
+    min-width: 2.5rem;
   }
 
   .path {
-    min-width: 11rem;
+    min-width: 15rem;
+    height: fit-content;
   }
   .background {
     min-width: 20rem;
@@ -62,7 +63,6 @@ const Div = styled.div`
   }
   .method, .path, .background {
     border-radius: var(--border-radius);
-    padding: 0.2rem 1rem;
   }
   .path {
     background-color: var(--background-color-6);
