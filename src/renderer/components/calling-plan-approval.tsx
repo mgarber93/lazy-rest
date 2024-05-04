@@ -51,6 +51,7 @@ const Div = styled.div`
   }
   .background {
     min-width: 20rem;
+    margin-left: auto;
   }
   .controls {
     margin-left: auto;
@@ -66,7 +67,7 @@ const Div = styled.div`
   }
   .path {
     background-color: var(--background-color-6);
-
+    padding: 0.12rem 0.5rem;
   }
 `
 
@@ -76,7 +77,10 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
   const handleClick = useCallback(() => {
     dispatch(detailCallInPlan({chatId: convo.id, plan}))
   }, [convo, dispatch])
-  return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
+  const executeCall = useCallback(() => {
+    console.log('hello')
+  }, [])
+  return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`} onClick={executeCall}>
     <span className={"method" }>
       {plan.method}
     </span>
@@ -87,7 +91,7 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
     {plan.background}
     </span>
     <span className={"controls"}>
-      <Icon type={"checkbox"} handleClick={handleClick}/>
+      <Icon type={"refresh"} handleClick={executeCall}></Icon>
     </span>
   </Div>
 }
@@ -95,7 +99,7 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
 export function CallingPlanApproval({planController}: {planController: PlanController}) {
   return <FormGroup name={'Calling Plan'}>
     <Wrapper>
-      {planController.endpointCallingPlan.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
+      {planController.endpointCallingPlan?.map((item: any, index: number) => <Plan plan={item} key={item.background}></Plan>)}
     </Wrapper>
   </FormGroup>
 }
