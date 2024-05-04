@@ -11,6 +11,7 @@ const AsideContainer = styled.div`
   font-size: small;
   display: flex;
   border-right: var(--dashed);
+  border-radius: 0 2.5rem 0rem 0;
   flex-direction: column;
   justify-content: flex-start;
   align-content: flex-start;

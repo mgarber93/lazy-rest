@@ -13,7 +13,6 @@ const Div = styled.div`
   flex-direction: column;
   gap: 1rem;
   padding: 1rem 1rem;
-  border-top: var(--dashed);
 `
 
 const EditButton = styled(Button)`
