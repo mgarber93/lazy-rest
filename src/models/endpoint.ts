@@ -5,3 +5,8 @@ export interface EndpointCallPlan {
   method: THttp;
   background: string;
 }
+
+export interface DetailedCall extends EndpointCallPlan {
+  body: object | Array<object>;
+  headers: Record<string, string>;
+}
