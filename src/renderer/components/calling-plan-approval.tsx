@@ -3,6 +3,10 @@ import {EndpointCallPlan} from '../../models/endpoint'
 import {Icon} from './icon'
 import {FormGroup} from '../wrapper/form-group'
 import {PlanController} from '../../models/conversation'
+import {useCallback} from 'react'
+import {detailCallInPlan} from '../features/chat'
+import {useCurrentConversation} from '../hooks/current-conversation'
+import {useAppDispatch} from '../features/store'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,10 +22,14 @@ const Div = styled.div`
   text-align: left;
   padding: 1rem 1rem;
   margin: 0 1rem;
-  border-bottom: 1px solid var(--background-color-9);
   &:last-child {
     border:none;
   }
+  background-color: var(--background-color-2);
+  &:hover {
+    background-color: var(--background-color-3);
+  }
+  border-radius: 1rem;
 
   &.GET {
   }
@@ -56,6 +64,11 @@ const Div = styled.div`
 `
 
 export function Plan({plan}: { plan: EndpointCallPlan }) {
+  const convo = useCurrentConversation()
+  const dispatch = useAppDispatch()
+  const handleClick = useCallback(() => {
+    dispatch(detailCallInPlan({chatId: convo.id, plan}))
+  }, [convo, dispatch])
   return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
     <span className={"method" }>
       {plan.method}
@@ -67,11 +80,9 @@ export function Plan({plan}: { plan: EndpointCallPlan }) {
     {plan.background}
     </span>
     <span className={"controls"}>
-      <Icon type={"checkbox"}/>
-      <Icon type={"edit"}/>
+      <Icon type={"checkbox"} handleClick={handleClick}/>
     </span>
   </Div>
-
 }
 
 export function CallingPlanApproval({planController}: {planController: PlanController}) {

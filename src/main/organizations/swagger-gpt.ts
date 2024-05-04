@@ -13,6 +13,7 @@ import {agentWithHttp} from '../providers/openai'
 import {approveCallingPlan, get} from '../tools/http'
 import {CallingPlan} from '../../models/approvable'
 import {presentCallingPlan} from '../utils/respond-to'
+import {DetailedCall, EndpointCallPlan} from '../../models/endpoint'
 
 export type TAgent = "planner" | "selector" | "executor"
 
@@ -42,20 +43,19 @@ export async function createCallingPlan(userContent: AuthoredContent, chatId: st
   presentCallingPlan(chatId, calls)
 }
 
-/**
- * An executor is the loop between the caller and parser.
- * A caller receives the api calling plan and fills in the details using the specification
- * A parser receives the actual results and interprets it back to the caller of the executor
- */
-async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]): Promise<void> {
-  const endpoints = callingPlan.calls
+export async function detailCallInPlan(userContent: AuthoredContent, endpointCallPlan: EndpointCallPlan) {
+  const {oasSpec} = await createArgs()
   const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
-    const treeShook = treeShake(spec, endpoints)
-    for (const key in acc) {
+    const treeShook = treeShake(spec, [endpointCallPlan])
+    for (const key in treeShook) {
       acc[key] = treeShook[key]
     }
     return acc
   }, {} as Record<string, any>)
+
+  if (Object.keys(specForPlannedCall).length === 0) {
+    throw new Error('Unable to tree shake')
+  }
 
   const executorAgent = await createAgent("executor", userContent, {
     endpoints: JSON.stringify(specForPlannedCall),
@@ -69,6 +69,24 @@ async function executeCalls(userContent: AuthoredContent, callingPlan: CallingPl
   // responder can change depending on conversation history
   // create another tool plan and for each call in the plan make the call
   const toolPlan = await agentWithHttp(model, messages)
-  messages.push(toolPlan)
-  await executeAndParse(toolPlan, callingPlan)
+  for (const toolCall of toolPlan?.tool_calls ?? []) {
+    const {function: functionCall, id} = toolCall
+    const functionCallArgs = JSON.parse(functionCall.arguments)
+    // @todo assume only one and return first function call arg to GET
+
+    return {
+      path: functionCallArgs.endpoint,
+      method: 'GET',
+      headers: {}, // headers if any
+      body: {}, // body if any
+      background: ''
+    } as DetailedCall
+  }
+  return null
+  // no function call return ...?
 }
+
+// export async function runExecution(plan: DetailedCall) {
+//   // await executeAndParse(plan, callingPlan)
+//   return null
+// }

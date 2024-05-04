@@ -26,6 +26,20 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
+export const detailCallInPlan = createAsyncThunk(
+  `${name}/detailCallInPlan`,
+  async (arg: {plan: EndpointCallPlan, chatId: string}, thunkAPI) => {
+    const {chatId, plan} = arg
+    const state = thunkAPI.getState() as RootState
+    await window.main.setOpenAiConfiguration(state.models.providers.openAi)
+    const chat = state.chats.find(chat => chat.id === chatId)
+    // assume users query is the last message?
+    const userQuery = chat.content.at(-1)
+    const detailedPlan = await window.main.detailCallInPlan(userQuery, plan)
+    return {chatId, detailedPlan}
+  }
+)
+
 export const chatsSlice = createSlice({
   name,
   initialState,
@@ -107,6 +121,16 @@ export const chatsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
+      // handle the fulfilled case here
+      // you will use the `state` and `action` parameters to modify the state accordingly
+      const {chatId, detailedPlan} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
+      if (!chat.planController.detailedPlan) {
+        chat.planController.detailedPlan = []
+      }
+      chat.planController.detailedPlan.push(detailedPlan)
+    })
   },
 })
 
