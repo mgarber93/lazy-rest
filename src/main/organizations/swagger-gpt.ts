@@ -38,7 +38,7 @@ async function executeAndParse(plan: ChatCompletionMessage, approvedPlan: Callin
 export async function createCallingPlan(userContent: AuthoredContent, chatId: string){
   const args = await createArgs()
   const selectionAgent = await promptAgent('selector', userContent, args)
-  const selectedPlan = selectionAgent.content[selectionAgent.content.length - 1]
+  const selectedPlan = selectionAgent.content.at(-1)
   const calls = parseCalls(selectedPlan.message)
   presentCallingPlan(chatId, calls)
 }

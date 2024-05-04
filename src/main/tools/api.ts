@@ -48,7 +48,7 @@ export async function streamedChat(responder: Responder, conversation: Conversat
     if (content.length < 1)
       throw new Error('No user prompt for org to handle')
 
-    const lastMessage = content[content.length - 1]
+    const lastMessage = content.at(-1)
     return createCallingPlan(lastMessage, conversation.id)
   }
 
