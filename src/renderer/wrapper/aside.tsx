@@ -1,8 +1,8 @@
 import React from 'react'
-import {RootState} from '../features/store'
 import {useSelector} from 'react-redux'
-import {Conversation} from '../../models/conversation'
 import styled from 'styled-components'
+import {Conversation} from '../../models/conversation'
+import {RootState} from '../features/store'
 import TimelineCard from '../components/timeline-card'
 import {ResponderType} from './responder-type'
 
