@@ -2,6 +2,7 @@ import {createRoot} from 'react-dom/client'
 import React from 'react'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
+
 import ConversationPage from './renderer/pages/conversations'
 import {store} from './renderer/features/store'
 import {Home} from './renderer/pages/home'
@@ -27,6 +28,5 @@ const App = () => (
     <RouterProvider router={router}/>
   </Provider>
 )
-
 
 root.render(<React.StrictMode><App/></React.StrictMode>)

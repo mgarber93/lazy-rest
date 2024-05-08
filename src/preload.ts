@@ -9,7 +9,7 @@ import {OpenAiConfiguration} from './models/provider-config'
 import {AuthoredContent} from './models/content'
 import {CallingPlan} from './models/approvable'
 import {OpenApiSpec} from './models/open-api-spec'
-import {DetailedCall, HttpRequestPlan} from './models/http-request-plan'
+import {HttpRequestPlan} from './models/http-request-plan'
 
 export interface PreloadedApi {
   getMachineName: () => Promise<string>
@@ -19,8 +19,8 @@ export interface PreloadedApi {
   remove: (channel: TChannel, func: (...args: any[]) => void) => void
   setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>
   callback: (id: string, arg: any) => void
-  detailCallInPlan: (userContent: AuthoredContent, callingPlan: HttpRequestPlan) => Promise<DetailedCall>
-  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<DetailedCall> // deprecate
+  detailCallInPlan: (userContent: AuthoredContent, callingPlan: HttpRequestPlan) => Promise<HttpRequestPlan>
+  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<HttpRequestPlan> // deprecate
   httpCall: (call: HttpRequestPlan) => Promise<object>
 }
 
