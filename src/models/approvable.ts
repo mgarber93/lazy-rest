@@ -1,4 +1,4 @@
-import {EndpointCallPlan} from './endpoint'
+import {HttpRequestPlan} from './http-request-plan'
 
 /**
  * Renderer process must approve some actions. This is mediated using makeRequest
@@ -10,7 +10,7 @@ export interface Approvable {
 
 export interface CallingPlan extends Approvable {
   type: "CallingPlan"
-  calls: EndpointCallPlan[]
+  calls: HttpRequestPlan[]
 }
 
 export interface SecretRequest extends Approvable {

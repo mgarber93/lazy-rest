@@ -1,6 +1,5 @@
 import OpenAI from 'openai'
 import {ChatCompletionMessageParam} from 'openai/resources'
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
 import {treeShake} from '../utils/oas-filter'
 import {createAgent, promptAgent} from '../agents/agent'
@@ -13,7 +12,8 @@ import {agentWithHttp} from '../providers/openai'
 import {approveCallingPlan, get} from '../tools/http'
 import {CallingPlan} from '../../models/approvable'
 import {presentCallingPlan} from '../utils/respond-to'
-import {DetailedCall, EndpointCallPlan} from '../../models/endpoint'
+import {HttpRequestPlan} from '../../models/http-request-plan'
+import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
 export type TAgent = "planner" | "selector" | "executor"
 
@@ -43,7 +43,7 @@ export async function createCallingPlan(userContent: AuthoredContent, chatId: st
   presentCallingPlan(chatId, calls)
 }
 
-export async function detailCallInPlan(userContent: AuthoredContent, endpointCallPlan: EndpointCallPlan) {
+export async function detailCallInPlan(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan) {
   const {oasSpec} = await createArgs()
   const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
     const treeShook = treeShake(spec, [endpointCallPlan])
@@ -80,7 +80,7 @@ export async function detailCallInPlan(userContent: AuthoredContent, endpointCal
       headers: {}, // headers if any
       body: {}, // body if any
       background: ''
-    } as DetailedCall
+    } as HttpRequestPlan
   }
   return null
   // no function call return ...?

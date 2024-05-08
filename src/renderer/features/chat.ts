@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {AuthoredContent, ContentDelta} from '../../models/content'
-import {Conversation, createConversation, PlanController} from '../../models/conversation'
+import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
-import {EndpointCallPlan} from '../../models/endpoint'
+import {HttpRequestPlan} from '../../models/http-request-plan'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -28,7 +28,7 @@ export const streamResponse = createAsyncThunk(
 
 export const detailCallInPlan = createAsyncThunk(
   `${name}/detailCallInPlan`,
-  async (arg: {plan: EndpointCallPlan, chatId: string}, thunkAPI) => {
+  async (arg: {plan: HttpRequestPlan, chatId: string}, thunkAPI) => {
     const {chatId, plan} = arg
     const state = thunkAPI.getState() as RootState
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
@@ -42,9 +42,9 @@ export const detailCallInPlan = createAsyncThunk(
 
 export const executeCall = createAsyncThunk(
   `${name}/executeCall`,
-  async (arg: {call: EndpointCallPlan}, thunkAPI) => {
+  async (arg: {call: HttpRequestPlan}, thunkAPI) => {
     const response = await window.main.httpCall(arg.call)
-    debugger
+    // debugger
   }
 )
 
@@ -110,13 +110,13 @@ export const chatsSlice = createSlice({
       }
       state[conversationIndex].responder = model
     },
-    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: EndpointCallPlan[]}>) => {
+    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: HttpRequestPlan[]}>) => {
       const {chatId, endpointCallingPlan} = action.payload
       const conversation = state.find(conversation => conversation.id === chatId)
       if (conversation) {
         conversation.planController = {
           endpointCallingPlan
-        } as PlanController
+        } as Plan
       }
     },
     setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
@@ -134,10 +134,11 @@ export const chatsSlice = createSlice({
       // you will use the `state` and `action` parameters to modify the state accordingly
       const {chatId, detailedPlan} = action.payload
       const chat = state.find(chat => chat.id === chatId)
-      if (!chat.planController.detailedPlan) {
-        chat.planController.detailedPlan = []
+      if (!chat.planController.endpointCallingPlan) {
+        chat.planController.endpointCallingPlan = []
       }
-      chat.planController.detailedPlan.push(detailedPlan)
+      // @todo its not as simple as pushing another call at the end. Need to find and replace or overhaul regenerate
+      chat.planController.endpointCallingPlan.push(detailedPlan)
     })
   },
 })
