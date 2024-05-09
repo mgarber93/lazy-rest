@@ -77,9 +77,9 @@ export async function detailCallInPlan(userContent: AuthoredContent, endpointCal
     return {
       path: functionCallArgs.endpoint,
       method: 'GET',
-      headers: {}, // headers if any
-      body: {}, // body if any
-      background: ''
+      headers: {},
+      body: {}, // get has no body atm
+      background: endpointCallPlan.background,
     } as HttpRequestPlan
   }
   return null

@@ -131,15 +131,15 @@ export const chatsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
-      // handle the fulfilled case here
-      // you will use the `state` and `action` parameters to modify the state accordingly
       const {chatId, detailedPlan} = action.payload
       const chat = state.find(chat => chat.id === chatId)
-      if (!chat.planController.endpointCallingPlan) {
-        chat.planController.endpointCallingPlan = []
+      const planController = chat.planController
+      if (!planController.endpointCallingPlan) {
+        planController.endpointCallingPlan = []
       }
       // @todo its not as simple as pushing another call at the end. Need to find and replace or overhaul regenerate
-      chat.planController.endpointCallingPlan.push(detailedPlan)
+      planController.endpointCallingPlan.push(detailedPlan)
+      planController.results = []
     })
     builder.addCase(executeCall.fulfilled, (state, action) => {
       const {response, chatId} = action.payload
