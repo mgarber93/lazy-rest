@@ -4,6 +4,7 @@ import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
 import {HttpRequestPlan} from '../../models/http-request-plan'
+import {chat} from '../../main/tools/api'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -42,9 +43,9 @@ export const detailCallInPlan = createAsyncThunk(
 
 export const executeCall = createAsyncThunk(
   `${name}/executeCall`,
-  async (arg: {call: HttpRequestPlan}, thunkAPI) => {
-    const response = await window.main.httpCall(arg.call)
-    // debugger
+  async ({call, chatId}: { call: HttpRequestPlan, chatId: string }, thunkAPI) => {
+    const response = await window.main.httpCall(call)
+    return {response, chatId}
   }
 )
 
@@ -140,6 +141,16 @@ export const chatsSlice = createSlice({
       // @todo its not as simple as pushing another call at the end. Need to find and replace or overhaul regenerate
       chat.planController.endpointCallingPlan.push(detailedPlan)
     })
+    builder.addCase(executeCall.fulfilled, (state, action) => {
+      const {response, chatId} = action.payload
+      if (response) {
+        const chat = state.find(chat => chat.id === chatId)
+        if (!chat.planController.results) {
+          chat.planController.results = []
+        }
+        chat.planController.results.push(response)
+      }
+    })
   },
 })
 
@@ -148,7 +159,6 @@ export const {
   respond,
   startNewChat,
   removeChat,
-  selectModelChat,
   setEndpointCallingPlan,
   updateTitle,
   appendDelta,

@@ -7,7 +7,7 @@ export interface Plan {
   state: object;
   step: HttpRequestPlan;
   endpointCallingPlan: HttpRequestPlan[];
-  results: object[];
+  results: object[]; // results for the given stop
 }
 
 export interface History {
