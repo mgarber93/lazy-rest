@@ -6,8 +6,6 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch} from '../features/store'
 import {detailCallInPlan, executeCall} from '../features/chat'
 import {Icon} from './icon'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 
 const Div = styled.div`
   & * {
@@ -86,10 +84,3 @@ export function PlannedHttpRequest({plan}: { plan: HttpRequestPlan }) {
   </Div>
 }
 
-export function ResultOfCall({result}: { result: object }) {
-  return <Div>
-    <Markdown className="content" remarkPlugins={[remarkGfm]}>{
-      `\`\`\`json\n${JSON.stringify(result, null, 2).trim()}\n\`\`\``
-    }</Markdown>
-  </Div>
-}

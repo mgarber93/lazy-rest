@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import {FormGroup} from '../wrapper/form-group'
-import {PlannedHttpRequest, ResultOfCall} from './planned-http-request'
+import {PlannedHttpRequest} from './planned-http-request'
 import React from 'react'
 import {Plan} from '../../models/conversation'
+import {ResultOfCall} from './call-result'
 
 const Wrapper = styled.div`
   display: flex;
