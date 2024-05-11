@@ -61,7 +61,8 @@ const Timeline = styled.ul`
         background-color: var(--background-color-2);
         margin-right: 0.75rem;
         overflow: hidden;
-        margin-bottom: 1rem;
+        margin-top: 0.25rem;
+        margin-bottom: 0.5rem;
       }
       a:hover {
         text-decoration: none !important;
@@ -78,7 +79,6 @@ const Timeline = styled.ul`
       border-radius: var(--border-radius);
       border: 1px solid var(--timeline);
       margin-bottom: 0.5rem;
-      min-width: -webkit-fill-available;
     }
   }
 
