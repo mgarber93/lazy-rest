@@ -15,28 +15,14 @@ const Div = styled.div`
     flex-direction: column;
   }
 
-  text-align: left;
-  padding: 1rem 1rem;
-
   &:last-child {
     border: none;
   }
 
+  text-align: left;
+  padding: 1rem 1rem;
   background-color: var(--background-color-2);
-
   border-radius: 1rem;
-
-  &.GET {
-  }
-
-  &.PUT {
-  }
-
-  &.POST {
-  }
-
-  &.DELETE {
-  }
 
   .method {
     min-width: 2.5rem;
@@ -103,7 +89,7 @@ export function PlannedHttpRequest({plan}: { plan: HttpRequestPlan }) {
 export function ResultOfCall({result}: { result: object }) {
   return <Div>
     <Markdown className="content" remarkPlugins={[remarkGfm]}>{
-      `\`\`\`json${JSON.stringify(result, null, 2)}\n\`\`\``
+      `\`\`\`json\n${JSON.stringify(result, null, 2).trim()}\n\`\`\``
     }</Markdown>
   </Div>
 }
