@@ -1,17 +1,17 @@
 import {v4} from 'uuid'
 import {AuthoredContent} from './content'
 import {Responder} from './responder'
-import {DetailedCall, EndpointCallPlan} from './endpoint'
+import {HttpRequestPlan} from './http-request-plan'
 
-export interface PlanController {
-  // step 1
-  endpointCallingPlan: EndpointCallPlan[];
-  // step 2
-  detailedPlan: DetailedCall[]
-  // step 3
-  rawResults: object[]
-  // step 4
-  interpretedResults: object[]
+export interface Plan {
+  state: object;
+  step: HttpRequestPlan;
+  endpointCallingPlan: HttpRequestPlan[];
+  results: object[]; // results for the given stop
+}
+
+export interface History {
+  type: "call" | "response";
 }
 
 export function createConversation(title = ''): Conversation {
@@ -29,5 +29,5 @@ export interface Conversation {
   title: string;
   responder?: Responder;
   created: string;
-  planController?: PlanController;
+  planController?: Plan;
 }

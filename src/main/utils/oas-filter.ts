@@ -1,5 +1,5 @@
 import {Endpoint, OpenApiSpec} from '../../models/open-api-spec'
-import {EndpointCallPlan} from '../../models/endpoint'
+import {HttpRequestPlan} from '../../models/http-request-plan'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {
@@ -61,7 +61,7 @@ export function fuzzyMatch(a: string, b: string): boolean {
   return true
 }
 
-export function treeShake(oasSpec: OpenApiSpec, plans: EndpointCallPlan[]) {
+export function treeShake(oasSpec: OpenApiSpec, plans: HttpRequestPlan[]) {
   const spec = {} as Record<string, any>
   for (const endpointPath in oasSpec.paths) {
     for (const plan of plans) {

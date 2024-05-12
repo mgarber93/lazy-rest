@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {AuthoredContent, ContentDelta} from '../../models/content'
-import {Conversation, createConversation, PlanController} from '../../models/conversation'
+import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
-import {EndpointCallPlan} from '../../models/endpoint'
+import {HttpRequestPlan} from '../../models/http-request-plan'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -28,7 +28,7 @@ export const streamResponse = createAsyncThunk(
 
 export const detailCallInPlan = createAsyncThunk(
   `${name}/detailCallInPlan`,
-  async (arg: {plan: EndpointCallPlan, chatId: string}, thunkAPI) => {
+  async (arg: {plan: HttpRequestPlan, chatId: string}, thunkAPI) => {
     const {chatId, plan} = arg
     const state = thunkAPI.getState() as RootState
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
@@ -37,6 +37,14 @@ export const detailCallInPlan = createAsyncThunk(
     const userQuery = chat.content.at(-1)
     const detailedPlan = await window.main.detailCallInPlan(userQuery, plan)
     return {chatId, detailedPlan}
+  }
+)
+
+export const executeCall = createAsyncThunk(
+  `${name}/executeCall`,
+  async ({call, chatId}: { call: HttpRequestPlan, chatId: string }, thunkAPI) => {
+    const response = await window.main.httpCall(call)
+    return {response, chatId}
   }
 )
 
@@ -94,21 +102,13 @@ export const chatsSlice = createSlice({
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload)
     },
-    selectModelChat: (state, action: PayloadAction<{ chat: string, model: Responder }>) => {
-      const {chat, model} = action.payload
-      const conversationIndex = state.findIndex(conversation => conversation.id === chat)
-      if (conversationIndex === -1) {
-        return state
-      }
-      state[conversationIndex].responder = model
-    },
-    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: EndpointCallPlan[]}>) => {
+    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: HttpRequestPlan[]}>) => {
       const {chatId, endpointCallingPlan} = action.payload
       const conversation = state.find(conversation => conversation.id === chatId)
       if (conversation) {
         conversation.planController = {
           endpointCallingPlan
-        } as PlanController
+        } as Plan
       }
     },
     setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
@@ -122,14 +122,25 @@ export const chatsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
-      // handle the fulfilled case here
-      // you will use the `state` and `action` parameters to modify the state accordingly
       const {chatId, detailedPlan} = action.payload
       const chat = state.find(chat => chat.id === chatId)
-      if (!chat.planController.detailedPlan) {
-        chat.planController.detailedPlan = []
+      const planController = chat.planController
+      if (!planController.endpointCallingPlan) {
+        planController.endpointCallingPlan = []
       }
-      chat.planController.detailedPlan.push(detailedPlan)
+      // @todo its not as simple as pushing another call at the end. Need to find and replace or overhaul regenerate
+      planController.endpointCallingPlan.push(detailedPlan)
+      planController.results = []
+    })
+    builder.addCase(executeCall.fulfilled, (state, action) => {
+      const {response, chatId} = action.payload
+      if (response) {
+        const chat = state.find(chat => chat.id === chatId)
+        if (!chat.planController.results) {
+          chat.planController.results = []
+        }
+        chat.planController.results.push(response)
+      }
     })
   },
 })
@@ -139,7 +150,6 @@ export const {
   respond,
   startNewChat,
   removeChat,
-  selectModelChat,
   setEndpointCallingPlan,
   updateTitle,
   appendDelta,

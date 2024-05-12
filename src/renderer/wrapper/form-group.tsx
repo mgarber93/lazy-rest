@@ -4,7 +4,7 @@ import {ReactNode} from 'react'
 const Section = styled.section`
   .divider {
     width: 100%;
-    height: 1rem;
+    height: 0.3rem;
     border-bottom: 0.1rem solid var(--background-color-9);
     margin-bottom: 1rem;
   }
@@ -20,6 +20,7 @@ const Section = styled.section`
   background: var(--card);
   h4 {
     font-size: large;
+    user-select: none;
   }
 `
 

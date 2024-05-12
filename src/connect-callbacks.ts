@@ -2,7 +2,7 @@ import {EnhancedStore} from '@reduxjs/toolkit'
 import {RootState} from './renderer/features/store'
 import {appendDelta, respond, setEndpointCallingPlan} from './renderer/features/chat'
 import {Approvable, ApprovedResponse} from './models/approvable'
-import {EndpointCallPlan} from './models/endpoint'
+import {HttpRequestPlan} from './models/http-request-plan'
 import {createContent} from './models/content'
 
 /**
@@ -23,7 +23,7 @@ export const connectCallbacks = (store: EnhancedStore) => {
     const responses = []
 
     for (const key in apis) {
-      if (!apis.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(apis, key)) {
         continue
       }
       const serialized = localStorage.getItem(key)
@@ -60,7 +60,7 @@ export const connectCallbacks = (store: EnhancedStore) => {
   }
   window.main.receive('approval', handleApproval)
 
-  const handleCallingPlan = (event: any, chatId: string, endpointCallingPlan: EndpointCallPlan[]) => {
+  const handleCallingPlan = (event: any, chatId: string, endpointCallingPlan: HttpRequestPlan[]) => {
     store.dispatch(setEndpointCallingPlan({chatId, endpointCallingPlan}))
   }
   window.main.receive('calling-plan', handleCallingPlan)

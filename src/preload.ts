@@ -3,24 +3,25 @@
 
 import {contextBridge, ipcRenderer} from 'electron'
 import {Conversation} from './models/conversation'
-import {TChannel, channelAllowList} from './main/utils/window-sender'
+import {channelAllowList, TChannel} from './main/utils/window-sender'
 import {TProvider} from './models/responder'
 import {OpenAiConfiguration} from './models/provider-config'
 import {AuthoredContent} from './models/content'
 import {CallingPlan} from './models/approvable'
 import {OpenApiSpec} from './models/open-api-spec'
-import {DetailedCall, EndpointCallPlan} from './models/endpoint'
+import {HttpRequestPlan} from './models/http-request-plan'
 
 export interface PreloadedApi {
-  getMachineName: () => Promise<string>;
-  getModels: (provider: TProvider) => Promise<string>;
-  streamedChat: (conversation: Conversation) => Promise<void>;
-  receive: (channel: TChannel, func: (...args: any[]) => void) => void;
-  remove: (channel: TChannel, func: (...args: any[]) => void) => void;
-  setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>;
-  callback: (id: string, arg: any) => void;
-  detailCallInPlan: (userContent: AuthoredContent, callingPlan: EndpointCallPlan) => Promise<DetailedCall>
-  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<DetailedCall>
+  getMachineName: () => Promise<string>
+  getModels: (provider: TProvider) => Promise<string>
+  streamedChat: (conversation: Conversation) => Promise<void>
+  receive: (channel: TChannel, func: (...args: any[]) => void) => void
+  remove: (channel: TChannel, func: (...args: any[]) => void) => void
+  setOpenAiConfiguration: (config: OpenAiConfiguration) => Promise<void>
+  callback: (id: string, arg: any) => void
+  detailCallInPlan: (userContent: AuthoredContent, callingPlan: HttpRequestPlan) => Promise<HttpRequestPlan>
+  executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<HttpRequestPlan> // deprecate
+  httpCall: (call: HttpRequestPlan) => Promise<object>
 }
 
 contextBridge.exposeInMainWorld('main', {
@@ -53,4 +54,5 @@ contextBridge.exposeInMainWorld('main', {
   callback: ipcRenderer.invoke.bind(ipcRenderer, 'callback'),
   detailCallInPlan: ipcRenderer.invoke.bind(ipcRenderer, 'detailCallInPlan'),
   executeCalls: ipcRenderer.invoke.bind(ipcRenderer, 'executeCalls'),
+  httpCall: ipcRenderer.invoke.bind(ipcRenderer, 'httpCall'),
 } as PreloadedApi)

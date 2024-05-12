@@ -1,29 +1,42 @@
 import styled from 'styled-components'
 
 const SVG = styled.svg`
-  &.svg {
-    border-radius: var(--border-radius);
-    &:hover {
+    &.svg {
+      border-radius: var(--border-radius);
+
+      &:hover {
+        background-color: var(--background-color-9);
+      }
+    }
+
+    .active {
       background-color: var(--background-color-9);
+
+      & * {
+        color: var(--background-color-0);
+      }
+
+      border-radius: 0.2rem;
+
+      &:hover {
+        background-color: var(--background-color-3);
+      }
     }
+  `
+
+export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit'
+
+/**
+ * https://www.svgrepo.com/collection/dazzle-line-icons/
+ * @param type
+ * @constructor
+ */
+function Path({type}: { type: TIcon }) {
+  if (type === 'refresh') {
+    return <path transform="scale(0.75) translate(4, 4)"
+      d="M3 3V8M3 8H8M3 8L6 5.29168C7.59227 3.86656 9.69494 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.71683 21 4.13247 18.008 3.22302 14"
+      stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   }
-
-  .active {
-    background-color: var(--background-color-9);
-
-    & * {
-      color: var(--background-color-0);
-    }
-
-    border-radius: 0.2rem;
-
-    &:hover {
-      background-color: var(--background-color-3);
-    }
-  }
-`
-
-function Path({type}: { type: string }) {
   if (type === 'checkbox') {
     return <>
       <path d="M5 13L9 17L19 7" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"
@@ -61,12 +74,17 @@ function Path({type}: { type: string }) {
   }
   if (type === 'clipboard') {
     return <>
-      <path d="M8.5 4H6C4.89543 4 4 4.89543 4 6V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V6C20 4.89543 19.1046 4 18 4H15.5" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path><path d="M8 6.4V4.5C8 4.22386 8.22386 4 8.5 4C8.77614 4 9.00422 3.77604 9.05152 3.50398C9.19968 2.65171 9.77399 1 12 1C14.226 1 14.8003 2.65171 14.9485 3.50398C14.9958 3.77604 15.2239 4 15.5 4C15.7761 4 16 4.22386 16 4.5V6.4C16 6.73137 15.7314 7 15.4 7H8.6C8.26863 7 8 6.73137 8 6.4Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
+      <path
+        d="M8.5 4H6C4.89543 4 4 4.89543 4 6V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V6C20 4.89543 19.1046 4 18 4H15.5"
+        stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
+      <path
+        d="M8 6.4V4.5C8 4.22386 8.22386 4 8.5 4C8.77614 4 9.00422 3.77604 9.05152 3.50398C9.19968 2.65171 9.77399 1 12 1C14.226 1 14.8003 2.65171 14.9485 3.50398C14.9958 3.77604 15.2239 4 15.5 4C15.7761 4 16 4.22386 16 4.5V6.4C16 6.73137 15.7314 7 15.4 7H8.6C8.26863 7 8 6.73137 8 6.4Z"
+        stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
     </>
   }
 }
 
-export function Icon({type, active, handleClick}: { type: string, active?: boolean, handleClick?: () => void }) {
+export function Icon({type, active, handleClick}: { type: TIcon, active?: boolean, handleClick?: () => void }) {
   const height = 24
   const width = 24
   return <SVG width={`${width}px`} height={`${height}px`} viewBox={`0 0 ${height} ${width}`} strokeWidth="1.5"

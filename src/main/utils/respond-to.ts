@@ -1,8 +1,6 @@
-import {Conversation} from '../../models/conversation'
 import windowSender from './window-sender'
 import {AuthoredContent} from '../../models/content'
-import {CallingPlan} from '../../models/approvable'
-import {EndpointCallPlan} from '../../models/endpoint'
+import {HttpRequestPlan} from '../../models/http-request-plan'
 
 
 export async function respondTo(chatId: string, author: string): Promise<AuthoredContent> {
@@ -10,6 +8,6 @@ export async function respondTo(chatId: string, author: string): Promise<Authore
   return content
 }
 
-export async function presentCallingPlan(chatId: string, calls: EndpointCallPlan[]) {
+export async function presentCallingPlan(chatId: string, calls: HttpRequestPlan[]) {
   windowSender.send('calling-plan', chatId, calls)
 }
