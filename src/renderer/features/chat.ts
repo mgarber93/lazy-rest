@@ -4,7 +4,6 @@ import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
 import {HttpRequestPlan} from '../../models/http-request-plan'
-import {chat} from '../../main/tools/api'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -102,14 +101,6 @@ export const chatsSlice = createSlice({
     },
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload)
-    },
-    selectModelChat: (state, action: PayloadAction<{ chat: string, model: Responder }>) => {
-      const {chat, model} = action.payload
-      const conversationIndex = state.findIndex(conversation => conversation.id === chat)
-      if (conversationIndex === -1) {
-        return state
-      }
-      state[conversationIndex].responder = model
     },
     setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: HttpRequestPlan[]}>) => {
       const {chatId, endpointCallingPlan} = action.payload
