@@ -49,8 +49,13 @@ const Div = styled.div`
 
   .method, .path, .background {
     border-radius: var(--border-radius);
-    padding: 0.12rem 0.5rem;
+    display: block;
+    text-align: center;
+    padding: 0.1rem;
     background-color: var(--background-color-6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
