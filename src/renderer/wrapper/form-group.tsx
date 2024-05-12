@@ -20,13 +20,23 @@ const Section = styled.section`
   background: var(--card);
   h4 {
     font-size: large;
+  }
+  h5 {
+    font-size: medium;
+  }
+  h4, h5 {
     user-select: none;
   }
 `
 
-export function FormGroup(props: {name: string, children: ReactNode}) {
+export function FormGroup(props: {name: string, tabHeaders: string[], children: ReactNode}) {
   return <Section className="provider">
-    <h4>{props.name}</h4>
+    <div className="header d-flex flex-row gap-3">
+      <h4>{props.name}</h4>
+      <h5>Step 1</h5>
+      <h5>Step 1</h5>
+      <h5>Step 1</h5>
+    </div>
     <div className="divider"></div>
     <div className="flex-row provider">
       {props.children}

@@ -16,6 +16,7 @@ export function ResultOfCall({result}: { result: object }) {
   }, 2)
   
   return <Div>
+    <button>Summarize</button>
     <Markdown className="content" remarkPlugins={[remarkGfm]}>{
       `\`\`\`json\n${serialized.trim()}\n\`\`\``
     }</Markdown>
