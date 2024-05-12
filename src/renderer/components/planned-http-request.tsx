@@ -49,11 +49,8 @@ const Div = styled.div`
 
   .method, .path, .background {
     border-radius: var(--border-radius);
-  }
-
-  .path {
-    background-color: var(--background-color-6);
     padding: 0.12rem 0.5rem;
+    background-color: var(--background-color-6);
   }
 `
 
