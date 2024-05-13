@@ -3,6 +3,8 @@ import remarkGfm from 'remark-gfm'
 import styled from 'styled-components'
 import {Icon} from './icon'
 import {useCallback} from 'react'
+import {useCurrentConversation} from '../hooks/current-conversation'
+import {streamAgentResponse} from '../features/chat'
 
 const Div = styled.div`
   background-color: var(--background-color-2);
@@ -22,15 +24,19 @@ const Div = styled.div`
 `
 
 export function ResultOfCall({result}: { result: object }) {
+  const currentConversation = useCurrentConversation()
   const serialized = JSON.stringify(result, (key: string, value: any) => {
     if (Array.isArray(value) && value.length > 3)
-      return `[${value.slice(0, 3).join(', ')}, ...]`
+      return `[${value.slice(0, 6).join(', ')}, ...]`
     return value
   }, 2)
   
   const summarize = useCallback(() => {
-    console.log('todo summarize')
-  }, [])
+    streamAgentResponse({
+      convo: currentConversation,
+      agent: "parser",
+    })
+  }, [currentConversation])
   
   return <Div>
     <Markdown className="content" remarkPlugins={[remarkGfm]}>{

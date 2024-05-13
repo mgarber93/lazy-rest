@@ -10,6 +10,7 @@ import {AuthoredContent} from './models/content'
 import {CallingPlan} from './models/approvable'
 import {OpenApiSpec} from './models/open-api-spec'
 import {HttpRequestPlan} from './models/http-request-plan'
+import {TAgent} from './main/organizations/swagger-gpt'
 
 export interface PreloadedApi {
   getMachineName: () => Promise<string>
@@ -22,6 +23,7 @@ export interface PreloadedApi {
   detailCallInPlan: (userContent: AuthoredContent, callingPlan: HttpRequestPlan) => Promise<HttpRequestPlan>
   executeCalls: (userContent: AuthoredContent, callingPlan: CallingPlan, oasSpec: OpenApiSpec[]) => Promise<HttpRequestPlan> // deprecate
   httpCall: (call: HttpRequestPlan) => Promise<object>
+  streamAgentResponse: (conversation: Conversation, agent: TAgent) => Promise<void>
 }
 
 contextBridge.exposeInMainWorld('main', {
@@ -55,4 +57,5 @@ contextBridge.exposeInMainWorld('main', {
   detailCallInPlan: ipcRenderer.invoke.bind(ipcRenderer, 'detailCallInPlan'),
   executeCalls: ipcRenderer.invoke.bind(ipcRenderer, 'executeCalls'),
   httpCall: ipcRenderer.invoke.bind(ipcRenderer, 'httpCall'),
+  streamAgentResponse: ipcRenderer.invoke.bind(ipcRenderer, 'streamAgentResponse'),
 } as PreloadedApi)
