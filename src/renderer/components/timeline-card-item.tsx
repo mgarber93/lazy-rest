@@ -1,6 +1,5 @@
 import moment from 'moment'
 import {useCallback, useState} from 'react'
-
 import styled from 'styled-components'
 import {useAppDispatch} from '../features/store'
 import {selectChat} from '../features/current-chat'
@@ -40,7 +39,6 @@ const Wrapper = styled.div`
     max-height: 1.21875rem;
   }
 `
-
 
 export function TimelineItem({item}: { item: Conversation }) {
   const [isHovered, setHovered] = useState(false)
