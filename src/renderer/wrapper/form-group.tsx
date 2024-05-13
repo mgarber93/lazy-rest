@@ -2,6 +2,10 @@ import styled from 'styled-components'
 import {ReactNode} from 'react'
 
 const Section = styled.section`
+  & > * {
+    width: 100%;
+    overflow: hidden;
+  }
   .divider {
     width: 100%;
     height: 0.3rem;
@@ -20,6 +24,7 @@ const Section = styled.section`
   background: var(--card);
   h4 {
     font-size: large;
+    min-width: fit-content;
   }
   h5 {
     font-size: medium;
@@ -29,7 +34,6 @@ const Section = styled.section`
     margin-left: auto;
     padding: 0.1rem 0.3rem;
     border-radius: var(--border-radius-emphasis);
-
     &:hover {
       background-color: var(--background-color-3);
     }
