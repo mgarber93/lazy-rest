@@ -18,6 +18,10 @@ const AsideContainer = styled.div`
     width: 100%;
     margin-top: auto;
     padding-bottom: 2rem;
+    & > * {
+      position: absolute;
+      bottom: 0;
+    }
   }
 `
 
