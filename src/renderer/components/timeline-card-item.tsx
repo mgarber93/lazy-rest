@@ -35,6 +35,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  .icon {
+    max-height: 1.21875rem;
+  }
 `
 
 
@@ -66,7 +70,9 @@ export function TimelineItem({item}: { item: Conversation }) {
       <div className={bodyStyles}>
         <Wrapper className={"time"}>
           {moment(item.created).fromNow()}
-          {<Icon handleClick={handleRemoveChat} type={'x'} hideBackground={true}/>}
+          <div className="icon">
+            {isHovered && <Icon handleClick={handleRemoveChat} type={'x'} hideBackground={true}/>}
+          </div>
         </Wrapper>
         <a>{item.content?.[0]?.message || item.id}</a>
       </div>
