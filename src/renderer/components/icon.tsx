@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const SVG = styled.svg`
-  :not(.hide-background) {
+  &:not(.hide-background) {
     background-color: var(--background-color-6);
   }
   &.svg {
