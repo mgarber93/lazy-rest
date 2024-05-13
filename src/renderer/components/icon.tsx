@@ -1,28 +1,30 @@
 import styled from 'styled-components'
 
 const SVG = styled.svg`
-    &.svg {
-      border-radius: var(--border-radius);
+  background-color: var(--background-color-6);
 
-      &:hover {
-        background-color: var(--background-color-9);
-      }
-    }
+  &.svg {
+    border-radius: var(--border-radius);
 
-    .active {
+    &:hover {
       background-color: var(--background-color-9);
-
-      & * {
-        color: var(--background-color-0);
-      }
-
-      border-radius: 0.2rem;
-
-      &:hover {
-        background-color: var(--background-color-3);
-      }
     }
-  `
+  }
+
+  .active {
+    background-color: var(--background-color-9);
+
+    & * {
+      color: var(--background-color-0);
+    }
+
+    border-radius: 0.2rem;
+
+    &:hover {
+      background-color: var(--background-color-3);
+    }
+  }
+`
 
 export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit'
 
@@ -34,8 +36,8 @@ export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 
 function Path({type}: { type: TIcon }) {
   if (type === 'refresh') {
     return <path transform="scale(0.75) translate(4, 4)"
-      d="M3 3V8M3 8H8M3 8L6 5.29168C7.59227 3.86656 9.69494 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.71683 21 4.13247 18.008 3.22302 14"
-      stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                 d="M3 3V8M3 8H8M3 8L6 5.29168C7.59227 3.86656 9.69494 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.71683 21 4.13247 18.008 3.22302 14"
+                 stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   }
   if (type === 'checkbox') {
     return <>
