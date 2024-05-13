@@ -7,7 +7,7 @@ import {TProvider} from '../models/responder'
 import windowSender from './utils/window-sender'
 import {getAllProviderModels, streamedChat} from './tools/api'
 import {AuthoredContent} from '../models/content'
-import {detailCallInPlan} from './organizations/swagger-gpt'
+import {detailCallInPlan, TAgent} from './organizations/swagger-gpt'
 import {HttpRequestPlan} from '../models/http-request-plan'
 import {approveCallingPlan, get} from './tools/http'
 
@@ -45,6 +45,11 @@ async function processHttpRequest(event: IpcMainInvokeEvent, call: HttpRequestPl
   throw new Error(`Not implemented`)
 }
 
+// essentially needs everything for the parsing prompt, and the parser
+async function streamAgentResponse(event: IpcMainInvokeEvent, conversation: Conversation, agent: TAgent) {
+  await streamedChat(conversation.responder, conversation)
+}
+
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
   ipcMain.handle('getModels', handleGetModels)
@@ -54,4 +59,5 @@ export function registerHandlers() {
   ipcMain.handle('callback', handleCallback)
   ipcMain.handle('detailCallInPlan', handleDetailCallInPlan)
   ipcMain.handle('httpCall', processHttpRequest)
+  ipcMain.handle(streamAgentResponse.toString(), handleGetModels)
 }

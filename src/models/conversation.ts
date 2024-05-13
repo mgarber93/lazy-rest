@@ -8,6 +8,7 @@ export interface Plan {
   endpointCallingPlan: HttpRequestPlan[];
   step: number;
   result: object;
+  resultInterpretation: string;
 }
 
 export interface History {
