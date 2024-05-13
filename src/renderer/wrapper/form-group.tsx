@@ -23,23 +23,45 @@ const Section = styled.section`
   }
   h5 {
     font-size: medium;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: auto;
+    padding: 0.1rem 0.3rem;
+    border-radius: var(--border-radius-emphasis);
+
+    &:hover {
+      background-color: var(--background-color-3);
+    }
   }
   h4, h5 {
     user-select: none;
   }
+
+  .tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
 `
 
-export function FormGroup(props: {name: string, tabHeaders: string[], children: ReactNode}) {
+export function FormGroup({name, tabs, children}: {
+  name: string,
+  tabs?: { id: string, display: string, onClick: () => void }[],
+  children: ReactNode
+}) {
   return <Section className="provider">
     <div className="header d-flex flex-row gap-3">
-      <h4>{props.name}</h4>
-      <h5>Step 1</h5>
-      <h5>Step 1</h5>
-      <h5>Step 1</h5>
+      <h4>{name}</h4>
+      <div className="tabs">
+        {tabs?.map((tab, i) => (
+          <h5 key={tab.id} onClick={tab.onClick}>{i + 1}) {tab.display}</h5>
+        ))}
+      </div>
     </div>
     <div className="divider"></div>
     <div className="flex-row provider">
-      {props.children}
+      {children}
     </div>
   </Section>
 }
