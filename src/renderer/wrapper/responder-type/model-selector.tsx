@@ -1,4 +1,3 @@
-import {Form} from 'react-bootstrap'
 import {useCallback} from 'react'
 import styled from 'styled-components'
 import {useAppDispatch, useAppSelector} from '../../features/store'
@@ -12,6 +11,9 @@ const Label = styled.label`
   gap: 0.3rem;
   padding: 0.3rem;
   user-select: none;
+`
+
+const Form = styled.form`
 `
 
 function ModelSelectRadio(props: { type: string, selected: string }) {

@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 const SVG = styled.svg`
-  background-color: var(--background-color-6);
-
+  :not(.hide-background) {
+    background-color: var(--background-color-6);
+  }
   &.svg {
     border-radius: var(--border-radius);
 
@@ -26,7 +27,7 @@ const SVG = styled.svg`
   }
 `
 
-export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit'
+export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit' | 'x'
 
 /**
  * https://www.svgrepo.com/collection/dazzle-line-icons/
@@ -84,13 +85,25 @@ function Path({type}: { type: TIcon }) {
         stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
     </>
   }
+  if (type === 'x') {
+    return <>
+      <path
+        transform="scale(1.5)"
+        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+    </>
+  }
 }
 
-export function Icon({type, active, handleClick}: { type: TIcon, active?: boolean, handleClick?: () => void }) {
+export function Icon({type, active, handleClick, hideBackground}: {
+  type: TIcon,
+  active?: boolean,
+  handleClick?: () => void,
+  hideBackground?: boolean
+}) {
   const height = 24
   const width = 24
   return <SVG width={`${width}px`} height={`${height}px`} viewBox={`0 0 ${height} ${width}`} strokeWidth="1.5"
-              fill="none" className={"svg " + (active ? "active" : "")}
+              fill="none" className={"svg" + (active ? " active" : "") + (hideBackground ? " hide-background" : '')}
               xmlns="http://www.w3.org/2000/svg" onClick={handleClick}>
     <Path type={type}/>
   </SVG>

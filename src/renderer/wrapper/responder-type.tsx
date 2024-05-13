@@ -21,8 +21,9 @@ const Div = styled.div`
     text-align: center;
     color: buttonface;
     font-size: larger;
-    padding-top: 0;
+    padding: 0;
     font-family: "Maple Mono", Tahoma, serif;
+    border-radius: 0;
   }
 `
 

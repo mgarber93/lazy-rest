@@ -1,6 +1,9 @@
 import {useCallback} from 'react'
-import {Form} from 'react-bootstrap'
 import {TResponder} from '../../../models/responder'
+import styled from 'styled-components'
+
+const Select = styled.select`
+`
 
 export function SelectResponderType(props: { type: TResponder, setType: (str: TResponder) => void }) {
   const {type, setType} = props
@@ -9,10 +12,10 @@ export function SelectResponderType(props: { type: TResponder, setType: (str: TR
   }, [setType])
   
   return (
-    <Form.Select value={type} onChange={handleValueChange} size="sm">
+    <Select value={type} onChange={handleValueChange}>
       <option value="chat">chat</option>
       <option value="agent">agent</option>
       <option value="organization">organization</option>
-    </Form.Select>
+    </Select>
   )
 }
