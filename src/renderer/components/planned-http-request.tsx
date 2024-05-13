@@ -41,16 +41,17 @@ const Div = styled.div`
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
-
-    & svg {
-      background-color: var(--background-color-6);
-    }
   }
 
   .method, .path, .background {
     border-radius: var(--border-radius);
-    padding: 0.12rem 0.5rem;
+    display: block;
+    text-align: center;
+    padding: 0.1rem;
     background-color: var(--background-color-6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
@@ -63,7 +64,7 @@ export function PlannedHttpRequest({plan}: { plan: HttpRequestPlan }) {
   const attemptCall = useCallback(() => {
     dispatch(executeCall({call: plan, chatId: convo.id}))
   }, [plan, convo.id])
-  const hasResults = convo?.planController?.results?.length > 0 ?? false
+  const hasResults = !!convo?.planController?.result
   return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
     <span className={"method"}>
       {plan.method}

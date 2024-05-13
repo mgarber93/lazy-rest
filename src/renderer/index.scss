@@ -156,3 +156,9 @@ html, body, #root, #root > div {
 svg {
   color: var(--header-icon);
 }
+
+button {
+  font-family: "Maple Mono", Tahoma, serif;
+  font-size: large;
+  color: var(--text-color);
+}

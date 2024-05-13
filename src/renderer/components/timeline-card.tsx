@@ -62,7 +62,7 @@ const Timeline = styled.ul`
         margin-right: 0.75rem;
         overflow: hidden;
         margin-top: 0.25rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
       }
       a:hover {
         text-decoration: none !important;

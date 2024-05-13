@@ -1,30 +1,33 @@
 import styled from 'styled-components'
 
 const SVG = styled.svg`
-    &.svg {
-      border-radius: var(--border-radius);
+  :not(.hide-background) {
+    background-color: var(--background-color-6);
+  }
+  &.svg {
+    border-radius: var(--border-radius);
 
-      &:hover {
-        background-color: var(--background-color-9);
-      }
-    }
-
-    .active {
+    &:hover {
       background-color: var(--background-color-9);
-
-      & * {
-        color: var(--background-color-0);
-      }
-
-      border-radius: 0.2rem;
-
-      &:hover {
-        background-color: var(--background-color-3);
-      }
     }
-  `
+  }
 
-export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit'
+  .active {
+    background-color: var(--background-color-9);
+
+    & * {
+      color: var(--background-color-0);
+    }
+
+    border-radius: 0.2rem;
+
+    &:hover {
+      background-color: var(--background-color-3);
+    }
+  }
+`
+
+export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 'edit' | 'x'
 
 /**
  * https://www.svgrepo.com/collection/dazzle-line-icons/
@@ -34,8 +37,8 @@ export type TIcon = 'refresh' | 'checkbox' | 'erasure' | 'save' | 'clipboard' | 
 function Path({type}: { type: TIcon }) {
   if (type === 'refresh') {
     return <path transform="scale(0.75) translate(4, 4)"
-      d="M3 3V8M3 8H8M3 8L6 5.29168C7.59227 3.86656 9.69494 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.71683 21 4.13247 18.008 3.22302 14"
-      stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                 d="M3 3V8M3 8H8M3 8L6 5.29168C7.59227 3.86656 9.69494 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.71683 21 4.13247 18.008 3.22302 14"
+                 stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   }
   if (type === 'checkbox') {
     return <>
@@ -82,13 +85,25 @@ function Path({type}: { type: TIcon }) {
         stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
     </>
   }
+  if (type === 'x') {
+    return <>
+      <path
+        transform="scale(1.5)"
+        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+    </>
+  }
 }
 
-export function Icon({type, active, handleClick}: { type: TIcon, active?: boolean, handleClick?: () => void }) {
+export function Icon({type, active, handleClick, hideBackground}: {
+  type: TIcon,
+  active?: boolean,
+  handleClick?: () => void,
+  hideBackground?: boolean
+}) {
   const height = 24
   const width = 24
   return <SVG width={`${width}px`} height={`${height}px`} viewBox={`0 0 ${height} ${width}`} strokeWidth="1.5"
-              fill="none" className={"svg " + (active ? "active" : "")}
+              fill="none" className={"svg" + (active ? " active" : "") + (hideBackground ? " hide-background" : '')}
               xmlns="http://www.w3.org/2000/svg" onClick={handleClick}>
     <Path type={type}/>
   </SVG>

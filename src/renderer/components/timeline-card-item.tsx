@@ -1,5 +1,4 @@
 import moment from 'moment'
-import {CloseButton} from 'react-bootstrap'
 import {useCallback, useState} from 'react'
 
 import styled from 'styled-components'
@@ -8,6 +7,7 @@ import {selectChat} from '../features/current-chat'
 import {removeChat, startNewChat} from '../features/chat'
 import {Conversation, createConversation} from '../../models/conversation'
 import {useCurrentConversation} from '../hooks/current-conversation'
+import {Icon} from './icon'
 
 const Button = styled.button`
   min-width: 17.6rem;
@@ -31,6 +31,10 @@ const Wrapper = styled.div`
     right: 0.05rem;
     position: relative;
   }
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 
@@ -62,8 +66,7 @@ export function TimelineItem({item}: { item: Conversation }) {
       <div className={bodyStyles}>
         <Wrapper className={"time"}>
           {moment(item.created).fromNow()}
-          {<CloseButton className={"right-align-button close-button" + (isHovered ? ' hovered' : '')}
-                        onClick={handleRemoveChat}/>}
+          {<Icon handleClick={handleRemoveChat} type={'x'} hideBackground={true}/>}
         </Wrapper>
         <a>{item.content?.[0]?.message || item.id}</a>
       </div>

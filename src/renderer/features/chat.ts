@@ -33,10 +33,13 @@ export const detailCallInPlan = createAsyncThunk(
     const state = thunkAPI.getState() as RootState
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
     const chat = state.chats.find(chat => chat.id === chatId)
+    const planIndex = chat.planController.endpointCallingPlan.findIndex(callingPlan => callingPlan === plan)
+    if (planIndex < 0)
+      throw new Error('unknown step')
     // assume users query is the last message?
     const userQuery = chat.content.at(-1)
     const detailedPlan = await window.main.detailCallInPlan(userQuery, plan)
-    return {chatId, detailedPlan}
+    return {chatId, detailedPlan, planIndex}
   }
 )
 
@@ -122,24 +125,22 @@ export const chatsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
-      const {chatId, detailedPlan} = action.payload
+      const {chatId, detailedPlan, planIndex} = action.payload
       const chat = state.find(chat => chat.id === chatId)
       const planController = chat.planController
       if (!planController.endpointCallingPlan) {
         planController.endpointCallingPlan = []
       }
-      // @todo its not as simple as pushing another call at the end. Need to find and replace or overhaul regenerate
-      planController.endpointCallingPlan.push(detailedPlan)
-      planController.results = []
+      planController.endpointCallingPlan[planIndex] = detailedPlan
+      planController.step = planIndex
+      planController.result = null
     })
     builder.addCase(executeCall.fulfilled, (state, action) => {
       const {response, chatId} = action.payload
       if (response) {
         const chat = state.find(chat => chat.id === chatId)
-        if (!chat.planController.results) {
-          chat.planController.results = []
-        }
-        chat.planController.results.push(response)
+        
+        chat.planController.result = response
       }
     })
   },

@@ -12,17 +12,24 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem 1rem;
+  padding: 0rem 1rem;
+  width: var(--aside-nav);
+  border-top: var(--dashed);
+
+  button {
+    display: block;
+    text-align: center;
+    color: buttonface;
+    font-size: larger;
+    padding: 0;
+    font-family: "Maple Mono", Tahoma, serif;
+    border-radius: 0;
+  }
 `
 
 const EditButton = styled(Button)`
   background: none;
   height: 2.55rem;
-  &:hover {
-    box-shadow: inset 0.6rem 0.6rem 0.6rem var(--background-color-1), inset -1rem -0.6rem 0.6rem var(--background-color-1);
-    background-color: var(--background-color-0);
-    border: 2px solid var(--background-color-1);
-  }
   border-radius: var(--border-radius);
   font-family: "Maple Mono", Tahoma, serif;
   color: var(--grey);
@@ -55,11 +62,9 @@ export function ResponderType() {
   const handleValueChange = useCallback((type: TResponder) => {
     setType(type)
   }, [setType])
-
   const handleEditClick = useCallback(() => {
     setEditing(true)
   }, [setEditing])
-
   return <Div>{
     editing ? (
       <>
@@ -71,5 +76,4 @@ export function ResponderType() {
     )
   }
   </Div>
-
 }

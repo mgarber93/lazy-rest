@@ -12,12 +12,19 @@ const Wrapper = styled.div`
 `
 
 export function CallingPlanApproval({planController}: { planController: Plan }) {
-  const {endpointCallingPlan, results} = planController
-  return <FormGroup name={'Calling Plan'}>
+  const {endpointCallingPlan, result, step} = planController
+  const tabs = endpointCallingPlan.map(plan => {
+    return {
+      id: plan.background,
+      display: plan.background.split(' ').slice(1).join(' '),
+      onClick: console.log,
+    }
+  })
+  const stepPlan = endpointCallingPlan[step ?? 0]
+  return <FormGroup name={'Calling Plan:'} tabs={tabs}>
     <Wrapper>
-      {endpointCallingPlan?.map((item: any, index: number) =>
-        <PlannedHttpRequest plan={item} key={item.background}/>)}
-      {results?.map((item) => <ResultOfCall result={item}/>)}
+      <PlannedHttpRequest plan={stepPlan} key={stepPlan.background}/>
+      {result ? <ResultOfCall result={result}/> : null}
     </Wrapper>
   </FormGroup>
 }

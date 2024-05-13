@@ -5,9 +5,10 @@ import {HttpRequestPlan} from './http-request-plan'
 
 export interface Plan {
   state: object;
-  step: HttpRequestPlan;
   endpointCallingPlan: HttpRequestPlan[];
-  results: object[]; // results for the given stop
+  step: number;
+  result: object;
+  resultInterpretation: string;
 }
 
 export interface History {
