@@ -1,69 +1,35 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron'
-import {OpenAiConfiguration} from '../models/provider-config'
-import providerManager from './providers/provider-manager'
-import {getUser} from './utils/user'
-import {Conversation} from '../models/conversation'
-import {TProvider} from '../models/responder'
-import windowSender from './utils/window-sender'
-import {getAllProviderModels, streamedChat} from './tools/api'
-import {AuthoredContent} from '../models/content'
-import {detailCallInPlan, TAgent} from './organizations/swagger-gpt'
-import {HttpRequestPlan} from '../models/http-request-plan'
-import {approveCallingPlan, get} from './tools/http'
-import {GetModelsHandler} from './preloaded-handlers/get-models'
+
 import {container} from 'tsyringe'
+import {INVOKE_CHANNELS, PreloadedApi} from '../preloader/preloaded-api'
+import {streamedChat} from '../preloader/handlers/streamed-chat'
+import {getUser} from '../preloader/handlers/user'
+import {detailCallInPlan, TAgent} from './organizations/swagger-gpt'
+import {callback, handleSetOpenAiConfiguration, processHttpRequest} from '../preloader/handlers/set-config'
+import {handle} from '../preloader/handlers/get-models'
+import {Conversation} from '../models/conversation'
 
-async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<void> {
-  await streamedChat(conversation.responder, conversation)
+async function streamAgentResponse(convo: Conversation, agent: TAgent) {
+  return
 }
 
-async function handleGetModels(event: IpcMainInvokeEvent, provider: TProvider) {
-  const models = await getAllProviderModels(provider)
-  return models
-}
-
-async function handleSetOpenAiConfiguration(event: IpcMainInvokeEvent, config: OpenAiConfiguration): Promise<void> {
-  providerManager.setOpenAiConfig(config)
-}
-
-async function handleCallback(event: IpcMainInvokeEvent, id: string, arg: any) {
-  return windowSender.callback(id, arg)
-}
-
-async function handleDetailCallInPlan(event: IpcMainInvokeEvent, userContent: AuthoredContent, plan: HttpRequestPlan) {
-  return detailCallInPlan(userContent, plan)
-}
-
-async function processHttpRequest(event: IpcMainInvokeEvent, call: HttpRequestPlan) {
-  const token = await approveCallingPlan(null)
-
-  switch (call.method) {
-    case "GET": {
-      const response = await get(token, call.path)
-      console.log(JSON.stringify(response, null, 2))
-      return response
-    }
-  }
-  throw new Error(`Not implemented`)
-}
-
-// essentially needs everything for the parsing prompt, and the parser
-async function streamAgentResponse(event: IpcMainInvokeEvent, conversation: Conversation, agent: TAgent) {
-  await streamedChat(conversation.responder, conversation)
-}
+container.register<PreloadedApi['streamedChat']>('streamedChat', {useValue: streamedChat})
+container.register<PreloadedApi['getMachineName']>('getMachineName', {useValue: getUser})
+container.register<PreloadedApi['httpCall']>('httpCall', {useValue: processHttpRequest})
+container.register<PreloadedApi['detailCallInPlan']>('detailCallInPlan', {useValue: detailCallInPlan})
+container.register<PreloadedApi['callback']>('callback', {useValue: callback})
+container.register<PreloadedApi['setOpenAiConfiguration']>('setOpenAiConfiguration', {useValue: handleSetOpenAiConfiguration})
+container.register<PreloadedApi['getModels']>('getModels', {useValue: handle})
+container.register<PreloadedApi['streamAgentResponse']>('streamAgentResponse', {useValue: streamAgentResponse})
 
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
-  [
-    container.resolve(GetModelsHandler),
-  ].forEach((handler) => {
-    ipcMain.handle(handler.channel, handler.handle.bind(handler))
+  INVOKE_CHANNELS.forEach((invokeChannel) => {
+    const handler = container.resolve<PreloadedApi[keyof PreloadedApi]>(invokeChannel)
+    ipcMain.handle(invokeChannel, (event: IpcMainInvokeEvent, ...rest: any[]) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return handler(...rest)
+    })
   })
-  ipcMain.handle('getMachineName', getUser)
-  ipcMain.handle('streamedChat', handleStreamedChat)
-  ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)
-  ipcMain.handle('callback', handleCallback)
-  ipcMain.handle('detailCallInPlan', handleDetailCallInPlan)
-  ipcMain.handle('httpCall', processHttpRequest)
-  ipcMain.handle(streamAgentResponse.toString(), streamAgentResponse)
 }

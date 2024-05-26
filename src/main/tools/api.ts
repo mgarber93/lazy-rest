@@ -1,9 +1,6 @@
 import {AuthoredContent, createContent} from '../../models/content'
-import {isModel, isOrganization, Model, Responder} from '../../models/responder'
-import {prompt, streamedPrompt} from '../providers/openai'
-import {createCallingPlan} from '../organizations/swagger-gpt'
-import {Conversation} from '../../models/conversation'
-import {respondTo} from '../utils/respond-to'
+import {isModel, Responder} from '../../models/responder'
+import {prompt} from '../providers/openai'
 
 export interface RoleContent {
   role: "system" | "assistant" | "user",
@@ -31,27 +28,4 @@ export async function chat(responder: Responder, content: AuthoredContent[]): Pr
   throw new Error(`Responder not implemented`)
 }
 
-export async function streamedChat(responder: Responder, conversation: Conversation) {
-  if (isModel(responder)) {
-    const response = await respondTo(conversation.id, (conversation.responder as Model).model)
-    switch (responder.provider) {
-      case "openai": {
-        return streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
-      }
-      case "anthropic": {
-        throw new Error('not implemented')
-      }
-    }
-  } else if (isOrganization(responder)) {
-    const content = conversation.content
-    // assume we're rest GPT for now
-    if (content.length < 1)
-      throw new Error('No user prompt for org to handle')
-    
-    const lastMessage = content.at(-1)
-    return createCallingPlan(lastMessage, conversation.id)
-  }
-  
-  throw new Error(`Cant respond`)
-}
 

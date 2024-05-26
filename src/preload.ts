@@ -3,12 +3,13 @@
 import "reflect-metadata"
 import {contextBridge} from 'electron'
 import {container} from 'tsyringe'
-import {PreloadedApi} from './preloaded/preloaded-api'
+import {INVOKE_CHANNELS} from './preloader/preloaded-api'
+import {Preloader} from './preloader/preloader'
 
 
-const preloadedApi = container.resolve(PreloadedApi)
-preloadedApi.preload()
-contextBridge.exposeInMainWorld('main', preloadedApi)
+const preloadedApi = container.resolve<Preloader>(Preloader)
+
+contextBridge.exposeInMainWorld('main', preloadedApi.preload(INVOKE_CHANNELS))
 
 
-export {PreloadedApi} from './preloaded/preloaded-api'
+export {PreloadedApi} from './preloader/preloaded-api'
