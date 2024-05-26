@@ -6,7 +6,6 @@ import {createContent} from '../../models/content'
 import {respond, streamResponse} from '../features/chat'
 import styled from 'styled-components'
 import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
-import {getRespondingModel} from '../../models/responder'
 
 const TextArea = styled.textarea`
   border: none;

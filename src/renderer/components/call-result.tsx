@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import {Icon} from './icon'
 import {useCallback} from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {streamAgentResponse} from '../features/chat'
 
 const Div = styled.div`
   background-color: var(--background-color-2);
@@ -32,10 +31,7 @@ export function ResultOfCall({result}: { result: object }) {
   }, 2)
   
   const summarize = useCallback(() => {
-    streamAgentResponse({
-      convo: currentConversation,
-      agent: "parser",
-    })
+    // @todo
   }, [currentConversation])
   
   return <Div>

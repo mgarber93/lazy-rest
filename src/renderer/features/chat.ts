@@ -4,19 +4,12 @@ import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
 import {HttpRequestPlan} from '../../models/http-request-plan'
-import {TAgent} from '../../main/organizations/swagger-gpt'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
 const initialState: Conversation[] = chats ?? [createConversation()]
 const name = 'chats'
 
-export const streamAgentResponse = createAsyncThunk(
-  `${name}/streamAgentResponse`,
-  async ({convo, agent}: { convo: Conversation, agent: TAgent }, thunkAPI) => {
-    await window.main.streamAgentResponse(convo, agent)
-  },
-)
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,

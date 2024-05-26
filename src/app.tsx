@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import {createRoot} from 'react-dom/client'
 import React from 'react'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
