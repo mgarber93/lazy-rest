@@ -3,7 +3,6 @@ import {Conversation} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {AuthoredContent} from '../models/content'
 import {HttpRequestPlan} from '../models/http-request-plan'
-import {TAgent} from '../main/organizations/swagger-gpt'
 import {TWindowSenderChannel} from '../models/window-sender'
 
 export type TInvokeChannel = keyof PreloadedApi
@@ -16,7 +15,6 @@ export const INVOKE_CHANNELS = [
   'detailCallInPlan',
   'httpCall',
   'getModels',
-  'streamAgentResponse',
 ] as TInvokeChannel[]
 
 export interface PreloadedApi {
@@ -35,8 +33,6 @@ export interface PreloadedApi {
   httpCall(call: HttpRequestPlan): Promise<object>
   
   streamedChat(conversation: Conversation): Promise<void>
-  
-  streamAgentResponse(convo: Conversation, agent: TAgent): Promise<void>
   
   send(channel: TWindowSenderChannel, data: any): void
   

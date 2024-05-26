@@ -1,6 +1,10 @@
 import {userInfo} from 'os'
+import {Handler} from './handler'
+import {injectable} from 'tsyringe'
 
-export async function getUser() {
-  return userInfo()?.username
+@injectable()
+export class OperatingSystem implements Handler<'getMachineName'> {
+  async handle() {
+    return userInfo()?.username
+  }
 }
-
