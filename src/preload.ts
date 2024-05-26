@@ -1,6 +1,6 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-
+import "reflect-metadata"
 import {contextBridge, ipcRenderer} from 'electron'
 import {Conversation} from './models/conversation'
 import {channelAllowList, TChannel} from './main/utils/window-sender'

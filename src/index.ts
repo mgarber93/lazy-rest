@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import {app, BrowserWindow} from 'electron'
 import * as process from 'process'
 import {registerHandlers} from './main'
