@@ -59,5 +59,5 @@ export function registerHandlers() {
   ipcMain.handle('callback', handleCallback)
   ipcMain.handle('detailCallInPlan', handleDetailCallInPlan)
   ipcMain.handle('httpCall', processHttpRequest)
-  ipcMain.handle(streamAgentResponse.toString(), handleGetModels)
+  ipcMain.handle(streamAgentResponse.toString(), streamAgentResponse)
 }

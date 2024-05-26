@@ -15,7 +15,7 @@ import {presentCallingPlan} from '../utils/respond-to'
 import {HttpRequestPlan} from '../../models/http-request-plan'
 import ChatCompletionMessage = OpenAI.ChatCompletionMessage
 
-export type TAgent = "planner" | "selector" | "executor"
+export type TAgent = "planner" | "selector" | "executor" | "parser"
 
 async function executeAndParse(plan: ChatCompletionMessage, approvedPlan: CallingPlan) {
   const messages = []

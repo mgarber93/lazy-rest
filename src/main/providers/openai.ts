@@ -15,7 +15,7 @@ export async function listOpenAiModels() {
 
 // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
 export async function getModels(): Promise<string> {
-  return ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo-preview'].join(',')
+  return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo-preview'].join(',')
 }
 
 export function mapAuthoredContentToChatCompletion(content: AuthoredContent): ChatCompletionMessageParam {
