@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import {app, BrowserWindow} from 'electron'
 import * as process from 'process'
-import {registerHandlers} from './main'
+import {setupInvokeHandlers} from './main'
 import installExtension, {REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS} from 'electron-devtools-installer'
 import windowSender from './main/utils/window-sender'
 import {registerMainHandlers} from './main/handlers/register-main-handlers'
@@ -68,4 +68,4 @@ app.on('activate', () => {
 })
 
 
-registerHandlers()
+setupInvokeHandlers()

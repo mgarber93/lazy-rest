@@ -5,13 +5,14 @@ import {callback, handleSetOpenAiConfiguration, processHttpRequest} from './set-
 import {detailCallInPlan, TAgent} from '../organizations/swagger-gpt'
 import {handle} from './get-models'
 import {Conversation} from '../../models/conversation'
-import {PreloadedApi} from '../../preloader/preloaded-api'
+import {INVOKE_CHANNELS, PreloadedApi, TInvokeChannel} from '../../preloader/preloaded-api'
 
 async function streamAgentResponse(convo: Conversation, agent: TAgent) {
   return
 }
 
 export function registerMainHandlers() {
+  container.register<TInvokeChannel[]>('InvokeChannels', {useValue: INVOKE_CHANNELS})
   container.register<PreloadedApi['streamedChat']>('streamedChat', {useValue: streamedChat})
   container.register<PreloadedApi['getMachineName']>('getMachineName', {useValue: getUser})
   container.register<PreloadedApi['httpCall']>('httpCall', {useValue: processHttpRequest})

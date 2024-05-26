@@ -3,13 +3,14 @@
 import "reflect-metadata"
 import {contextBridge} from 'electron'
 import {container} from 'tsyringe'
-import {INVOKE_CHANNELS} from './preloader/preloaded-api'
 import {Preloader} from './preloader/preloader'
+import {INVOKE_CHANNELS, TInvokeChannel} from './preloader/preloaded-api'
 
+container.register<TInvokeChannel[]>('InvokeChannels', {useValue: INVOKE_CHANNELS})
 
 const preloadedApi = container.resolve<Preloader>(Preloader)
 
-contextBridge.exposeInMainWorld('main', preloadedApi.preload(INVOKE_CHANNELS))
+contextBridge.exposeInMainWorld('main', preloadedApi.preload())
 
 
 export {PreloadedApi} from './preloader/preloaded-api'

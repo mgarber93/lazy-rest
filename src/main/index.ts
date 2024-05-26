@@ -1,17 +1,17 @@
 import {ipcMain, IpcMainInvokeEvent} from 'electron'
 
 import {container} from 'tsyringe'
-import {INVOKE_CHANNELS, PreloadedApi} from '../preloader/preloaded-api'
+import {PreloadedApi, TInvokeChannel} from '../preloader/preloaded-api'
 
-
-// Handles added here need to be registered src/preload.ts
-export function registerHandlers() {
-  INVOKE_CHANNELS.forEach((invokeChannel) => {
-    const handler = container.resolve<PreloadedApi[keyof PreloadedApi]>(invokeChannel)
-    ipcMain.handle(invokeChannel, (event: IpcMainInvokeEvent, ...rest: any[]) => {
+export function setupInvokeHandlers() {
+  const channels = container.resolve<TInvokeChannel[]>("InvokeChannels")
+  channels.forEach((invokeChannel) => {
+    const api = container.resolve<PreloadedApi[keyof PreloadedApi]>(invokeChannel)
+    const handler = (event: IpcMainInvokeEvent, ...rest: Parameters<PreloadedApi[keyof PreloadedApi]>) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return handler(...rest)
-    })
+      return api(...rest)
+    }
+    ipcMain.handle(invokeChannel, handler)
   })
 }
