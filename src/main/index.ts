@@ -10,6 +10,8 @@ import {AuthoredContent} from '../models/content'
 import {detailCallInPlan, TAgent} from './organizations/swagger-gpt'
 import {HttpRequestPlan} from '../models/http-request-plan'
 import {approveCallingPlan, get} from './tools/http'
+import {PreloadableApi} from '../models/preloadable-api'
+import {GetModelsHandler} from './preloaded-handlers/get-models'
 
 async function handleStreamedChat(event: IpcMainInvokeEvent, conversation: Conversation): Promise<void> {
   await streamedChat(conversation.responder, conversation)
@@ -50,9 +52,15 @@ async function streamAgentResponse(event: IpcMainInvokeEvent, conversation: Conv
   await streamedChat(conversation.responder, conversation)
 }
 
+const preloadAbleApi = new PreloadableApi()
 // Handles added here need to be registered src/preload.ts
 export function registerHandlers() {
-  ipcMain.handle('getModels', handleGetModels)
+  [
+    GetModelsHandler,
+  ].forEach((Handler) => {
+    const handler = new Handler()
+    ipcMain.handle(handler.channel, handler.handle)
+  })
   ipcMain.handle('getMachineName', getUser)
   ipcMain.handle('streamedChat', handleStreamedChat)
   ipcMain.handle('setOpenAiConfiguration', handleSetOpenAiConfiguration)

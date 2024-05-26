@@ -26,6 +26,8 @@ export interface PreloadedApi {
   streamAgentResponse: (conversation: Conversation, agent: TAgent) => Promise<void>
 }
 
+ipcRenderer.invoke('getModels')
+
 contextBridge.exposeInMainWorld('main', {
   desktop: true,
   send: (channel: TChannel, data: any) => {
