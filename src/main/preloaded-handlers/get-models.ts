@@ -1,8 +1,9 @@
 import {TProvider} from '../../models/responder'
 import {getAllProviderModels} from '../tools/api'
 import {IpcMainInvokeEvent} from 'electron'
+import {container, injectable} from 'tsyringe'
 
-
+@injectable()
 export class GetModelsHandler {
   channel = 'getModels'
   
@@ -12,3 +13,5 @@ export class GetModelsHandler {
     return models
   }
 }
+
+container.register<GetModelsHandler>(GetModelsHandler, {useClass: GetModelsHandler})
