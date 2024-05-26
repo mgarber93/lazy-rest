@@ -1,4 +1,4 @@
-import {container, injectable} from 'tsyringe'
+import {injectable} from 'tsyringe'
 import {channelAllowList, TWindowSenderChannel} from '../models/window-sender'
 import {ipcRenderer} from 'electron'
 import {PreloadedApi} from './preloaded-api'
@@ -38,6 +38,3 @@ export class Preloader {
     return preloadedApi
   }
 }
-
-
-container.register<Preloader>(Preloader, {useClass: Preloader})
