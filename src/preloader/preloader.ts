@@ -32,8 +32,6 @@ export class Preloader {
   preload = (invokeChannels: (keyof PreloadedApi)[]): PreloadedApi => {
     const preloadedApi = this as unknown as PreloadedApi
     for (const invokeChannel of invokeChannels) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       preloadedApi[invokeChannel] = ipcRenderer.invoke.bind(ipcRenderer, invokeChannel)
     }
     this.hasPreloaded = true

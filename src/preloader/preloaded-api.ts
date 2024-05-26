@@ -1,4 +1,3 @@
-import {IpcMainInvokeEvent} from 'electron'
 import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
@@ -8,11 +7,6 @@ import {TAgent} from '../main/organizations/swagger-gpt'
 import {TWindowSenderChannel} from '../models/window-sender'
 
 export type TInvokeChannel = keyof PreloadedApi
-
-export interface PreloadedApiHandler<T extends keyof PreloadedApi> {
-  channel: TInvokeChannel
-  handle: (event: IpcMainInvokeEvent, ...args: Parameters<PreloadedApi[T]>) => ReturnType<PreloadedApi[T]>
-}
 
 export const INVOKE_CHANNELS = [
   'streamedChat',
