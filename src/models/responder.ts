@@ -1,5 +1,6 @@
 export type TResponder = "chat" | "agent" | "organization"
 export type TProvider = "openai" | "anthropic"
+export declare type GetModels = (provider: TProvider) => Promise<string>
 
 export interface Responder {
   type: TResponder;

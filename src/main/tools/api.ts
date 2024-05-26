@@ -1,6 +1,6 @@
 import {AuthoredContent, createContent} from '../../models/content'
-import {isModel, isOrganization, Responder, TProvider, Model} from '../../models/responder'
-import {getModels as listOpenAiModels, prompt, streamedPrompt} from '../providers/openai'
+import {isModel, isOrganization, Model, Responder} from '../../models/responder'
+import {prompt, streamedPrompt} from '../providers/openai'
 import {createCallingPlan} from '../organizations/swagger-gpt'
 import {Conversation} from '../../models/conversation'
 import {respondTo} from '../utils/respond-to'
@@ -47,22 +47,11 @@ export async function streamedChat(responder: Responder, conversation: Conversat
     // assume we're rest GPT for now
     if (content.length < 1)
       throw new Error('No user prompt for org to handle')
-
+    
     const lastMessage = content.at(-1)
     return createCallingPlan(lastMessage, conversation.id)
   }
-
+  
   throw new Error(`Cant respond`)
-}
-
-export async function getAllProviderModels(provider: TProvider): Promise<string> {
-  switch (provider) {
-    case "openai": {
-      return listOpenAiModels()
-    }
-    case "anthropic": {
-      throw new Error('not implemented')
-    }
-  }
 }
 
