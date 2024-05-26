@@ -2,7 +2,7 @@ import {OpenAiConfiguration} from '../../models/provider-config'
 import providerManager from '../../main/providers/provider-manager'
 import windowSender from '../../main/utils/window-sender'
 import {HttpRequestPlan} from '../../models/http-request-plan'
-import {approveCallingPlan, get} from '../../main/tools/http'
+import {approveCallingPlan, get} from '../tools/http'
 
 export async function handleSetOpenAiConfiguration(config: OpenAiConfiguration): Promise<void> {
   providerManager.setOpenAiConfig(config)

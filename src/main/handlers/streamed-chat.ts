@@ -1,8 +1,8 @@
 import {isModel, isOrganization, Model} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
-import {respondTo} from '../../main/utils/respond-to'
-import {streamedPrompt} from '../../main/providers/openai'
-import {createCallingPlan} from '../../main/organizations/swagger-gpt'
+import {respondTo} from '../utils/respond-to'
+import {streamedPrompt} from '../providers/openai'
+import {createCallingPlan} from '../organizations/swagger-gpt'
 
 
 export async function streamedChat(conversation: Conversation): Promise<void> {

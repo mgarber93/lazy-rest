@@ -1,5 +1,5 @@
 import {TProvider} from '../../models/responder'
-import {listOpenAiModels} from '../../main/providers/openai'
+import {listOpenAiModels} from '../providers/openai'
 
 export async function handle(provider: TProvider) {
   console.log('GetModelsHandler:handle')
