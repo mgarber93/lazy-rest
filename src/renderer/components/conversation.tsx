@@ -8,7 +8,7 @@ import {CallingPlanApproval} from './calling-plan-approval'
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: clamp(5rem, 100%, 63.25rem);
   padding-top: 1rem;
   padding-bottom: 2.5rem;
   height: fit-content;
