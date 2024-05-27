@@ -1,10 +1,10 @@
 import {OpenAiConfiguration} from '../../models/provider-config'
-import windowSender from '../../main/utils/window-sender'
 import {HttpRequestPlan} from '../../models/http-request-plan'
 import {approveCallingPlan, get} from '../tools/http'
 import {Handler} from './handler'
 import {container, singleton} from 'tsyringe'
 import {ConfigurationManager} from '../providers/configuration-manager'
+import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
 
 @singleton()
 export class OpenAiConfigHandler implements Handler<'setOpenAiConfiguration'> {
@@ -14,13 +14,16 @@ export class OpenAiConfigHandler implements Handler<'setOpenAiConfiguration'> {
   }
 }
 
+@singleton()
 export class CallbackHandler implements Handler<'callback'> {
-  async handle(id: string, arg: any) {
-    return windowSender.callback(id, arg)
+  private mainWindowCallbackConsumer = container.resolve(MainWindowCallbackConsumer)
+  
+  async handle(id: string, arg: never) {
+    return this.mainWindowCallbackConsumer.callback(id, arg)
   }
 }
 
-
+@singleton()
 export class HttpHandler implements Handler<'httpCall'> {
   async handle(call: HttpRequestPlan) {
     const token = await approveCallingPlan(null)

@@ -1,21 +1,25 @@
 import {inject, injectable} from 'tsyringe'
-import {channelAllowList, TWindowSenderChannel} from '../models/window-sender'
 import {ipcRenderer} from 'electron'
-import {PreloadedApi} from './preloaded-api'
+import {PreloadedApi, WindowSenderProtocol} from './preloaded-api'
+import {channelAllowList, TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
 
 @injectable()
-export class Preloader {
+export class Preloader implements WindowSenderProtocol {
   constructor(@inject('InvokeChannels') private invokeChannels: (keyof PreloadedApi)[]) {
   }
+  
   hasPreloaded = false
   
-  send = (channel: TWindowSenderChannel, data: any) => {
-    if (channelAllowList.includes(channel)) {
-      ipcRenderer.send(channel, data)
+  preload(): WindowSenderProtocol {
+    const preloadedApi = this as unknown as PreloadedApi
+    for (const invokeChannel of this.invokeChannels) {
+      preloadedApi[invokeChannel] = ipcRenderer.invoke.bind(ipcRenderer, invokeChannel)
     }
+    this.hasPreloaded = true
+    return preloadedApi
   }
-  
-  receive = (channel: TWindowSenderChannel, func: (...args: any[]) => void) => {
+
+  receive<T extends keyof WindowCallbackApi>(channel: T, func: (event: never, id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>): void {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)
       return
@@ -23,7 +27,7 @@ export class Preloader {
     ipcRenderer.addListener(channel, func)
   }
   
-  remove = (channel: TWindowSenderChannel, func: (...args: any[]) => void) => {
+  remove(channel: keyof WindowCallbackApi, func: (...args: any[]) => void): Promise<void> {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)
       return
@@ -31,12 +35,9 @@ export class Preloader {
     ipcRenderer.removeAllListeners(channel)
   }
   
-  preload = (): PreloadedApi => {
-    const preloadedApi = this as unknown as PreloadedApi
-    for (const invokeChannel of this.invokeChannels) {
-      preloadedApi[invokeChannel] = ipcRenderer.invoke.bind(ipcRenderer, invokeChannel)
+  send(channel: TWindowSenderChannel, data: any) {
+    if (channelAllowList.includes(channel)) {
+      ipcRenderer.send(channel, data)
     }
-    this.hasPreloaded = true
-    return preloadedApi
   }
 }

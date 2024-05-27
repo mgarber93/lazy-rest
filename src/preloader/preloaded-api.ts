@@ -3,7 +3,8 @@ import {Conversation, Plan} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {AuthoredContent} from '../models/content'
 import {HttpRequestPlan} from '../models/http-request-plan'
-import {TWindowSenderChannel} from '../window-callback/window-callback'
+import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
+import {Preloader} from './preloader'
 
 export type TInvokeChannel = keyof PreloadedApi
 
@@ -18,26 +19,28 @@ export const INVOKE_CHANNELS = [
   'interpretResult',
 ] as TInvokeChannel[]
 
-export interface Preloader {
-  preload(invokeChannels: (keyof PreloadedApi)[]): TInvokeChannel[]
+export interface WindowSenderProtocol {
+  preload(): WindowSenderProtocol
   
   // type unsafe api
   send(channel: TWindowSenderChannel, data: any): void
   
-  receive(channel: TWindowSenderChannel, func: (...args: any[]) => void): void
+  receive<T extends TWindowSenderChannel>(channel: T, func: (event: never,  id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>): void
   
   remove(channel: TWindowSenderChannel, func: (...args: any[]) => void): Promise<void>
 }
 
+export interface WindowReceiverProtocol {
+  callback<T extends keyof WindowCallbackApi>(promiseId: string, arg: ReturnType<WindowCallbackApi[T]>): void;
+}
+
 // type safe api
-export interface PreloadedApi extends Preloader {
+export interface PreloadedApi extends WindowSenderProtocol {
   getModels(provider: TProvider): Promise<string>
   
   getMachineName(): Promise<string>
   
   setOpenAiConfiguration(config: OpenAiConfiguration): Promise<void>
-  
-  callback(id: string, arg: any): Promise<void>
   
   detailCallInPlan(userContent: AuthoredContent, plan: HttpRequestPlan): Promise<HttpRequestPlan>
   
