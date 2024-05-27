@@ -11,12 +11,12 @@ const StyledDiv = styled.div`
   width: 100%;
   padding-top: 1rem;
   padding-bottom: 2.5rem;
+  height: fit-content;
 `
 
 const MessagesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   gap: 1rem;
 
   &::-webkit-scrollbar {

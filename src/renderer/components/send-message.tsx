@@ -6,14 +6,14 @@ import {UserInputText} from './user-input-text'
 import {Model, Organization, Responder} from '../../models/responder'
 
 const SendMessageContainer = styled.div`
-  position: sticky;
-  margin-top: auto;
-  bottom: 2.5rem;
   flex-direction: row;
   width: 100%;
   height: fit-content;
-  display: flex;
   border-top: var(--dashed);
+  display: block;
+  min-height: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `
 
 function mapResponderToPlaceholder(responder: Responder) {
@@ -30,9 +30,6 @@ function mapResponderToPlaceholder(responder: Responder) {
 }
 
 export function SendMessage() {
-  const currentUser = useAppSelector(state => state.user.username)
-  const models = useAppSelector(state => state.models.models)
-
   const currentConversation = useCurrentConversation()
 
   const placeholder = mapResponderToPlaceholder(currentConversation?.responder)
