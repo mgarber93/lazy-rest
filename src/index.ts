@@ -66,6 +66,6 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
+app.setName('Lazy Rest')
 
 setupInvokeHandlers()
