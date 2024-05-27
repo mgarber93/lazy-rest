@@ -17,9 +17,19 @@ export const INVOKE_CHANNELS = [
   'getModels',
 ] as TInvokeChannel[]
 
-export interface PreloadedApi {
+export interface Preloader {
   preload(invokeChannels: (keyof PreloadedApi)[]): TInvokeChannel[]
-  
+
+  // type unsafe api
+  send(channel: TWindowSenderChannel, data: any): void
+
+  receive(channel: TWindowSenderChannel, func: (...args: any[]) => void): void
+
+  remove(channel: TWindowSenderChannel, func: (...args: any[]) => void): Promise<void>
+}
+
+// type safe api
+export interface PreloadedApi extends Preloader {
   getModels(provider: TProvider): Promise<string>
   
   getMachineName(): Promise<string>
@@ -33,10 +43,4 @@ export interface PreloadedApi {
   httpCall(call: HttpRequestPlan): Promise<object>
   
   streamedChat(conversation: Conversation): Promise<void>
-  
-  send(channel: TWindowSenderChannel, data: any): void
-  
-  receive(channel: TWindowSenderChannel, func: (...args: any[]) => void): void
-  
-  remove(channel: TWindowSenderChannel, func: (...args: any[]) => void): Promise<void>
 }
