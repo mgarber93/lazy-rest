@@ -1,7 +1,6 @@
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent, ContentDelta, createContent, isToolCall} from '../../models/content'
 import windowSender from '../utils/window-sender'
-import {RoleContent} from '../tools/api'
 import {container, injectable} from 'tsyringe'
 import {ConfigurationManager} from './configuration-manager'
 
@@ -113,4 +112,8 @@ export interface Tool {
   name: string;
   description: string;
   parameters: Record<string, ToolParameter>;
+}
+export interface RoleContent {
+  role: "system" | "assistant" | "user",
+  content: string
 }

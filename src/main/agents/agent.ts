@@ -6,7 +6,9 @@ import {TAgent} from '../organizations/swagger-gpt'
 import {plannerTemplate} from '../../prompts/rest-gpt/planner'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {dynamicallyPickResponder} from './map-agent-to-model'
-import {chat} from '../tools/api'
+import {container, singleton} from 'tsyringe'
+import {isModel} from '../../models/responder'
+import {OpenAiLlm} from '../providers/openai'
 
 export interface AgentConstructionArgs {
   endpoints?: string;
@@ -14,47 +16,64 @@ export interface AgentConstructionArgs {
   oasSpec: OpenApiSpec[];
 }
 
-/**
- * An Agent initial conversation has two contents:
- * 1) a system prompt describing its role
- * 2) a user prompt to respond to using the guidelines
- *
- * @param agent - type of agent
- * @param userContent - Content to respond to
- * @param args
- */
-export async function createAgent(agent: TAgent, userContent: AuthoredContent, args?: AgentConstructionArgs): Promise<Conversation> {
-  const agentInternalConversation = createConversation(agent)
-  const {endpoints} = args ?? {}
-  const model = dynamicallyPickResponder(agent)
-  agentInternalConversation.responder = model
-  let systemInstructions
-  switch (agent) {
-    case "planner": {
-      systemInstructions = plannerTemplate
-      break
-    }
-    case "selector": {
-      if (!endpoints) {
-        throw new Error('missing endpoints')
+@singleton()
+export class AgentFactory {
+  private openAiLlm = container.resolve(OpenAiLlm)
+  
+  /**
+   * An Agent initial conversation has two contents:
+   * 1) a system prompt describing its role
+   * 2) a user prompt to respond to using the guidelines
+   *
+   * @param agent - type of agent
+   * @param userContent - Content to respond to
+   * @param args
+   */
+  async createAgent(agent: TAgent, userContent: AuthoredContent, args?: AgentConstructionArgs): Promise<Conversation> {
+    const agentInternalConversation = createConversation(agent)
+    const {endpoints} = args ?? {}
+    const model = dynamicallyPickResponder(agent)
+    agentInternalConversation.responder = model
+    let systemInstructions
+    switch (agent) {
+      case "planner": {
+        systemInstructions = plannerTemplate
+        break
       }
-      systemInstructions = selector(endpoints)
-      break
+      case "selector": {
+        if (!endpoints) {
+          throw new Error('missing endpoints')
+        }
+        systemInstructions = selector(endpoints)
+        break
+      }
+      case "executor": {
+        systemInstructions = buildCallerPrompt(userContent.message, endpoints)
+        break
+      }
     }
-    case "executor": {
-      systemInstructions = buildCallerPrompt(userContent.message, endpoints)
-      break
-    }
+    const plan = createContent(systemInstructions, agentInternalConversation.id, 'system', 'system')
+    agentInternalConversation.content.push(plan)
+    agentInternalConversation.content.push(userContent)
+    return agentInternalConversation
   }
-  const plan = createContent(systemInstructions, agentInternalConversation.id, 'system', 'system')
-  agentInternalConversation.content.push(plan)
-  agentInternalConversation.content.push(userContent)
-  return agentInternalConversation
-}
-
-export async function promptAgent(agentType: TAgent, content: AuthoredContent, args?: AgentConstructionArgs) {
-  const agent = await createAgent(agentType, content, args)
-  const response = await chat(agent.responder, agent.content)
-  agent.content.push(response)
-  return agent
+  
+  async promptAgent(agentType: TAgent, content: AuthoredContent[], args?: AgentConstructionArgs) {
+    const goal = content[1]
+    const agent = await this.createAgent(agentType, goal, args)
+    const responder = dynamicallyPickResponder(agentType)
+    if (isModel(responder)) {
+      switch (responder.provider) {
+        case "openai": {
+          const {content: response, role} = await this.openAiLlm.prompt(responder.model, content)
+          const authoredResponse = createContent(response, content[0].chatId, responder.model, role)
+          return authoredResponse
+        }
+        case "anthropic": {
+          throw new Error('not implemented')
+        }
+      }
+    }
+    throw new Error(`Responder not implemented`)
+  }
 }

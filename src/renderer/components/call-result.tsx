@@ -30,9 +30,8 @@ export function ResultOfCall({result}: { result: object }) {
       return `[${value.slice(0, 6).join(', ')}, ...]`
     return value
   }, 2)
-  
-  const summarize = useCallback(() => {
-    // const plan = currentConversation.planController
+
+  const handleClick = useCallback(() => {
     interpretResult({conversation: currentConversation})
   }, [currentConversation])
   
@@ -41,7 +40,7 @@ export function ResultOfCall({result}: { result: object }) {
       `\`\`\`json\n${serialized.trim()}\n\`\`\``
     }</Markdown>
     <div className="footer">
-      <Icon type={"checkbox"} handleClick={summarize}/>
+      <Icon type={"checkbox"} handleClick={handleClick}/>
     </div>
   </Div>
 }
