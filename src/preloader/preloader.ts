@@ -6,6 +6,11 @@ import {channelAllowList, TWindowSenderChannel, WindowCallbackApi} from '../wind
 @injectable()
 export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
   constructor(@inject('InvokeChannels') private invokeChannels: (keyof PreloadedApi)[]) {
+    this.receive = this.receive.bind(this)
+    this.remove = this.remove.bind(this)
+    this.send = this.send.bind(this)
+    this.preload = this.preload.bind(this)
+    this.callback = this.callback.bind(this)
   }
   
   hasPreloaded = false

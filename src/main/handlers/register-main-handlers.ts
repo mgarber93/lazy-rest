@@ -1,12 +1,14 @@
 import {container} from 'tsyringe'
 import {StreamedChatHandler} from './streamed-chat'
 import {OperatingSystem} from './user'
-import {CallbackHandler, HttpHandler, OpenAiConfigHandler} from './set-config'
 import {ModelListHandle} from './get-models'
 import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {CallDetailer} from './call-detailer'
 import {ResultInterpreter} from './result-interpreter'
+import {OpenAiConfigHandler} from './open-ai-config-handler'
+import {CallbackHandler} from './callback-handler'
+import {HttpHandler} from './http-handler'
 
 
 /**

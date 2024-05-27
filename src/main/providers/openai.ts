@@ -1,13 +1,15 @@
 import {ChatCompletionMessageParam} from 'openai/resources'
-import {AuthoredContent, ContentDelta, createContent, isToolCall} from '../../models/content'
-import windowSender from '../utils/window-sender'
+import {AuthoredContent, createContent, isToolCall} from '../../models/content'
 import {container, injectable} from 'tsyringe'
 import {ConfigurationManager} from './configuration-manager'
+import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
 
 @injectable()
 export class OpenAiLlm {
   private manager = container.resolve(ConfigurationManager)
-   async listOpenAiModels() {
+  private mainWindowCallbackConsumer = container.resolve(MainWindowCallbackConsumer)
+  
+  async listOpenAiModels() {
     const openai = this.manager.getOpenAi()
     const models = await openai.models.list()
     return models.data
@@ -45,10 +47,8 @@ export class OpenAiLlm {
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content || ""
       responseContent.message += delta
-      process.stdout.write(delta)
-      windowSender.send('message-delta', {delta, chatId, messageId} as ContentDelta)
+      this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
     }
-    windowSender.send('message-delta', {delta: '', chatId, messageId, closed: true})
     content.push(responseContent)
     return content
   }
@@ -113,6 +113,7 @@ export interface Tool {
   description: string;
   parameters: Record<string, ToolParameter>;
 }
+
 export interface RoleContent {
   role: "system" | "assistant" | "user",
   content: string

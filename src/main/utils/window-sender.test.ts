@@ -3,26 +3,6 @@ import {WindowSender} from './window-sender'
 import {channelAllowList} from '../../window-callback/window-callback-api'
 
 describe('WindowSender', () => {
-  it('should send before sender', () => {
-    const windowSender = new WindowSender()
-    const spy = jest.fn()
-    const argOne = channelAllowList[1]
-    const argTwo = {}
-    windowSender.send(argOne, argTwo)
-    // expect spy to have been called with argOne argTwo
-    windowSender.hasFinishedLoading(spy)
-    expect(spy).toHaveBeenCalledWith(argOne, argTwo)
-  })
-  it('should send after sender', () => {
-    const windowSender = new WindowSender()
-    const spy = jest.fn()
-    const argOne = channelAllowList[1]
-    const argTwo = {}
-    windowSender.hasFinishedLoading(spy)
-    windowSender.send(argOne, argTwo)
-    // expect spy to have been called with argOne argTwo
-    expect(spy).toHaveBeenCalledWith(argOne, argTwo)
-  })
   it('should resolve with the sent values before hasFinishedLoading has been called', async () => {
     const windowSender = new WindowSender()
     const argOne = channelAllowList[1]

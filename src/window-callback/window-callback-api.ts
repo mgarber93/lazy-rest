@@ -1,6 +1,7 @@
 import {HttpRequestPlan} from '../models/http-request-plan'
 import {AuthoredContent} from '../models/content'
 import {OpenApiSpec} from '../models/open-api-spec'
+import {Approvable, ApprovalResponse} from '../models/approvable'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -8,10 +9,11 @@ export type TWindowSenderChannel = keyof WindowCallbackApi
  * Channels preloader will allow at runtime
  */
 export const channelAllowList: TWindowSenderChannel[] = [
-  'messageDelta',
+  'appendContentDelta',
   'loadAllOas',
   'presentCallingPlan',
   'respondTo',
+  'requestApproval'
 ]
 
 /**
@@ -19,11 +21,13 @@ export const channelAllowList: TWindowSenderChannel[] = [
  * protocol, implemented by Provider. WindowSender makes the return type a promise
  */
 export interface WindowCallbackApi {
-  messageDelta(authoredContentDelta: any): void;
+  appendContentDelta(authoredContentDelta: {chatId: string, messageId: string, delta: string, closed: boolean}): void;
   
   loadAllOas(): OpenApiSpec[];
 
-  presentCallingPlan(chatId: string, calls: HttpRequestPlan[]): void;
+  presentCallingPlan(chatId: string, calls: HttpRequestPlan[]): string;
   
-  respondTo(chatId: string): AuthoredContent;
+  respondTo(chatId: string, author: string): AuthoredContent;
+  
+  requestApproval(approval: Approvable): ApprovalResponse
 }

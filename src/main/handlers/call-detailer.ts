@@ -7,7 +7,7 @@ import {ChatCompletionMessageParam} from 'openai/resources'
 import {getRespondingModel} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 import {container, injectable, singleton} from 'tsyringe'
-import {AgentConstructionArgs} from '../agents/agent'
+import {AgentConstructionArgs, AgentFactory} from '../agents/agent'
 import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
 
 @singleton()
@@ -37,6 +37,7 @@ export class SwaggerGptController {
 export class CallDetailer implements Handler<'detailCallInPlan'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
   private swaggerGptController = container.resolve(SwaggerGptController)
+  private agentFactory = container.resolve(AgentFactory)
   
   async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan) {
     const {oasSpec} = await this.swaggerGptController.createArgs()

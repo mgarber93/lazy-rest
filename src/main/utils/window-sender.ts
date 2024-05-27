@@ -18,7 +18,7 @@ export class WindowSender  {
     }
   }
   
-  send(eventName: TWindowSenderChannel, ...args: unknown[]): void {
+  private send(eventName: TWindowSenderChannel, ...args: unknown[]): void {
     return this.sendOrQueue(eventName, args)
   }
   
