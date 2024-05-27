@@ -10,10 +10,20 @@ const SendMessageContainer = styled.div`
   width: 100%;
   height: fit-content;
   border-top: var(--dashed);
+  border-left: var(--dashed-gone);
+
   display: block;
   min-height: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+
+  &:hover, &:active, &:focus, &:focus-within {
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-1);
+    border: 2px solid var(--background-color-3);
+  }
+  
+  transition: 0.39s linear all;
 `
 
 function mapResponderToPlaceholder(responder: Responder) {

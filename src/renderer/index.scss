@@ -54,7 +54,9 @@
   --timeline: #696969;
   --card: var(--background-color-1);
   --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
+  --dashed-solid: 2px solid var(--background-color-3);
   --dashed: 2px dashed var(--background-color-3);
+  --dashed-gone: 2px solid transparent;
   --header-icon: buttonface;
 }
 
