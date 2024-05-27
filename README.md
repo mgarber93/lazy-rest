@@ -1,6 +1,4 @@
-# Lazy Rest
-
-this is a gui for managing local tools for agents
+# GUI for managing local tools for agents
 
 ## Getting started
 
