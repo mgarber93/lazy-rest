@@ -8,13 +8,20 @@ import {WebpackPlugin} from '@electron-forge/plugin-webpack'
 
 import {mainConfig} from './webpack.main.config'
 import {rendererConfig} from './webpack.renderer.config'
+import * as path from 'node:path'
 
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    icon: path.join(__dirname, 'src', 'assets', 'icon')
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({}),
+    new MakerZIP({}, ['darwin']),
+    new MakerRpm({}),
+    new MakerDeb({})
+  ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
