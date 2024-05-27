@@ -13,7 +13,7 @@ export type Promisify<T> = {
 export class MainWindowCallbackConsumer implements Promisify<WindowCallbackApi> {
   private windowSender = container.resolve(WindowSender)
   
-  private async callback(id: string, arg: never): Promise<void> {
+  async callback(id: string, arg: never): Promise<void> {
     this.windowSender.callback(id, arg)
   }
   
@@ -21,13 +21,13 @@ export class MainWindowCallbackConsumer implements Promisify<WindowCallbackApi> 
     throw new Error('Method not implemented.')
   }
   
-  loadAllOas(): Promise<OpenApiSpec[]> {
-    throw new Error('Method not implemented.')
-  }
-  
-  approval(approvalStatus: any): Promise<void> {
-    throw new Error('Method not implemented.')
-  }
+  async loadAllOas(): Promise<OpenApiSpec[]> {
+    try {
+      const response = await this.windowSender.asyncSend("loadAllOas")
+      return response
+    } catch (error) {
+      console.error(error)
+    }  }
   
   async presentCallingPlan(chatId: string, calls: HttpRequestPlan[]): Promise<void> {
     this.windowSender.asyncSend('presentCallingPlan', chatId, calls)

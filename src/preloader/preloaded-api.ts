@@ -35,7 +35,7 @@ export interface WindowReceiverProtocol {
 }
 
 // type safe api
-export interface PreloadedApi extends WindowSenderProtocol {
+export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtocol {
   getModels(provider: TProvider): Promise<string>
   
   getMachineName(): Promise<string>

@@ -1,20 +1,45 @@
 import {Handler} from './handler'
 import {AuthoredContent} from '../../models/content'
 import {HttpRequestPlan} from '../../models/http-request-plan'
-import {createArgs} from '../organizations/create-args'
 import {OpenApiSpec} from '../../models/open-api-spec'
-import {treeShake} from '../utils/oas-filter'
-import {createAgent} from '../agents/agent'
+import {oasToDescriptions, treeShake} from '../utils/oas-filter'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {getRespondingModel} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
-import {container} from 'tsyringe'
+import {container, injectable, singleton} from 'tsyringe'
+import {AgentConstructionArgs} from '../agents/agent'
+import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
 
+@singleton()
+export class SwaggerGptController {
+  private mainWindowCallbackConsumer = container.resolve(MainWindowCallbackConsumer)
+  /**
+   * Create arguments for agents of the organization once to dedup calls to load oas and other resources
+   * needed for the template creation for the agent
+   *
+   * note that secrets are requested by the tool and not the agent
+   */
+  specToOas(spec: OpenApiSpec): string {
+    return JSON.stringify(oasToDescriptions(spec), null, 2)
+  }
+
+  async createArgs() {
+    const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
+    const endpoints = oasSpec.reduce((acc: string, spec: OpenApiSpec) => acc + this.specToOas(spec), '')
+    return {
+      endpoints,
+      oasSpec,
+    } as AgentConstructionArgs
+  }
+}
+
+@injectable()
 export class CallDetailer implements Handler<'detailCallInPlan'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  private swaggerGptController = container.resolve(SwaggerGptController)
   
   async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan) {
-    const {oasSpec} = await createArgs()
+    const {oasSpec} = await this.swaggerGptController.createArgs()
     const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
       const treeShook = treeShake(spec, [endpointCallPlan])
       for (const key in treeShook) {
@@ -27,7 +52,7 @@ export class CallDetailer implements Handler<'detailCallInPlan'> {
       throw new Error('Unable to tree shake')
     }
     
-    const executorAgent = await createAgent("executor", userContent, {
+    const executorAgent = await this.agentFactory.createAgent("executor", userContent, {
       endpoints: JSON.stringify(specForPlannedCall),
       oasSpec,
     })

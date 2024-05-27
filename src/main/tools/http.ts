@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import {requestUserForApproval} from '../utils/request-user-for-approval'
 import {CallingPlan, SecretRequest} from '../../models/approvable'
 
 // https://developer.spotify.com/dashboard/2c06c406715e489ca12423effe1b1733/settings

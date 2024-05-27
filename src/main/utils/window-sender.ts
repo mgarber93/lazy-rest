@@ -1,16 +1,15 @@
 import {v4} from 'uuid'
 import {TWindowSenderChannel} from '../../window-callback/window-callback-api'
 import {singleton} from 'tsyringe'
+import {WindowSenderProtocol} from '../../preloader/preloaded-api'
 
-export type TSender = (eventName: string, ...args: never[]) => void
+export type TSender = (eventName: string, ...args: unknown[]) => void
 
 @singleton()
 export class WindowSender  {
   private _sender: TSender | null = null
   private promiseMap = new Map<string, (value: unknown) => void>()
-  
-  constructor(private _queue: { eventName: TWindowSenderChannel, args: never[] }[] = []) {
-  }
+  private _queue: { eventName: TWindowSenderChannel, args: unknown[] }[] = []
   
   hasFinishedLoading(sender: TSender) {
     this._sender = sender
@@ -19,7 +18,7 @@ export class WindowSender  {
     }
   }
   
-  send(eventName: TWindowSenderChannel, ...args: never[]): void {
+  send(eventName: TWindowSenderChannel, ...args: unknown[]): void {
     return this.sendOrQueue(eventName, args)
   }
   
@@ -46,7 +45,7 @@ export class WindowSender  {
     })
   }
   
-  private sendOrQueue(eventName: TWindowSenderChannel, args: never[]) {
+  private sendOrQueue(eventName: TWindowSenderChannel, args: unknown[]) {
     if (this._sender) {
       this._sender(eventName, ...args)
     } else {
@@ -54,7 +53,7 @@ export class WindowSender  {
     }
   }
   
-  callback(promiseId: string, response: never) {
+  callback(promiseId: string, response: unknown) {
     const resolve = this.promiseMap.get(promiseId)
     if (resolve) {
       this.promiseMap.delete(promiseId)

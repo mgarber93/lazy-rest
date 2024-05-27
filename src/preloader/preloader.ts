@@ -1,10 +1,10 @@
 import {inject, injectable} from 'tsyringe'
 import {ipcRenderer} from 'electron'
-import {PreloadedApi, WindowSenderProtocol} from './preloaded-api'
+import {PreloadedApi, WindowReceiverProtocol, WindowSenderProtocol} from './preloaded-api'
 import {channelAllowList, TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
 
 @injectable()
-export class Preloader implements WindowSenderProtocol {
+export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
   constructor(@inject('InvokeChannels') private invokeChannels: (keyof PreloadedApi)[]) {
   }
   
@@ -16,9 +16,13 @@ export class Preloader implements WindowSenderProtocol {
       preloadedApi[invokeChannel] = ipcRenderer.invoke.bind(ipcRenderer, invokeChannel)
     }
     this.hasPreloaded = true
-    return preloadedApi
+    return preloadedApi as PreloadedApi
   }
-
+  
+  callback<T extends keyof WindowCallbackApi>(promiseId: string, arg: ReturnType<WindowCallbackApi[T]>) {
+    ipcRenderer.invoke('callback', arg)
+  }
+  
   receive<T extends keyof WindowCallbackApi>(channel: T, func: (event: never, id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>): void {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)
