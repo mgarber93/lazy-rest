@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import {useAppSelector} from '../features/store'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {UserInputText} from './user-input-text'
 import {Model, Organization, Responder} from '../../models/responder'

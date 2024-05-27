@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {Icon} from './icon'
 import {useCallback} from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
+import {interpretResult} from '../features/chat'
 
 const Div = styled.div`
   background-color: var(--background-color-2);
@@ -31,7 +32,8 @@ export function ResultOfCall({result}: { result: object }) {
   }, 2)
   
   const summarize = useCallback(() => {
-    // @todo
+    // const plan = currentConversation.planController
+    interpretResult({conversation: currentConversation})
   }, [currentConversation])
   
   return <Div>

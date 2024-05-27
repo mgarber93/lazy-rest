@@ -27,6 +27,14 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
+export const interpretResult = createAsyncThunk(
+  `${name}/interpretResult`,
+  async ({conversation}: {conversation: Conversation}, thunkAPI) => {
+    const nextPlanController = await window.main.interpretResult(conversation)
+    return {plan: nextPlanController, chatId: conversation.id}
+  }
+)
+
 export const detailCallInPlan = createAsyncThunk(
   `${name}/detailCallInPlan`,
   async (arg: {plan: HttpRequestPlan, chatId: string}, thunkAPI) => {
@@ -143,6 +151,11 @@ export const chatsSlice = createSlice({
         
         chat.planController.result = response
       }
+    })
+    builder.addCase(interpretResult.fulfilled, (state, action) => {
+      const {chatId, plan} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
+      chat.planController = plan
     })
   },
 })
