@@ -1,20 +1,21 @@
 import {useCallback, useState} from 'react'
+import styled from 'styled-components'
+
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ModelSelector} from './responder-type/model-selector'
 import {TResponder} from '../../models/responder'
 import {SelectResponderType} from './responder-type/select-responder-type'
 import {AgentSelector} from './responder-type/agent-selector'
 import {OrganizationSelector} from './responder-type/organization-selector'
-import styled from 'styled-components'
 import {Button} from '../styled/button'
+
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 0rem 1rem;
+  padding: 1rem 1rem;
   width: var(--aside-nav);
-  border-top: var(--dashed);
 
   button {
     display: block;
@@ -23,7 +24,7 @@ const Div = styled.div`
     font-size: larger;
     padding: 0;
     font-family: "Maple Mono", Tahoma, serif;
-    border-radius: 0;
+    border-radius: var(--border-radius);
   }
 `
 
