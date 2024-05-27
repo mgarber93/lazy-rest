@@ -1,5 +1,5 @@
 import {TProvider} from '../models/responder'
-import {Conversation} from '../models/conversation'
+import {Conversation, Plan} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {AuthoredContent} from '../models/content'
 import {HttpRequestPlan} from '../models/http-request-plan'
@@ -15,6 +15,7 @@ export const INVOKE_CHANNELS = [
   'detailCallInPlan',
   'httpCall',
   'getModels',
+  'interpretResult'
 ] as TInvokeChannel[]
 
 export interface Preloader {
@@ -43,4 +44,6 @@ export interface PreloadedApi extends Preloader {
   httpCall(call: HttpRequestPlan): Promise<object>
   
   streamedChat(conversation: Conversation): Promise<void>
+  
+  interpretResult(conversation: Conversation): Promise<Plan>
 }

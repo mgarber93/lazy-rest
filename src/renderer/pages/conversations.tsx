@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect, useRef, useState} from 'react'
+import React, {MouseEvent, useCallback, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {useSelector} from 'react-redux'
 import {ConversationComponent} from '../components/conversation'

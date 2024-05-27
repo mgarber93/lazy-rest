@@ -1,20 +1,22 @@
-import {injectable} from 'tsyringe'
+import {container, injectable} from 'tsyringe'
 import {isModel, isOrganization, Model} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
 import {respondTo} from '../utils/respond-to'
-import {streamedPrompt} from '../providers/openai'
 import {createCallingPlan} from '../organizations/swagger-gpt'
 import {Handler} from './handler'
+import {OpenAiLlm} from '../providers/openai'
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
+  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  
   async handle(conversation: Conversation): Promise<void> {
     const responder = conversation.responder
     if (isModel(responder)) {
       const response = await respondTo(conversation.id, (conversation.responder as Model).model)
       switch (responder.provider) {
         case "openai": {
-          await streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
+          await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
           return
         }
         case "anthropic": {

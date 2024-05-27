@@ -7,9 +7,12 @@ import {treeShake} from '../utils/oas-filter'
 import {createAgent} from '../agents/agent'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {getRespondingModel} from '../../models/responder'
-import {agentWithHttp} from '../providers/openai'
+import {OpenAiLlm} from '../providers/openai'
+import {container} from 'tsyringe'
 
 export class CallDetailer implements Handler<'detailCallInPlan'> {
+  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  
   async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan) {
     const {oasSpec} = await createArgs()
     const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
@@ -35,7 +38,7 @@ export class CallDetailer implements Handler<'detailCallInPlan'> {
     const model = getRespondingModel(executorAgent.responder)
     // responder can change depending on conversation history
     // create another tool plan and for each call in the plan make the call
-    const toolPlan = await agentWithHttp(model, messages)
+    const toolPlan = await this.openAiLlm.agentWithHttp(model, messages)
     for (const toolCall of toolPlan?.tool_calls ?? []) {
       const {function: functionCall, id} = toolCall
       const functionCallArgs = JSON.parse(functionCall.arguments)

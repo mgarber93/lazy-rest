@@ -6,6 +6,7 @@ import {ModelListHandle} from './get-models'
 import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {CallDetailer} from './call-detailer'
+import {ResultInterpreter} from './result-interpreter'
 
 
 /**
@@ -21,4 +22,5 @@ export function registerMainHandlers() {
   container.register<Handler<'callback'>>('callback', {useClass: CallbackHandler})
   container.register<Handler<'setOpenAiConfiguration'>>('setOpenAiConfiguration', {useClass: OpenAiConfigHandler})
   container.register<Handler<'getModels'>>('getModels', {useClass: ModelListHandle})
+  container.register<Handler<'interpretResult'>>('interpretResult', {useClass: ResultInterpreter})
 }

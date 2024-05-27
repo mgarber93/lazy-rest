@@ -1,13 +1,16 @@
 import {OpenAiConfiguration} from '../../models/provider-config'
-import providerManager from '../../main/providers/provider-manager'
 import windowSender from '../../main/utils/window-sender'
 import {HttpRequestPlan} from '../../models/http-request-plan'
 import {approveCallingPlan, get} from '../tools/http'
 import {Handler} from './handler'
+import {container, singleton} from 'tsyringe'
+import {ConfigurationManager} from '../providers/configuration-manager'
 
+@singleton()
 export class OpenAiConfigHandler implements Handler<'setOpenAiConfiguration'> {
+  private configManager = container.resolve(ConfigurationManager)
   async handle(config: OpenAiConfiguration): Promise<void> {
-    providerManager.setOpenAiConfig(config)
+    this.configManager.setOpenAiConfig(config)
   }
 }
 

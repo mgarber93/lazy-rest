@@ -1,8 +1,11 @@
 import {OpenAiConfiguration} from '../../models/provider-config'
 import OpenAI from 'openai'
+import {singleton} from 'tsyringe'
+
 
 // manages provider config and high level llm queries like get fast, get cheap, etc
-export class ProviderManager {
+@singleton()
+export class ConfigurationManager {
   openAiConfig: OpenAiConfiguration | null = null
   
   getOpenAi() {
@@ -18,6 +21,3 @@ export class ProviderManager {
     this.openAiConfig = openAiConfig
   }
 }
-
-
-export default new ProviderManager()
