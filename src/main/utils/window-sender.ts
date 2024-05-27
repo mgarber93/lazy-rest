@@ -1,5 +1,5 @@
 import {v4} from 'uuid'
-import {TWindowSenderChannel} from '../../models/window-sender'
+import {TWindowSenderChannel} from '../../window-callback/window-callback'
 
 export type TSender = (eventName: string, ...args: any[]) => void
 
@@ -12,6 +12,7 @@ export class WindowSender {
   
   constructor(private _queue: { eventName: TWindowSenderChannel, args: any[] }[] = []) {
   }
+  
   hasFinishedLoading(sender: TSender) {
     this._sender = sender
     for (const message of this._queue) {
@@ -36,16 +37,16 @@ export class WindowSender {
         throw new Error(`${id} is already registered (do we need to set a random seed?)`)
       }
       this.promiseMap.set(id, resolve)
-
+      
       const nextArgs = [id, ...args]
       if (this._sender) {
-         this._sender(eventName, ...nextArgs)
+        this._sender(eventName, ...nextArgs)
       } else {
         this._queue.push({eventName, args: nextArgs})
       }
     })
   }
-
+  
   private sendOrQueue(eventName: TWindowSenderChannel, args: any[]) {
     if (this._sender) {
       this._sender(eventName, ...args)
@@ -53,7 +54,8 @@ export class WindowSender {
       this._queue.push({eventName, args: [...args]})
     }
   }
-  callback(id:string, response: any) {
+  
+  callback(id: string, response: any) {
     const resolve = this.promiseMap.get(id)
     if (resolve) {
       this.promiseMap.delete(id)

@@ -155,6 +155,7 @@ export const chatsSlice = createSlice({
     builder.addCase(interpretResult.fulfilled, (state, action) => {
       const {chatId, plan} = action.payload
       const chat = state.find(chat => chat.id === chatId)
+      debugger
       chat.planController = plan
     })
   },

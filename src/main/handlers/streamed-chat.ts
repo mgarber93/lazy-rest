@@ -2,13 +2,15 @@ import {container, injectable} from 'tsyringe'
 import {isModel, isOrganization, Model} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
 import {respondTo} from '../utils/respond-to'
-import {createCallingPlan} from '../organizations/swagger-gpt'
 import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
+import {CallingPlanner} from '../organizations/swagger-gpt'
+
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  private callingPlanner: CallingPlanner = container.resolve(CallingPlanner)
   
   async handle(conversation: Conversation): Promise<void> {
     const responder = conversation.responder
@@ -25,12 +27,11 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
       }
     } else if (isOrganization(responder)) {
       const content = conversation.content
-      // assume we're rest GPT for now
       if (content.length < 1)
         throw new Error('No user prompt for org to handle')
       
-      const lastMessage = content.at(-1)
-      return createCallingPlan(lastMessage, conversation.id)
+      throw new Error('not implemented')
+      // return this.callingPlanner.createCallingPlan(lastMessage, conversation.id)
     }
     
     throw new Error(`Cant respond`)

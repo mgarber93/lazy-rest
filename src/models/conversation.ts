@@ -32,3 +32,8 @@ export interface Conversation {
   created: string;
   planController?: Plan;
 }
+
+export interface Agent<T = any> extends Conversation {
+  goal: string
+  result: T
+}

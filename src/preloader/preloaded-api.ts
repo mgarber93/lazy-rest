@@ -3,7 +3,7 @@ import {Conversation, Plan} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {AuthoredContent} from '../models/content'
 import {HttpRequestPlan} from '../models/http-request-plan'
-import {TWindowSenderChannel} from '../models/window-sender'
+import {TWindowSenderChannel} from '../window-callback/window-callback'
 
 export type TInvokeChannel = keyof PreloadedApi
 
@@ -15,17 +15,17 @@ export const INVOKE_CHANNELS = [
   'detailCallInPlan',
   'httpCall',
   'getModels',
-  'interpretResult'
+  'interpretResult',
 ] as TInvokeChannel[]
 
 export interface Preloader {
   preload(invokeChannels: (keyof PreloadedApi)[]): TInvokeChannel[]
-
+  
   // type unsafe api
   send(channel: TWindowSenderChannel, data: any): void
-
+  
   receive(channel: TWindowSenderChannel, func: (...args: any[]) => void): void
-
+  
   remove(channel: TWindowSenderChannel, func: (...args: any[]) => void): Promise<void>
 }
 
