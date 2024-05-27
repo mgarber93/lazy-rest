@@ -1,7 +1,6 @@
 import {v4} from 'uuid'
 import {TWindowSenderChannel} from '../../window-callback/window-callback-api'
 import {singleton} from 'tsyringe'
-import {WindowSenderProtocol} from '../../preloader/preloaded-api'
 
 export type TSender = (eventName: string, ...args: unknown[]) => void
 
@@ -18,17 +17,13 @@ export class WindowSender  {
     }
   }
   
-  private send(eventName: TWindowSenderChannel, ...args: unknown[]): void {
-    return this.sendOrQueue(eventName, args)
-  }
-  
   /**
    * Async send allows the renderer process (received by sender fxn) to complete some async process and then return
    * value of type T using the callback method defined on this class.
    * @param eventName
    * @param args
    */
-  asyncSend<T = never>(eventName: TWindowSenderChannel, ...args: any[]): Promise<T> {
+  asyncSend<T = never>(eventName: TWindowSenderChannel, ...args: unknown[]): Promise<T> {
     const promiseId = v4()
     return new Promise((resolve, reject) => {
       if (this.promiseMap.has(promiseId)) {
@@ -43,14 +38,6 @@ export class WindowSender  {
         this._queue.push({eventName, args: nextArgs})
       }
     })
-  }
-  
-  private sendOrQueue(eventName: TWindowSenderChannel, args: unknown[]) {
-    if (this._sender) {
-      this._sender(eventName, ...args)
-    } else {
-      this._queue.push({eventName, args: [...args]})
-    }
   }
   
   callback(promiseId: string, response: unknown) {
