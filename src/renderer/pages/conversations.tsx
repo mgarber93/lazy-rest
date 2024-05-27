@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect, useState} from 'react'
+import React, {MouseEvent, useCallback, useEffect, useRef, useState} from 'react'
 import styled from 'styled-components'
 import {useSelector} from 'react-redux'
 import {ConversationComponent} from '../components/conversation'
@@ -37,6 +37,7 @@ const MainContent = styled.div`
 
 const ConversationPage = () => {
   const dispatch = useAppDispatch()
+
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[]
   const currentChat = useAppSelector((state) => state.currentChat)
   
@@ -70,7 +71,7 @@ const ConversationPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <PageContainer activeRoute={"/conversations"}>
+    <PageContainer activeRoute={"/conversations"} >
       <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
         {navOnTop ? <Tabs/> : <Aside/>}
         <MainContent>
