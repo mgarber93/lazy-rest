@@ -6,7 +6,6 @@ import {getMachineName} from '../features/user'
 import {RootState, useAppDispatch, useAppSelector} from '../features/store'
 import {Conversation} from '../../models/conversation'
 import {selectChat} from '../features/current-chat'
-import ContextMenu from '../components/context-menu'
 import {updateContextMenu} from '../features/context-menu'
 import Aside from '../wrapper/aside'
 import {Tabs} from '../wrapper/tabs'
@@ -77,7 +76,6 @@ const ConversationPage = () => {
         <MainContent>
           <ConversationComponent/>
         </MainContent>
-        <ContextMenu/>
       </Conversations>
     </PageContainer>
   )

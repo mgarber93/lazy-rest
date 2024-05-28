@@ -5,6 +5,7 @@ import {Icon} from './icon'
 import {useCallback} from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {interpretResult} from '../features/chat'
+import {useAppDispatch} from '../features/store'
 
 const Div = styled.div`
   background-color: var(--background-color-2);
@@ -21,10 +22,14 @@ const Div = styled.div`
     justify-content: center;
     align-items: center;
   }
+  .content {
+    max-width: 55rem;
+  }
 `
 
 export function ResultOfCall({result}: { result: object }) {
   const currentConversation = useCurrentConversation()
+  const dispatch = useAppDispatch()
   const serialized = JSON.stringify(result, (key: string, value: any) => {
     if (Array.isArray(value) && value.length > 3)
       return `[${value.slice(0, 6).join(', ')}, ...]`
@@ -32,7 +37,7 @@ export function ResultOfCall({result}: { result: object }) {
   }, 2)
 
   const handleClick = useCallback(() => {
-    interpretResult({conversation: currentConversation})
+    dispatch(interpretResult({conversation: currentConversation}))
   }, [currentConversation])
   
   return <Div>

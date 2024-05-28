@@ -1,10 +1,9 @@
 import {TProvider} from '../models/responder'
-import {Conversation, Plan} from '../models/conversation'
+import {Conversation} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {AuthoredContent} from '../models/content'
 import {HttpRequestPlan} from '../models/http-request-plan'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
-import {Preloader} from './preloader'
 
 export type TInvokeChannel = keyof PreloadedApi
 
@@ -48,5 +47,5 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   
   streamedChat(conversation: Conversation): Promise<void>
   
-  interpretResult(conversation: Conversation): Promise<Plan>
+  interpretResult(conversation: Conversation): Promise<void>
 }

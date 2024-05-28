@@ -31,8 +31,8 @@ export class MainWindowCallbackConsumer implements Promisify<WindowCallbackApi> 
     return this.windowSender.asyncSend('requestApproval', approval)
   }
   
-  async respondTo(chatId: string): Promise<AuthoredContent> {
-    const content = await this.windowSender.asyncSend('respondTo', chatId)
+  async respondTo(chatId: string, author: string): Promise<AuthoredContent> {
+    const content = await this.windowSender.asyncSend('respondTo', chatId, author)
     return content
   }
   
