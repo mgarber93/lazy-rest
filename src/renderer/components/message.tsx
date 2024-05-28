@@ -19,7 +19,7 @@ const StyledDiv = styled.div`
       color: var(--dark-grey);
     }
   }
-
+  
   .content {
     h1, h2 {
       font-size: large;

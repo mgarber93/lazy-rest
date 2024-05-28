@@ -1,7 +1,7 @@
 import {fuzzyMatch, oasToDescriptions, treeShake} from './oas-filter'
 import spec from '../../../oas/spotify-oas.json'
 import {OpenApiSpec} from '../../models/open-api-spec'
-import {THttp} from '../../models/http-request-plan'
+import {HttpRequestPlan, THttp} from '../../models/http-request-plan'
 
 const openApiSpec = spec as unknown as OpenApiSpec
 
@@ -23,7 +23,7 @@ test('treeShake', () => {
       path: '/artists/00FQb4jTyendYWaN8pK0wa/albums',
       background: '',
     },
-  ]
+  ] as HttpRequestPlan[]
   const actual = treeShake(openApiSpec, endpoints)
   expect(actual).toMatchSnapshot()
 })

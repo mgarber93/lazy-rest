@@ -7,5 +7,4 @@ export interface HttpRequestPlan {
   background: string;
   body?: object | Array<object>;
   headers?: Record<string, string>;
-  api: string;
 }
