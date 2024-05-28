@@ -11,7 +11,7 @@ export type TWindowSenderChannel = keyof WindowCallbackApi
 export const channelAllowList: TWindowSenderChannel[] = [
   'appendContentDelta',
   'loadAllOas',
-  'presentCallingPlan',
+  'setCallingPlan',
   'respondTo',
   'requestApproval'
 ]
@@ -25,9 +25,9 @@ export interface WindowCallbackApi {
   
   loadAllOas(): OpenApiSpec[];
 
-  presentCallingPlan(chatId: string, calls: HttpRequestPlan[]): string;
+  setCallingPlan(chatId: string, calls: HttpRequestPlan[]): void;
   
   respondTo(chatId: string, author: string): AuthoredContent;
   
-  requestApproval(approval: Approvable): ApprovalResponse
+  requestApproval(approval: Approvable, api: string): ApprovalResponse
 }

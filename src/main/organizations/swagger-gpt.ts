@@ -15,10 +15,9 @@ export class CallingPlanner {
   
   async createCallingPlan(userContent: AuthoredContent, chatId: string) {
     const args = await this.swaggerGptController.createArgs()
-    const agent = await this.agentFactory.createAgent('selector', userContent)
+    const agent = await this.agentFactory.createAgent('selector', userContent, args)
     const selectionAgent = await this.agentFactory.promptAgent('selector', agent.content, args)
     const calls = parseCalls(selectionAgent.message)
-    await this.mainWindowCallbackConsumer.presentCallingPlan(chatId, calls)
   }
 }
 
