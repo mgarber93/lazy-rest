@@ -1,23 +1,14 @@
-import {AuthoredContent} from '../../models/content'
-import {parseCalls} from '../utils/utils'
 import {container, singleton} from 'tsyringe'
-import {AgentFactory} from '../agents/agent'
-import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
-import {SwaggerGptController} from '../handlers/call-detailer'
-
-export type TAgent = "planner" | "selector" | "executor" | "parser"
+import {CallDetailer} from './call-detailer'
+import {Plan} from '../../models/conversation'
+import {ResultInterpreter} from './result-interpreter'
 
 @singleton()
-export class CallingPlanner {
-  private agentFactory = container.resolve(AgentFactory)
-  private mainWindowCallbackConsumer = new MainWindowCallbackConsumer()
-  private swaggerGptController = container.resolve(SwaggerGptController)
+export class SwaggerGptPlanProgressor {
+  private callDetailer = container.resolve(CallDetailer)
+  private resultInterpreter = container.resolve(ResultInterpreter)
   
-  async createCallingPlan(userContent: AuthoredContent, chatId: string) {
-    const args = await this.swaggerGptController.createArgs()
-    const agent = await this.agentFactory.createAgent('selector', userContent, args)
-    const selectionAgent = await this.agentFactory.promptAgent('selector', agent.content, args)
-    const calls = parseCalls(selectionAgent.message)
+  async continue(plan: Plan) {
+    return plan
   }
 }
-

@@ -1,9 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {AuthoredContent, ContentDelta} from '../../models/content'
-import {Conversation, createConversation, Plan} from '../../models/conversation'
+import {Conversation, createConversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
-import {HttpRequestPlan} from '../../models/http-request-plan'
 
 const serializedChats = localStorage.getItem('chats')
 const chats = JSON.parse(serializedChats)
@@ -27,38 +26,6 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
-export const interpretResult = createAsyncThunk(
-  `${name}/interpretResult`,
-  async ({conversation}: {conversation: Conversation}, thunkAPI) => {
-    const nextPlanController = await window.main.interpretResult(conversation)
-    return {plan: nextPlanController, chatId: conversation.id}
-  }
-)
-
-export const detailCallInPlan = createAsyncThunk(
-  `${name}/detailCallInPlan`,
-  async (arg: {plan: HttpRequestPlan, chatId: string}, thunkAPI) => {
-    const {chatId, plan} = arg
-    const state = thunkAPI.getState() as RootState
-    await window.main.setOpenAiConfiguration(state.models.providers.openAi)
-    const chat = state.chats.find(chat => chat.id === chatId)
-    const planIndex = chat.planController.endpointCallingPlan.findIndex(callingPlan => callingPlan === plan)
-    if (planIndex < 0)
-      throw new Error('unknown step')
-    // assume users query is the last message?
-    const userQuery = chat.content.at(-1)
-    const detailedPlan = await window.main.detailCallInPlan(userQuery, plan)
-    return {chatId, detailedPlan, planIndex}
-  }
-)
-
-export const executeCall = createAsyncThunk(
-  `${name}/executeCall`,
-  async ({call, chatId}: { call: HttpRequestPlan, chatId: string }, thunkAPI) => {
-    const response = await window.main.httpCall(call)
-    return {response, chatId}
-  }
-)
 
 export const chatsSlice = createSlice({
   name,
@@ -114,15 +81,6 @@ export const chatsSlice = createSlice({
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload)
     },
-    setEndpointCallingPlan: (state, action: PayloadAction<{chatId: string, endpointCallingPlan: HttpRequestPlan[]}>) => {
-      const {chatId, endpointCallingPlan} = action.payload
-      const conversation = state.find(conversation => conversation.id === chatId)
-      if (conversation) {
-        conversation.planController = {
-          endpointCallingPlan
-        } as Plan
-      }
-    },
     setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
       const {chatId, responder} = action.payload
       const foundChat = state.find(chat => chat.id === chatId)
@@ -133,31 +91,6 @@ export const chatsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(detailCallInPlan.fulfilled, (state, action) => {
-      const {chatId, detailedPlan, planIndex} = action.payload
-      const chat = state.find(chat => chat.id === chatId)
-      const planController = chat.planController
-      if (!planController.endpointCallingPlan) {
-        planController.endpointCallingPlan = []
-      }
-      planController.endpointCallingPlan[planIndex] = detailedPlan
-      planController.step = planIndex
-      planController.result = null
-    })
-    builder.addCase(executeCall.fulfilled, (state, action) => {
-      const {response, chatId} = action.payload
-      if (response) {
-        const chat = state.find(chat => chat.id === chatId)
-        
-        chat.planController.result = response
-      }
-    })
-    builder.addCase(interpretResult.fulfilled, (state, action) => {
-      const {chatId, plan} = action.payload
-      const chat = state.find(chat => chat.id === chatId)
-      debugger
-      chat.planController = plan
-    })
   },
 })
 
@@ -166,7 +99,6 @@ export const {
   respond,
   startNewChat,
   removeChat,
-  setEndpointCallingPlan,
   updateTitle,
   appendDelta,
   setResponder,

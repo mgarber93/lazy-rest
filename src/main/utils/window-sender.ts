@@ -23,7 +23,7 @@ export class WindowSender  {
    * @param eventName
    * @param args
    */
-  asyncSend<T = never>(eventName: TWindowSenderChannel, ...args: unknown[]): Promise<T> {
+  asyncSend<T = unknown>(eventName: TWindowSenderChannel, ...args: unknown[]): Promise<T> {
     const promiseId = v4()
     return new Promise((resolve, reject) => {
       if (this.promiseMap.has(promiseId)) {

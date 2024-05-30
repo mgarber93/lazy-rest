@@ -1,11 +1,5 @@
-import {useCallback} from 'react'
 import styled from 'styled-components'
-
-import {HttpRequestPlan} from '../../models/http-request-plan'
-import {useCurrentConversation} from '../hooks/current-conversation'
-import {useAppDispatch} from '../features/store'
-import {detailCallInPlan, executeCall} from '../features/chat'
-import {Icon} from './icon'
+import {PlanStep} from '../../models/conversation'
 
 const Div = styled.div`
   & * {
@@ -55,16 +49,9 @@ const Div = styled.div`
   }
 `
 
-export function PlannedHttpRequest({plan}: { plan: HttpRequestPlan }) {
-  const convo = useCurrentConversation()
-  const dispatch = useAppDispatch()
-  const fillInDetails = useCallback(() => {
-    dispatch(detailCallInPlan({chatId: convo.id, plan}))
-  }, [convo, dispatch])
-  const attemptCall = useCallback(() => {
-    dispatch(executeCall({call: plan, chatId: convo.id}))
-  }, [plan, convo.id])
-  const hasResults = !!convo?.planController?.result
+export function PlannedHttpRequest({step}: { step: PlanStep }) {
+  const plan = step.action
+  
   return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
     <span className={"method"}>
       {plan.method}
@@ -73,11 +60,7 @@ export function PlannedHttpRequest({plan}: { plan: HttpRequestPlan }) {
       {plan.path}
     </span>
     <span className={"background"}>
-      {plan.background}
-    </span>
-    <span className={"controls"}>
-      {!hasResults ? <Icon type={"checkbox"} handleClick={attemptCall}></Icon> : null}
-      <Icon type={"refresh"} handleClick={fillInDetails}></Icon>
+      {step.background}
     </span>
   </Div>
 }

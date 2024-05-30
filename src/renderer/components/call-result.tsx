@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import {Icon} from './icon'
 import {useCallback} from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {interpretResult} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 
 const Div = styled.div`
@@ -37,7 +36,7 @@ export function ResultOfCall({result}: { result: object }) {
   }, 2)
 
   const handleClick = useCallback(() => {
-    dispatch(interpretResult({conversation: currentConversation}))
+  
   }, [currentConversation])
   
   return <Div>
@@ -45,7 +44,7 @@ export function ResultOfCall({result}: { result: object }) {
       `\`\`\`json\n${serialized.trim()}\n\`\`\``
     }</Markdown>
     <div className="footer">
-      <Icon type={"checkbox"} handleClick={handleClick}/>
+      <Icon type={"checkbox"} />
     </div>
   </Div>
 }

@@ -26,7 +26,7 @@ const MessagesContainer = styled.div`
 
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
-  const planController = activeChat?.planController
+  const plan = activeChat?.plan
   return (
     <StyledDiv>
       <MessagesContainer>
@@ -34,7 +34,7 @@ export const ConversationComponent = () => {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
         {
-          planController ? <CallingPlanApproval planController={planController}></CallingPlanApproval> : null
+          plan ? <CallingPlanApproval planController={plan}></CallingPlanApproval> : null
         }
       </MessagesContainer>
       <SendMessage/>

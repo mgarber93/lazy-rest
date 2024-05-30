@@ -1,39 +1,24 @@
-import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {EnhancedStore} from '@reduxjs/toolkit'
-import {appendDelta, respond, setEndpointCallingPlan} from './features/chat'
+import {WindowCallbackApi} from '../window-callback/window-callback-api'
+import {appendDelta, respond} from './features/chat'
 import {OpenApiSpec} from '../models/open-api-spec'
 import {RootState, store} from './features/store'
 import {AuthoredContent, createContent} from '../models/content'
-import {Approvable, ApprovalResponse, SecretRequest} from '../models/approvable'
-import {HttpRequestPlan} from '../models/http-request-plan'
-
+import {ApiConfiguration} from '../models/api-configuration'
 
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {
   }
   
-  requestApproval(approval: Approvable, apiId: string): ApprovalResponse {
+  getApi(apiId: string): ApiConfiguration {
     const {tools} = store.getState() as RootState
-    const secret = approval as SecretRequest
     const {api} = tools
-    // try for a match
     for (const key in api) {
       if (key === apiId) {
-        return {
-          response: "approve",
-          clientId: api[key].clientId,
-          clientSecret: api[key].clientSecret,
-        } as ApprovalResponse
+        return api[key]
       }
     }
-    // send the first
-    for (const key in api) {
-      return {
-        response: "approve",
-        clientId: api[key].clientId,
-        clientSecret: api[key].clientSecret,
-      } as ApprovalResponse
-    }
+    return null
   }
   
   appendContentDelta(authoredContentDelta: {
@@ -65,12 +50,8 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     }
     return responses
   }
-
-  setCallingPlan(chatId: string, endpointCallingPlan: HttpRequestPlan[]): void {
-    this.store.dispatch(setEndpointCallingPlan({chatId, endpointCallingPlan}))
-  }
   
-  respondTo(chatId: string, author: string): AuthoredContent {
+  addNewResponse(chatId: string, author: string): AuthoredContent {
     const placeHolder = createContent('', chatId, author, 'assistant')
     this.store.dispatch(respond(placeHolder))
     return placeHolder

@@ -1,18 +1,9 @@
-import {createConversation} from '../../models/conversation'
-import {selector} from '../../prompts/rest-gpt/selector'
-import {buildCallerPrompt} from '../../prompts/api-caller'
+import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {AuthoredContent, createContent} from '../../models/content'
-import {plannerTemplate} from '../../prompts/rest-gpt/planner'
-import {OpenApiSpec} from '../../models/open-api-spec'
-import {container, singleton} from 'tsyringe'
+import {container} from 'tsyringe'
 import {Model} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 
-export interface AgentConstructionArgs {
-  endpoints?: string;
-  roughPlan?: string; // used for selector to create calling plan from
-  oasSpec: OpenApiSpec[];
-}
 
 /**
  * An Agent initial conversation has two contents:
@@ -26,6 +17,8 @@ export interface AgentConstructionArgs {
 export abstract class AgentFactory {
   private openAiLlm = container.resolve(OpenAiLlm)
   abstract model: Model
+  
+  public abstract create(plan: Plan): Promise<Conversation>
   
   protected async createAgent(goal: AuthoredContent, instructions: string) {
     const agentInternalConversation = createConversation()
@@ -50,43 +43,3 @@ export abstract class AgentFactory {
     }
   }
 }
-
-@singleton()
-export class PlannerFactory extends AgentFactory {
-  model = {
-    type: 'chat',
-    provider: "openai",
-    model: "gpt-3.5-turbo",
-  } as Model
-  
-  create(goal: AuthoredContent) {
-    return this.createAgent(goal, plannerTemplate)
-  }
-}
-
-@singleton()
-export class SelectorFactory extends AgentFactory {
-  model = {
-    type: 'chat',
-    provider: "openai",
-    model: "gpt-4-turbo-preview",
-  } as Model
-  
-  create(goal: AuthoredContent, endpoints: string) {
-    return this.createAgent(goal, selector(endpoints))
-  }
-}
-
-@singleton()
-export class ExecutorFactory extends AgentFactory {
-  model = {
-    type: 'chat',
-    provider: "openai",
-    model: "gpt-4-turbo-preview",
-  } as Model
-  
-  create(userContent: AuthoredContent, endpoints: string) {
-    return buildCallerPrompt(userContent.message, endpoints)
-  }
-}
-

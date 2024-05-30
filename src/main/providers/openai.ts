@@ -2,12 +2,12 @@ import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent, createContent, isToolCall} from '../../models/content'
 import {container, injectable} from 'tsyringe'
 import {ConfigurationManager} from './configuration-manager'
-import {MainWindowCallbackConsumer} from '../main-window-callback-consumer'
+import {AsyncWindowSenderApi} from '../async-window-sender-api'
 
 @injectable()
 export class OpenAiLlm {
   private manager = container.resolve(ConfigurationManager)
-  private mainWindowCallbackConsumer = container.resolve(MainWindowCallbackConsumer)
+  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
   async listOpenAiModels() {
     const openai = this.manager.getOpenAi()

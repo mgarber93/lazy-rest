@@ -1,8 +1,7 @@
 import {singleton} from 'tsyringe'
 import {Model} from '../../models/responder'
-import {HttpRequestPlan} from '../../models/http-request-plan'
-import {AgentFactory} from './agent'
-import {AuthoredContent} from '../../models/content'
+import {AgentFactory} from './agent-factory'
+import {Plan} from '../../models/conversation'
 
 @singleton()
 export class ResultInterpreterFactory extends AgentFactory {
@@ -12,18 +11,22 @@ export class ResultInterpreterFactory extends AgentFactory {
     model: "gpt-4-4o",
   } as Model
   
-  create(goal: AuthoredContent, index: number, plan: HttpRequestPlan[], response: object) {
+  create(plan: Plan) {
+    const {userGoal, steps, step} = plan
+    const current = steps[step]
+    if (!current.action) {
+      throw new Error('Current step has no action to take defined. Interpretation called out of order')
+    }
     const template = `
-You are an expert parser of json, with excellent accuracy.
-You had a plan to achieve user desire:
-${goal.message}
+You are an expert parser of json. You had a plan to achieve:
+${userGoal.message}
 Here's your plan:
-${plan.map(request => request.background).join('\n')}
-You are on step ${index} of a plan:
-The ${plan[index].method} to ${plan[index].path} in order to ${plan[index].background} returned:
- ${JSON.stringify(response)}
+${steps.map(request => request.background).join('\n')}
+You are on step ${step} of a plan:
+The ${current.action.method} to ${current.action.path} in order to ${current.background} returned:
+ ${JSON.stringify(current.result)}
 Answer if the goal of the call was achieved and what the result was
 `
-    return this.createAgent(goal, template)
+    return this.createAgent(userGoal, template)
   }
 }
