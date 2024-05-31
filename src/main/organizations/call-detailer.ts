@@ -5,8 +5,8 @@ import {OpenApiSpec} from '../../models/open-api-spec'
 import {treeShake} from '../utils/oas-filter'
 import {getRespondingModel} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
-import {ExecutorFactory} from '../agents/executor-factory'
 import {HttpRequestPlan} from '../../models/conversation'
+import {ExecutorFactory} from '../agents/executor-factory'
 
 @injectable()
 export class CallDetailer {
@@ -25,8 +25,8 @@ export class CallDetailer {
     if (Object.keys(specForPlannedCall).length === 0) {
       throw new Error('Unable to tree shake')
     }
-    
-    const executorAgent = await this.agentFactory.create(userContent, JSON.stringify(specForPlannedCall))
+    const endpoints = JSON.stringify(specForPlannedCall)
+    const executorAgent = await this.agentFactory.create(endpointCallPlan, endpoints)
     
     const messages: ChatCompletionMessageParam[] = executorAgent.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))

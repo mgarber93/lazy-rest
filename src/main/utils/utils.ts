@@ -1,7 +1,8 @@
-import {HttpRequestPlan, THttp} from '../../models/http-request-plan'
+import {HttpRequestPlan, THttp} from '../../models/conversation'
+import {OpenApiSpec} from '../../models/open-api-spec'
 
 
-export function parseCalls(plan: string): HttpRequestPlan[] {
+export function parseCalls(plan: string, apiSpec: OpenApiSpec): HttpRequestPlan[] {
   const endpoints = plan
     .split('\n')
     .filter(str => str.startsWith('API calling'))
@@ -9,10 +10,13 @@ export function parseCalls(plan: string): HttpRequestPlan[] {
   
   const httpCalls = endpoints.map(endpoint => {
     const [method, path, ...rest] = endpoint.split(' ')
+    const mappedMethod = method.toUpperCase() as THttp
     return {
-      method: method.toUpperCase() as THttp,
+      baseUrl:
       path,
-      background: rest.join(' '),
+      method: mappedMethod,
+      body: {},
+      headers: {},
     } as HttpRequestPlan
   })
   

@@ -1,5 +1,4 @@
 import {container, injectable} from 'tsyringe'
-import {Handler} from '../handlers/handler'
 import {Conversation} from '../../models/conversation'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
@@ -26,7 +25,7 @@ export class ResultInterpreter {
       throw new Error('No result to interpret')
     }
     const model = (conversation.responder as Model).model
-    const newResponse = await this.mainWindowCallbackConsumer.respondTo(conversation.id, model)
+    const newResponse = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, model)
     const goal = conversation.content.at(-1)
     const interpretation = await this.agentFactory.create(plan)
     

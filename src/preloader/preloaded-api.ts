@@ -5,26 +5,26 @@ import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window
 
 export type TInvokeChannel = keyof PreloadedApi
 
+export type TWindowSenderCallback<T extends keyof WindowCallbackApi> = (event: never, id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>
+
 export const INVOKE_CHANNELS = [
   'streamedChat',
   'getMachineName',
   'setOpenAiConfiguration',
   'callback',
-  'detailCallInPlan',
-  'httpCall',
   'getModels',
-  'interpretResult',
+  'continuePlan',
 ] as TInvokeChannel[]
 
 export interface WindowSenderProtocol {
   preload(): WindowSenderProtocol
   
   // type unsafe api
-  send(channel: TWindowSenderChannel, data: any): void
+  send(channel: TWindowSenderChannel, data: never): void
   
-  receive<T extends TWindowSenderChannel>(channel: T, func: (event: never,  id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>): void
+  receive<T extends TWindowSenderChannel>(channel: T, func: TWindowSenderCallback<T>): void
   
-  remove(channel: TWindowSenderChannel, func: (...args: any[]) => void): Promise<void>
+  remove(channel: TWindowSenderChannel, func: (...args: never[]) => void): Promise<void>
 }
 
 export interface WindowReceiverProtocol {

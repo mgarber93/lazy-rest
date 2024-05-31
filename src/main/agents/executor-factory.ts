@@ -1,12 +1,16 @@
 import {container, singleton} from 'tsyringe'
 import {Model} from '../../models/responder'
-import {AuthoredContent} from '../../models/content'
 import {buildCallerPrompt} from '../../prompts/api-caller'
 import {AgentFactory} from './agent-factory'
 import {Plan} from '../../models/conversation'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
+import {StreamedChatHandler} from '../handlers/streamed-chat'
+
+@singleton()
+export class OpenApiSpecProvider {
+}
 
 @singleton()
 export class ExecutorFactory extends AgentFactory {
@@ -17,6 +21,7 @@ export class ExecutorFactory extends AgentFactory {
   } as Model
   
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
+  private apiProvider = container.resolve(StreamedChatHandler)
 
   specToOas(spec: OpenApiSpec): string {
     return JSON.stringify(oasToDescriptions(spec), null, 2)
@@ -32,7 +37,9 @@ export class ExecutorFactory extends AgentFactory {
   }
   
   create(plan: Plan) {
-    const {userGoal} = plan
-    return this.createAgent(userGoal, buildCallerPrompt(userGoal.message, endpoints))
+    const {userGoal, steps, step} = plan
+    const currentStep = this.getCurrentStep(plan)
+    const getCurrentStep = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)
+    return this.createAgent(userGoal, buildCallerPrompt(userGoal.message))
   }
 }

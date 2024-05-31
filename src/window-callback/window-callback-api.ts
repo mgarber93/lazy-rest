@@ -17,9 +17,11 @@ export const channelAllowList: TWindowSenderChannel[] = [
  * protocol, implemented by Provider. WindowSender makes the return type a promise
  */
 export interface WindowCallbackApi {
-  appendContentDelta(authoredContentDelta: {chatId: string, messageId: string, delta: string, closed: boolean}): void;
+  appendContentDelta(authoredContentDelta: { chatId: string, messageId: string, delta: string, closed: boolean }): void
   
-  loadAllOas(): OpenApiSpec[];
+  loadAllOas(): OpenApiSpec[]
   
-  addNewResponse(chatId: string, author: string): AuthoredContent;
+  addNewResponse(chatId: string, author: string): AuthoredContent
+  
+  getOas(oasId: string): OpenApiSpec | undefined
 }

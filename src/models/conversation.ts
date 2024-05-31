@@ -37,6 +37,7 @@ export interface Plan {
   step: number
 }
 
+
 export function getCurrentStep(plan: Plan) {
   return plan.steps.at(plan.step)
 }

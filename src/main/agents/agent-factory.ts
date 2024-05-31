@@ -42,4 +42,9 @@ export abstract class AgentFactory {
       }
     }
   }
+  
+  protected getCurrentStep(plan: Plan) {
+    const {steps, step} = plan
+    return steps.at(step)
+  }
 }

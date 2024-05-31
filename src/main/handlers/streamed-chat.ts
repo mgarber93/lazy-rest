@@ -1,10 +1,13 @@
-import {container, injectable} from 'tsyringe'
+import {container, injectable, singleton} from 'tsyringe'
 import {isModel, isOrganization} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
 import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {EndpointSelector} from '../organizations/endpoint-selector'
+
+@singleton()
+export class Saving
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
@@ -15,7 +18,7 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
   async handle(conversation: Conversation): Promise<void> {
     const responder = conversation.responder
     if (isModel(responder)) {
-      const response = await this.mainWindowCallbackConsumer.respondTo(conversation.id, responder.model)
+      const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
       switch (responder.provider) {
         case "openai": {
           await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
@@ -30,7 +33,9 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
       if (content.length < 1)
         throw new Error('No user prompt for org to handle')
       const lastMessage = content.at(-1)
-      return this.callingPlanner.createCallingPlan(lastMessage, conversation.id)
+      // lastMessage, conversation.id
+      const plan = createPlan()
+      return this.callingPlanner.createCallingPlan(plan)
     }
     
     throw new Error(`Cant respond`)
