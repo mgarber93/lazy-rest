@@ -36,10 +36,11 @@ export class ExecutorFactory extends AgentFactory {
     }
   }
   
-  create(plan: Plan) {
+  async create(plan: Plan) {
     const {userGoal, steps, step} = plan
     const currentStep = this.getCurrentStep(plan)
     const getCurrentStep = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)
-    return this.createAgent(userGoal, buildCallerPrompt(userGoal.message))
+    const apiDocs = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)
+    return this.createAgent(userGoal, buildCallerPrompt(userGoal.message, apiDocs))
   }
 }

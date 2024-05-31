@@ -1,5 +1,5 @@
 import {fuzzyMatch, oasToDescriptions, treeShake} from './oas-filter'
-import spec from '../../../oas/spotify-oas.json'
+import spec from '../../prompts/oas/spotify-oas.json'
 import {OpenApiSpec} from '../../models/open-api-spec'
 import {HttpRequestPlan, THttp} from '../../models/conversation'
 
