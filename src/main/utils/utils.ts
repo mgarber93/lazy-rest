@@ -1,8 +1,8 @@
+import {OpenAPI} from 'openapi-types'
 import {HttpRequestPlan, THttp} from '../../models/conversation'
-import {OpenApiSpec} from '../../models/open-api-spec'
 
 
-export function parseCalls(plan: string, apiSpec: OpenApiSpec): HttpRequestPlan[] {
+export function parseCalls(plan: string, apiSpec: OpenAPI.Document): HttpRequestPlan[] {
   const endpoints = plan
     .split('\n')
     .filter(str => str.startsWith('API calling'))

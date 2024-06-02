@@ -3,10 +3,10 @@ import {Model} from '../../models/responder'
 import {buildCallerPrompt} from '../../prompts/api-caller'
 import {AgentFactory} from './agent-factory'
 import {Plan} from '../../models/conversation'
-import {OpenApiSpec} from '../../models/open-api-spec'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
 import {StreamedChatHandler} from '../handlers/streamed-chat'
+import {OpenAPI} from 'openapi-types'
 
 @singleton()
 export class OpenApiSpecProvider {
@@ -22,14 +22,14 @@ export class ExecutorFactory extends AgentFactory {
   
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private apiProvider = container.resolve(StreamedChatHandler)
-
-  specToOas(spec: OpenApiSpec): string {
+  
+  specToOas(spec: OpenAPI.Document): string {
     return JSON.stringify(oasToDescriptions(spec), null, 2)
   }
 
   async createArgs() {
     const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
-    const endpoints = oasSpec.reduce((acc: string, spec: OpenApiSpec) => acc + this.specToOas(spec), '')
+    const endpoints = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + this.specToOas(spec), '')
     return {
       endpoints,
       oasSpec,

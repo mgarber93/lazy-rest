@@ -1,8 +1,8 @@
 import {container, injectable} from 'tsyringe'
-import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {WindowSender} from './utils/window-sender'
 import {AuthoredContent, ContentDelta} from '../models/content'
-import {OpenApiSpec} from '../models/open-api-spec'
+import {OpenAPI} from 'openapi-types'
+import {WindowCallbackApi} from '../window-callback/window-callback-api'
 
 
 export type Promisify<T> = {
@@ -22,7 +22,7 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     await this.windowSender.asyncSend('appendContentDelta', {delta, chatId, messageId})
   }
   
-  loadAllOas(): Promise<OpenApiSpec[]> {
+  loadAllOas(): Promise<OpenAPI.Document[]> {
     return this.windowSender.asyncSend("loadAllOas")
   }
   
@@ -31,8 +31,8 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     return content as AuthoredContent
   }
   
-  async getOas(oasId: string): Promise<OpenApiSpec | undefined> {
+  async getOas(oasId: string): Promise<OpenAPI.Document | undefined> {
     const oas = await this.windowSender.asyncSend('getOas', {oasId})
-    return oas as OpenApiSpec | undefined
+    return oas as OpenAPI.Document | undefined
   }
 }

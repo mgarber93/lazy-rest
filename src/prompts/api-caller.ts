@@ -1,6 +1,6 @@
-import {OpenApiSpec} from '../models/open-api-spec'
+import {OpenAPI} from 'openapi-types'
 
-export const buildCallerPrompt = (goal: string, apiDocs: OpenApiSpec) => {
+export const buildCallerPrompt = (goal: string, apiDocs: OpenAPI.Document) => {
   if (!goal) {
     throw new Error('Api Caller prompt missing goal for Call!')
   }
@@ -19,7 +19,7 @@ Here is documentation on the API:
 Endpoints:
 ${serializedApiDocs}
 If the API path contains "{}", it means that it is a variable and you should replace it with the appropriate value. For example, if the path is "/users/{user_id}/tweets", you should replace "{user_id}" with the user id. "{" and "}" cannot appear in the url.
-You can use http request methods, i.e., GET, POST, D´ELETE, PATCH, PUT, and generate the corresponding parameters according to the tools description.
+You can use http request methods, i.e., GET, POST, DELETE, PATCH, PUT, and generate the corresponding parameters according to the tools description.
 `
 }
 

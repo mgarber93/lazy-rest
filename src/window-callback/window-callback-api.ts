@@ -1,5 +1,5 @@
 import {AuthoredContent} from '../models/content'
-import {OpenApiSpec} from '../models/open-api-spec'
+import {OpenAPI} from 'openapi-types'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -19,9 +19,9 @@ export const channelAllowList: TWindowSenderChannel[] = [
 export interface WindowCallbackApi {
   appendContentDelta(authoredContentDelta: { chatId: string, messageId: string, delta: string, closed: boolean }): void
   
-  loadAllOas(): OpenApiSpec[]
+  loadAllOas(): OpenAPI.Document[]
   
   addNewResponse(chatId: string, author: string): AuthoredContent
   
-  getOas(oasId: string): OpenApiSpec | undefined
+  getOas(oasId: string): OpenAPI.Document | undefined
 }

@@ -1,9 +1,9 @@
 import {fuzzyMatch, oasToDescriptions, treeShake} from './oas-filter'
 import spec from '../../prompts/oas/spotify-oas.json'
-import {OpenApiSpec} from '../../models/open-api-spec'
 import {HttpRequestPlan, THttp} from '../../models/conversation'
+import {OpenAPI} from 'openapi-types'
 
-const openApiSpec = spec as unknown as OpenApiSpec
+const openApiSpec = spec as unknown as OpenAPI.Document
 
 test('oasToDescriptions', () => {
   const actual = oasToDescriptions(openApiSpec)

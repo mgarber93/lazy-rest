@@ -1,10 +1,10 @@
 import {EnhancedStore} from '@reduxjs/toolkit'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {appendDelta, respond} from './features/chat'
-import {OpenApiSpec} from '../models/open-api-spec'
 import {RootState, store} from './features/store'
 import {AuthoredContent, createContent} from '../models/content'
 import {ApiConfiguration} from '../models/api-configuration'
+import {OpenAPI} from 'openapi-types'
 
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {
@@ -31,7 +31,7 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     this.store.dispatch(appendDelta({chatId, messageId, delta}))
   }
   
-  loadAllOas(): OpenApiSpec[] {
+  loadAllOas(): OpenAPI.Document[] {
     const state = this.store.getState() as RootState
     const apis = state.tools.api as Record<string, any>
     const responses = []
@@ -55,5 +55,14 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     const placeHolder = createContent('', chatId, author, 'assistant')
     this.store.dispatch(respond(placeHolder))
     return placeHolder
+  }
+  
+  getOas(oasId: string): OpenAPI.Document | undefined {
+    const {tools} = this.store.getState() as RootState
+    const {api} = tools
+    const {fileHandle} = api[oasId]
+    const file = localStorage.getItem(fileHandle)
+    const oas = JSON.parse(file) as OpenAPI.Document | undefined
+    return oas
   }
 }

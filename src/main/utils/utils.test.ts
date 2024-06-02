@@ -1,4 +1,5 @@
 import {parseCalls} from './utils'
+import {OpenAPI} from 'openapi-types'
 
 test('parseCalls', () => {
   const test = 'Background: No background  \n' +
@@ -8,9 +9,6 @@ test('parseCalls', () => {
     'API calling 2: GET /artists/xyz123abc/top-tracks to get the most popular songs by altrice  \n' +
     'API response: The most popular songs by altrice are "Song A", "Song B", "Song C"  \n' +
     'Instruction: No further API calls needed.'
-  const actual = parseCalls(test)
-  expect(actual).toEqual([
-    {method: 'GET', path: '/search', background: 'to search for the artist "altrice"'},
-    {method: 'GET', path: '/artists/xyz123abc/top-tracks', background: 'to get the most popular songs by altrice'},
-  ])
+  const actual = parseCalls(test, {} as OpenAPI.Document)
+  expect(actual).toMatchSnapshot()
 })

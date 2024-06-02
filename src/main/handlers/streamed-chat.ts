@@ -1,13 +1,11 @@
-import {container, injectable, singleton} from 'tsyringe'
-import {isModel, isOrganization} from '../../models/responder'
+import {container, injectable} from 'tsyringe'
+import {isModel} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
 import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {EndpointSelector} from '../organizations/endpoint-selector'
 
-@singleton()
-export class Saving
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
@@ -28,14 +26,6 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
           throw new Error('not implemented')
         }
       }
-    } else if (isOrganization(responder)) {
-      const content = conversation.content
-      if (content.length < 1)
-        throw new Error('No user prompt for org to handle')
-      const lastMessage = content.at(-1)
-      // lastMessage, conversation.id
-      const plan = createPlan()
-      return this.callingPlanner.createCallingPlan(plan)
     }
     
     throw new Error(`Cant respond`)

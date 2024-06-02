@@ -1,6 +1,12 @@
-# GUI for managing local tools for agents
+# GUI for talking to OpenApi Specified Servers
 
-## Getting started
+## Examples
+
+### Spotify
+
+You can download https://github.com/sonallux/spotify-web-api/blob/main/fixed-spotify-open-api.yml
+
+## Development
 
 Make sure you have npm installed. I
 use [node version manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)

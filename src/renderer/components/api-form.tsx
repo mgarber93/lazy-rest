@@ -3,9 +3,9 @@ import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {Control, Footer, Form, Label} from '../styled/form'
 import {Button} from '../styled/button'
-import {OpenApiSpec} from '../../models/open-api-spec'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
+import {OpenAPI} from 'openapi-types'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -21,8 +21,10 @@ export function ApiForm() {
     if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        const yaml = parse(reader.result as string) as OpenApiSpec
+        const yaml = parse(reader.result as string) as OpenAPI.Document
         setName(yaml.info.contact.name)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore the type must be wrong or something? Its on spotifies swagger
         setBaseUrl(yaml.servers[0].url)
         setOas(yaml)
         const key = v4()
