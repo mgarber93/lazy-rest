@@ -37,16 +37,25 @@ export interface Plan {
   step: number
 }
 
-
 export function getCurrentStep(plan: Plan) {
   return plan.steps.at(plan.step)
 }
 
+/**
+ * Aka conversation context
+ */
 export interface Conversation {
   id: string
   content: AuthoredContent[]
   title: string
   created: string
   responder?: Responder
-  plan?: Plan
+  tools?: ToolProvider
+}
+
+export interface ToolProvider {
+  getPlan(id: string): Plan | null
+  
+  // other stuff like a video stream, search engine, etc
+  // talk to something when we are both watching something
 }
