@@ -1,5 +1,7 @@
 import {AuthoredContent} from '../models/content'
 import {OpenAPI} from 'openapi-types'
+import {Conversation, ConversationId, Plan, PlanId} from '../models/conversation'
+import {ToolState} from '../renderer/features/tools'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -10,6 +12,8 @@ export const channelAllowList: TWindowSenderChannel[] = [
   'appendContentDelta',
   'loadAllOas',
   'addNewResponse',
+  'getConversation',
+  'getPlan',
 ]
 
 /**
@@ -24,4 +28,10 @@ export interface WindowCallbackApi {
   addNewResponse(chatId: string, author: string): AuthoredContent
   
   getOas(oasId: string): OpenAPI.Document | undefined
+  
+  getConversation(id: ConversationId): Conversation | null
+  
+  updateToolState(toolState: ToolState): void
+  
+  getPlan(id: PlanId): Plan | null
 }

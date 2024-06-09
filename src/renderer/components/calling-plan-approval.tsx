@@ -1,9 +1,7 @@
 import styled from 'styled-components'
 import React from 'react'
-import {FormGroup} from '../wrapper/form-group'
-import {PlannedHttpRequest} from './planned-http-request'
-import {Plan} from '../../models/conversation'
-import {ResultOfCall} from './call-result'
+import {ToolState} from '../features/tools'
+import {Button} from '../styled/button'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +9,13 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-export function CallingPlanApproval({planController}: { planController: Plan }) {
-  const {step, steps} = planController
-  return <div>todo calling plan</div>
+const ContinueButton = styled(Button)`
+  /* Insert styles here */
+`
+
+
+export function CallingPlanApproval({tools}: { tools: ToolState }) {
+  return <div>
+    <ContinueButton/>
+  </div>
 }

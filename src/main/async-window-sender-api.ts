@@ -3,6 +3,8 @@ import {WindowSender} from './utils/window-sender'
 import {AuthoredContent, ContentDelta} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
+import {Conversation, ConversationId, Plan, PlanId} from '../models/conversation'
+import {ToolState} from '../renderer/features/tools'
 
 
 export type Promisify<T> = {
@@ -34,5 +36,19 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   async getOas(oasId: string): Promise<OpenAPI.Document | undefined> {
     const oas = await this.windowSender.asyncSend('getOas', {oasId})
     return oas as OpenAPI.Document | undefined
+  }
+  
+  async getConversation(id: ConversationId) {
+    const conversation = await this.windowSender.asyncSend('getConversation', {id})
+    return conversation as Conversation | null
+  }
+  
+  async getPlan(planId: PlanId) {
+    const plan = await this.windowSender.asyncSend('getPlan', {planId})
+    return plan as Plan | null
+  }
+  
+  async updateToolState(toolState: ToolState): Promise<void> {
+    await this.windowSender.asyncSend('updateToolState', {toolState})
   }
 }

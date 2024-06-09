@@ -1,9 +1,10 @@
 import {container, injectable} from 'tsyringe'
-import {Conversation} from '../../models/conversation'
+import {ConversationContext} from '../../models/conversation'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {ResultInterpreterFactory} from '../agents/result-interpreter-factory'
 import {Model} from '../../models/responder'
+
 
 @injectable()
 export class ResultInterpreter {
@@ -11,8 +12,10 @@ export class ResultInterpreter {
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private agentFactory = container.resolve(ResultInterpreterFactory)
   
-  async handle(conversation: Conversation): Promise<void> {
-    const plan = conversation.plan
+  async handle(context: ConversationContext): Promise<void> {
+    const {conversationId, planId, toolState} = context
+    const conversation = await this.mainWindowCallbackConsumer.getConversation(conversationId)
+    const plan = await this.mainWindowCallbackConsumer.getPlan(planId)
     if (!plan) {
       throw new Error('Plan is not defined in conversation')
     }

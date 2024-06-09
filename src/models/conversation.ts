@@ -1,6 +1,7 @@
 import {v4} from 'uuid'
 import {AuthoredContent} from './content'
 import {Responder} from './responder'
+import {ToolState} from '../renderer/features/tools'
 
 export function createConversation(title = ''): Conversation {
   return {
@@ -19,6 +20,11 @@ export interface HttpRequestPlan {
   method: THttp;
   body?: object | Array<object>;
   headers?: Record<string, string>;
+}
+
+export interface CallPlan {
+  plannedCalls: HttpRequestPlan[]
+  summary: string
 }
 
 export interface PlanStep {
@@ -41,21 +47,26 @@ export function getCurrentStep(plan: Plan) {
   return plan.steps.at(plan.step)
 }
 
-/**
- * Aka conversation context
- */
 export interface Conversation {
   id: string
   content: AuthoredContent[]
   title: string
   created: string
   responder?: Responder
-  tools?: ToolProvider
 }
 
-export interface ToolProvider {
-  getPlan(id: string): Plan | null
-  
-  // other stuff like a video stream, search engine, etc
-  // talk to something when we are both watching something
+
+export interface ConversationId {
+  id: string
+}
+
+export interface PlanId {
+  id: string
+}
+
+
+export interface ConversationContext {
+  conversationId: ConversationId
+  planId: PlanId
+  toolState: ToolState
 }

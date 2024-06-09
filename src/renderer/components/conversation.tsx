@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {Message} from './message'
 import {SendMessage} from './send-message'
-import {useCurrentConversation} from '../hooks/current-conversation'
+import {useCurrentConversation, useCurrentTools} from '../hooks/current-conversation'
 import {CallingPlanApproval} from './calling-plan-approval'
 
 const StyledDiv = styled.div`
@@ -24,9 +24,11 @@ const MessagesContainer = styled.div`
   }
 `
 
+
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
-  const plan = activeChat?.plan
+  const tools = useCurrentTools()
+
   return (
     <StyledDiv>
       <MessagesContainer>
@@ -34,7 +36,7 @@ export const ConversationComponent = () => {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
         {
-          plan ? <CallingPlanApproval planController={plan}></CallingPlanApproval> : null
+          tools ? <CallingPlanApproval tools={tools}></CallingPlanApproval> : null
         }
       </MessagesContainer>
       <SendMessage/>

@@ -4,30 +4,46 @@ import {Conversation} from '../../models/conversation'
 import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
-import {EndpointSelector} from '../organizations/endpoint-selector'
+import {SwaggerGptPlanProgressor} from '../organizations/swagger-gpt'
 
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
-  private callingPlanner: EndpointSelector = container.resolve(EndpointSelector)
+  private swaggerGptPlanProgressor = container.resolve(SwaggerGptPlanProgressor)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
+  static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
   
   async handle(conversation: Conversation): Promise<void> {
-    const responder = conversation.responder
-    if (isModel(responder)) {
-      const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
-      switch (responder.provider) {
-        case "openai": {
-          await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
-          return
-        }
-        case "anthropic": {
-          throw new Error('not implemented')
-        }
+    switch (conversation.responder.type) {
+      case "chat":
+        return this.simpleReply(conversation)
+      case "organization":
+        return this.organizationReply(conversation)
+      case "agent":
+      default:
+        throw new Error(StreamedChatHandler.Error_Message)
+    }
+  }
+  
+  async simpleReply(conversation: Conversation) {
+    const {responder} = conversation
+    if (!isModel(responder)) {
+      throw new Error(StreamedChatHandler.Error_Message)
+    }
+    const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
+    switch (responder.provider) {
+      case "openai": {
+        await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
+        return
+      }
+      case "anthropic": {
+        throw new Error('not implemented')
       }
     }
-    
-    throw new Error(`Cant respond`)
+  }
+  
+  async organizationReply(conversation: Conversation) {
+    return this.swaggerGptPlanProgressor.continue(conversation)
   }
 }
