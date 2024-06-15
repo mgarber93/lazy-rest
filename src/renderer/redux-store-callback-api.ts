@@ -5,9 +5,23 @@ import {RootState, store} from './features/store'
 import {AuthoredContent, createContent} from '../models/content'
 import {ApiConfiguration} from '../models/api-configuration'
 import {OpenAPI} from 'openapi-types'
+import {ToolState} from './features/tools'
+import {Conversation, ConversationId, Plan, PlanId} from '../models/conversation'
 
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {
+  }
+  
+  getConversation(id: ConversationId): Conversation {
+    throw new Error('Method not implemented.')
+  }
+  
+  updateToolState(toolState: ToolState): void {
+    throw new Error('Method not implemented.')
+  }
+  
+  getPlan(id: PlanId): Plan {
+    throw new Error('Method not implemented.')
   }
   
   getApi(apiId: string): ApiConfiguration {
