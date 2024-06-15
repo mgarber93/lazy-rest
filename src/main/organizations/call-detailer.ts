@@ -1,4 +1,4 @@
-import {container, injectable} from 'tsyringe'
+import {container, singleton} from 'tsyringe'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
@@ -8,7 +8,7 @@ import {HttpRequestPlan, Plan} from '../../models/conversation'
 import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
 
-@injectable()
+@singleton()
 export class CallDetailer {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
   private agentFactory = container.resolve(ExecutorFactory)

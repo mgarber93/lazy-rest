@@ -1,4 +1,4 @@
-import {container, injectable} from 'tsyringe'
+import {container, singleton} from 'tsyringe'
 import {ConversationContext} from '../../models/conversation'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
@@ -6,7 +6,7 @@ import {ResultInterpreterFactory} from '../agents/result-interpreter-factory'
 import {Model} from '../../models/responder'
 
 
-@injectable()
+@singleton()
 export class ResultInterpreter {
   private openAiLlm = container.resolve(OpenAiLlm)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)

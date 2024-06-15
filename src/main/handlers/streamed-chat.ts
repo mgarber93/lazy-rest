@@ -43,7 +43,13 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
     }
   }
   
+  /**
+   * An organization reply is a calling plan
+   * @param conversation
+   */
   async organizationReply(conversation: Conversation) {
+    const lastMessate = conversation.content.at(-1)
+    this.swaggerGptPlanProgressor.start()
     return this.swaggerGptPlanProgressor.continue(conversation)
   }
 }

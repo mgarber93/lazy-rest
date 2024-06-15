@@ -8,12 +8,6 @@ import {SwaggerGptPlanProgressor} from '../organizations/swagger-gpt'
 export class PlanProgressor implements Handler<'continuePlan'> {
   private swaggerGpt = container.resolve(SwaggerGptPlanProgressor)
   async handle(conversation: Conversation): Promise<Plan> {
-    const plan = conversation.plan
-    try {
-      return this.swaggerGpt.continue(plan)
-    } catch (e){
-      console.error(e)
-    }
-    return plan
+    throw new Error('not implemented')
   }
 }

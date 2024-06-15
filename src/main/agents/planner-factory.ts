@@ -1,6 +1,5 @@
 import {singleton} from 'tsyringe'
 import {Model} from '../../models/responder'
-import {AuthoredContent} from '../../models/content'
 import {plannerTemplate} from '../../prompts/rest-gpt/planner'
 import {AgentFactory} from './agent-factory'
 import {Plan} from '../../models/conversation'
