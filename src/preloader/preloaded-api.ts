@@ -40,6 +40,6 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   setOpenAiConfiguration(config: OpenAiConfiguration): Promise<void>
   
   streamedChat(conversation: Conversation): Promise<void>
-
+  
   continuePlan(conversation: Conversation): Promise<Plan>
 }
