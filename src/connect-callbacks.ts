@@ -3,9 +3,6 @@ import {channelAllowList, TWindowSenderChannel} from './window-callback/window-c
 import {ReduxStoreCallbackApi} from './renderer/redux-store-callback-api'
 
 
-/**
- * @param store
- */
 export const connectCallbacks = (store: EnhancedStore) => {
   const callbacks = new ReduxStoreCallbackApi(store)
   channelAllowList.forEach(channelAllowList => {
