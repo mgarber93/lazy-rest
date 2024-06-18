@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import {mapAuthoredContentToChatCompletion} from '../providers/openai'
 import {describe, expect, it} from '@jest/globals'
 import {ChatCompletionMessageParam} from 'openai/resources'
