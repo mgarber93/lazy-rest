@@ -10,21 +10,19 @@ const Container = styled.div`
 `
 
 export function PageContainer(props: { children: ReactNode, activeRoute: string }) {
-  const [scrollPos, setScrollPos] = useState(0)
   const myRef = useRef()
+  const [scrollPos, setScrollPos] = useState(0)
   
   const handleScroll = useCallback(() => {
-    if(myRef.current as {scrollTop: number}) {
-      debugger
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setScrollPos(myRef.current.scrollTop)
-      
+    if(myRef.current) {
+      const {scrollTop} = myRef.current as {scrollTop: number}
+      setScrollPos(scrollTop)
     }
-  }, [myRef])
+  }, [myRef, scrollPos])
   
+  // @todo set in redux to persist
   return (
-    <Container   ref={myRef} onScroll={handleScroll}>
+    <Container ref={myRef} onScroll={handleScroll}>
       <Header activeRoute={props.activeRoute}/>
       {props.children}
     </Container>
