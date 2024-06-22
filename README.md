@@ -1,5 +1,7 @@
 # GUI for talking to OpenApi Specified Servers
 
+Lazy Rest is an application that maps natural language requests from users to a list of HTTP calls (ie creates a plan) to achieve the request. Users give the application oas spec files, and configure the llm to use, entirely locally for privacy.
+
 ## Examples
 
 ### Spotify
