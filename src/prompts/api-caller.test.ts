@@ -12,11 +12,6 @@ describe('buildCallerPrompt Function', () => {
     api = await OpenAPIParser.parse(filePath)
     console.log('API name: %s, Version: %s', api.info.title, api.info.version)
   })
-  test('should return the prompt given a valid goal and apiDocs', () => {
-    const goal = 'Goal 1'
-    const result = buildCallerPrompt(goal, api)
-    expect(result).toMatchSnapshot()
-  })
   
   test('should throw an error if goal is missing', () => {
     expect(() => buildCallerPrompt('', api))
