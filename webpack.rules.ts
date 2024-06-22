@@ -39,8 +39,4 @@ export const rules: Required<ModuleOptions>['rules'] = [
       'sass-loader',
     ],
   },
-  {
-    test: /\.ya?ml$/,
-    use: 'yaml-loader',
-  },
 ]
