@@ -9,10 +9,12 @@ export function parseCalls(plan: string, apiSpec: OpenAPI.Document): HttpRequest
     .map(str => str.split(":", 2)[1].trim())
   
   const httpCalls = endpoints.map(endpoint => {
-    const [method, path, ...rest] = endpoint.split(' ')
+    const [method, path] = endpoint.split(' ')
     const mappedMethod = method.toUpperCase() as THttp
+    const baseUrl = ''
+    // @todo need to parse calls from an actually parsed spe
     return {
-      baseUrl:
+      baseUrl,
       path,
       method: mappedMethod,
       body: {},
