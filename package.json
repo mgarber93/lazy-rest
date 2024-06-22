@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "test": "jest"
+    "test": "jest -u"
   },
   "keywords": [],
   "author": {
