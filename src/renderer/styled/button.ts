@@ -1,17 +1,16 @@
 import styled from 'styled-components'
 
 export const Button = styled.button`
-  background: var(--call-to-action);
-  border: 1px solid var(--primary-0);
-  height: 2.5rem;
+  min-width: 5rem;
+  min-height: 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--background-color-9);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05), -2px 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: smaller;
 
   &:hover {
-    background: buttonface;
-    color: var(--background-color-0)
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.03), -2px 2px 6px rgba(0, 0, 0, 0.03);
   }
 
-  &:disabled {
-    background: var(--background-color-2);
-  }
-  transition: 0.4s ease-in-out;
+  transition: box-shadow 0.2s;
 `

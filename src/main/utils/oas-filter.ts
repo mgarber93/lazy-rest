@@ -1,5 +1,5 @@
-import {Endpoint, OpenApiSpec} from '../../models/open-api-spec'
-import {HttpRequestPlan} from '../../models/http-request-plan'
+import {HttpRequestPlan} from '../../models/conversation'
+import {OpenAPI} from 'openapi-types'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {
@@ -13,7 +13,7 @@ function setEndpointDescription(object: Record<string, any>, path: string, key: 
  * It does not read the description of the oas overall, which is also available
  * @param oasSpec
  */
-export function oasToDescriptions(oasSpec: OpenApiSpec): object {
+export function oasToDescriptions(oasSpec: OpenAPI.Document): object {
   const spec = {}
   for (const key in oasSpec.paths) {
     const endpoint = oasSpec.paths[key]
@@ -61,7 +61,12 @@ export function fuzzyMatch(a: string, b: string): boolean {
   return true
 }
 
-export function treeShake(oasSpec: OpenApiSpec, plans: HttpRequestPlan[]) {
+/**
+ * Dubious
+ * @param oasSpec
+ * @param plans
+ */
+export function treeShake(oasSpec: OpenAPI.Document, plans: HttpRequestPlan[]) {
   const spec = {} as Record<string, any>
   for (const endpointPath in oasSpec.paths) {
     for (const plan of plans) {
@@ -69,7 +74,9 @@ export function treeShake(oasSpec: OpenApiSpec, plans: HttpRequestPlan[]) {
         const matched = oasSpec.paths[endpointPath]
         const verb = plan.method.toLowerCase()
         spec[endpointPath] = {}
-        spec[endpointPath][verb] = matched[verb as keyof Endpoint]
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        spec[endpointPath][verb] = matched[verb]
       }
     }
   }

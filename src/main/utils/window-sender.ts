@@ -1,26 +1,20 @@
 import {v4} from 'uuid'
-import {TWindowSenderChannel} from '../../models/window-sender'
+import {TWindowSenderChannel} from '../../window-callback/window-callback-api'
+import {singleton} from 'tsyringe'
 
-export type TSender = (eventName: string, ...args: any[]) => void
+export type TSender = (eventName: string, ...args: unknown[]) => void
 
-/**
- * @usage Don't use this class directly, instead use a function that type narrows the response
- */
-export class WindowSender {
+@singleton()
+export class WindowSender  {
   private _sender: TSender | null = null
   private promiseMap = new Map<string, (value: unknown) => void>()
+  private _queue: { eventName: TWindowSenderChannel, args: unknown[] }[] = []
   
-  constructor(private _queue: { eventName: TWindowSenderChannel, args: any[] }[] = []) {
-  }
   hasFinishedLoading(sender: TSender) {
     this._sender = sender
     for (const message of this._queue) {
       this._sender(message.eventName, ...message.args)
     }
-  }
-  
-  send(eventName: TWindowSenderChannel, ...args: any[]): void {
-    return this.sendOrQueue(eventName, args)
   }
   
   /**
@@ -29,39 +23,30 @@ export class WindowSender {
    * @param eventName
    * @param args
    */
-  asyncSend<T = any>(eventName: TWindowSenderChannel, ...args: any[]): Promise<T> {
-    const id = v4()
+  asyncSend<T = unknown>(eventName: TWindowSenderChannel, ...args: unknown[]): Promise<T> {
+    const promiseId = v4()
     return new Promise((resolve, reject) => {
-      if (this.promiseMap.has(id)) {
-        throw new Error(`${id} is already registered (do we need to set a random seed?)`)
+      if (this.promiseMap.has(promiseId)) {
+        throw new Error(`${promiseId} is already registered (do we need to set a random seed?)`)
       }
-      this.promiseMap.set(id, resolve)
-
-      const nextArgs = [id, ...args]
+      this.promiseMap.set(promiseId, resolve)
+      
+      const nextArgs = [promiseId, ...args] as never[]
       if (this._sender) {
-         this._sender(eventName, ...nextArgs)
+        this._sender(eventName, ...nextArgs)
       } else {
         this._queue.push({eventName, args: nextArgs})
       }
     })
   }
-
-  private sendOrQueue(eventName: TWindowSenderChannel, args: any[]) {
-    if (this._sender) {
-      this._sender(eventName, ...args)
-    } else {
-      this._queue.push({eventName, args: [...args]})
-    }
-  }
-  callback(id:string, response: any) {
-    const resolve = this.promiseMap.get(id)
+  
+  callback(promiseId: string, response: unknown) {
+    const resolve = this.promiseMap.get(promiseId)
     if (resolve) {
-      this.promiseMap.delete(id)
+      this.promiseMap.delete(promiseId)
       return resolve(response)
     } else {
-      throw new Error(`No promise found for id: ${id}`)
+      throw new Error(`No promise found for id: ${promiseId}`)
     }
   }
 }
-
-export default new WindowSender()

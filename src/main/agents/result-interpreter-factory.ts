@@ -1,0 +1,32 @@
+import {singleton} from 'tsyringe'
+import {Model} from '../../models/responder'
+import {AgentFactory} from './agent-factory'
+import {Plan} from '../../models/conversation'
+
+@singleton()
+export class ResultInterpreterFactory extends AgentFactory {
+  model = {
+    type: 'chat',
+    provider: "openai",
+    model: "gpt-4-4o",
+  } as Model
+  
+  create(plan: Plan) {
+    const {userGoal, steps, step} = plan
+    const current = steps[step]
+    if (!current.action) {
+      throw new Error('Current step has no action to take defined. Interpretation called out of order')
+    }
+    const template = `
+You are an expert parser of json. You had a plan to achieve:
+${userGoal.message}
+Here's your plan:
+${steps.map(request => request.background).join('\n')}
+You are on step ${step} of a plan:
+The ${current.action.method} to ${current.action.path} in order to ${current.background} returned:
+ ${JSON.stringify(current.result)}
+Answer if the goal of the call was achieved and what the result was
+`
+    return this.createAgent(userGoal, template)
+  }
+}

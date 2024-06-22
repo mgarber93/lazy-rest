@@ -6,7 +6,6 @@ import {getMachineName} from '../features/user'
 import {RootState, useAppDispatch, useAppSelector} from '../features/store'
 import {Conversation} from '../../models/conversation'
 import {selectChat} from '../features/current-chat'
-import ContextMenu from '../components/context-menu'
 import {updateContextMenu} from '../features/context-menu'
 import Aside from '../wrapper/aside'
 import {Tabs} from '../wrapper/tabs'
@@ -37,6 +36,7 @@ const MainContent = styled.div`
 
 const ConversationPage = () => {
   const dispatch = useAppDispatch()
+
   const chats = useSelector<RootState>((state) => state.chats) as Conversation[]
   const currentChat = useAppSelector((state) => state.currentChat)
   
@@ -70,13 +70,12 @@ const ConversationPage = () => {
   const navOnTop = (windowSize.width / windowSize.height) < 1.2
 
   return (
-    <PageContainer activeRoute={"/conversations"}>
+    <PageContainer activeRoute={"/conversations"} >
       <Conversations onMouseUpCapture={handleMouseUp} className={navOnTop ? "tabs" : "aside"}>
         {navOnTop ? <Tabs/> : <Aside/>}
         <MainContent>
           <ConversationComponent/>
         </MainContent>
-        <ContextMenu/>
       </Conversations>
     </PageContainer>
   )

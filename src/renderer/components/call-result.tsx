@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {Icon} from './icon'
 import {useCallback} from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
+import {useAppDispatch} from '../features/store'
 
 const Div = styled.div`
   background-color: var(--background-color-2);
@@ -20,18 +21,22 @@ const Div = styled.div`
     justify-content: center;
     align-items: center;
   }
+  .content {
+    max-width: 55rem;
+  }
 `
 
 export function ResultOfCall({result}: { result: object }) {
   const currentConversation = useCurrentConversation()
+  const dispatch = useAppDispatch()
   const serialized = JSON.stringify(result, (key: string, value: any) => {
     if (Array.isArray(value) && value.length > 3)
       return `[${value.slice(0, 6).join(', ')}, ...]`
     return value
   }, 2)
+
+  const handleClick = useCallback(() => {
   
-  const summarize = useCallback(() => {
-    // @todo
   }, [currentConversation])
   
   return <Div>
@@ -39,7 +44,7 @@ export function ResultOfCall({result}: { result: object }) {
       `\`\`\`json\n${serialized.trim()}\n\`\`\``
     }</Markdown>
     <div className="footer">
-      <Icon type={"checkbox"} handleClick={summarize}/>
+      <Icon type={"checkbox"} />
     </div>
   </Div>
 }

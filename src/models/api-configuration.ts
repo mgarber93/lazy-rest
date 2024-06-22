@@ -5,3 +5,8 @@ export interface ApiConfiguration {
   clientId: string;
   clientSecret: string;
 }
+
+export interface File {
+  fileHandle: string;
+  id: string;
+}

@@ -1,29 +1,11 @@
+import "reflect-metadata"
 import {WindowSender} from './window-sender'
+import {channelAllowList} from '../../window-callback/window-callback-api'
 
 describe('WindowSender', () => {
-  it('should send before sender', () => {
-    const windowSender = new WindowSender()
-    const spy = jest.fn()
-    const argOne = 'load-oas'
-    const argTwo = {}
-    windowSender.send(argOne, argTwo)
-    // expect spy to have been called with argOne argTwo
-    windowSender.hasFinishedLoading(spy)
-    expect(spy).toHaveBeenCalledWith(argOne, argTwo)
-  })
-  it('should send after sender', () => {
-    const windowSender = new WindowSender()
-    const spy = jest.fn()
-    const argOne = 'load-oas'
-    const argTwo = {}
-    windowSender.hasFinishedLoading(spy)
-    windowSender.send(argOne, argTwo)
-    // expect spy to have been called with argOne argTwo
-    expect(spy).toHaveBeenCalledWith(argOne, argTwo)
-  })
   it('should resolve with the sent values before hasFinishedLoading has been called', async () => {
     const windowSender = new WindowSender()
-    const argOne = 'load-oas'
+    const argOne = channelAllowList[1]
     const argThree = {arg: 'hello world'}
     const sender = (...args: any[]) => {
       expect(args[0]).toEqual(argOne)
@@ -43,7 +25,7 @@ describe('WindowSender', () => {
   })
   it('should resolve with the sent values after have finished loading has happened', async () => {
     const windowSender = new WindowSender()
-    const argOne = 'load-oas'
+    const argOne = channelAllowList[1]
     const argThree = {arg: 'hello world'}
     const callback = (...args: any[]) => {
       expect(args[0]).toEqual(argOne)

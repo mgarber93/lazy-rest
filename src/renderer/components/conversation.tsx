@@ -2,21 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import {Message} from './message'
 import {SendMessage} from './send-message'
-import {useCurrentConversation} from '../hooks/current-conversation'
+import {useCurrentConversation, useCurrentTools} from '../hooks/current-conversation'
 import {CallingPlanApproval} from './calling-plan-approval'
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: clamp(5rem, 100%, 63.25rem);
   padding-top: 1rem;
   padding-bottom: 2.5rem;
+  height: fit-content;
 `
 
 const MessagesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   gap: 1rem;
 
   &::-webkit-scrollbar {
@@ -24,9 +24,11 @@ const MessagesContainer = styled.div`
   }
 `
 
+
 export const ConversationComponent = () => {
   const activeChat = useCurrentConversation()
-  const planController = activeChat?.planController
+  const tools = useCurrentTools()
+
   return (
     <StyledDiv>
       <MessagesContainer>
@@ -34,7 +36,7 @@ export const ConversationComponent = () => {
           activeChat?.content.map(content => <Message key={content.id} content={content}/>)
         }
         {
-          planController ? <CallingPlanApproval planController={planController}></CallingPlanApproval> : null
+          tools ? <CallingPlanApproval tools={tools}></CallingPlanApproval> : null
         }
       </MessagesContainer>
       <SendMessage/>

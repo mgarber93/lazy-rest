@@ -1,13 +1,16 @@
 import {TProvider} from '../../models/responder'
-import {getModels} from '../providers/openai'
 import {Handler} from './handler'
+import {container} from 'tsyringe'
+import {OpenAiLlm} from '../providers/openai'
 
 export class ModelListHandle implements Handler<'getModels'> {
+  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  
   async handle(provider: TProvider) {
     console.log('GetModelsHandler:handle')
     switch (provider) {
       case "openai": {
-        return getModels()
+        return this.openAiLlm.getFavorite()
       }
       case "anthropic": {
         throw new Error('not implemented')

@@ -12,5 +12,4 @@ const preloadedApi = container.resolve<Preloader>(Preloader)
 
 contextBridge.exposeInMainWorld('main', preloadedApi.preload())
 
-
 export {PreloadedApi} from './preloader/preloaded-api'

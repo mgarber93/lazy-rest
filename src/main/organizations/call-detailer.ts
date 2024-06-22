@@ -1,18 +1,20 @@
-import {Handler} from './handler'
-import {AuthoredContent} from '../../models/content'
-import {HttpRequestPlan} from '../../models/http-request-plan'
-import {createArgs} from '../organizations/create-args'
-import {OpenApiSpec} from '../../models/open-api-spec'
-import {treeShake} from '../utils/oas-filter'
-import {createAgent} from '../agents/agent'
+import {container, singleton} from 'tsyringe'
 import {ChatCompletionMessageParam} from 'openai/resources'
+import {AuthoredContent} from '../../models/content'
+import {treeShake} from '../utils/oas-filter'
 import {getRespondingModel} from '../../models/responder'
-import {agentWithHttp} from '../providers/openai'
+import {OpenAiLlm} from '../providers/openai'
+import {HttpRequestPlan, Plan} from '../../models/conversation'
+import {ExecutorFactory} from '../agents/executor-factory'
+import {OpenAPI} from 'openapi-types'
 
-export class CallDetailer implements Handler<'detailCallInPlan'> {
-  async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan) {
-    const {oasSpec} = await createArgs()
-    const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenApiSpec) => {
+@singleton()
+export class CallDetailer {
+  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  private agentFactory = container.resolve(ExecutorFactory)
+  
+  async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan, oasSpec: OpenAPI.Document[]) {
+    const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenAPI.Document) => {
       const treeShook = treeShake(spec, [endpointCallPlan])
       for (const key in treeShook) {
         acc[key] = treeShook[key]
@@ -23,11 +25,15 @@ export class CallDetailer implements Handler<'detailCallInPlan'> {
     if (Object.keys(specForPlannedCall).length === 0) {
       throw new Error('Unable to tree shake')
     }
+    const endpoints = JSON.stringify(specForPlannedCall)
     
-    const executorAgent = await createAgent("executor", userContent, {
-      endpoints: JSON.stringify(specForPlannedCall),
-      oasSpec,
-    })
+    const plan: Plan = {
+      userGoal: userContent,
+      state: {},
+      steps: [],
+      step: 0,
+    }
+    const executorAgent = await this.agentFactory.create(plan)
     
     const messages: ChatCompletionMessageParam[] = executorAgent.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
@@ -35,7 +41,7 @@ export class CallDetailer implements Handler<'detailCallInPlan'> {
     const model = getRespondingModel(executorAgent.responder)
     // responder can change depending on conversation history
     // create another tool plan and for each call in the plan make the call
-    const toolPlan = await agentWithHttp(model, messages)
+    const toolPlan = await this.openAiLlm.agentWithHttp(model, messages)
     for (const toolCall of toolPlan?.tool_calls ?? []) {
       const {function: functionCall, id} = toolCall
       const functionCallArgs = JSON.parse(functionCall.arguments)
@@ -45,8 +51,7 @@ export class CallDetailer implements Handler<'detailCallInPlan'> {
         path: functionCallArgs.endpoint,
         method: 'GET',
         headers: {},
-        body: {}, // get has no body atm
-        background: endpointCallPlan.background,
+        body: {},
       } as HttpRequestPlan
     }
     return null

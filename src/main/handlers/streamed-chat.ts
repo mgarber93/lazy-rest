@@ -1,36 +1,55 @@
-import {injectable} from 'tsyringe'
-import {isModel, isOrganization, Model} from '../../models/responder'
+import {container, injectable} from 'tsyringe'
+import {isModel} from '../../models/responder'
 import {Conversation} from '../../models/conversation'
-import {respondTo} from '../utils/respond-to'
-import {streamedPrompt} from '../providers/openai'
-import {createCallingPlan} from '../organizations/swagger-gpt'
 import {Handler} from './handler'
+import {OpenAiLlm} from '../providers/openai'
+import {AsyncWindowSenderApi} from '../async-window-sender-api'
+import {SwaggerGptPlanProgressor} from '../organizations/swagger-gpt'
+
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
+  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  private swaggerGptPlanProgressor = container.resolve(SwaggerGptPlanProgressor)
+  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
+  static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
+  
   async handle(conversation: Conversation): Promise<void> {
-    const responder = conversation.responder
-    if (isModel(responder)) {
-      const response = await respondTo(conversation.id, (conversation.responder as Model).model)
-      switch (responder.provider) {
-        case "openai": {
-          await streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
-          return
-        }
-        case "anthropic": {
-          throw new Error('not implemented')
-        }
-      }
-    } else if (isOrganization(responder)) {
-      const content = conversation.content
-      // assume we're rest GPT for now
-      if (content.length < 1)
-        throw new Error('No user prompt for org to handle')
-      
-      const lastMessage = content.at(-1)
-      return createCallingPlan(lastMessage, conversation.id)
+    switch (conversation.responder.type) {
+      case "chat":
+        return this.simpleReply(conversation)
+      case "organization":
+        return this.organizationReply(conversation)
+      case "agent":
+      default:
+        throw new Error(StreamedChatHandler.Error_Message)
     }
-    
-    throw new Error(`Cant respond`)
+  }
+  
+  async simpleReply(conversation: Conversation) {
+    const {responder} = conversation
+    if (!isModel(responder)) {
+      throw new Error(StreamedChatHandler.Error_Message)
+    }
+    const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
+    switch (responder.provider) {
+      case "openai": {
+        await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
+        return
+      }
+      case "anthropic": {
+        throw new Error('not implemented')
+      }
+    }
+  }
+  
+  /**
+   * An organization reply is a calling plan
+   * @param conversation
+   */
+  async organizationReply(conversation: Conversation) {
+    const lastMessate = conversation.content.at(-1)
+    this.swaggerGptPlanProgressor.start()
+    return this.swaggerGptPlanProgressor.continue(conversation)
   }
 }
