@@ -3,7 +3,7 @@ import {ReactNode} from 'react'
 
 const Div = styled.div`
   border-radius: var(--border-radius-comfy);
-  border: 1px solid var(--background-color-3);
+  border: 1px solid transparent;
   background: var(--card);
   padding: 1rem;
   
