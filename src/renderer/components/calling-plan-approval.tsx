@@ -15,7 +15,6 @@ const ContinueButton = styled(Button)`
 
 
 export function CallingPlanApproval({tools}: { tools: ToolState }) {
-  return <div>
-    <ContinueButton> Approve </ContinueButton>
-  </div>
+  const {approvable} = tools
+  return approvable ? <ContinueButton> Approve </ContinueButton> : null
 }

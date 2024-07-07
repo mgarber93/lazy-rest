@@ -48,7 +48,6 @@ const StyledDiv = styled.div`
 export function Message({content}: { content: AuthoredContent }) {
   const userName = useAppSelector(state => state.user?.username)
   const isUser = content.author === userName
-  const author = content.author?.length
 
   if (content.role === 'system') {
     return (
@@ -61,9 +60,9 @@ export function Message({content}: { content: AuthoredContent }) {
     )
   }
   const node = <StyledDiv>
-    <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message.replace(/(\n)+/g, '  \n')}</Markdown>
+    <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
     <p className={"author" + (isUser ? ' user' : '')}>
-      {content.author?.substring(Math.max(author - 14, 0), Math.max(author, 14))}
+      {content.author.split('-').reverse().slice(0, 2).reverse().join(' ')}
     </p>
   </StyledDiv>
 
