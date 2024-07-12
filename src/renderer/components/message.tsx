@@ -67,9 +67,9 @@ export function Message({content}: { content: AuthoredContent }) {
     <div className="content">
       <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
     </div>
-    <p className={"author" + (isUser ? ' user' : '')}>
+    {content.author && <p className={"author" + (isUser ? ' user' : '')}>
       {content.author.split('-').reverse().slice(0, 2).reverse().join(' ')}
-    </p>
+    </p>}
   </StyledDiv>
   
   return <Card slim={isUser}>{node}</Card>
