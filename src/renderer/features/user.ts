@@ -1,9 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {User} from '../../models/user'
 
-const serializedChats = localStorage.getItem('user')
-const user = JSON.parse(serializedChats) ?? {}
-
 export const getMachineName = createAsyncThunk(
   'user/getMachineName',
   async (_, thunkAPI) => {
@@ -18,7 +15,7 @@ export const getMachineName = createAsyncThunk(
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: user as User | null,
+  initialState: null as User | null,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getMachineName.fulfilled, (state, action) => {

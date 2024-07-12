@@ -9,7 +9,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {Icon} from './icon'
 
 const Button = styled.button`
-  min-width: 17.6rem;
+  min-width: 12rem;
   transition: 0.2s ease-in-out background;
 
   &:hover {
@@ -82,12 +82,10 @@ export function TimelineExtend() {
   const dispatch = useAppDispatch()
   const handleClick = useCallback(() => {
     const item = createConversation('new')
-    dispatch(startNewChat())
+    dispatch(startNewChat(item))
     dispatch(selectChat(item.id))
   }, [dispatch])
   return <li className={"TimelineItem list-style-none"}>
-    <div>
-      <Button onClick={handleClick}>new</Button>
-    </div>
+    <Button onClick={handleClick}>new</Button>
   </li>
 }

@@ -3,7 +3,7 @@ import {OpenAiConfiguration} from '../../models/provider-config'
 
 const name = 'models'
 
-const defaultState = {
+const initialState = {
   models: [] as string[],
   providers: {
     openAi: null as OpenAiConfiguration,
@@ -12,9 +12,6 @@ const defaultState = {
   organizations: [""],
 }
 
-const serializedModels = localStorage.getItem('models')
-const deserializedState = JSON.parse(serializedModels)
-const initialState = deserializedState ?? defaultState
 
 export const listModels = createAsyncThunk(
   `${name}/listModels`,

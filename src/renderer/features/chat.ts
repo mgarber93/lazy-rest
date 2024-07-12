@@ -4,9 +4,6 @@ import {Conversation, createConversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
 
-const serializedChats = localStorage.getItem('chats')
-const chats = JSON.parse(serializedChats)
-const initialState: Conversation[] = chats ?? [createConversation()]
 const name = 'chats'
 
 
@@ -17,11 +14,11 @@ export const streamResponse = createAsyncThunk(
     const state = thunkAPI.getState() as RootState
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
     const conversation = state.chats.find(chat => chat.id === conversationId)
-
+    
     // Cant respond unless a responder is set
     if (!conversation || !conversation.responder)
       return null
-
+    
     await window.main.streamedChat(conversation)
   },
 )
@@ -29,7 +26,7 @@ export const streamResponse = createAsyncThunk(
 
 export const chatsSlice = createSlice({
   name,
-  initialState,
+  initialState: [createConversation()],
   reducers: {
     respond: (state, action: PayloadAction<AuthoredContent>) => {
       const {id, chatId} = action.payload
@@ -81,7 +78,7 @@ export const chatsSlice = createSlice({
     removeChat: (state, action: PayloadAction<string>) => {
       return state.filter(chat => chat.id !== action.payload)
     },
-    setResponder: (state, action: PayloadAction<{responder: Responder, chatId: string}>) => {
+    setResponder: (state, action: PayloadAction<{ responder: Responder, chatId: string }>) => {
       const {chatId, responder} = action.payload
       const foundChat = state.find(chat => chat.id === chatId)
       if (!foundChat) {
@@ -89,8 +86,6 @@ export const chatsSlice = createSlice({
       }
       foundChat.responder = responder
     },
-  },
-  extraReducers: (builder) => {
   },
 })
 
