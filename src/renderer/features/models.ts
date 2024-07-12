@@ -1,10 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {OpenAiConfiguration} from '../../models/provider-config'
-import {readInitialState} from '../middleware/local-storage'
 
 const name = 'models'
 
-const defaultState = {
+const initialState = {
   models: [] as string[],
   providers: {
     openAi: null as OpenAiConfiguration,
@@ -13,7 +12,6 @@ const defaultState = {
   organizations: [""],
 }
 
-const initialState = readInitialState(name, defaultState)
 
 export const listModels = createAsyncThunk(
   `${name}/listModels`,

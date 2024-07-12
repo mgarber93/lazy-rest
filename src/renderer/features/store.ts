@@ -5,9 +5,11 @@ import {userSlice} from './user'
 import {currentChatSlice} from './current-chat'
 import {contextMenuSlice} from './context-menu'
 import {modelsSlice} from './models'
-import {localStorageMiddleware} from '../middleware/local-storage'
+import {loadState, localStorageMiddleware} from '../middleware/local-storage'
 import {toolsSlice} from './tools'
 
+
+const preloadedState = loadState()
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,7 @@ export const store = configureStore({
     models: modelsSlice.reducer,
     tools: toolsSlice.reducer,
   },
+  preloadedState: preloadedState,
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 })

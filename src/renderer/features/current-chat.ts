@@ -1,10 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-const initialState = JSON.parse(localStorage.getItem('currentChat'))
 
 export const currentChatSlice = createSlice({
   name: 'currentChat',
-  initialState: initialState as string | null,
+  initialState: '',
   reducers: {
     selectChat: (state, action: PayloadAction<string>) => state = action.payload,
   },

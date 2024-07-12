@@ -9,6 +9,20 @@ export function readInitialState<T>(key: string, initialState: T): () => T {
   }
 }
 
+export function loadState<T>(): T {
+  const keysSerialized = localStorage.getItem('keys')
+  const keys = JSON.parse(keysSerialized)
+  return keys
+    .reduce(
+      (acc: Partial<T>, key: keyof T) => {
+        const serialized = localStorage.getItem(key as string)
+        acc[key] = JSON.parse(serialized)
+        return acc
+      },
+      {} as Partial<T>,
+    )
+}
+
 export const localStorageMiddleware = (store: MiddlewareAPI) => (next: Dispatch<UnknownAction>) => (action: UnknownAction) => {
   const result = next(action)
   const state = store.getState()
