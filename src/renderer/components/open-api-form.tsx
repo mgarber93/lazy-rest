@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import {OpenAiConfiguration} from '../../models/provider-config'
+import React, {useCallback, useEffect} from 'react'
 import {configureOpenAi} from '../features/models'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {Control, Footer, Form, Group, Header, Label} from '../styled/form'
@@ -8,30 +7,51 @@ import {Button} from '../styled/button'
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi)
   const dispatch = useAppDispatch()
-  const [apiKey, setApiKey] = useState(providerConfig?.apiKey ?? '')
-  const [baseUrl, setBaseUrl] = useState(providerConfig?.baseUrl ?? '')
+  useEffect(() => {
+    dispatch(configureOpenAi({apiKey: providerConfig.apiKey ?? '', baseUrl: providerConfig.baseUrl ?? ''}))
+  }, [])
+  
+  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = event.target
+    
+    // use fresh state inside the dispatcher. need to deep copy?
+    const freshProviderConfig = useAppSelector(
+      state => state.models.providers.openAi,
+    )
+    
+    dispatch(configureOpenAi({...freshProviderConfig, [name]: value}))
+  }, [dispatch]) // corrected dependencies array
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const config: OpenAiConfiguration = {apiKey, baseUrl}
-    dispatch(configureOpenAi(config))
   }
+  
   return (
     <Form onSubmit={handleSubmit}>
-      <Header>Open AI</Header>
+      <Header className="mb-lg-2">
+        <div className="form">
+          Open AI
+        </div>
+        <div className="helper-text">
+        
+        </div>
+      </Header>
       <Group className="mb-lg-2">
         <Label>Key</Label>
         <Control
+          name="apiKey"
           type="password"
-          value={apiKey}
-          onChange={(e: { target: { value: any; }; }) => setApiKey(e.target.value)}
+          value={providerConfig?.apiKey || ''}
+          onChange={handleChange}
           required/>
       </Group>
       <Group className="mb-lg-2">
         <Label>Base URL (optional)</Label>
         <Control
+          name="baseUrl"
           type="text"
-          value={baseUrl}
-          onChange={(e: { target: { value: any; }; }) => setBaseUrl(e.target.value)}
+          value={providerConfig?.baseUrl || ''}
+          onChange={handleChange}
         />
       </Group>
       <Footer>

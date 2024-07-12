@@ -5,7 +5,7 @@ const Div = styled.div`
   border-radius: var(--border-radius-comfy);
   border: 1px solid transparent;
   background: var(--card);
-  padding: 1rem;
+  padding: 0rem;
   
   &:hover {
     border: 1px solid var(--background-color-4);

@@ -19,8 +19,10 @@ const StyledDiv = styled.div`
       color: var(--dark-grey);
     }
   }
-  
+
   .content {
+    font-size: medium;
+    padding: 0.33rem 1rem;
     h1, h2 {
       font-size: large;
     }
@@ -48,11 +50,13 @@ const StyledDiv = styled.div`
 export function Message({content}: { content: AuthoredContent }) {
   const userName = useAppSelector(state => state.user?.username)
   const isUser = content.author === userName
-
+  
   if (content.role === 'system') {
     return (
       <StyledDiv>
-        <div>{content.author}</div>
+        <div className="content">
+          <div>{content.author}</div>
+        </div>
         <p className={"author"}>
           {content.role}
         </p>
@@ -60,11 +64,13 @@ export function Message({content}: { content: AuthoredContent }) {
     )
   }
   const node = <StyledDiv>
-    <Markdown className="content" remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+    <div className="content">
+      <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+    </div>
     <p className={"author" + (isUser ? ' user' : '')}>
       {content.author.split('-').reverse().slice(0, 2).reverse().join(' ')}
     </p>
   </StyledDiv>
-
+  
   return <Card slim={isUser}>{node}</Card>
 }
