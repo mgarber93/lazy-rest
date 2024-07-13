@@ -47,4 +47,13 @@ export abstract class AgentFactory {
     const {steps, step} = plan
     return steps.at(step)
   }
+  
+  public async createAndPrompt(conversation: Conversation, plan: Plan) {
+    const agent = await this.create(plan)
+    const result = await this.promptAgent(conversation.content)
+    return {
+      result,
+      agent,
+    }
+  }
 }
