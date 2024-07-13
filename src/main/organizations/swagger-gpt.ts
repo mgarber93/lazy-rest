@@ -26,6 +26,7 @@ export class SwaggerGptPlanProgressor {
     const plan = this.createPlan(conversation.content.at(-1))
     const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
     console.log(result.message)
+    await this.endpointSelector.createAndPrompt()
     
     // do something like create network call plan
     // step 1 decide rough sketch of calling plan
