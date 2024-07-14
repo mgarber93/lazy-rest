@@ -33,7 +33,7 @@
   --primary-7: rgba(148, 151, 110, 0.33);
   --primary-8: rgba(167, 170, 124, 0.33);
   --primary-9: rgba(186, 189, 137, 0.33);
-  --text-color: #f2f2f2;
+  --text-color: rgba(242, 242, 242, 0.86);
   --accent-text: var(--sage);
   --clamp-min: 40px;
   --clamp-max: 611px;
@@ -54,9 +54,6 @@
   --timeline: #696969;
   --card: var(--background-color-1);
   --call-to-action: linear-gradient(90deg, var(--sage), var(--sage-bg) 60%, var(--sage));
-  --dashed-solid: 2px solid var(--background-color-3);
-  --dashed: 2px dashed var(--background-color-3);
-  --dashed-gone: 2px solid transparent;
   --header-icon: buttonface;
 }
 

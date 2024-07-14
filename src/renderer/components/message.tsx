@@ -11,7 +11,7 @@ const StyledDiv = styled.div`
   grid-template-columns: 1fr var(--name-gutter);
 
   .author {
-    color: var(--accent-text);
+    color: var(--background-color-9);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     text-align: center;
 
@@ -23,6 +23,7 @@ const StyledDiv = styled.div`
   .content {
     font-size: medium;
     padding: 0.33rem 1rem;
+
     h1, h2 {
       font-size: large;
     }
@@ -49,27 +50,18 @@ const StyledDiv = styled.div`
 
 export function Message({content}: { content: AuthoredContent }) {
   const userName = useAppSelector(state => state.user?.username)
-  const isUser = content.author === userName
+  const {author} = content
+  const isUser = author === userName
   
-  if (content.role === 'system') {
-    return (
-      <StyledDiv>
-        <div className="content">
-          <div>{content.author}</div>
-        </div>
-        <p className={"author"}>
-          {content.role}
-        </p>
-      </StyledDiv>
-    )
-  }
   const node = <StyledDiv>
     <div className="content">
       <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
     </div>
-    {content.author && <p className={"author" + (isUser ? ' user' : '')}>
-      {content.author.split('-').reverse().slice(0, 2).reverse().join(' ')}
-    </p>}
+    {
+      author && <p className={"author"}>
+        {author.split('-').reverse().slice(0, 2).reverse().join(' ')}
+      </p>
+    }
   </StyledDiv>
   
   return <Card slim={isUser}>{node}</Card>

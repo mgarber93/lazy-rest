@@ -1,16 +1,37 @@
 import {container, singleton} from 'tsyringe'
-import {Conversation} from '../../models/conversation'
+import {Conversation, Plan, PlanStep} from '../../models/conversation'
 import {ResultInterpreter} from './result-interpreter'
+import {EndpointSelector} from './endpoint-selector'
+import {AuthoredContent} from '../../models/content'
+import {PlannerFactory} from '../agents/planner-factory'
+import {SelectorFactory} from '../agents/selector-factory'
 
 @singleton()
 export class SwaggerGptPlanProgressor {
+  private plannerFactory = container.resolve(PlannerFactory)
+  private endpointSelector = container.resolve(EndpointSelector)
   private resultInterpreter = container.resolve(ResultInterpreter)
+  private selectorFactor = container.resolve(SelectorFactory)
   
-  async continue(conversation: Conversation) {
-    throw new Error('not implemented')
+  private createPlan(userGoal: AuthoredContent) {
+    return {
+      userGoal,
+      state: {},
+      steps: [] as PlanStep[],
+      step: 0,
+    } satisfies Plan
   }
   
-  start() {
-    throw new Error('not implemented')
+  async continue(conversation: Conversation) {
+    const plan = this.createPlan(conversation.content.at(-1))
+    const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
+    console.log(result.message)
+    
+    // do something like create network call plan
+    // step 1 decide rough sketch of calling plan
+    // step 2 create specific network call
+    // step 3 interpret results
+    // proceed to next in plan for 2 or return to 4
+    // step 4 interpret final result (or all results)
   }
 }

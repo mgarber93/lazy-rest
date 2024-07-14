@@ -18,10 +18,7 @@ const Div = styled.div`
 
   margin: 0;
   transition: 0.4s ease-in-out border;
-  
-  &.slim {
-    padding: 0.3rem 1rem;
-  }
+
 `
 
 export function Card(props: {children: ReactNode, slim?: boolean}) {

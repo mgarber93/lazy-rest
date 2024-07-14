@@ -1,12 +1,15 @@
 import {container, singleton} from 'tsyringe'
+
 import {SelectorFactory} from '../agents/selector-factory'
-import {Plan} from '../../models/conversation'
+import {AgentFactory} from '../agents/agent-factory'
+import {Conversation, Plan} from '../../models/conversation'
+
 
 @singleton()
-export class EndpointSelector {
-  private agentFactory = container.resolve(SelectorFactory)
-  
-  async createCallingPlan(plan: Plan) {
-    // @todo
+export class EndpointSelector extends AgentFactory {
+  public create(plan: Plan): Promise<Conversation> {
+    throw new Error('Method not implemented.')
   }
+  
+  private agentFactory = container.resolve(SelectorFactory)
 }
