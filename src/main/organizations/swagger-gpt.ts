@@ -23,10 +23,14 @@ export class SwaggerGptPlanProgressor {
   }
   
   async continue(conversation: Conversation) {
-    const plan = this.createPlan(conversation.content.at(-1))
+    const lastMessage = conversation.content.at(-1)
+    if (!lastMessage)
+      throw new Error('unable to continue empty conversation')
+    const plan = this.createPlan(lastMessage)
     const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
-    console.log(result.message)
     
+    const endpointSelections = await this.endpointSelector.createAndPrompt(conversation, plan)
+    debugger
     // do something like create network call plan
     // step 1 decide rough sketch of calling plan
     // step 2 create specific network call
