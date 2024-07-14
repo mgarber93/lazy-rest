@@ -24,7 +24,6 @@ const Div = styled.div`
   background-color: var(--background-color-0);
   min-height: 2rem;
   z-index: 3;
-  border-bottom: var(--dashed);
 
   & * {
     -webkit-app-region: no-drag;

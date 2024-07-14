@@ -8,15 +8,18 @@ const SendMessageContainer = styled.div`
   flex-direction: row;
   width: 100%;
   height: fit-content;
-  border-top: var(--dashed);
-  border-left: var(--dashed-gone);
-
   display: block;
   min-height: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  border: 2px solid var(--background-color-3);
 
-  &:hover, &:active, &:focus, &:focus-within {
+  &:hover {
+    border-radius: var(--border-radius);
+    border: 2px solid var(--background-color-3);
+  }
+
+  &:active, &:focus, &:focus-within {
     border-radius: var(--border-radius);
     background-color: var(--background-color-1);
     border: 2px solid var(--background-color-3);
@@ -34,7 +37,7 @@ function mapResponderToPlaceholder(responder: Responder) {
       return `Message ${responder?.orgId}`
     }
     default:
-      return `Select a model`
+      return `Select a model from the bottom left?? idk maybe this is a button right here`
   }
 }
 
