@@ -11,19 +11,22 @@ import {toolsSlice} from './tools'
 
 const preloadedState = loadState()
 
-export const store = configureStore({
-  reducer: {
-    chats: chatsSlice.reducer,
-    user: userSlice.reducer,
-    currentChat: currentChatSlice.reducer,
-    contextMenu: contextMenuSlice.reducer,
-    models: modelsSlice.reducer,
-    tools: toolsSlice.reducer,
-  },
-  preloadedState: preloadedState,
-  devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
-})
+export function createStore() {
+  return configureStore({
+    reducer: {
+      chats: chatsSlice.reducer,
+      user: userSlice.reducer,
+      currentChat: currentChatSlice.reducer,
+      contextMenu: contextMenuSlice.reducer,
+      models: modelsSlice.reducer,
+      tools: toolsSlice.reducer,
+    },
+    preloadedState,
+    devTools: true,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
+  })
+}
+export const store = createStore()
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

@@ -6,8 +6,8 @@ const name = 'models'
 const initialState = {
   models: [] as string[],
   providers: {
-    openAi: null as OpenAiConfiguration,
-    anthropic: null as object,
+    openAi: null as OpenAiConfiguration | null,
+    anthropic: null as object | null,
   },
   organizations: [""],
 }
