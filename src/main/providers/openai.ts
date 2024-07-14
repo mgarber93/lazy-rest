@@ -31,7 +31,11 @@ export class OpenAiLlm {
       model,
       messages,
     })
-    return chatCompletion.choices[0].message
+    const message = chatCompletion.choices[0].message
+    return {
+      content: message.content ?? '',
+      role: message.role,
+    } satisfies RoleContent
   }
   
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {

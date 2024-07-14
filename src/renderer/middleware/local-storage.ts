@@ -3,20 +3,23 @@ import {Dispatch} from 'react'
 
 export function readInitialState<T>(key: string, initialState: T): () => T {
   return () => {
-    const serialized = localStorage.getItem(key)
-    const state = JSON.parse(serialized) as T
+    const serialized = localStorage.getItem(key) ?? ''
+    const state = serialized ? JSON.parse(serialized) as T : null
     return state ?? initialState
   }
 }
 
 export function loadState<T>(): T {
   const keysSerialized = localStorage.getItem('keys')
-  const keys = JSON.parse(keysSerialized) ?? []
+  const keys = keysSerialized ? (JSON.parse(keysSerialized) ?? []) : []
   return keys
     .reduce(
       (acc: Partial<T>, key: keyof T) => {
         const serialized = localStorage.getItem(key as string)
-        acc[key] = JSON.parse(serialized)
+        const value = serialized ? JSON.parse(serialized) : ''
+        if (value) {
+          acc[key] = value
+        }
         return acc
       },
       {} as Partial<T>,

@@ -1,6 +1,6 @@
 import {OpenAPI} from 'openapi-types'
 
-export const buildCallerPrompt = (goal: string, apiDocs: OpenAPI.Document) => {
+export const buildCallerPrompt = (goal: string, apiDocs: OpenAPI.Document | null) => {
   if (!goal) {
     throw new Error('Api Caller prompt missing goal for Call!')
   }
