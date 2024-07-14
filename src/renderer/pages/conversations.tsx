@@ -12,6 +12,7 @@ import {Tabs} from '../wrapper/tabs'
 import {PageContainer} from '../wrapper/responder-type/page-container'
 
 const Conversations = styled.div`
+  background-color: var(--background-color-3);
   &.aside {
     display: grid;
     grid-template-columns: calc(var(--aside-nav) * 1.1) 1fr;
