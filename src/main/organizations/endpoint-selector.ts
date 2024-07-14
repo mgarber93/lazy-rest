@@ -2,13 +2,14 @@ import {container, singleton} from 'tsyringe'
 
 import {SelectorFactory} from '../agents/selector-factory'
 import {AgentFactory} from '../agents/agent-factory'
+import {Conversation, Plan} from '../../models/conversation'
 
-// @todo refactor agent factory to accept model to create and prompt, if and when subsequent prompting is needed
-// lets add methods at that point or something
 
 @singleton()
 export class EndpointSelector extends AgentFactory {
-
-  private agentFactory = container.resolve(SelectorFactory)
+  public create(plan: Plan): Promise<Conversation> {
+    throw new Error('Method not implemented.')
+  }
   
+  private agentFactory = container.resolve(SelectorFactory)
 }

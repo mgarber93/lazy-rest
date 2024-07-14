@@ -1,26 +1,14 @@
 export type TResponder = "chat" | "agent" | "organization"
 export type TProvider = "openai" | "anthropic"
-export declare type GetModels = (provider: TProvider) => Promise<string>
 
-export interface Responder {
+export type Responder = {
   type: TResponder;
-}
-
-export interface Model extends Responder {
   provider: TProvider;
   model: string;
+  orgId?: string;
 }
 
-export interface Organization extends Responder {
-  type: "organization";
-  orgId: string;
-}
-
-export interface Agent extends Model {
-  instructions: string;
-}
-
-export function createModelResponder(type: TResponder, model: string, provider: TProvider): Model {
+export function createModelResponder(type: TResponder, model: Responder['model'], provider: TProvider): Responder {
   return {
     type,
     model,
@@ -29,13 +17,13 @@ export function createModelResponder(type: TResponder, model: string, provider: 
 }
 
 export function getRespondingModel(responder: Responder): string {
-  return (responder as Model)?.model
+  return (responder as Responder)?.model
 }
 
-export function isModel(responder: Responder): responder is Model {
+export function isModel(responder: Responder): responder is Responder {
   return responder.type === 'chat'
 }
 
-export function isOrganization(responder: Responder): responder is Organization {
+export function isOrganization(responder: Responder): responder is Responder {
   return responder.type === 'organization'
 }

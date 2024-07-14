@@ -1,36 +1,18 @@
 import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {AuthoredContent, createContent} from '../../models/content'
-import {container} from 'tsyringe'
-import {Model} from '../../models/responder'
+import {container, singleton} from 'tsyringe'
+import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 
+// @todo refactor agent factory to accept model to create and prompt, if and when subsequent prompting is needed
+// lets add methods at that point or something
 
-/**
- * An Agent initial conversation has two contents:
- * 1) a system prompt describing its role
- * 2) a user prompt to respond to using the guidelines
- *
- * @param agent - type of agent
- * @param userContent - Content to respond to
- * @param args
- */
-export abstract class AgentFactory {
+@singleton()
+export class ResponderHandler {
   private openAiLlm = container.resolve(OpenAiLlm)
-  abstract model: Model
   
-  public abstract create(plan: Plan): Promise<Conversation>
-  
-  protected async createAgent(goal: AuthoredContent, instructions: string) {
-    const agentInternalConversation = createConversation()
-    agentInternalConversation.responder = this.model
-    const instructionContent = createContent(instructions, agentInternalConversation.id, 'system', 'system')
-    agentInternalConversation.content.push(instructionContent)
-    agentInternalConversation.content.push(goal)
-    return agentInternalConversation
-  }
-  
-  async promptAgent(content: AuthoredContent[]) {
-    const responder = this.model
+  async promptAgent(conversation: Conversation) {
+    const {responder, content} = conversation
     switch (responder.provider) {
       case "openai": {
         const {content: response, role} = await this.openAiLlm.prompt(responder.model, content)
@@ -42,6 +24,34 @@ export abstract class AgentFactory {
       }
     }
   }
+}
+
+/**
+ * An Agent initial conversation has two contents:
+ * 1) a system prompt describing its role
+ * 2) a user prompt to respond to using the guidelines
+ *
+ * @param agent - type of agent
+ * @param userContent - Content to respond to
+ * @param args
+ */
+export abstract class AgentFactory {
+  
+  public abstract create(plan: Plan): Promise<Conversation>
+  
+  protected async createAgent(goal: AuthoredContent, instructions: string, responder: Responder): Promise<Conversation> {
+    const agentInternalConversation = createConversation()
+    agentInternalConversation.responder = responder
+    const instructionContent = createContent(instructions, agentInternalConversation.id, 'system', 'system')
+    agentInternalConversation.content.push(instructionContent)
+    agentInternalConversation.content.push(goal)
+    return agentInternalConversation
+  }
+  
+  async promptAgent(conversation: Conversation) {
+    const {responder, content} = conversation
+    
+  }
   
   protected getCurrentStep(plan: Plan) {
     const {steps, step} = plan
@@ -50,7 +60,7 @@ export abstract class AgentFactory {
   
   public async createAndPrompt(conversation: Conversation, plan: Plan) {
     const agent = await this.create(plan)
-    const result = await this.promptAgent(conversation.content)
+    const result = await this.promptAgent(agent)
     return {
       result,
       agent,

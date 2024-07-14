@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {UserInputText} from './user-input-text'
-import {Model, Organization, Responder} from '../../models/responder'
+import {Responder} from '../../models/responder'
 
 const SendMessageContainer = styled.div`
   flex-direction: row;
@@ -28,10 +28,10 @@ const SendMessageContainer = styled.div`
 function mapResponderToPlaceholder(responder: Responder) {
   switch (responder?.type ?? '') {
     case "chat": {
-      return `Message ${(responder as Model)?.model}`
+      return `Message ${responder?.model}`
     }
     case "organization": {
-      return `Message ${(responder as Organization).orgId}`
+      return `Message ${responder?.orgId}`
     }
     default:
       return `Select a model`

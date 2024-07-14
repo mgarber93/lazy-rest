@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react'
-import {Button} from '../../styled/button'
 import styled from 'styled-components'
+import {Button} from '../../styled/button'
 import {useAppDispatch} from '../../features/store'
 import {setResponder} from '../../features/chat'
-import {Organization, TResponder} from '../../../models/responder'
+import {Responder} from '../../../models/responder'
 import {useCurrentConversation} from '../../hooks/current-conversation'
 
 const FormButton = styled(Button)`
@@ -19,13 +19,13 @@ export function OrganizationSelector() {
   const conversation = useCurrentConversation()
   const chatId = conversation?.id
   const organizations = ['Swagger GPT']
-
+  
   const handleClick = useCallback(() => {
     dispatch(setResponder({
-      responder: {type: 'organization' as TResponder, orgId: "SwaggerGpt"} as Organization,
+      responder: {type: 'organization', provider: "openai", model: "gpt-4o", orgId: "SwaggerGpt"} satisfies Responder,
       chatId,
     }))
   }, [dispatch, chatId])
-
+  
   return <FormButton onClick={handleClick}>{organizations[0]}</FormButton>
 }
