@@ -11,7 +11,7 @@ export function readInitialState<T>(key: string, initialState: T): () => T {
 
 export function loadState<T>(): T {
   const keysSerialized = localStorage.getItem('keys')
-  const keys = JSON.parse(keysSerialized)
+  const keys = JSON.parse(keysSerialized) ?? []
   return keys
     .reduce(
       (acc: Partial<T>, key: keyof T) => {

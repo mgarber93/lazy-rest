@@ -19,7 +19,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getMachineName.fulfilled, (state, action) => {
-      if (!state.username)
+      if (!state?.username)
         state = {username: action.payload}
       localStorage.setItem('user', JSON.stringify(state))
       return state

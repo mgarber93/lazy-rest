@@ -8,19 +8,15 @@ function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi)
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(configureOpenAi({apiKey: providerConfig.apiKey ?? '', baseUrl: providerConfig.baseUrl ?? ''}))
+    dispatch(configureOpenAi({apiKey: providerConfig?.apiKey ?? '', baseUrl: providerConfig?.baseUrl ?? ''}))
   }, [])
-  
+  const freshProviderConfig = useAppSelector(
+    state => state.models.providers.openAi,
+  )
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
-    
-    // use fresh state inside the dispatcher. need to deep copy?
-    const freshProviderConfig = useAppSelector(
-      state => state.models.providers.openAi,
-    )
-    
     dispatch(configureOpenAi({...freshProviderConfig, [name]: value}))
-  }, [dispatch]) // corrected dependencies array
+  }, [dispatch, freshProviderConfig])
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
