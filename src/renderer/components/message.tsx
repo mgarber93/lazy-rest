@@ -55,7 +55,7 @@ export function Message({content}: { content: AuthoredContent }) {
     return (
       <StyledDiv>
         <div className="content">
-          <div>{content.author}</div>
+          {content.author}
         </div>
         <p className={"author"}>
           {content.role}
