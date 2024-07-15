@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react'
 import {configureOpenAi} from '../features/models'
 import {useAppDispatch, useAppSelector} from '../features/store'
-import {Control, Footer, Form, Group, Header, Label} from '../styled/form'
+import {Control, Form, Group, Header, Label} from '../styled/form'
 import {OpenAiConfiguration} from '../../models/provider-config'
 
 function OpenAiConfigForm() {
