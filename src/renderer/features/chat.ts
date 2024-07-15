@@ -12,6 +12,10 @@ export const streamResponse = createAsyncThunk(
   async (arg: { conversationId: string }, thunkAPI) => {
     const {conversationId} = arg
     const state = thunkAPI.getState() as RootState
+    if (!state.models.providers.openAi) {
+      console.error('invalid open ai config')
+      return
+    }
     await window.main.setOpenAiConfiguration(state.models.providers.openAi)
     const conversation = state.chats.find(chat => chat.id === conversationId)
     
@@ -57,17 +61,20 @@ export const chatsSlice = createSlice({
       chat.message += delta
       return state
     },
-    startNewChat: (state, action: PayloadAction<Conversation | null>) => {
+    startNewChat: (state, action: PayloadAction<Conversation>) => {
       if (action.payload) {
         const newChat = {...action.payload, created: Date()}
         state.push(newChat)
       } else {
-        const newChat: Conversation = createConversation()
-        state.push(newChat)
+        console.error(`No conversation provided to start`)
       }
     },
     updateTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
       const chat = state.find(chat => chat.id === action.payload.id)
+      if (!chat) {
+        console.error(`Chat with id ${action.payload.id} not found when updating title`)
+        return state
+      }
       if (action.payload.title) {
         chat.title = action.payload.title.slice(0, 14)
       } else {
@@ -81,6 +88,10 @@ export const chatsSlice = createSlice({
     setResponder: (state, action: PayloadAction<{ responder: Responder, chatId: string }>) => {
       const {chatId, responder} = action.payload
       const foundChat = state.find(chat => chat.id === chatId)
+      if (!foundChat) {
+        console.error(`Chat with id ${chatId} not found when updating title`)
+        return state
+      }
       if (!foundChat) {
         console.error('no matching chat found when setting responder')
       }
