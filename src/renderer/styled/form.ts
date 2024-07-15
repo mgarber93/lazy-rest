@@ -10,7 +10,7 @@ export const Group = styled.div`
   padding: 0.5rem 0;
 `
 
-export const Label = styled.div`
+export const Label = styled.label`
 `
 
 export const Control = styled.input`

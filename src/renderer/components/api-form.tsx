@@ -47,8 +47,8 @@ export function ApiForm() {
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
 
   return <Form onSubmit={handleSubmit}>
-    <Label>Open Api Spec</Label>
-    <Control type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
+    <Label htmlFor="apiSpec">Open Api Spec</Label>
+    <Control id="apiSpec" type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
              onChange={handleFile}/>
     <Label>Name</Label>
     <Control type="text" placeholder="Api name (eg spotify)" value={name}
