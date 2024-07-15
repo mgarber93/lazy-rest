@@ -1,11 +1,11 @@
-import {SetStateAction, useCallback, useMemo, useState} from 'react'
+import React, {SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
 import {v4} from 'uuid'
+import {OpenAPI} from 'openapi-types'
 import {Control, Footer, Form, Label} from '../styled/form'
 import {Button} from '../styled/button'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
-import {OpenAPI} from 'openapi-types'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -17,15 +17,17 @@ export function ApiForm() {
   const dispatch = useAppDispatch()
   
   const handleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0]
+    const file = event.target.files?.[0]
     if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
         const yaml = parse(reader.result as string) as OpenAPI.Document
-        setName(yaml.info.contact.name)
+        setName(yaml.info.contact?.name ?? '')
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore the type must be wrong or something? Its on spotifies swagger
         setBaseUrl(yaml.servers[0].url)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         setOas(yaml)
         const key = v4()
         setFileHandle(key)

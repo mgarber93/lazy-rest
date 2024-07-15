@@ -33,9 +33,9 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     return content as AuthoredContent
   }
   
-  async getOas(oasId: string): Promise<OpenAPI.Document | undefined> {
+  async getOas(oasId: string) {
     const oas = await this.windowSender.asyncSend('getOas', {oasId})
-    return oas as OpenAPI.Document | undefined
+    return oas as OpenAPI.Document | null
   }
   
   async getConversation(id: ConversationId) {

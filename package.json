@@ -29,6 +29,7 @@
     "@electron-forge/plugin-webpack": "^7.2.0",
     "@electron-forge/publisher-s3": "^7.3.1",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
