@@ -10,7 +10,7 @@ const Container = styled.div`
 `
 
 export function PageContainer(props: { children: ReactNode, activeRoute: string }) {
-  const myRef = useRef()
+  const myRef = useRef<HTMLDivElement | null>(null)
   const [scrollPos, setScrollPos] = useState(0)
   
   const handleScroll = useCallback(() => {
