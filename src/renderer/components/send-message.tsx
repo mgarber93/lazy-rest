@@ -28,7 +28,7 @@ const SendMessageContainer = styled.div`
   transition: 0.39s linear all;
 `
 
-function mapResponderToPlaceholder(responder: Responder) {
+function mapResponderToPlaceholder(responder?: Responder) {
   switch (responder?.type ?? '') {
     case "chat": {
       return `Message ${responder?.model}`

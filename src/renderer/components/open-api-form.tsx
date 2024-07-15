@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react'
 import {configureOpenAi} from '../features/models'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {Control, Footer, Form, Group, Header, Label} from '../styled/form'
-import {Button} from '../styled/button'
+import {OpenAiConfiguration} from '../../models/provider-config'
 
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi)
@@ -10,20 +10,18 @@ function OpenAiConfigForm() {
   useEffect(() => {
     dispatch(configureOpenAi({apiKey: providerConfig?.apiKey ?? '', baseUrl: providerConfig?.baseUrl ?? ''}))
   }, [])
-  const freshProviderConfig = useAppSelector(
+  const currentOpenAiConfig = useAppSelector(
     state => state.models.providers.openAi,
   )
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
-    dispatch(configureOpenAi({...freshProviderConfig, [name]: value}))
-  }, [dispatch, freshProviderConfig])
-  
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
+    const config = {...currentOpenAiConfig} as OpenAiConfiguration
+    config[name as keyof OpenAiConfiguration] = value
+    dispatch(configureOpenAi(config))
+  }, [dispatch, currentOpenAiConfig])
   
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <Header className="mb-lg-2">
         <div className="form">
           Open AI
@@ -50,9 +48,6 @@ function OpenAiConfigForm() {
           onChange={handleChange}
         />
       </Group>
-      <Footer>
-        <Button type="submit">Save</Button>
-      </Footer>
     </Form>)
 }
 

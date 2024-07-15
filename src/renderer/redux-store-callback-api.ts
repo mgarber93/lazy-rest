@@ -24,7 +24,7 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     throw new Error('Method not implemented.')
   }
   
-  getApi(apiId: string): ApiConfiguration {
+  getApi(apiId: string): ApiConfiguration | null {
     const {tools} = store.getState() as RootState
     const {api} = tools
     for (const key in api) {
@@ -71,12 +71,16 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     return placeHolder
   }
   
-  getOas(oasId: string): OpenAPI.Document | undefined {
+  getOas(oasId: string): OpenAPI.Document | null {
     const {tools} = this.store.getState() as RootState
     const {api} = tools
     const {fileHandle} = api[oasId]
     const file = localStorage.getItem(fileHandle)
-    const oas = JSON.parse(file) as OpenAPI.Document | undefined
-    return oas
+    if (file !== null) {
+      const oas = JSON.parse(file) as OpenAPI.Document | null
+      return oas
+    } else {
+      return null
+    }
   }
 }

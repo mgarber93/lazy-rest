@@ -27,7 +27,7 @@ export interface WindowCallbackApi {
   
   addNewResponse(chatId: string, author: string): AuthoredContent
   
-  getOas(oasId: string): OpenAPI.Document | undefined
+  getOas(oasId: string): OpenAPI.Document | null
   
   getConversation(id: ConversationId): Conversation | null
   

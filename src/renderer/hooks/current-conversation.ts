@@ -20,7 +20,7 @@ export const useCurrentConversation = () => {
     current = chats[0]
   }
   
-  return current
+  return current as Conversation
 }
 
 export const useCurrentTools = () => {
