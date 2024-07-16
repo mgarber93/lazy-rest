@@ -51,6 +51,11 @@ const Div = styled.div`
 
 export function PlannedHttpRequest({step}: { step: PlanStep }) {
   const plan = step.action
+  if (!plan) {
+    return <Div className={"d-flex flex-row gap-2"} >
+      Something went wrong
+    </Div>
+  }
   
   return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
     <span className={"method"}>

@@ -12,6 +12,9 @@ import {connectCallbacks} from './connect-callbacks'
 connectCallbacks(store)
 
 const container = document.getElementById('root')
+if (!container) {
+  throw new Error('cannot find root container in document')
+}
 const root = createRoot(container)
 const router = createHashRouter([
   {

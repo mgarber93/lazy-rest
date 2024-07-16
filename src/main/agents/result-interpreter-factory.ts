@@ -1,7 +1,7 @@
 import {singleton} from 'tsyringe'
-import {Model} from '../../models/responder'
 import {AgentFactory} from './agent-factory'
 import {Plan} from '../../models/conversation'
+import {Responder} from '../../models/responder'
 
 @singleton()
 export class ResultInterpreterFactory extends AgentFactory {
@@ -9,7 +9,7 @@ export class ResultInterpreterFactory extends AgentFactory {
     type: 'chat',
     provider: "openai",
     model: "gpt-4-4o",
-  } as Model
+  } satisfies Responder
   
   create(plan: Plan) {
     const {userGoal, steps, step} = plan

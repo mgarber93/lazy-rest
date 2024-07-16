@@ -2,7 +2,7 @@ import {container, singleton} from 'tsyringe'
 import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
-import {getRespondingModel} from '../../models/responder'
+import {getRespondingModel, Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 import {HttpRequestPlan, Plan} from '../../models/conversation'
 import {ExecutorFactory} from '../agents/executor-factory'
@@ -38,7 +38,7 @@ export class CallDetailer {
     const messages: ChatCompletionMessageParam[] = executorAgent.content
       .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
     
-    const model = getRespondingModel(executorAgent.responder)
+    const model = getRespondingModel(executorAgent.responder as Responder)
     // responder can change depending on conversation history
     // create another tool plan and for each call in the plan make the call
     const toolPlan = await this.openAiLlm.agentWithHttp(model, messages)

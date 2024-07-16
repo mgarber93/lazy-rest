@@ -1,5 +1,5 @@
 import {singleton} from 'tsyringe'
-import {Model} from '../../models/responder'
+import {Responder} from '../../models/responder'
 import {AgentFactory} from './agent-factory'
 import {Conversation, Plan} from '../../models/conversation'
 
@@ -9,7 +9,7 @@ export class SelectorFactory extends AgentFactory {
     type: 'chat',
     provider: "openai",
     model: "gpt-4-turbo-preview",
-  } as Model
+  } as Responder
   
   async create(plan: Plan): Promise<Conversation> {
     const {userGoal} = plan
