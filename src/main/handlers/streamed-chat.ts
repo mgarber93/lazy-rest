@@ -4,13 +4,13 @@ import {Conversation} from '../../models/conversation'
 import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
-import {SwaggerGptPlanProgressor} from '../organizations/swagger-gpt'
+import {SwaggerGpt} from '../organizations/swagger-gpt'
 
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
-  private swaggerGptPlanProgressor = container.resolve(SwaggerGptPlanProgressor)
+  private swaggerGptPlanProgressor = container.resolve(SwaggerGpt)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
   

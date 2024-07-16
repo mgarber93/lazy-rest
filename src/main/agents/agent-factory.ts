@@ -15,10 +15,12 @@ import {OpenAiLlm} from '../providers/openai'
  * @param args
  */
 export abstract class AgentFactory {
+  protected abstract model: Responder
   protected openAiLlm = container.resolve(OpenAiLlm)
   public abstract create(plan: Plan): Promise<Conversation>
   
-  protected async createAgent(goal: AuthoredContent, instructions: string, responder: Responder): Promise<Conversation> {
+  protected async createAgent(goal: AuthoredContent, instructions: string): Promise<Conversation> {
+    const responder = this.model
     const agentInternalConversation = createConversation()
     agentInternalConversation.responder = responder
     const instructionContent = createContent(instructions, agentInternalConversation.id, 'system', 'system')
