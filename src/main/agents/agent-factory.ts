@@ -1,30 +1,9 @@
 import {Conversation, createConversation, Plan} from '../../models/conversation'
 import {AuthoredContent, createContent} from '../../models/content'
-import {container, singleton} from 'tsyringe'
+import {container} from 'tsyringe'
 import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 
-// @todo refactor agent factory to accept model to create and prompt, if and when subsequent prompting is needed
-// lets add methods at that point or something
-
-@singleton()
-export class ResponderHandler {
-  private openAiLlm = container.resolve(OpenAiLlm)
-  
-  async promptAgent(conversation: Conversation) {
-    const {responder, content} = conversation
-    switch (responder.provider) {
-      case "openai": {
-        const {content: response, role} = await this.openAiLlm.prompt(responder.model, content)
-        const authoredResponse = createContent(response, content[0].chatId, responder.model, role)
-        return authoredResponse
-      }
-      case "anthropic": {
-        throw new Error('not implemented')
-      }
-    }
-  }
-}
 
 /**
  * An Agent initial conversation has two contents:
@@ -36,7 +15,7 @@ export class ResponderHandler {
  * @param args
  */
 export abstract class AgentFactory {
-  
+  protected openAiLlm = container.resolve(OpenAiLlm)
   public abstract create(plan: Plan): Promise<Conversation>
   
   protected async createAgent(goal: AuthoredContent, instructions: string, responder: Responder): Promise<Conversation> {
@@ -50,7 +29,13 @@ export abstract class AgentFactory {
   
   async promptAgent(conversation: Conversation) {
     const {responder, content} = conversation
-    
+    if (!responder) {
+      throw new Error('unable to respond without conversation')
+    }
+    const {model} = responder
+    const {content: response, role} = await this.openAiLlm.prompt(model, content)
+    const authoredResponse = createContent(response, content[0].chatId, model, role)
+    return authoredResponse
   }
   
   protected getCurrentStep(plan: Plan) {

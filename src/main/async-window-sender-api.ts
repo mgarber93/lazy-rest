@@ -40,12 +40,18 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   
   async getConversation(id: ConversationId) {
     const conversation = await this.windowSender.asyncSend('getConversation', {id})
-    return conversation as Conversation | null
+    if (conversation === null) {
+      throw new Error('Conversation not found')
+    }
+    return conversation as Conversation
   }
   
   async getPlan(planId: PlanId) {
     const plan = await this.windowSender.asyncSend('getPlan', {planId})
-    return plan as Plan | null
+    if (!plan) {
+      throw new Error('Plan is not defined in conversation')
+    }
+    return plan as Plan
   }
   
   async updateToolState(toolState: ToolState): Promise<void> {

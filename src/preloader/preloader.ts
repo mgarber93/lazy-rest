@@ -39,9 +39,10 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
   remove(channel: keyof WindowCallbackApi, func: (...args: never[]) => void): Promise<void> {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)
-      return
+    } else {
+      ipcRenderer.removeAllListeners(channel)
     }
-    ipcRenderer.removeAllListeners(channel)
+    return Promise.resolve()
   }
   
   send(channel: TWindowSenderChannel, data: any) {

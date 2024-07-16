@@ -15,6 +15,9 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
   static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
   
   async handle(conversation: Conversation): Promise<void> {
+    if (!conversation.responder) {
+      throw new Error('No responder set')
+    }
     switch (conversation.responder.type) {
       case "chat":
         return this.simpleReply(conversation)
@@ -28,7 +31,7 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
   
   async simpleReply(conversation: Conversation) {
     const {responder} = conversation
-    if (!isModel(responder)) {
+    if (!responder || !isModel(responder)) {
       throw new Error(StreamedChatHandler.Error_Message)
     }
     const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
