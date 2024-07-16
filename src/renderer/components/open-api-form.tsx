@@ -26,9 +26,6 @@ function OpenAiConfigForm() {
         <div className="form">
           Open AI
         </div>
-        <div className="helper-text">
-        
-        </div>
       </Header>
       <Group className="mb-lg-2">
         <Label>Key</Label>

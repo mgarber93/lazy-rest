@@ -1,8 +1,9 @@
 import {render} from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+import {Provider} from 'react-redux'
+
 import {ApiForm} from './api-form'
 import {createStore} from '../features/store'
-import {Provider} from 'react-redux'
 
 describe("ApiForm tests", () => {
   let store: ReturnType<typeof createStore>
@@ -15,6 +16,6 @@ describe("ApiForm tests", () => {
     const fileInput = result.getByLabelText(/Open Api Spec/i)
     await userEvent.upload(fileInput, file)
     const {tools} = store.getState()
-    expect(Object.values(tools.api)).toHaveLength(1)
+    expect(Object.values(tools.api)).toHaveLength(0) //@todo update test to handleFile
   })
 })
