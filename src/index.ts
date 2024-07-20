@@ -72,4 +72,9 @@ app.on('activate', () => {
 })
 app.setName('Lazy Rest')
 
+process.on('uncaughtException', (err: Error) => {
+  const windowSender = container.resolve(WindowSender)
+  // windowSender.asyncSend('error', err) @todo implement error toast
+})
+
 setupInvokeHandlers()
