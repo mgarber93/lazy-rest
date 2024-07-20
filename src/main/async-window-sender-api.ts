@@ -3,8 +3,9 @@ import {WindowSender} from './utils/window-sender'
 import {AuthoredContent, ContentDelta} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
-import {Conversation, ConversationId, Plan, PlanId} from '../models/conversation'
+import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
+import {ApiCallPlan} from './organizations/api-call-plan'
 
 
 export type Promisify<T> = {
@@ -51,7 +52,7 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     if (!plan) {
       throw new Error('Plan is not defined in conversation')
     }
-    return plan as Plan
+    return plan as ApiCallPlan
   }
   
   async updateToolState(toolState: ToolState): Promise<void> {

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {PlanStep} from '../../models/conversation'
+import {ApiCallPlan, PlanStep} from '../../main/organizations/api-call-plan'
 
 const Div = styled.div`
   & * {

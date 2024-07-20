@@ -1,7 +1,8 @@
 import {AuthoredContent} from '../models/content'
 import {OpenAPI} from 'openapi-types'
-import {Conversation, ConversationId, Plan, PlanId} from '../models/conversation'
+import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
+import {ApiCallPlan} from '../main/organizations/api-call-plan'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -33,5 +34,5 @@ export interface WindowCallbackApi {
   
   updateToolState(toolState: ToolState): void
   
-  getPlan(id: PlanId): Plan | null
+  getPlan(id: PlanId): ApiCallPlan | null
 }

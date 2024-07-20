@@ -1,16 +1,12 @@
 import {container, singleton} from 'tsyringe'
 import {buildCallerPrompt} from '../../prompts/api-caller'
 import {AgentFactory} from './agent-factory'
-import {Plan} from '../../models/conversation'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
 import {StreamedChatHandler} from '../handlers/streamed-chat'
 import {OpenAPI} from 'openapi-types'
 import {Responder} from '../../models/responder'
-
-@singleton()
-export class OpenApiSpecProvider {
-}
+import {ApiCallPlan} from '../organizations/api-call-plan'
 
 @singleton()
 export class ExecutorFactory extends AgentFactory {
@@ -36,7 +32,7 @@ export class ExecutorFactory extends AgentFactory {
     }
   }
   
-  async create(plan: Plan) {
+  async create(plan: ApiCallPlan) {
     const {userGoal, steps, step} = plan
     const currentStep = this.getCurrentStep(plan)
     if (!currentStep) {
