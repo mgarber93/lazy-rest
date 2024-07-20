@@ -1,6 +1,6 @@
+import {container} from 'tsyringe'
 import {Conversation, createConversation} from '../../models/conversation'
 import {AuthoredContent, createContent} from '../../models/content'
-import {container} from 'tsyringe'
 import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 import {ApiCallPlan} from '../organizations/api-call-plan'

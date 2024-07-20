@@ -14,6 +14,7 @@ import {ApiCallPlan, PlanStep} from './api-call-plan'
 export class SwaggerGpt {
   private plannerFactory = container.resolve(PlannerFactory)
   private endpointSelector = container.resolve(EndpointSelector)
+  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
   private async createPlan(userGoal: AuthoredContent) {
     const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
@@ -28,8 +29,6 @@ export class SwaggerGpt {
       oasSpec,
     } satisfies ApiCallPlan
   }
-  
-  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
   specToOas(spec: OpenAPI.Document): string {
     return JSON.stringify(oasToDescriptions(spec), null, 2)
