@@ -1,8 +1,9 @@
-import {Conversation, createConversation, Plan} from '../../models/conversation'
-import {AuthoredContent, createContent} from '../../models/content'
 import {container} from 'tsyringe'
+import {Conversation, createConversation} from '../../models/conversation'
+import {AuthoredContent, createContent} from '../../models/content'
 import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
+import {ApiCallPlan} from '../organizations/api-call-plan'
 
 
 /**
@@ -17,7 +18,7 @@ import {OpenAiLlm} from '../providers/openai'
 export abstract class AgentFactory {
   protected abstract model: Responder
   protected openAiLlm = container.resolve(OpenAiLlm)
-  public abstract create(plan: Plan): Promise<Conversation>
+  public abstract create(plan: ApiCallPlan): Promise<Conversation>
   
   protected async createAgent(goal: AuthoredContent, instructions: string): Promise<Conversation> {
     const responder = this.model
@@ -40,14 +41,15 @@ export abstract class AgentFactory {
     return authoredResponse
   }
   
-  protected getCurrentStep(plan: Plan) {
+  protected getCurrentStep(plan: ApiCallPlan) {
     const {steps, step} = plan
     return steps.at(step)
   }
   
-  public async createAndPrompt(conversation: Conversation, plan: Plan) {
+  public async createAndPrompt(conversation: Conversation, plan: ApiCallPlan) {
     const agent = await this.create(plan)
     const result = await this.promptAgent(agent)
+    console.log(`${this.constructor.name}:\n${result.message}\n`)
     return {
       result,
       agent,

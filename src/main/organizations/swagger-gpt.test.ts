@@ -2,7 +2,25 @@ jest.mock('../agents/planner-factory', () => {
   return {
     PlannerFactory: jest.fn().mockImplementation(() => {
       return {
-        createAndPrompt: jest.fn().mockReturnValue(Promise.resolve('Mocked planner')),
+        createAndPrompt: jest.fn().mockReturnValue(Promise.resolve({result: 'Mocked planner'})),
+      }
+    }),
+  }
+})
+jest.mock('../async-window-sender-api', () => {
+  return {
+    AsyncWindowSenderApi: jest.fn().mockImplementation(() => {
+      return {
+        loadAllOas: jest.fn().mockReturnValue(Promise.resolve([])),
+      }
+    }),
+  }
+})
+jest.mock('./endpoint-selector', () => {
+  return {
+    EndpointSelector: jest.fn().mockImplementation(() => {
+      return {
+        createAndPrompt: jest.fn().mockReturnValue(Promise.resolve({result: 'Mocked planner'})),
       }
     }),
   }

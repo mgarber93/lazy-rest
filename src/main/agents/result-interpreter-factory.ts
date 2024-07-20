@@ -1,17 +1,17 @@
 import {singleton} from 'tsyringe'
 import {AgentFactory} from './agent-factory'
-import {Plan} from '../../models/conversation'
 import {Responder} from '../../models/responder'
+import {ApiCallPlan} from '../organizations/api-call-plan'
 
 @singleton()
 export class ResultInterpreterFactory extends AgentFactory {
   model = {
     type: 'chat',
     provider: "openai",
-    model: "gpt-4-4o",
+    model: "gpt-4o",
   } satisfies Responder
   
-  create(plan: Plan) {
+  create(plan: ApiCallPlan) {
     const {userGoal, steps, step} = plan
     const current = steps[step]
     if (!current.action) {
