@@ -69,19 +69,18 @@ export default function SidebarMainLayout(props: { children: ReactNode }) {
   return (
     <>
       <div className={"flex flex-col h-full"}>
-        <header className="w-full h-10 dark:bg-black opacity-90 drag top-0 z-60">
+        <header className="w-full h-10 bg-white dark:bg-black opacity-90 drag top-0 z-60">
         </header>
         <div className={"h-full flex flex-row"}>
-          {/* sidebar */}
           <Sidebar/>
-          {/* main content passed to layout */}
-          <main
-            className="lg:pl-72 px-4 py-10 sm:px-6 lg:px-8 lg:py-6 bg-white dark:bg-zinc-800 grow">
-            {props.children}
-          </main>
+          <div className={"h-full w-full flex flex-row p-4 drop-shadow-2xl bg-white dark:bg-black"}>
+            <main
+              className="p-4 grow">
+              {props.children}
+            </main>
+          </div>
         </div>
       </div>
-    
     </>
   )
 }

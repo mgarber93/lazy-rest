@@ -1,32 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {UserInputText} from './user-input-text'
 import {Responder} from '../../models/responder'
 
-const SendMessageContainer = styled.div`
-  flex-direction: row;
-  width: 100%;
-  height: fit-content;
-  display: block;
-  min-height: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  border: 2px solid var(--background-color-3);
-
-  &:hover {
-    border-radius: var(--border-radius);
-    border: 2px solid var(--background-color-3);
-  }
-
-  &:active, &:focus, &:focus-within {
-    border-radius: var(--border-radius);
-    background-color: var(--background-color-1);
-    border: 2px solid var(--background-color-3);
-  }
-  
-  transition: 0.39s linear all;
-`
 
 function mapResponderToPlaceholder(responder?: Responder) {
   switch (responder?.type ?? '') {
@@ -43,11 +19,11 @@ function mapResponderToPlaceholder(responder?: Responder) {
 
 export function SendMessage() {
   const currentConversation = useCurrentConversation()
-
+  
   const placeholder = mapResponderToPlaceholder(currentConversation?.responder)
   return (
-    <SendMessageContainer>
+    <div>
       <UserInputText placeholder={placeholder}/>
-    </SendMessageContainer>
+    </div>
   )
 }

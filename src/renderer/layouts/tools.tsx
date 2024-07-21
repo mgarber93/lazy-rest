@@ -8,7 +8,6 @@ const tools = [
 export const Tools: React.FC = () => {
   return (
     <>
-      <div className="text-xs font-semibold leading-6 text-zinc-400">Your APIs</div>
       <ul role="list" className="-mx-2 mt-2 space-y-1">
         {tools.map((team) => (
           <li key={team.name}>

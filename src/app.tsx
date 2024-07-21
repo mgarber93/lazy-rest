@@ -1,11 +1,11 @@
 import "reflect-metadata"
 import {createRoot} from 'react-dom/client'
 import React from 'react'
-import {createHashRouter} from 'react-router-dom'
+import {createHashRouter, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import {store} from './renderer/features/store'
-import {Home} from './renderer/pages/home'
+import {ConversationsPage} from './renderer/pages/home'
 import {connectCallbacks} from './connect-callbacks'
 
 connectCallbacks(store)
@@ -18,13 +18,13 @@ const root = createRoot(container)
 const router = createHashRouter([
   {
     path: "*",
-    element: <Home/>,
+    element: <ConversationsPage/>,
   },
 ])
 
 const App = () => (
   <Provider store={store}>
-    <Home/>
+    <RouterProvider router={router}/>
   </Provider>
 )
 

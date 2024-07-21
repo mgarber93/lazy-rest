@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import {ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
 
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -8,17 +7,6 @@ import {listModels} from '../features/models'
 import {createContent} from '../../models/content'
 import {respond, streamResponse} from '../features/chat'
 
-const TextArea = styled.textarea`
-  border: none;
-  width: 100%;
-  resize: none;
-  background: none;
-  color: var(--text-color);
-  font-size: larger;
-  outline: none;
-  height: fit-content;
-  margin: 0;
-`
 
 export function UserInputText({placeholder}: { placeholder: string }) {
   const [inputValue, setValue] = useState('')
@@ -46,11 +34,16 @@ export function UserInputText({placeholder}: { placeholder: string }) {
   
   // @todo refactor this magic number
   const rows = Math.max(inputValue.split('\n').length, (inputValue.length / 50) + 1)
-  return <TextArea
-    rows={rows}
-    placeholder={placeholder}
-    onChange={handleChange}
-    onKeyPressCapture={handleKeyPress}
-    value={inputValue}
-  />
+  
+  
+  return <div className="flex min-w-0 flex-1 flex-col">
+    <textarea
+      className={"m-0 resize-none border-0 bg-transparent px-0 text-token-text-primary focus:ring-0 focus-visible:ring-0 max-h-52"}
+      rows={rows}
+      placeholder={placeholder}
+      onChange={handleChange}
+      onKeyPressCapture={handleKeyPress}
+      value={inputValue}
+    />
+  </div>
 }
