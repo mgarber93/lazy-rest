@@ -64,5 +64,5 @@ export function Message({content}: { content: AuthoredContent }) {
     }
   </StyledDiv>
   
-  return <Card slim={isUser}>{node}</Card>
+  return <Card>{node}</Card>
 }
