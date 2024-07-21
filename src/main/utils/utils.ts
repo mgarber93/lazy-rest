@@ -1,5 +1,5 @@
 import {OpenAPI} from 'openapi-types'
-import {HttpRequestPlan, THttp} from '../../models/conversation'
+import {HttpRequestPlan, THttp} from '../organizations/api-call-plan'
 
 
 export function parseCalls(plan: string, apiSpec: OpenAPI.Document): HttpRequestPlan[] {

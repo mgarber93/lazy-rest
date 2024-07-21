@@ -1,16 +1,12 @@
 import {container, singleton} from 'tsyringe'
-import {Model} from '../../models/responder'
 import {buildCallerPrompt} from '../../prompts/api-caller'
 import {AgentFactory} from './agent-factory'
-import {Plan} from '../../models/conversation'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
 import {StreamedChatHandler} from '../handlers/streamed-chat'
 import {OpenAPI} from 'openapi-types'
-
-@singleton()
-export class OpenApiSpecProvider {
-}
+import {Responder} from '../../models/responder'
+import {ApiCallPlan} from '../organizations/api-call-plan'
 
 @singleton()
 export class ExecutorFactory extends AgentFactory {
@@ -18,7 +14,7 @@ export class ExecutorFactory extends AgentFactory {
     type: 'chat',
     provider: "openai",
     model: "gpt-4-turbo-preview",
-  } as Model
+  } satisfies Responder
   
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private apiProvider = container.resolve(StreamedChatHandler)
@@ -26,7 +22,7 @@ export class ExecutorFactory extends AgentFactory {
   specToOas(spec: OpenAPI.Document): string {
     return JSON.stringify(oasToDescriptions(spec), null, 2)
   }
-
+  
   async createArgs() {
     const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
     const endpoints = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + this.specToOas(spec), '')
@@ -36,9 +32,12 @@ export class ExecutorFactory extends AgentFactory {
     }
   }
   
-  async create(plan: Plan) {
+  async create(plan: ApiCallPlan) {
     const {userGoal, steps, step} = plan
     const currentStep = this.getCurrentStep(plan)
+    if (!currentStep) {
+      throw new Error('Invalid plan')
+    }
     const getCurrentStep = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)
     const apiDocs = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)
     return this.createAgent(userGoal, buildCallerPrompt(userGoal.message, apiDocs))

@@ -1,14 +1,16 @@
 export type TResponder = "chat" | "agent" | "organization"
 export type TProvider = "openai" | "anthropic"
 
+export type TModel = "gpt-4-turbo-preview" | "gpt-4o-mini" | "gpt-4o"
+
 export type Responder = {
   type: TResponder;
   provider: TProvider;
-  model: string;
+  model: TModel;
   orgId?: string;
 }
 
-export function createModelResponder(type: TResponder, model: Responder['model'], provider: TProvider): Responder {
+export function createModelResponder(type: TResponder, model: TModel, provider: TProvider): Responder {
   return {
     type,
     model,

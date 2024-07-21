@@ -4,16 +4,16 @@ import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
 import {getRespondingModel, Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
-import {HttpRequestPlan, Plan} from '../../models/conversation'
 import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
+import {ApiCallPlan, HttpRequestPlan} from './api-call-plan'
 
 @singleton()
 export class CallDetailer {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
   private agentFactory = container.resolve(ExecutorFactory)
   
-  async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan, oasSpec: OpenAPI.Document[]) {
+  async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan, oasSpec: OpenAPI.Document[], plan: ApiCallPlan) {
     const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenAPI.Document) => {
       const treeShook = treeShake(spec, [endpointCallPlan])
       for (const key in treeShook) {
@@ -26,13 +26,7 @@ export class CallDetailer {
       throw new Error('Unable to tree shake')
     }
     const endpoints = JSON.stringify(specForPlannedCall)
-    
-    const plan: Plan = {
-      userGoal: userContent,
-      state: {},
-      steps: [],
-      step: 0,
-    }
+
     const executorAgent = await this.agentFactory.create(plan)
     
     const messages: ChatCompletionMessageParam[] = executorAgent.content
