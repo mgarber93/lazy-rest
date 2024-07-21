@@ -1,38 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import {PageContainer} from '../wrapper/responder-type/page-container'
-import OpenAiConfigForm from '../components/open-api-form'
 import {Card} from '../wrapper/card'
-import {ApiForm} from '../components/api-form'
-import {FormGroup} from '../wrapper/form-group'
 import {useAppSelector} from '../features/store'
 import {ApiConfiguration} from '../../models/api-configuration'
+import SidebarMainLayout from '../layouts/sidebar-main-layout'
 
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 3rem;
-  position: relative;
-  height: 100%;
-  overflow: auto;
-  min-height: 100vh;
-
-  .reset {
-    position: absolute;
-    top: 0.1rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    overflow: auto;
-    padding: 5rem;
-  }
-`
-
-export function ApiToolPreview({api}: {api: ApiConfiguration}) {
+export function ApiToolPreview({api}: { api: ApiConfiguration }) {
   return <Card>
     <div className="d-flex flex-column gap-3">
       <div>{api.name}</div>
@@ -41,28 +13,13 @@ export function ApiToolPreview({api}: {api: ApiConfiguration}) {
   </Card>
 }
 
-
 export function Home() {
   const tools = useAppSelector(state => state.tools) as { api: Record<string, ApiConfiguration> }
   return (
-    <PageContainer activeRoute={"/home"}>
-      <Div className={"h-100 d-flex flex-md-column justify-content-around p-5"}>
-        <div className="reset">
-          <FormGroup name={"Providers"}>
-            <Card>
-              <OpenAiConfigForm/>
-            </Card>
-          </FormGroup>
-          <FormGroup name={"Tools"}>
-            <div className={"d-flex flex-row align-content-around justify-content-start g-2 gap-3"}>
-              {Object.values(tools.api).map(api => <ApiToolPreview api={api} key={api.fileHandle}/>)}
-              <Card>
-                <ApiForm></ApiForm>
-              </Card>
-            </div>
-          </FormGroup>
-        </div>
-      </Div>
-    </PageContainer>
+    <SidebarMainLayout>
+      <div
+        className={"sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white dark:bg-black px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"}>
+      </div>
+    </SidebarMainLayout>
   )
 }

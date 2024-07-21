@@ -27,6 +27,9 @@ const createWindow = (): void => {
     width: 1920,
     titleBarStyle: 'hiddenInset',
     icon: path.join(__dirname, 'assets', 'icon.icns'),
+    transparent: true,
+    frame: false,
+    resizable: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -36,7 +39,7 @@ const createWindow = (): void => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
   
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   
   mainWindow.webContents.on('did-finish-load', () => {
     const windowSender = container.resolve(WindowSender)
