@@ -41,8 +41,7 @@ export function NavigationComponent() {
 
 export function Sidebar() {
   return <nav
-    className="flex flex-col h-full w-full bg-white dark:bg-black opacity-90 px-8 pb-4 max-w-64 overflow-y-hidden">
-    <div className={"h-8 shrink-0"}></div>
+    className="flex flex-col h-full w-full bg-white dark:bg-black opacity-dynamic px-8 pb-4 max-w-64 overflow-y-hidden">
     <div className="h-2 shrink-0"/>
     <ul role="list" className="flex flex-1 flex-col gap-y-7">
       <li>
@@ -68,7 +67,7 @@ export function Sidebar() {
 export default function SidebarMainLayout(props: { children: ReactNode }) {
   return <>
     <div className={"flex flex-col h-full"}>
-      <header className="w-full h-10 bg-white dark:bg-black opacity-90 drag top-0 z-60">
+      <header className="w-full h-10 bg-white dark:bg-black opacity-dynamic drag top-0 z-60">
       </header>
       <div className={"h-full flex flex-row"}>
         <Sidebar/>

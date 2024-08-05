@@ -10,3 +10,11 @@
 .no-drag {
   -webkit-app-region: no-drag;
 }
+
+:root {
+  --opacity-level: .99
+}
+
+.opacity-dynamic {
+  opacity: var(--opacity-level);
+}
