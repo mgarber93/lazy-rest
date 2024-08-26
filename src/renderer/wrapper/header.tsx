@@ -1,4 +1,4 @@
-import React, {ReactElement, useCallback} from 'react'
+import {ReactElement, useCallback} from 'react'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 
 export function HeaderTab({children, clickHandler}: { children: ReactElement, clickHandler: () => void }) {
@@ -38,20 +38,4 @@ export function Header() {
       </HeaderTab>
     </ul>
   </header>
-}
-
-export function ThreeColumnLayout({main, aside}: { main: ReactElement, aside: ReactElement }) {
-  return (
-    <>
-      <div className={"flex flex-col h-full"}>
-        <Header></Header>
-        <div className={"h-full w-full flex flex-row p-4 drop-shadow-2xl bg-white dark:bg-black"}>
-          <main
-            className="p-4 grow">
-            <div>hello world</div>
-          </main>
-        </div>
-      </div>
-    </>
-  )
 }

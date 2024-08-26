@@ -35,9 +35,6 @@ export const Footer = styled.div`
   margin-top: auto;
 `
 
-export const Header = styled.header`
-  font-size: larger;
-`
 
 export const Submit = styled.button`
 `

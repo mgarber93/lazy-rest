@@ -1,5 +1,5 @@
 import React from 'react'
-import {ThreeColumnLayout} from '../layouts/three-column-layout'
+import {HeaderLayout} from '../layouts/header-layout'
 import {useAppSelector} from '../features/store'
 
 export function Component() {
@@ -20,14 +20,14 @@ export function Component() {
   </div>
 }
 
-
 export function ConversationsPage() {
   return (
-    <ThreeColumnLayout
-      main={<Component/>}
-      aside={<Component/>}
-    >
-    </ThreeColumnLayout>
+    <HeaderLayout>
+      <main
+        className="p-4 grow">
+        <div>hello world</div>
+      </main>
+    </HeaderLayout>
   )
 }
 
