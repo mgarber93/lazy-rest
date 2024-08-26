@@ -5,7 +5,7 @@ import {createHashRouter, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import {store} from './renderer/features/store'
-import {ConversationsPage} from './renderer/pages/home'
+import {ConversationsPage} from './renderer/pages/conversations'
 import {connectCallbacks} from './connect-callbacks'
 
 connectCallbacks(store)

@@ -10,7 +10,7 @@ export function Component() {
       {
         conversations.map((conversation) => (
           <div key={conversation.id}>
-            <span className={"text-xs text-amber-50 text-nowrap"}>
+            <span className={"text-xs text-nowrap"}>
               {conversation.id}
             </span>
           </div>
