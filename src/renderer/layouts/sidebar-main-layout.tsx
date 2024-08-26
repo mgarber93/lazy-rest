@@ -1,4 +1,4 @@
-import {ChartPieIcon, ChatBubbleLeftIcon, CloudIcon, Cog6ToothIcon} from '@heroicons/react/24/outline'
+import {ChartPieIcon, ChatBubbleLeftIcon, CloudIcon} from '@heroicons/react/24/outline'
 import {classNames} from '../utils/classNames'
 import React, {ReactNode} from 'react'
 import {Tools} from './tools'
@@ -49,15 +49,6 @@ export function Sidebar() {
       </li>
       <li>
         <Tools/>
-      </li>
-      <li className="mt-auto">
-        <a
-          href="#"
-          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-zinc-600 hover:bg-zinc-800"
-        >
-          <Cog6ToothIcon aria-hidden="true" className="h-6 w-6 shrink-0"/>
-          Settings
-        </a>
       </li>
     </ul>
   </nav>
