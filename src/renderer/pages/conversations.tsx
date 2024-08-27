@@ -1,6 +1,7 @@
 import React from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {useAppSelector} from '../features/store'
+import {ApiForm} from '../components/api-form'
 
 export function Component() {
   const conversations = useAppSelector(state => state.chats)
@@ -20,14 +21,22 @@ export function Component() {
   </div>
 }
 
-export function ConversationsPage() {
+export function SettingsPage() {
   return (
     <HeaderLayout>
-      <main
-        className="p-4 grow">
-        <div>hello world</div>
-      </main>
+      <div className="w-full h-full pl-10 pr-10">
+        <ApiForm/>
+      </div>
     </HeaderLayout>
   )
 }
 
+export function ConversationsPage() {
+  return (
+    <HeaderLayout>
+      <div className="w-full h-full pl-10 pr-10">
+        <ApiForm/>
+      </div>
+    </HeaderLayout>
+  )
+}
