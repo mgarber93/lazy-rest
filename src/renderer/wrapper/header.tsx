@@ -1,6 +1,6 @@
-import {ReactElement, useCallback} from 'react'
-import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
-import {useLocation} from 'react-router-dom'
+import {ReactElement, useCallback, useState} from 'react'
+import {Cog6ToothIcon, PencilIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {nanoid} from '@reduxjs/toolkit'
 
 export function HeaderTab({children, clickHandler}: { children: ReactElement, clickHandler: () => void }) {
   return <>
@@ -24,20 +24,36 @@ export function HeaderTab({children, clickHandler}: { children: ReactElement, cl
   </>
 }
 
-export function Header() {
-  const newPage = useCallback(() => {
-    console.log('hello world')
-  }, [])
-  const location = useLocation()
-  const value = {currentRoute: location.pathname}
+export interface Navigable {
+  id: string
+}
 
+export function Header() {
+  const [pages, setPages] = useState<Navigable[]>([])
+  
+  const navigateTo = useCallback(() => {
+    // @todo
+  }, [])
+  
+  const createNewTab = useCallback(() => {
+    const id = nanoid()
+    setPages([...pages, {id}])
+  }, [pages, setPages])
+  
   return <header
     className="w-full h-10 bg-zinc-200 dark:bg-zinc-800 opacity-dynamic drag top-0 z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600">
     <ul className="h-full ml-[5rem] flex items-center no-drag">
-      <HeaderTab clickHandler={newPage}>
+      <HeaderTab clickHandler={navigateTo}>
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
       </HeaderTab>
-      <HeaderTab clickHandler={newPage}>
+      {
+        pages.map((page) => (
+          <HeaderTab key={page.id} clickHandler={navigateTo}>
+            <PencilIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
+          </HeaderTab>
+        ))
+      }
+      <HeaderTab clickHandler={createNewTab}>
         <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
       </HeaderTab>
     </ul>
