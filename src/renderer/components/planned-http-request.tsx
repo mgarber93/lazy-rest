@@ -1,63 +1,14 @@
-import styled from 'styled-components'
-import {ApiCallPlan, PlanStep} from '../../main/organizations/api-call-plan'
-
-const Div = styled.div`
-  & * {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &:last-child {
-    border: none;
-  }
-
-  text-align: left;
-  padding: 1rem 1rem;
-  background-color: var(--background-color-2);
-  border-radius: 1rem;
-
-  .method {
-    min-width: 2.5rem;
-  }
-
-  .path {
-    min-width: 15rem;
-    height: fit-content;
-  }
-
-  .background {
-    min-width: 20rem;
-    margin-left: auto;
-  }
-
-  .controls {
-    margin-left: auto;
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-
-  .method, .path, .background {
-    border-radius: var(--border-radius);
-    display: block;
-    text-align: center;
-    padding: 0.1rem;
-    background-color: var(--background-color-6);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`
+import {PlanStep} from '../../main/organizations/api-call-plan'
 
 export function PlannedHttpRequest({step}: { step: PlanStep }) {
   const plan = step.action
   if (!plan) {
-    return <Div className={"d-flex flex-row gap-2"} >
+    return <div className={"d-flex flex-row gap-2"}>
       Something went wrong
-    </Div>
+    </div>
   }
   
-  return <Div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
+  return <div className={"d-flex flex-row gap-2" + ` ${plan.method}`}>
     <span className={"method"}>
       {plan.method}
     </span>
@@ -67,6 +18,6 @@ export function PlannedHttpRequest({step}: { step: PlanStep }) {
     <span className={"background"}>
       {step.background}
     </span>
-  </Div>
+  </div>
 }
 

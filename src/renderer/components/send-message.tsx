@@ -1,6 +1,5 @@
 import React from 'react'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {UserInputText} from './user-input-text'
 import {Responder} from '../../models/responder'
 
 
@@ -23,7 +22,7 @@ export function SendMessage() {
   const placeholder = mapResponderToPlaceholder(currentConversation?.responder)
   return (
     <div>
-      <UserInputText placeholder={placeholder}/>
+      todo user input to send message
     </div>
   )
 }
