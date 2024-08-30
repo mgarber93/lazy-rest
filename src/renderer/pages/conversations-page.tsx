@@ -1,7 +1,7 @@
 import React from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {useAppSelector} from '../features/store'
-import {ApiForm} from '../components/api-form'
+import {ApiForm} from '../wrapper/api-form'
 
 export function Component() {
   const conversations = useAppSelector(state => state.chats)
