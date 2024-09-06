@@ -8,7 +8,7 @@ export function HeaderTab({children, to}: {
   children: ReactElement,
   to: string
 }) {
-  const classes = `flex h-full items-center border-r border-l pl-[1rem] pr-[1rem] border-zinc-400 dark:border-zinc-700 text-sm font-semibold `
+  const classes = `flex h-full items-center border-l pl-[1rem] pr-[1rem] border-zinc-400 dark:border-zinc-700 text-sm font-semibold `
   return <>
     <NavLink
       to={to}
@@ -21,9 +21,9 @@ export function HeaderTab({children, to}: {
 export function Header() {
   const chats = useAppSelector(state => state.chats)
   const [newChatId] = useState<string>(nanoid())
-  
+
   return <header
-    className="w-full h-10 bg-zinc-200 dark:bg-zinc-800 opacity-dynamic drag top-0 z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600">
+    className="w-full min-h-[37.5px] h-10 bg-zinc-200 dark:bg-zinc-800 opacity-dynamic drag top-0 z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600">
     <ul className="h-full ml-[5rem] flex items-center no-drag">
       <HeaderTab to={"config"}>
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
