@@ -8,10 +8,11 @@ export function HeaderTab({children, to}: {
   children: ReactElement,
   to: string
 }) {
+  const classes = `flex h-full items-center border-r border-l pl-[1rem] pr-[1rem] border-zinc-400 dark:border-zinc-700 text-sm font-semibold `
   return <>
     <NavLink
       to={to}
-      className={({isActive}) => `flex h-full items-center border-l border-r pl-[1rem] pr-[1rem] border-zinc-400 dark:border-zinc-700 text-sm font-semibold text-zinc-600 ${isActive ? "bg-zinc-700 text-zinc-900" : ''}`}>
+      className={({isActive}) => `${classes} ${isActive ? "bg-zinc-700 text-zinc-50" : 'text-zinc-400'}`}>
       {children}
     </NavLink>
   </>
