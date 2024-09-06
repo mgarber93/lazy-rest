@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react'
+import React, {ReactElement, useState} from 'react'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {nanoid} from '@reduxjs/toolkit'
 import {NavLink} from 'react-router-dom'
@@ -20,7 +20,7 @@ export function HeaderTab({children, to}: {
 
 export function Header() {
   const chats = useAppSelector(state => state.chats)
-  const newChatId = nanoid()
+  const [newChatId] = useState<string>(nanoid())
   
   return <header
     className="w-full h-10 bg-zinc-200 dark:bg-zinc-800 opacity-dynamic drag top-0 z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600">
