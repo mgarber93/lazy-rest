@@ -74,30 +74,39 @@ export function ApiForm() {
     <ApiFormElement
       domName={'baseUrl'}
       label={'Base URL'}
+      placeholder={'Base URL'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setBaseUrl(event.target.value)}
+      type={'string'}
+    />
+    <ApiFormElement
+      domName={'apiName'}
+      label={'API Name'}
       placeholder={'Api name (eg spotify)'}
       changeHandler={(event: {
         target: { value: SetStateAction<string>; };
       }) => setName(event.target.value)}
       type={'string'}
     />
-    <label className="block mb-2 text-sm font-medium text-gray-700">Name</label>
-    <input type="text" placeholder="Base URL" value={baseUrl}
-           onChange={(event: {
-             target: { value: SetStateAction<string>; };
-           }) => setBaseUrl(event.target.value)}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg mb-4 p-2.5"/>
-    <label className="block mb-2 text-sm font-medium text-gray-700">Client ID</label>
-    <input type="password" placeholder="Client ID" value={clientId}
-           onChange={(event: {
-             target: { value: SetStateAction<string>; };
-           }) => setClientId(event.target.value)}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg mb-4 p-2.5"/>
-    <label className="block mb-2 text-sm font-medium text-gray-700">Client Secret</label>
-    <input type="password" placeholder="Client secret" value={clientSecret}
-           onChange={(event: {
-             target: { value: SetStateAction<string>; };
-           }) => setClientSecret(event.target.value)}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg mb-4 p-2.5"/>
+    <ApiFormElement
+      domName={'clientId'}
+      label={'Client ID'}
+      placeholder={'Client ID to use'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setClientId(event.target.value)}
+      type={'string'}
+      />
+    <ApiFormElement
+      domName={'clientSecret'}
+      label={'Client Secret'}
+      placeholder={'Client Secret to use'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setClientSecret(event.target.value)}
+      type={'password'}
+    />
     <div className="flex justify-end">
       <button disabled={!isValid} type="submit"
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">Save
