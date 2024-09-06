@@ -10,7 +10,7 @@ export function HeaderTab({children, clickHandler}: { children: ReactElement, cl
     </li>
     <li
       onClick={clickHandler}
-      className={"pl-[1.25rem] pr-[1.25rem] pt-2 pb-2 flex items-center justify-center h-full dark:hover:bg-zinc-700 hover:bg-zinc-400 cursor-pointer"}
+      className={"pl-[1rem] pr-[1rem] pt-2 pb-2 flex items-center justify-center h-full dark:hover:bg-zinc-700 hover:bg-zinc-400 cursor-pointer"}
     >
       <a
         href="#"
