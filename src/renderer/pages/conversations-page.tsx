@@ -2,6 +2,7 @@ import React from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {useAppSelector} from '../features/store'
 import {ApiForm} from '../wrapper/api-form'
+import {useCurrentConversation} from '../hooks/current-conversation'
 
 export function Component() {
   const conversations = useAppSelector(state => state.chats)
@@ -32,11 +33,11 @@ export function SettingsPage() {
 }
 
 export function ConversationsPage() {
+  const conversation = useCurrentConversation()
   return (
     <HeaderLayout>
       <div className="w-full h-full pl-10 pr-10">
-        todo chat here
-        {/*<ApiForm/>*/}
+        {conversation.content[0].message}
       </div>
     </HeaderLayout>
   )

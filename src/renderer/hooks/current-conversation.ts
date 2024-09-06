@@ -5,9 +5,12 @@ import {ToolState} from '../features/tools'
 
 import {startNewChat} from '../features/chat'
 import {selectChat} from '../features/current-chat'
+import {useParams} from 'react-router-dom'
 
 export const useCurrentConversation = () => {
-  const currentChat = useSelector<RootState>((state) => state.currentChat) as string
+  const params = useParams()
+  const currentChat = params['chatId']
+  // const currentChat =  useSelector<RootState>((state) => state.currentChat) as string
   const chats = useSelector<RootState>(state => state.chats) as Conversation[]
   let current = chats.find(chat => chat.id === currentChat)
   const dispatch = useDispatch()
