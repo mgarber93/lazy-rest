@@ -7,19 +7,20 @@ import {addApiConfiguration} from '../features/tools'
 
 import {Center} from '../components/center'
 
-function ApiFileFormElement({domName, label, changeHandler, placeholder}: {
+function ApiFormElement({domName, label, changeHandler, placeholder, type}: {
   domName: string,
   label: string,
   changeHandler: (...args: any[]) => void,
-  placeholder: string
+  placeholder: string,
+  type: string
 }) {
   return <>
     <label htmlFor={domName} className="block mb-2 text-sm font-medium text-gray-700">
       {label}
     </label>
-    <input id={domName} type="file" accept=".json, .yaml" placeholder={placeholder}
+    <input id={domName} type={type} accept=".json, .yaml" placeholder={placeholder}
            onChange={changeHandler}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 mb-4"/>
+           className="block p-3 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 mb-4"/>
   </>
 }
 
@@ -63,19 +64,23 @@ export function ApiForm() {
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
   const content = <form onSubmit={handleSubmit}>
-    <ApiFileFormElement
+    <ApiFormElement
       domName={'apiSpec'}
       label={'Open Api Spec'}
       placeholder={'Swagger OAS file'}
       changeHandler={handleFile}
+      type={'file'}
+    />
+    <ApiFormElement
+      domName={'baseUrl'}
+      label={'Base URL'}
+      placeholder={'Api name (eg spotify)'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setName(event.target.value)}
+      type={'string'}
     />
     <label className="block mb-2 text-sm font-medium text-gray-700">Name</label>
-    <input type="text" placeholder="Api name (eg spotify)" value={name}
-           onChange={(event: {
-             target: { value: SetStateAction<string>; };
-           }) => setName(event.target.value)}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg mb-4 p-2.5"/>
-    <label className="block mb-2 text-sm font-medium text-gray-700">Base URL</label>
     <input type="text" placeholder="Base URL" value={baseUrl}
            onChange={(event: {
              target: { value: SetStateAction<string>; };
