@@ -1,18 +1,26 @@
-import React, {ReactNode, SetStateAction, useCallback, useMemo, useState} from 'react'
+import React, {SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
 
-export function Center({children}: { children: ReactNode }) {
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-1"></div>
-      <div className="col-span-2 border-2 border-zinc-300 bg-zinc-100 rounded-2xl p-4">{children}</div>
-      <div className="col-span-1"></div>
-    </div>
-  )
+import {Center} from '../components/center'
+
+function ApiFileFormElement({domName, label, changeHandler, placeholder}: {
+  domName: string,
+  label: string,
+  changeHandler: (...args: any[]) => void,
+  placeholder: string
+}) {
+  return <>
+    <label htmlFor={domName} className="block mb-2 text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <input id={domName} type="file" accept=".json, .yaml" placeholder={placeholder}
+           onChange={changeHandler}
+           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 mb-4"/>
+  </>
 }
 
 export function ApiForm() {
@@ -55,12 +63,12 @@ export function ApiForm() {
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
   const content = <form onSubmit={handleSubmit}>
-    <label htmlFor="apiSpec" className="block mb-2 text-sm font-medium text-gray-700">
-      Open Api Spec
-    </label>
-    <input id="apiSpec" type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
-           onChange={handleFile}
-           className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 mb-4"/>
+    <ApiFileFormElement
+      domName={'apiSpec'}
+      label={'Open Api Spec'}
+      placeholder={'Swagger OAS file'}
+      changeHandler={handleFile}
+    />
     <label className="block mb-2 text-sm font-medium text-gray-700">Name</label>
     <input type="text" placeholder="Api name (eg spotify)" value={name}
            onChange={(event: {
