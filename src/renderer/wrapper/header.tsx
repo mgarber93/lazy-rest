@@ -1,15 +1,16 @@
 import {ReactElement, useCallback, useState} from 'react'
-import {Cog6ToothIcon, PencilIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {nanoid} from '@reduxjs/toolkit'
+import {useAppSelector} from '../features/store'
 
 export function HeaderTab({children, clickHandler}: { children: ReactElement, clickHandler: () => void }) {
   return <>
-    <li className={"h-full w-0 flex items-center z-10"}>
+    <li className={"h-full flex items-center z-10"}>
       <div className={"h-full border-l border-zinc-400 dark:border-zinc-700"}></div>
     </li>
     <li
       onClick={clickHandler}
-      className={"pl-[1.25rem] pr-[1.25rem] pt-2 pb-2 w-5 flex items-center justify-center h-full dark:hover:bg-zinc-700 hover:bg-zinc-400 cursor-pointer"}
+      className={"pl-[1.25rem] pr-[1.25rem] pt-2 pb-2 flex items-center justify-center h-full dark:hover:bg-zinc-700 hover:bg-zinc-400 cursor-pointer"}
     >
       <a
         href="#"
@@ -18,7 +19,7 @@ export function HeaderTab({children, clickHandler}: { children: ReactElement, cl
         {children}
       </a>
     </li>
-    <li className="h-full w-0 flex items-center">
+    <li className="h-full flex items-center">
       <div className="h-full border-l border-zinc-400 dark:border-zinc-700"></div>
     </li>
   </>
@@ -30,7 +31,7 @@ export interface Navigable {
 
 export function Header() {
   const [pages, setPages] = useState<Navigable[]>([])
-  
+  const chats = useAppSelector(state => state.chats)
   const navigateTo = useCallback(() => {
     // @todo
   }, [])
@@ -47,9 +48,11 @@ export function Header() {
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
       </HeaderTab>
       {
-        pages.map((page) => (
-          <HeaderTab key={page.id} clickHandler={navigateTo}>
-            <PencilIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
+        chats.map((chat) => (
+          <HeaderTab key={chat.id} clickHandler={navigateTo}>
+            <div className="min-w-20">
+              {chat.content.at(0)?.message}
+            </div>
           </HeaderTab>
         ))
       }
