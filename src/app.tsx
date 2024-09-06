@@ -1,11 +1,11 @@
 import "reflect-metadata"
 import {createRoot} from 'react-dom/client'
 import React from 'react'
-import {createHashRouter, RouterProvider} from 'react-router-dom'
+import {createHashRouter, Navigate, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import {store} from './renderer/features/store'
-import {ConversationsPage} from './renderer/pages/conversations-page'
+import {ConversationsPage, SettingsPage} from './renderer/pages/conversations-page'
 import {connectCallbacks} from './connect-callbacks'
 
 connectCallbacks(store)
@@ -17,8 +17,16 @@ if (!container) {
 const root = createRoot(container)
 const router = createHashRouter([
   {
-    path: "*",
+    path: "config",
+    element: <SettingsPage/>,
+  },
+  {
+    path: "chats/:chatId",
     element: <ConversationsPage/>,
+  },
+  {
+    path: "*",
+    element: <Navigate to="config" replace />,
   },
 ])
 
