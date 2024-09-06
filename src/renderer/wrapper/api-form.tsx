@@ -1,9 +1,19 @@
-import React, {SetStateAction, useCallback, useMemo, useState} from 'react'
+import React, {ReactNode, SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
+
+export function Center({children}: { children: ReactNode }) {
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      <div className="col-span-1"></div>
+      <div className="col-span-2 border-2 border-zinc-300 bg-zinc-100 rounded-2xl p-4">{children}</div>
+      <div className="col-span-1"></div>
+    </div>
+  )
+}
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -44,8 +54,10 @@ export function ApiForm() {
     dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}))
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
-  return <form onSubmit={handleSubmit}>
-    <label htmlFor="apiSpec" className="block mb-2 text-sm font-medium text-gray-700">Open Api Spec</label>
+  const content = <form onSubmit={handleSubmit}>
+    <label htmlFor="apiSpec" className="block mb-2 text-sm font-medium text-gray-700">
+      Open Api Spec
+    </label>
     <input id="apiSpec" type="file" accept=".json, .yaml" placeholder="Swagger OAS file"
            onChange={handleFile}
            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 mb-4"/>
@@ -79,4 +91,8 @@ export function ApiForm() {
       </button>
     </div>
   </form>
+  
+  return <Center>
+    {content}
+  </Center>
 }
