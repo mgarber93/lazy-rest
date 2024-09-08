@@ -4,7 +4,8 @@ import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
-import {CenterWithLabel} from './center'
+import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
+import {inputClasses, labelClasses} from './open-ai-form'
 
 export function ApiFormElement({domName, label, changeHandler, placeholder, type}: {
   domName: string,
@@ -13,19 +14,15 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
   placeholder: string,
   type: string
 }) {
-  return <CenterWithLabel>
-    <div
-      className="col-span-1 h-full items-center content-center text-sm text-zinc-600">
+  return <Field>
+    <Label
+      className={labelClasses}>
       <label htmlFor={domName}>{label}</label>
-    </div>
-    <div className="col-span-3 h-full items-center content-center">
-      <input id={domName} type={type} accept=".json, .yaml" placeholder={placeholder}
-             onChange={changeHandler}
-             className={`w-full h-full text-sm rounded cursor-pointer bg-zinc-100 dark:bg-zinc-700 placeholder:text-zinc-900 placeholder-zinc-800 text-zinc-950 border-none`}
-      />
-    </div>
-    <div className="col-span-1"></div>
-  </CenterWithLabel>
+    </Label>
+    <Description>
+    </Description>
+    <Input className={inputClasses} type={type} placeholder={placeholder} onChange={changeHandler}></Input>
+  </Field>
 }
 
 export function ApiForm() {
@@ -67,7 +64,7 @@ export function ApiForm() {
     dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}))
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
-  return <form className={"flex flex-col col-span-3 gap-4"}>
+  return <Fieldset className={"flex flex-col col-span-3 gap-4"}>
     <ApiFormElement
       domName={'apiSpec'}
       label={'Open Api Spec'}
@@ -111,5 +108,5 @@ export function ApiForm() {
       }) => setClientSecret(event.target.value)}
       type={'password'}
     />
-  </form>
+  </Fieldset>
 }
