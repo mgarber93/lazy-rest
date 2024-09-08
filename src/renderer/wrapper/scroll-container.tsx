@@ -21,7 +21,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
   }, [])
   return <Center>
     <div className={clsx("col-span-1")}>
-      <aside className={clsx("sticky", cardEffect)}>
+      <aside className={clsx("sticky top-0", cardEffect)}>
         <ul>
           {
             Object.keys(sectionRefs).map((sectionKey) => (
