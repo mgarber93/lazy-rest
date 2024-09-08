@@ -5,8 +5,9 @@ import {createHashRouter, Navigate, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import {store} from './renderer/features/store'
-import {ConversationsPage, SettingsPage} from './renderer/pages/conversations-page'
+import {ConversationsPage} from './renderer/pages/conversations-page'
 import {connectCallbacks} from './connect-callbacks'
+import {SettingsPage} from './renderer/pages/settings-page'
 
 connectCallbacks(store)
 

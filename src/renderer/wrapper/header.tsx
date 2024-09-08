@@ -23,7 +23,8 @@ export function Header() {
   const [newChatId] = useState<string>(nanoid())
 
   return <header
-    className="w-full min-h-[37.5px] h-10 bg-zinc-200 dark:bg-zinc-800 opacity-dynamic drag top-0 z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600">
+    className="w-full sticky top-0 min-h-[37.5px] h-10 bg-zinc-200 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600"
+  >
     <ul className="h-full ml-[5rem] flex items-center no-drag">
       <HeaderTab to={"config"}>
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>

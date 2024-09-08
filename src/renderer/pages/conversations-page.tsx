@@ -1,7 +1,6 @@
 import React from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {useAppSelector} from '../features/store'
-import {ApiForm} from '../wrapper/api-form'
 import {useCurrentConversation} from '../hooks/current-conversation'
 
 export function Component() {
@@ -20,16 +19,6 @@ export function Component() {
       }
     </div>
   </div>
-}
-
-export function SettingsPage() {
-  return (
-    <HeaderLayout>
-      <div className="w-full h-full pl-10 pr-10">
-        <ApiForm/>
-      </div>
-    </HeaderLayout>
-  )
 }
 
 export function ConversationsPage() {
