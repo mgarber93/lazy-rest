@@ -13,7 +13,7 @@ export function HeaderTab({children, to}: {
   return <>
     <NavLink
       to={to}
-      className={({isActive}) => `${classes} ${isActive ? "bg-zinc-700 text-zinc-50 bg-white/15" : 'text-zinc-400'}`}
+      className={({isActive}) => `${classes} ${isActive ? "text-zinc-50 bg-white/15 dark:hover:bg-white/15" : 'text-zinc-400'}`}
     >
       {children}
     </NavLink>
