@@ -3,6 +3,7 @@ import {ApiForm} from '../wrapper/api-form'
 import React, {MutableRefObject, useRef} from 'react'
 import {ScrollPageLayout} from '../wrapper/scroll-container'
 import {OpenAiForm} from '../wrapper/open-ai-form'
+import {Legend} from '@headlessui/react'
 
 export function SettingsPage() {
   const sectionRefs = {
@@ -11,20 +12,20 @@ export function SettingsPage() {
     BedRock: useRef<HTMLDivElement>(null),
   } as Record<string, MutableRefObject<HTMLDivElement>>
   const keys = Object.keys(sectionRefs)
-  const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50`
+  const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
   return (
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={"p-2 min-h-[20rem]"}>
             <h2 className={headerClasses}>Api Specifications</h2>
-            <div className={"p-4"}>
+            <div className={"py-4"}>
               <ApiForm/>
             </div>
           </div>
           <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
-            <h2 className={headerClasses}>Open AI</h2>
-            <div className={"p-4"}>
+            <h2 className={headerClasses}>Open AI Configuration</h2>
+            <div className={"py-4"}>
               <OpenAiForm/>
             </div>
           </div>
