@@ -1,9 +1,11 @@
-import React, {ReactElement, useState} from 'react'
+import React, {ReactElement, useCallback, useState} from 'react'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {XMarkIcon} from '@heroicons/react/16/solid'
 import {nanoid} from '@reduxjs/toolkit'
 import {NavLink} from 'react-router-dom'
-import {useAppSelector} from '../features/store'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {Conversation} from '../../models/conversation'
+import {removeChat} from '../features/chat'
 
 export function HeaderTab({children, to}: {
   children: ReactElement,
@@ -23,6 +25,12 @@ export function HeaderTab({children, to}: {
 export function Header() {
   const chats = useAppSelector(state => state.chats)
   const [newChatId] = useState<string>(nanoid())
+  const dispatch = useAppDispatch()
+  const callbacks = chats.map((chat: Conversation) => {
+    return useCallback(() => {
+      dispatch(removeChat(chat.id))
+    }, [dispatch])
+  })
   
   return <header
     className="w-full sticky top-0 min-h-[37.5px] h-10 bg-zinc-200 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600"
@@ -32,14 +40,15 @@ export function Header() {
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem] mr-[0.25rem]"/>
       </HeaderTab>
       {
-        chats.map((chat) => (
+        chats.map((chat, i) => (
           <HeaderTab key={chat.id} to={`/chats/${chat.id}`}>
             <div className="flex min-w-20 max-h-1 items-center gap-0 w-full">
               <div className="text-xs h-full">
                 {chat.content.at(0)?.message.slice(0, 13) ?? "new chat"}
               </div>
               <div className="ml-auto">
-                <XMarkIcon className="h-[1.5rem] w-[1.5rem] hover:bg-black/5 dark:hover:bg-white/5 ml-[0.25rem]"/>
+                <XMarkIcon onClick={callbacks[i]}
+                           className="h-[1.5rem] w-[1.5rem] hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"/>
               </div>
             </div>
           </HeaderTab>
