@@ -1,4 +1,4 @@
-import React, {MutableRefObject, useState} from 'react'
+import React, {MutableRefObject, useCallback, useState} from 'react'
 import clsx from 'clsx'
 import {Button, Field, Input, Label} from '@headlessui/react'
 
@@ -11,6 +11,9 @@ import {Card} from '../wrapper/card'
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
   const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
+  const handleSubmit = useCallback(() => {
+    console.log('test')
+  }, [])
   
   return (
     <HeaderLayout>
@@ -33,9 +36,12 @@ export function ConversationsPage() {
             <div className={clsx("mt-auto")}>
               <Field className={"flex w-full flex-col gap-y-4 bottom-2 ml-auto pt-4"}>
                 <Label className={"ml-auto text-xs"}>
-                  <Button className={clsx(
-                    "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
-                  )}>
+                  <Button
+                    className={clsx(
+                      "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                    )}
+                    onClick={handleSubmit}
+                  >
                   Send message</Button>
                 </Label>
                 <Input
