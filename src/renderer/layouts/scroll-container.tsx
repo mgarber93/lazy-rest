@@ -1,5 +1,5 @@
 import React, {MutableRefObject, ReactNode, useEffect} from 'react'
-import {Center} from './center'
+import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {cardEffect} from '../utils/card'
 

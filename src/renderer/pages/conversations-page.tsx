@@ -4,7 +4,7 @@ import {Field, Input, Label} from '@headlessui/react'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ScrollPageLayout} from '../wrapper/scroll-container'
+import {ScrollPageLayout} from '../layouts/scroll-container'
 
 export function ConversationsPage() {
   const sectionRefs = {

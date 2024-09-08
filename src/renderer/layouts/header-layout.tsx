@@ -12,7 +12,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       )}>
         <Header></Header>
         <div className={clsx(
-          "h-full w-full flex flex-row px-2 my-1 py-1 dark:dark:bg-zinc-950 overflow-scroll drop-shadow",
+          "h-full w-full flex flex-row px-2 my-1 py-1 dark:dark:bg-zinc-950 overflow-scroll",
         )}>
           {children}
         </div>
