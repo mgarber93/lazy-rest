@@ -15,14 +15,14 @@ export function HeaderTab({children, to, className}: {
   to: string,
   className?: string
 }) {
-  const classes = `flex rounded no-drag bg-white h-full items-center border pl-[0.5rem] pr-[0.25rem] bg-white border-zinc-300 dark:border-zinc-700 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/5 font-sans shadow-md`
+  const classes = `flex rounded no-drag bg-white h-full items-center border pl-[0.5rem] pr-[0.25rem] bg-white dark:border-zinc-700 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/5 font-sans shadow-md`
   return (
     <NavLink
       to={to}
       className={
         ({isActive}) => clsx(
           classes,
-          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-white/15 dark:hover:bg-white/15", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400',
+          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-white/15 dark:hover:bg-white/15 border-zinc-300", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400',
           className,
         )}>
       {children}
