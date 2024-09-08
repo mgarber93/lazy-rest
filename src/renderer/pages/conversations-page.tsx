@@ -1,32 +1,42 @@
 import React from 'react'
-import {HeaderLayout} from '../layouts/header-layout'
-import {useAppSelector} from '../features/store'
-import {useCurrentConversation} from '../hooks/current-conversation'
+import clsx from 'clsx'
+import {Field, Input, Label} from '@headlessui/react'
 
-export function Component() {
-  const conversations = useAppSelector(state => state.chats)
-  return <div className="w-full h-full">
-    <div className={"fixed w-full h-full bg-white dark:bg-black opacity-dynamic -z-40"}></div>
-    <div className="px-2 flex flex-col gap-y-7">
-      {
-        conversations.map((conversation) => (
-          <div key={conversation.id}>
-            <span className={"text-xs text-nowrap"}>
-              {conversation.id}
-            </span>
-          </div>
-        ))
-      }
-    </div>
-  </div>
-}
+import {HeaderLayout} from '../layouts/header-layout'
+import {useCurrentConversation} from '../hooks/current-conversation'
+import {ScrollPageLayout} from '../wrapper/scroll-container'
 
 export function ConversationsPage() {
+  const sectionRefs = {
+  }
   const conversation = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className="w-full h-full pl-10 pr-10">
-        {conversation.content[0].message}
+      <div className="w-full h-full">
+        <ScrollPageLayout sectionRefs={sectionRefs}>
+          <div className="flex flex-col gap-y-4">
+            {
+              conversation.content.map(content => (
+                <div
+                  className={clsx('w-full leading-relaxed text-xl flex')}
+                  key={content.id}
+                >
+                  <span className={content.role === "user" ? "ml-auto" : ""}>{content.message}</span>
+                </div>
+              ))
+            }
+            <Field className={"flex w-full flex-col gap-y-2 bottom-2 ml-auto pt-14"}>
+              <Label className={"ml-auto text-xs"}>
+                Send message
+              </Label>
+              <Input
+                className={clsx('leading-relaxed text-xl flex bg-white/5 border-0 rounded-xl px-4 w-auto grow-0')}
+                style={{width: 'auto'}}
+              >
+              </Input>
+            </Field>
+          </div>
+        </ScrollPageLayout>
       </div>
     </HeaderLayout>
   )
