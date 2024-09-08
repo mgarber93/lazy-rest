@@ -68,7 +68,6 @@ export function ApiForm() {
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
   return <form className={"flex flex-col col-span-3 gap-4"}>
-    <h2>Section 3</h2>
     <ApiFormElement
       domName={'apiSpec'}
       label={'Open Api Spec'}

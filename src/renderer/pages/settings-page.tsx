@@ -5,24 +5,24 @@ import {ScrollPageLayout} from '../wrapper/scroll-container'
 
 export function SettingsPage() {
   const sectionRefs = {
-    section1: useRef<HTMLDivElement>(null),
-    section2: useRef<HTMLDivElement>(null),
-    section3: useRef<HTMLDivElement>(null),
+    ApiSpecifications: useRef<HTMLDivElement>(null),
+    OpenAi: useRef<HTMLDivElement>(null),
+    BedRock: useRef<HTMLDivElement>(null),
   } as Record<string, MutableRefObject<HTMLDivElement>>
+  const keys = Object.keys(sectionRefs)
   return (
     <HeaderLayout>
-      <div className="w-full h-full2">
+      <div className="w-full h-full">
         <ScrollPageLayout sectionRefs={sectionRefs}>
-          <div ref={sectionRefs.section1} id="section1">
-            <h2>Section 1</h2>
-            {/* Section 1 form fields */}
-          </div>
-          <div ref={sectionRefs.section2} id="section2">
-            <h2>Section 2</h2>
-            {/* Section 2 form fields */}
-          </div>
-          <div ref={sectionRefs.section3} id="section3">
+          <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={"min-h-[20rem]"}>
+            <h2>Api Specifications</h2>
             <ApiForm/>
+          </div>
+          <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
+            <h2>Open AI</h2>
+          </div>
+          <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
+            <h2>AWS Bed Rock</h2>
           </div>
         </ScrollPageLayout>
       </div>
