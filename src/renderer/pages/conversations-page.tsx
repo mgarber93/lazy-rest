@@ -1,17 +1,17 @@
-import React from 'react'
+import React, {MutableRefObject, useState} from 'react'
 import clsx from 'clsx'
-import {Field, Input, Label} from '@headlessui/react'
+import {Button, Field, Input, Label} from '@headlessui/react'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
-import {transparent} from '../utils/transparent'
+
 
 export function ConversationsPage() {
-  const sectionRefs = {
-  }
   const conversation = useCurrentConversation()
+  const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
+  
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -33,7 +33,10 @@ export function ConversationsPage() {
             <div className={clsx("mt-auto")}>
               <Field className={"flex w-full flex-col gap-y-4 bottom-2 ml-auto pt-4"}>
                 <Label className={"ml-auto text-xs"}>
-                  <span className={"border rounded-xl p-2 cursor-pointer bg-black/5"}>Send message</span>
+                  <Button className={clsx(
+                    "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                  )}>
+                  Send message</Button>
                 </Label>
                 <Input
                   className={clsx('leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 dark:bg-white/5 border-0 rounded-xl px-4 w-auto grow-0')}

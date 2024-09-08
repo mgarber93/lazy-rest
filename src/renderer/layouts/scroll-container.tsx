@@ -5,7 +5,7 @@ import {Card} from '../wrapper/card'
 
 
 export function Sections({sectionRefs}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement>>,
+  sectionRefs: Record<string, MutableRefObject<HTMLDivElement | null>>,
 }) {
   const scrollToSection = useCallback((section: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,7 +32,7 @@ export function Sections({sectionRefs}: {
 }
 
 export function ScrollPageLayout({sectionRefs, children}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement>>,
+  sectionRefs: Record<string, MutableRefObject<HTMLDivElement | null>>,
   children?: ReactNode,
 }) {
   const scrollToSection = useCallback((section: string) => {

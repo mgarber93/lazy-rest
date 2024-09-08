@@ -1,9 +1,8 @@
-import {container, singleton} from 'tsyringe'
+import {container} from 'tsyringe'
 import {ConversationContext} from '../../models/conversation'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {ResultInterpreterFactory} from '../agents/result-interpreter-factory'
-import OpenAI from 'openai'
 
 
 export class ResultInterpreter {
