@@ -7,12 +7,13 @@ import {addApiConfiguration} from '../features/tools'
 import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import {inputClasses, labelClasses} from './open-ai-form'
 
-export function ApiFormElement({domName, label, changeHandler, placeholder, type}: {
+export function ApiFormElement({domName, label, changeHandler, placeholder, type, description}: {
   domName: string,
   label: ReactNode,
   changeHandler: (...args: never[]) => void,
   placeholder: string,
-  type: string
+  type: string,
+  description?: string
 }) {
   return <Field>
     <Label
@@ -20,6 +21,7 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
       <label htmlFor={domName}>{label}</label>
     </Label>
     <Description>
+      {description}
     </Description>
     <Input className={inputClasses} type={type} placeholder={placeholder} onChange={changeHandler}></Input>
   </Field>
