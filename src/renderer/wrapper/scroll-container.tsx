@@ -1,5 +1,6 @@
 import React, {MutableRefObject, ReactNode, useEffect} from 'react'
 import {Center} from './center'
+import clsx from 'clsx'
 
 export function ScrollPageLayout({sectionRefs, children}: {
   sectionRefs: Record<string, MutableRefObject<HTMLDivElement>>,
@@ -17,10 +18,10 @@ export function ScrollPageLayout({sectionRefs, children}: {
       scrollToSection(hash)
     }
   }, [])
-  
+  const cardEffect = "rounded-xl p-4 bg-zinc-50"
   return <Center>
-    <div className="col-span-1">
-      <aside className="sticky top-4">
+    <div className={clsx("col-span-1")}>
+      <aside className={clsx("sticky top-4", cardEffect)}>
         <ul>
           {
             Object.keys(sectionRefs).map((sectionKey) => (
@@ -37,7 +38,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
         </ul>
       </aside>
     </div>
-    <div className="col-span-3 top-4">
+    <div className={clsx("col-span-3 top-4", cardEffect)}>
       {children}
     </div>
     <div className="col-span-1"></div>

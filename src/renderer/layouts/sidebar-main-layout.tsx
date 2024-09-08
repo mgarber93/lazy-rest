@@ -41,7 +41,7 @@ export function NavigationComponent() {
 
 export function Sidebar() {
   return <nav
-    className="flex flex-col h-full w-full bg-white dark:bg-black opacity-dynamic px-8 pb-4 max-w-64 overflow-y-hidden">
+    className="flex flex-col h-full w-full dark:bg-black opacity-dynamic px-8 pb-4 max-w-64 overflow-y-hidden">
     <div className="h-2 shrink-0"/>
     <ul role="list" className="flex flex-1 flex-col gap-y-7">
       <li>

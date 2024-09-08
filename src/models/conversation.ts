@@ -3,11 +3,11 @@ import {AuthoredContent} from './content'
 import {Responder} from './responder'
 import {ToolState} from '../renderer/features/tools'
 
-export function createConversation(title = ''): Conversation {
+export function createConversation(id?: string): Conversation {
   return {
-    id: v4(),
+    id: id ?? v4(),
     content: [] as AuthoredContent[],
-    title,
+    title: '',
     created: Date(),
   }
 }

@@ -12,9 +12,12 @@ export function ConversationsPage() {
   const conversation = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className="w-full h-full">
+      <div className={clsx("w-full h-full")}>
         <ScrollPageLayout sectionRefs={sectionRefs}>
-          <div className="flex flex-col gap-y-4">
+          <div className={clsx(
+            "flex flex-col gap-y-4",
+            "h-full",
+          )}>
             {
               conversation.content.map(content => (
                 <div
@@ -25,12 +28,12 @@ export function ConversationsPage() {
                 </div>
               ))
             }
-            <Field className={"flex w-full flex-col gap-y-2 bottom-2 ml-auto pt-14"}>
+            <Field className={"flex w-full flex-col gap-y-4 bottom-2 ml-auto pt-14"}>
               <Label className={"ml-auto text-xs"}>
-                Send message
+                <span className={"border rounded-xl p-2 cursor-pointer bg-black/5"}>Send message</span>
               </Label>
               <Input
-                className={clsx('leading-relaxed text-xl flex bg-white/5 border-0 rounded-xl px-4 w-auto grow-0')}
+                className={clsx('leading-relaxed text-xl flex bg-black/5 dark:bg-white/5 border-0 rounded-xl px-4 w-auto grow-0')}
                 style={{width: 'auto'}}
               >
               </Input>
