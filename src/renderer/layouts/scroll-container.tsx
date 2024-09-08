@@ -18,11 +18,15 @@ export function Sections({sectionRefs}: {
       {
         Object.keys(sectionRefs).map((sectionKey) => (
           <li key={sectionKey}>
-            <a href={`#${sectionKey}`} onClick={(e) => {
-              e.preventDefault()
-              scrollToSection(sectionKey)
-            }}>
-              {sectionKey.replace("section", "Section ")}
+            <a
+              href={`#${sectionKey}`}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection(sectionKey)
+              }}
+              className={"text-sm text-nowrap text-ellipsis"}
+            >
+              {sectionKey.replace(/([A-Z])/g, " $1".toLowerCase())}
             </a>
           </li>
         ))

@@ -6,14 +6,18 @@ import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
+import {useAppDispatch} from '../features/store'
+import {AuthoredContent} from '../../models/content'
 
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
   const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
+  const [pendingMessage, setPendingMessage] = useState('')
+  const dispatch = useAppDispatch()
   const handleSubmit = useCallback(() => {
-    console.log('test')
-  }, [])
+    // dispatch(respond())
+  }, [pendingMessage])
   
   return (
     <HeaderLayout>
@@ -24,12 +28,23 @@ export function ConversationsPage() {
             "h-full",
           )}>
             {
-              conversation.content.map(content => (
+              conversation.content.reduce((acc: AuthoredContent[][], content, index) => {
+                if (index % 2 === 0) acc.push([content])
+                else acc[acc.length - 1].push(content)
+                return acc
+              }, []).map((pair, index) => (
                 <Card
-                  className={clsx('w-full leading-relaxed text-xl flex')}
-                  key={content.id}
+                  className={clsx('w-full leading-relaxed text-xl flex flex-col bg-zinc-50')}
+                  key={index}
                 >
-                  <span className={content.role === "user" ? "ml-auto" : ""}>{content.message}</span>
+                  {pair.map(content => (
+                    <span
+                      className={clsx('flex-1', content.role === "user" ? "ml-auto pb-2" : "")}
+                      key={content.id}
+                    >
+                      {content.message}
+                    </span>
+                  ))}
                 </Card>
               ))
             }
@@ -38,7 +53,7 @@ export function ConversationsPage() {
                 <Label className={"ml-auto text-xs"}>
                   <Button
                     className={clsx(
-                      "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                      "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow  shadow-black/10 dark:shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
                     )}
                     onClick={handleSubmit}
                   >
