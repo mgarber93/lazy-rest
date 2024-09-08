@@ -12,7 +12,8 @@ export function HeaderTab({children, to}: {
   return <>
     <NavLink
       to={to}
-      className={({isActive}) => `${classes} ${isActive ? "bg-zinc-700 text-zinc-50" : 'text-zinc-400'}`}>
+      className={({isActive}) => `${classes} ${isActive ? "bg-zinc-700 text-zinc-50 bg-white/15" : 'text-zinc-400'}`}
+    >
       {children}
     </NavLink>
   </>
@@ -26,7 +27,7 @@ export function Header() {
     className="w-full sticky top-0 min-h-[37.5px] h-10 bg-zinc-200 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-400 dark:border-zinc-600"
   >
     <ul className="h-full ml-[5rem] flex items-center no-drag">
-      <HeaderTab to={"config"}>
+      <HeaderTab to={"/config"}>
         <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
       </HeaderTab>
       {
