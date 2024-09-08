@@ -3,10 +3,10 @@ import {cardEffect} from '../utils/card'
 import clsx from 'clsx'
 
 
-export function Card(props: { children: ReactNode }) {
+export function Card({children, className}: { children: ReactNode, className?: string }) {
   return (
-    <div className={clsx(cardEffect)}>
-      {props.children}
+    <div className={clsx(cardEffect, className)}>
+      {children}
     </div>
   )
 }

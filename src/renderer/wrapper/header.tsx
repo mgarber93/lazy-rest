@@ -15,14 +15,14 @@ export function HeaderTab({children, to, className}: {
   to: string,
   className?: string
 }) {
-  const classes = `flex rounded no-drag bg-white h-full items-center border pl-[0.5rem] pr-[0.25rem] bg-white dark:border-zinc-700 text-xs font-semibold hover:bg-white/50 dark:hover:bg-white/5 font-sans`
+  const classes = `flex rounded no-drag bg-white dark:bg-zinc-900 dark:text-white h-full items-center border pl-[0.5rem] pr-[0.25rem] dark:border-zinc-700 text-xs font-semibold hover:bg-white/50 dark:hover:bg-white/5 font-sans`
   return (
     <NavLink
       to={to}
       className={
         ({isActive}) => clsx(
           classes,
-          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-zinc-50 dark:hover:bg-white/15 border-zinc-300 drop-shadow", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400',
+          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-zinc-50 dark:hover:bg-white/15 border-zinc-300 drop-shadow", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400 dark:text-zinc-100',
           className,
         )}>
       {children}
@@ -49,8 +49,8 @@ export function Header() {
     <header
       className={clsx(
         transparent,
-        "w-full sticky top-0 min-h-[37.5px] h-10 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-zinc-600 shadow z-10",
-        "bg-white/90 pt-[1px] pb-[1px]",
+        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] dark:border-b-zinc-950 border-zinc-300 dark:border-zinc-600 shadow z-10",
+        "bg-white/90 dark:bg-zinc-950 pt-[1px] pb-[1px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
         <HeaderTab to={"/config"} className={""}>
@@ -60,7 +60,7 @@ export function Header() {
           {chats.map((chat) => (
             <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">
-                <div className="text-xs text-zinc-800 h-full whitespace-nowrap">
+                <div className="h-full whitespace-nowrap">
                   {chat.content.at(0)?.message.slice(0, 13) ?? "new chat"}
                 </div>
                 <div className="ml-auto">
