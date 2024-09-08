@@ -45,12 +45,11 @@ export function Header() {
     dispatch(startNewChat(createConversation(newChatId)))
   }, [dispatch, newChatId])
   
-  
   return (
     <header
       className={clsx(
         transparent,
-        "w-full sticky top-0 min-h-[37.5px] h-10 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-zinc-600 shadow-lg z-10",
+        "w-full sticky top-0 min-h-[37.5px] h-10 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-zinc-600 shadow z-10",
         "bg-white/90 pt-[1px] pb-[1px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
@@ -75,7 +74,6 @@ export function Header() {
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </HeaderTab>
         </div>
-      
       </ul>
     </header>
   )

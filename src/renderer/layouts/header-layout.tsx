@@ -6,13 +6,13 @@ import {lgTransparent} from '../utils/transparent'
 export function HeaderLayout({children}: { children: ReactElement }) {
   return (
     <>
-      <div className={
+      <div className={clsx(
+        lgTransparent,
         "flex flex-col h-full dark:text-zinc-400"
-      }>
+      )}>
         <Header></Header>
         <div className={clsx(
-          lgTransparent,
-          "h-full w-full flex flex-row p-2 dark:dark:bg-zinc-950 overflow-scroll drop-shadow",
+          "h-full w-full flex flex-row px-2 my-1 py-1 dark:dark:bg-zinc-950 overflow-scroll drop-shadow",
         )}>
           {children}
         </div>
