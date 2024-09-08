@@ -3,7 +3,6 @@ import {ApiForm} from '../wrapper/api-form'
 import React, {MutableRefObject, useRef} from 'react'
 import {ScrollPageLayout} from '../wrapper/scroll-container'
 import {OpenAiForm} from '../wrapper/open-ai-form'
-import {Legend} from '@headlessui/react'
 
 export function SettingsPage() {
   const sectionRefs = {
