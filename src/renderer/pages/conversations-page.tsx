@@ -7,7 +7,6 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
 import {useAppDispatch} from '../features/store'
-import {AuthoredContent} from '../../models/content'
 
 
 export function ConversationsPage() {
@@ -28,23 +27,18 @@ export function ConversationsPage() {
             "h-full",
           )}>
             {
-              conversation.content.reduce((acc: AuthoredContent[][], content, index) => {
-                if (index % 2 === 0) acc.push([content])
-                else acc[acc.length - 1].push(content)
-                return acc
-              }, []).map((pair, index) => (
+              conversation.content.map((content, index) => (
                 <Card
                   className={clsx('w-full leading-relaxed text-xl flex flex-col bg-zinc-50')}
                   key={index}
                 >
-                  {pair.map(content => (
-                    <span
-                      className={clsx('flex-1', content.role === "user" ? "ml-auto pb-2" : "")}
-                      key={content.id}
-                    >
-                      {content.message}
-                    </span>
-                  ))}
+                  <span
+                    className={clsx('flex-1', content.role === "user" ? "ml-auto pb-2" : "")}
+                    key={content.id}
+                  >
+                    {content.message}
+                  </span>
+                  
                 </Card>
               ))
             }

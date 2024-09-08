@@ -61,7 +61,7 @@ export function Header() {
             <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">
                 <div className="h-full whitespace-nowrap">
-                  {chat.content.at(0)?.message.slice(0, 13) ?? "new chat"}
+                  {chat.content.at(0)?.message.slice(0, 17) ?? "new chat"}
                 </div>
                 <div className="ml-auto">
                   <XMarkIcon onClick={() => handleRemoveChat(chat.id)}
