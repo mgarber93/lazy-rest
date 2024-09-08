@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'react'
 import {Header} from '../wrapper/header'
 import clsx from 'clsx'
-import {lgTransparent} from '../wrapper/smallTransparent'
+import {lgTransparent} from '../utils/transparent'
 
 export function HeaderLayout({children}: { children: ReactElement }) {
   return (
@@ -12,7 +12,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         <Header></Header>
         <div className={clsx(
           lgTransparent,
-          "h-full w-full flex flex-row p-2 dark:dark:bg-zinc-950 overflow-scroll",
+          "h-full w-full flex flex-row p-2 dark:dark:bg-zinc-950 overflow-scroll drop-shadow",
         )}>
           {children}
         </div>

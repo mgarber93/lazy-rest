@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {removeChat, startNewChat} from '../features/chat'
 import {createConversation} from '../../models/conversation'
-import {smallTransparent} from './smallTransparent'
+import {transparent} from '../utils/transparent'
 
 
 export function HeaderTab({children, to, className}: {
@@ -15,14 +15,14 @@ export function HeaderTab({children, to, className}: {
   to: string,
   className?: string
 }) {
-  const classes = `flex rounded no-drag bg-white h-full items-center border pl-[0.5rem] pr-[0.25rem] bg-white dark:border-zinc-700 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/5 font-sans shadow-md`
+  const classes = `flex rounded no-drag bg-white h-full items-center border pl-[0.5rem] pr-[0.25rem] bg-white dark:border-zinc-700 text-xs font-semibold hover:bg-white/50 dark:hover:bg-white/5 font-sans`
   return (
     <NavLink
       to={to}
       className={
         ({isActive}) => clsx(
           classes,
-          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-white/15 dark:hover:bg-white/15 border-zinc-300", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400',
+          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-zinc-50 dark:hover:bg-white/15 border-zinc-300 drop-shadow", "backdrop-blur-3xl bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400',
           className,
         )}>
       {children}
@@ -49,9 +49,9 @@ export function Header() {
   return (
     <header
       className={clsx(
-        smallTransparent,
-        "w-full sticky top-0 min-h-[37.5px] h-10 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-zinc-600 shadow",
-        "bg-white/90 py-[1px]",
+        transparent,
+        "w-full sticky top-0 min-h-[37.5px] h-10 dark:bg-zinc-950 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-zinc-600 shadow-xl z-10",
+        "bg-white/90 pt-[1px] pb-[1px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
         <HeaderTab to={"/config"} className={""}>
