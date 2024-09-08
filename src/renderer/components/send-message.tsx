@@ -18,7 +18,6 @@ function mapResponderToPlaceholder(responder?: Responder) {
 
 export function SendMessage() {
   const currentConversation = useCurrentConversation()
-  
   const placeholder = mapResponderToPlaceholder(currentConversation?.responder)
   return (
     <div>
