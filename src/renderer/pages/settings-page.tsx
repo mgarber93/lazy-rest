@@ -13,7 +13,17 @@ export function SettingsPage() {
     <HeaderLayout>
       <div className="w-full h-full2">
         <ScrollPageLayout sectionRefs={sectionRefs}>
-          <ApiForm sectionRefs={sectionRefs}/>
+          <div ref={sectionRefs.section1} id="section1">
+            <h2>Section 1</h2>
+            {/* Section 1 form fields */}
+          </div>
+          <div ref={sectionRefs.section2} id="section2">
+            <h2>Section 2</h2>
+            {/* Section 2 form fields */}
+          </div>
+          <div ref={sectionRefs.section3} id="section3">
+            <ApiForm/>
+          </div>
         </ScrollPageLayout>
       </div>
     </HeaderLayout>

@@ -1,4 +1,4 @@
-import React, {MutableRefObject, ReactNode, SetStateAction, useCallback, useMemo, useState} from 'react'
+import React, {ReactNode, SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
@@ -28,9 +28,7 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
   </CenterWithLabel>
 }
 
-export function ApiForm({sectionRefs}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement>>,
-}) {
+export function ApiForm() {
   const [name, setName] = useState('')
   const [baseUrl, setBaseUrl] = useState('')
   const [clientId, setClientId] = useState('')
@@ -70,58 +68,49 @@ export function ApiForm({sectionRefs}: {
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
   return <form className={"flex flex-col col-span-3 gap-4"}>
-    <div ref={sectionRefs.section1} id="section1" style={{height: '600px'}}>
-      <h2>Section 1</h2>
-      {/* Section 1 form fields */}
-    </div>
-    <div ref={sectionRefs.section2} id="section2" style={{height: '600px'}}>
-      <h2>Section 2</h2>
-      {/* Section 2 form fields */}
-    </div>
-    <div ref={sectionRefs.section3} id="section3" style={{height: '600px'}}>
-      <h2>Section 3</h2>
-      <ApiFormElement
-        domName={'apiSpec'}
-        label={'Open Api Spec'}
-        placeholder={'Swagger OAS file'}
-        changeHandler={handleFile}
-        type={'file'}
-      />
-      <ApiFormElement
-        domName={'baseUrl'}
-        label={'Base URL'}
-        placeholder={'Base URL'}
-        changeHandler={(event: {
-          target: { value: SetStateAction<string>; };
-        }) => setBaseUrl(event.target.value)}
-        type={'string'}
-      />
-      <ApiFormElement
-        domName={'apiName'}
-        label={'API Name'}
-        placeholder={'Api name (eg spotify)'}
-        changeHandler={(event: {
-          target: { value: SetStateAction<string>; };
-        }) => setName(event.target.value)}
-        type={'string'}
-      />
-      <ApiFormElement
-        domName={'clientId'}
-        label={'Client ID'}
-        placeholder={'Client ID to use'}
-        changeHandler={(event: {
-          target: { value: SetStateAction<string>; };
-        }) => setClientId(event.target.value)}
-        type={'string'}
-      />
-      <ApiFormElement
-        domName={'clientSecret'}
-        label={'Client Secret'}
-        placeholder={'Client Secret to use'}
-        changeHandler={(event: {
-          target: { value: SetStateAction<string>; };
-        }) => setClientSecret(event.target.value)}
-        type={'password'}
-      /></div>
+    <h2>Section 3</h2>
+    <ApiFormElement
+      domName={'apiSpec'}
+      label={'Open Api Spec'}
+      placeholder={'Swagger OAS file'}
+      changeHandler={handleFile}
+      type={'file'}
+    />
+    <ApiFormElement
+      domName={'baseUrl'}
+      label={'Base URL'}
+      placeholder={'Base URL'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setBaseUrl(event.target.value)}
+      type={'string'}
+    />
+    <ApiFormElement
+      domName={'apiName'}
+      label={'API Name'}
+      placeholder={'Api name (eg spotify)'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setName(event.target.value)}
+      type={'string'}
+    />
+    <ApiFormElement
+      domName={'clientId'}
+      label={'Client ID'}
+      placeholder={'Client ID to use'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setClientId(event.target.value)}
+      type={'string'}
+    />
+    <ApiFormElement
+      domName={'clientSecret'}
+      label={'Client Secret'}
+      placeholder={'Client Secret to use'}
+      changeHandler={(event: {
+        target: { value: SetStateAction<string>; };
+      }) => setClientSecret(event.target.value)}
+      type={'password'}
+    />
   </form>
 }
