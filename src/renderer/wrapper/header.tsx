@@ -49,7 +49,7 @@ export function Header() {
     <header
       className={clsx(
         transparent,
-        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] dark:border-b-zinc-950 border-zinc-300 dark:border-zinc-600 shadow z-10",
+        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-b-zinc-950 shadow z-10",
         "bg-white/90 dark:bg-zinc-950 pt-[1px] pb-[1px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">

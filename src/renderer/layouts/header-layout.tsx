@@ -8,11 +8,11 @@ export function HeaderLayout({children}: { children: ReactElement }) {
     <>
       <div className={clsx(
         lgTransparent,
-        "flex flex-col h-full dark:text-zinc-400"
+        "flex flex-col h-full dark:text-zinc-400 border-0"
       )}>
         <Header></Header>
         <div className={clsx(
-          "h-full w-full flex flex-row px-2 my-1 py-1 dark:dark:bg-zinc-950 overflow-scroll",
+          "h-full w-full flex flex-row px-2 my-1 py-1 overflow-scroll",
         )}>
           {children}
         </div>
