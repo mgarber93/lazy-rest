@@ -5,7 +5,7 @@
   "description": "GUI for agentic interactions with llms",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start -- ",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

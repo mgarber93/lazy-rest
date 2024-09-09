@@ -2,7 +2,6 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
 import {chatsSlice} from './chat'
 import {userSlice} from './user'
-import {currentChatSlice} from './current-chat'
 import {contextMenuSlice} from './context-menu'
 import {modelsSlice} from './models'
 import {loadState, localStorageMiddleware} from '../middleware/local-storage'
@@ -16,7 +15,6 @@ export function createStore() {
     reducer: {
       chats: chatsSlice.reducer,
       user: userSlice.reducer,
-      currentChat: currentChatSlice.reducer,
       contextMenu: contextMenuSlice.reducer,
       models: modelsSlice.reducer,
       tools: toolsSlice.reducer,
