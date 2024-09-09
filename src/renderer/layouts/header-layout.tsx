@@ -8,7 +8,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
     <>
       <div className={clsx(
         lgTransparent,
-        "flex flex-col h-full dark:text-zinc-400 border-0"
+        "flex flex-col h-full dark:text-zinc-50 border-0",
       )}>
         <Header></Header>
         <div className={clsx(
