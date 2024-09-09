@@ -1,24 +1,39 @@
-import React, {MutableRefObject, useCallback, useState} from 'react'
+import React, {ChangeEvent, KeyboardEventHandler, MutableRefObject, useCallback, useState} from 'react'
 import clsx from 'clsx'
-import {Button, Field, Input, Label} from '@headlessui/react'
+import {Field, Input} from '@headlessui/react'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
-import {useAppDispatch} from '../features/store'
+import {useAppDispatch, useAppSelector} from '../features/store'
 import {cardEffect} from '../utils/card'
-
+import {respond, streamResponse} from '../features/chat'
+import {createContent} from '../../models/content'
+import {User} from '../../models/user'
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
-  const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
-  const [pendingMessage, setPendingMessage] = useState('')
+  const user = useAppSelector((state) => state.user) as User
+  const [sectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
+  const [value, setValue] = useState('')
   const dispatch = useAppDispatch()
-  const handleSubmit = useCallback(() => {
-    // dispatch(respond())
-  }, [pendingMessage])
-
+  const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const {value} = e.target as { value: string }
+    if (e.key === 'Enter' && !e.shiftKey && value && conversation.responder) {
+      e.preventDefault()
+      const prompt = createContent(value, conversation.id, user.username, 'user')
+      dispatch(respond(prompt))
+      dispatch(streamResponse({conversationId: conversation.id}))
+      setValue('')
+    }
+  }, [conversation, user])
+  const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+  }, [setValue])
+  
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -44,21 +59,15 @@ export function ConversationsPage() {
             }
             <div className={clsx("mt-auto")}>
               <Field className={"flex w-full flex-col gap-y-4 bottom-2 ml-auto pt-4"}>
-                <Label className={"ml-auto text-xs"}>
-                  <Button
-                    className={clsx(
-                      "inline-flex items-center gap-2 rounded-md bg-zinc-50 dark:bg-zinc-700 py-1.5 px-3 text-sm/6 font-semibold shadow  shadow-black/10 dark:shadow-white/10 focus:outline-none data-[hover]:bg-zinc-100 dark:data-[hover]:bg-zinc-600 data-[open]:bg-zinc-700 data-[focus]:outline-1 data-[focus]:outline-white"
-                    )}
-                    onClick={handleSubmit}
-                  >
-                  Send message</Button>
-                </Label>
                 <Input
                   className={clsx(
                     cardEffect,
                     'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-auto',
                   )}
                   style={{width: 'auto'}}
+                  onKeyUpCapture={handleKeyPress}
+                  value={value}
+                  onChange={handleOnChange}
                 >
                 </Input>
               </Field>
