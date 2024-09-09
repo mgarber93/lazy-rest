@@ -7,6 +7,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
 import {useAppDispatch} from '../features/store'
+import {cardEffect} from '../utils/card'
 
 
 export function ConversationsPage() {
@@ -17,7 +18,7 @@ export function ConversationsPage() {
   const handleSubmit = useCallback(() => {
     // dispatch(respond())
   }, [pendingMessage])
-  
+
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -33,12 +34,11 @@ export function ConversationsPage() {
                   key={index}
                 >
                   <span
-                    className={clsx('flex-1', content.role === "user" ? "ml-auto pb-2" : "")}
+                    className={clsx('flex-1', content.role === "user" ? "ml-auto" : "")}
                     key={content.id}
                   >
                     {content.message}
                   </span>
-                  
                 </Card>
               ))
             }
@@ -54,7 +54,10 @@ export function ConversationsPage() {
                   Send message</Button>
                 </Label>
                 <Input
-                  className={clsx('leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 dark:bg-white/5 border-0 rounded-xl px-4 w-auto grow-0')}
+                  className={clsx(
+                    cardEffect,
+                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-auto',
+                  )}
                   style={{width: 'auto'}}
                 >
                 </Input>
