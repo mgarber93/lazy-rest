@@ -58,11 +58,11 @@ export function ConversationsPage() {
             {
               conversation.content.map((content, index) => (
                 <Card
-                  className={clsx('w-full leading-relaxed text-xl flex flex-col bg-zinc-50')}
+                  className={clsx('leading-relaxed text-xl flex flex-col bg-zinc-50', content.role === "user" && "ml-auto")}
                   key={index}
                 >
                   <span
-                    className={clsx('flex-1 whitespace-pre-wrap', content.role === "user" ? "ml-auto" : "")}
+                    className={clsx('flex-1 whitespace-pre-wrap')}
                     key={content.id}
                   >
                     {content.message}
@@ -88,7 +88,7 @@ export function ConversationsPage() {
                 <Input
                   className={clsx(
                     cardEffect,
-                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-full',
+                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-full mt-auto',
                   )}
                   onKeyUpCapture={handleKeyPress}
                   value={value}
