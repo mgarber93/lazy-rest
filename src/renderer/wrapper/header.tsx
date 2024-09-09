@@ -1,13 +1,13 @@
 import React, {ReactElement, useCallback, useState} from 'react'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {XMarkIcon} from '@heroicons/react/16/solid'
-import {nanoid} from '@reduxjs/toolkit'
 import {NavLink} from 'react-router-dom'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {removeChat, startNewChat} from '../features/chat'
 import {createConversation} from '../../models/conversation'
 import {transparent} from '../utils/transparent'
+import {v4} from 'uuid'
 
 
 export function HeaderTab({children, to, className}: {
@@ -32,7 +32,7 @@ export function HeaderTab({children, to, className}: {
 
 export function Header() {
   const chats = useAppSelector(state => state.chats)
-  const [newChatId] = useState<string>(nanoid())
+  const [newChatId, setNewChatId] = useState<string>(v4())
   const dispatch = useAppDispatch()
   
   // Define callback for removing a chat
@@ -43,6 +43,7 @@ export function Header() {
   // Define callback for starting a new chat
   const handleStartNewChat = useCallback(() => {
     dispatch(startNewChat(createConversation(newChatId)))
+    setNewChatId(v4())
   }, [dispatch, newChatId])
   
   return (
