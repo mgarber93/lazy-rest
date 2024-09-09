@@ -50,7 +50,7 @@ export function Header() {
       className={clsx(
         transparent,
         "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-b-zinc-700 z-1 pb-1",
-        "bg-zinc-200/50 dark:bg-zinc-950 pt-[1px] pb-[1px]",
+        "bg-zinc-200/50 dark:bg-zinc-950 pt-[3px] pb-[3px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
         <HeaderTab to={"/config"} className={""}>
