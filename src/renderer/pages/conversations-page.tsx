@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEventHandler, MutableRefObject, useCallback, useState} from 'react'
 import clsx from 'clsx'
-import {Field, Input} from '@headlessui/react'
+import {Field, Input, Select} from '@headlessui/react'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
@@ -8,9 +8,10 @@ import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {cardEffect} from '../utils/card'
-import {respond, streamResponse} from '../features/chat'
+import {respond, setResponder, streamResponse} from '../features/chat'
 import {createContent} from '../../models/content'
 import {User} from '../../models/user'
+import {Responder, TModel} from '../../models/responder'
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
@@ -33,7 +34,19 @@ export function ConversationsPage() {
   const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }, [setValue])
-  
+  const models = useAppSelector((state) => state.models.models)
+  const handleModelChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    const model = e.target.value as TModel
+    dispatch(setResponder({
+      responder: {
+        type: 'chat',
+        provider: 'openai',
+        model,
+      } satisfies Responder,
+      chatId: conversation.id,
+    }))
+  }, [conversation])
+
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -58,13 +71,25 @@ export function ConversationsPage() {
               ))
             }
             <div className={clsx("mt-auto")}>
-              <Field className={"flex w-full flex-col gap-y-4 bottom-2 ml-auto pt-4"}>
+              <Field className={"flex w-full flex-row gap-x-2 bottom-2 ml-auto pt-4"}>
+                <Select
+                  name={"responder"}
+                  aria-label={"responder"}
+                  className={clsx(cardEffect, "leading-relaxed text flex bg-zinc-50/90 shadow-2xl z-1 border-0")}
+                  value={conversation?.responder?.model}
+                  onChange={handleModelChange}
+                >
+                  {
+                    models.map((model) => {
+                      return <option value={model} key={model}>{model}</option>
+                    })
+                  }
+                </Select>
                 <Input
                   className={clsx(
                     cardEffect,
-                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-auto',
+                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-full',
                   )}
-                  style={{width: 'auto'}}
                   onKeyUpCapture={handleKeyPress}
                   value={value}
                   onChange={handleOnChange}
