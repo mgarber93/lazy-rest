@@ -1,78 +1,82 @@
-import styled from 'styled-components'
-import {Link} from 'react-router-dom'
-
-const Div = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-items: center;
-  align-items: center;
-
-  position: sticky;
-  top: 0px;
-  -webkit-app-region: drag;
-  padding: 0rem 1rem 0rem 5rem;
-  font-size: smaller;
-  width: 100%;
-
-  gap: 0.1rem;
-  height: 36px;
-
-  .breadcrumb {
-    margin-bottom: 0.5rem;
-  }
-
-  background-color: var(--background-color-0);
-  min-height: 2rem;
-  z-index: 3;
-
-  & * {
-    -webkit-app-region: no-drag;
-  }
-
-  svg {
-    padding: 0.3rem 0 0 0.3rem;
-    width: 2.6rem;
-    height: 1.6rem;
-
-    &:hover {
-      background-color: var(--background-color-5);
-    }
-  }
-
-  .active {
-    background-color: var(--background-color-9);
-    & * {
-      color: var(--background-color-0);
-    }
-    border-radius: 0.2rem;
-
-    &:hover {
-      background-color: var(--background-color-3);
-    }
-  }
-`
+import React, {ReactElement, useCallback, useState} from 'react'
+import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {XMarkIcon} from '@heroicons/react/16/solid'
+import {nanoid} from '@reduxjs/toolkit'
+import {NavLink} from 'react-router-dom'
+import clsx from 'clsx'
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {removeChat, startNewChat} from '../features/chat'
+import {createConversation} from '../../models/conversation'
+import {transparent} from '../utils/transparent'
 
 
-export function Header(props: {activeRoute: string}) {
-  const {activeRoute} = props
-  // https://icons.getbootstrap.com/icons/house-fill/
-  return <Div>
-    <Link to={"/home"}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className={activeRoute === '/home' ? 'active' : ''}
-           viewBox="0 0 20 20">
-        <path
-          d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
-        <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
-      </svg>
-    </Link>
-    <Link to={"/conversations"}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className={activeRoute === '/conversations' ? 'active' : ''}
-           viewBox="0 0 20 20">
-        <path
-          d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .320.320l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-        <path fillRule="evenodd"
-              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-      </svg>
-    </Link>
-  </Div>
+export function HeaderTab({children, to, className}: {
+  children: ReactElement,
+  to: string,
+  className?: string
+}) {
+  const classes = `flex rounded no-drag bg-white dark:bg-zinc-900 dark:text-white h-full items-center border pl-[0.5rem] pr-[0.25rem] dark:border-zinc-800 text-xs font-semibold hover:bg-white/50 dark:hover:bg-zinc-800`
+  return (
+    <NavLink
+      to={to}
+      className={
+        ({isActive}) => clsx(
+          classes,
+          isActive ? clsx("text-zinc-800 dark:text-zinc-50 bg-zinc-50 dark:hover:bg-white/15 border-zinc-300 drop-shadow", "bg-white drop-shadow-sm") : 'bg-zinc-100 text-zinc-400 dark:text-zinc-100',
+          className,
+        )}>
+      {children}
+    </NavLink>
+  )
+}
+
+export function Header() {
+  const chats = useAppSelector(state => state.chats)
+  const [newChatId] = useState<string>(nanoid())
+  const dispatch = useAppDispatch()
+  
+  // Define callback for removing a chat
+  const handleRemoveChat = useCallback((chatId: string) => {
+    dispatch(removeChat(chatId))
+  }, [dispatch])
+  
+  // Define callback for starting a new chat
+  const handleStartNewChat = useCallback(() => {
+    dispatch(startNewChat(createConversation(newChatId)))
+  }, [dispatch, newChatId])
+  
+  return (
+    <header
+      className={clsx(
+        transparent,
+        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-b-zinc-700 z-1 pb-1",
+        "bg-zinc-200/50 dark:bg-zinc-950 pt-[3px] pb-[3px]",
+      )}>
+      <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
+        <HeaderTab to={"/config"} className={""}>
+          <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem] mr-[0.25rem]"/>
+        </HeaderTab>
+        <div className={clsx('overflow-scroll flex flex-row w-full h-full gap-1')}>
+          {chats.map((chat) => (
+            <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
+              <div className="flex w-30 max-h-1 items-center gap-0 w-full">
+                <div className="h-full whitespace-nowrap">
+                  {chat.content.at(0)?.message.slice(0, 17) ?? "new chat"}
+                </div>
+                <div className="ml-auto">
+                  <XMarkIcon
+                    onClick={() => handleRemoveChat(chat.id)}
+                    className="h-[1.5rem] w-[1.5rem] hover:text-zinc-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
+                  />
+                </div>
+              </div>
+            </HeaderTab>
+          ))}
+          <HeaderTab to={`/chats/${newChatId}`} className={clsx('pr-[0.5rem]')}>
+            <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
+          </HeaderTab>
+        </div>
+      </ul>
+    </header>
+  )
 }

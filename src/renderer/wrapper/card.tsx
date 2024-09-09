@@ -1,28 +1,12 @@
-import styled from 'styled-components'
 import {ReactNode} from 'react'
+import {cardEffect} from '../utils/card'
+import clsx from 'clsx'
 
-const Div = styled.div`
-  border-radius: var(--border-radius-comfy);
-  border: 1px solid transparent;
-  background: var(--card);
-  padding: 0rem;
-  
-  &:hover {
-    border: 1px solid var(--background-color-4);
-  }
 
-  h2 {
-    font-size: medium;
-    color: var(--dark-grey)
-  }
-
-  margin: 0;
-  transition: 0.4s ease-in-out border;
-
-`
-
-export function Card(props: {children: ReactNode, slim?: boolean}) {
-  return <Div className={props?.slim ? 'slim' : ''}>
-    {props.children}
-  </Div>
+export function Card({children, className}: { children: ReactNode, className?: string }) {
+  return (
+    <div className={clsx(cardEffect, className)}>
+      {children}
+    </div>
+  )
 }

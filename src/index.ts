@@ -27,6 +27,9 @@ const createWindow = (): void => {
     width: 1920,
     titleBarStyle: 'hiddenInset',
     icon: path.join(__dirname, 'assets', 'icon.icns'),
+    transparent: true,
+    frame: false,
+    resizable: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -52,10 +55,6 @@ const createWindow = (): void => {
 app.on('ready', async () => {
   await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
   createWindow()
-  process.on('uncaughtException', (err: Error) => {
-    const windowSender = container.resolve(WindowSender)
-    // windowSender.asyncSend('error', err) @todo implement error toast
-  })
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
