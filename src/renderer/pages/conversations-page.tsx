@@ -52,7 +52,7 @@ export function ConversationsPage() {
       <div className={clsx("w-full h-full")}>
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <div className={clsx(
-            "flex flex-col gap-y-4",
+            "flex flex-col gap-y",
             "h-full",
           )}>
             {
@@ -62,7 +62,7 @@ export function ConversationsPage() {
                   key={index}
                 >
                   <span
-                    className={clsx('flex-1', content.role === "user" ? "ml-auto" : "")}
+                    className={clsx('flex-1 whitespace-pre-wrap', content.role === "user" ? "ml-auto" : "")}
                     key={content.id}
                   >
                     {content.message}
