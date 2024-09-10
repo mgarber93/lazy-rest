@@ -2,7 +2,7 @@ import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {ChangeEvent, useCallback} from 'react'
-import {configureOpenAi, listModels} from '../features/models'
+import {configureOpenAi, listOpenAiModels} from '../features/models'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
 
@@ -15,7 +15,7 @@ export function OpenAiForm() {
     dispatch(configureOpenAi({apiKey: value}))
   }, [dispatch])
   const handleLoadModels = useCallback(() => {
-    dispatch(listModels())
+    dispatch(listOpenAiModels())
   }, [dispatch])
   
   return (

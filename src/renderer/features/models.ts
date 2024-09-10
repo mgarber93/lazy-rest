@@ -14,7 +14,7 @@ const initialState = {
 }
 
 
-export const listModels = createAsyncThunk(
+export const listOpenAiModels = createAsyncThunk(
   `${name}/listModels`,
   async () => {
     const models = await window.main.getModels('openai')
@@ -31,7 +31,7 @@ export const modelsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(listModels.fulfilled, (state, action) => {
+    builder.addCase(listOpenAiModels.fulfilled, (state, action) => {
       state.models = action.payload as TModel[]
     })
   },
