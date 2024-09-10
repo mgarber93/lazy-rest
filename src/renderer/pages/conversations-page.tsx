@@ -25,7 +25,7 @@ export function ConversationsPage() {
     const {value} = e.target as { value: string }
     if (e.key === 'Enter' && !e.shiftKey && value && conversation.responder) {
       e.preventDefault()
-      const prompt = createContent(value, conversation.id, user.username, 'user')
+      const prompt = createContent(value, conversation.id, user?.username, 'user')
       dispatch(respond(prompt))
       dispatch(streamResponse({conversationId: conversation.id}))
       setValue('')

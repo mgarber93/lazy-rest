@@ -1,11 +1,15 @@
-import React, {MutableRefObject, useRef} from 'react'
+import React, {MutableRefObject, useEffect, useRef} from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {OpenAiForm} from '../wrapper/open-ai-form'
 import {Card} from '../wrapper/card'
+import {getMachineName} from '../features/user'
+import {useDispatch} from 'react-redux'
+import {useAppDispatch} from '../features/store'
 
 export function SettingsPage() {
+  const dispatch = useAppDispatch()
   const sectionRefs = {
     ApiSpecifications: useRef<HTMLDivElement>(null),
     OpenAi: useRef<HTMLDivElement>(null),
@@ -13,6 +17,9 @@ export function SettingsPage() {
   } as Record<string, MutableRefObject<HTMLDivElement>>
   const keys = Object.keys(sectionRefs)
   const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
+  useEffect(() => {
+    dispatch(getMachineName())
+  }, [dispatch])
   return (
     <HeaderLayout>
       <div className="w-full h-full">
