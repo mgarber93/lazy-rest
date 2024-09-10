@@ -2,7 +2,8 @@ import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {ChangeEvent, useCallback} from 'react'
-import {configureOpenAi} from '../features/models'
+import {configureOpenAi, listModels} from '../features/models'
+import {ArrowPathIcon} from '@heroicons/react/24/outline'
 
 export const labelClasses = "text-sm/6 font-medium text-black dark:text-white"
 export const descriptionClasses = "text-sm"
@@ -14,16 +15,20 @@ export const inputClasses = clsx(
 
 export function OpenAiForm() {
   const providers = useAppSelector(state => state.models.providers)
+  const models = useAppSelector(state => state.models.models)
   const dispatch = useAppDispatch()
   const handleValueChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     dispatch(configureOpenAi({apiKey: value}))
   }, [dispatch])
+  const handleLoadModels = useCallback(() => {
+    dispatch(listModels())
+  },[dispatch])
+
   return (
     <Fieldset className="w-full space-y-6">
       <Field>
-        <Label className={labelClasses}>API Key <span
-          className="text-red-500">*</span></Label>
+        <Label className={labelClasses}>API Key <span className="text-red-500">*</span></Label>
         <Description className={descriptionClasses}>
           See <span className={"bg-black/5 dark:bg-white/5 px-2 py-1 rounded"}>https://platform.openai.com/api-keys</span> for more information
         </Description>
@@ -35,7 +40,6 @@ export function OpenAiForm() {
           className={inputClasses}
         />
       </Field>
-
       <Field>
         <Label className="text-sm/6 font-medium text-black dark:text-white">Base URL (todo)</Label>
         <Input
@@ -45,6 +49,17 @@ export function OpenAiForm() {
           )}
         />
       </Field>
+      <div className={"flex flex-col"}>
+        <div className={"flex flex-row"}>
+          <span>Loaded Models</span>
+          <ArrowPathIcon onClick={handleLoadModels} className={"max-h-6"}>Add models</ArrowPathIcon>
+        </div>
+        <div className={"flex flex-col"}>
+          {
+            models.map(model => <span key={model}>{model}</span>)
+          }
+        </div>
+      </div>
     </Fieldset>
   )
 }
