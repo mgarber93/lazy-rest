@@ -51,7 +51,6 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
    * @param conversation
    */
   async organizationReply(conversation: Conversation) {
-    const lastMessage = conversation.content.at(-1)
     return this.swaggerGptPlanProgressor.continue(conversation)
   }
 }
