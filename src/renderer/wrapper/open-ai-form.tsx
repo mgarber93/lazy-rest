@@ -1,9 +1,9 @@
-import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
+import {Button, Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {ChangeEvent, useCallback} from 'react'
-import {configureOpenAi} from '../features/models'
-
+import {configureOpenAi, listModels} from '../features/models'
+import {ArrowPathIcon} from '@heroicons/react/24/outline'
 export const labelClasses = "text-sm/6 font-medium text-black dark:text-white"
 export const descriptionClasses = "text-sm"
 export const inputClasses = clsx(
@@ -14,11 +14,16 @@ export const inputClasses = clsx(
 
 export function OpenAiForm() {
   const providers = useAppSelector(state => state.models.providers)
+  const models = useAppSelector(state => state.models.models)
   const dispatch = useAppDispatch()
   const handleValueChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     dispatch(configureOpenAi({apiKey: value}))
   }, [dispatch])
+  const handleLoadModels = useCallback(() => {
+    dispatch(listModels())
+  },[dispatch])
+
   return (
     <Fieldset className="w-full space-y-6">
       <Field>
@@ -35,7 +40,6 @@ export function OpenAiForm() {
           className={inputClasses}
         />
       </Field>
-
       <Field>
         <Label className="text-sm/6 font-medium text-black dark:text-white">Base URL (todo)</Label>
         <Input
@@ -44,6 +48,10 @@ export function OpenAiForm() {
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
           )}
         />
+        <Button className={"text-white max-h-3"} onClick={handleLoadModels}>Add models<ArrowPathIcon className={"max-h-6"}></ArrowPathIcon></Button>
+        {
+          models.map(model => <span key={model}>{model}</span>)
+        }
       </Field>
     </Fieldset>
   )
