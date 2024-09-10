@@ -1,9 +1,10 @@
-import {Button, Description, Field, Fieldset, Input, Label} from '@headlessui/react'
+import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {ChangeEvent, useCallback} from 'react'
 import {configureOpenAi, listModels} from '../features/models'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
+
 export const labelClasses = "text-sm/6 font-medium text-black dark:text-white"
 export const descriptionClasses = "text-sm"
 export const inputClasses = clsx(
@@ -27,8 +28,7 @@ export function OpenAiForm() {
   return (
     <Fieldset className="w-full space-y-6">
       <Field>
-        <Label className={labelClasses}>API Key <span
-          className="text-red-500">*</span></Label>
+        <Label className={labelClasses}>API Key <span className="text-red-500">*</span></Label>
         <Description className={descriptionClasses}>
           See <span className={"bg-black/5 dark:bg-white/5 px-2 py-1 rounded"}>https://platform.openai.com/api-keys</span> for more information
         </Description>
@@ -48,11 +48,18 @@ export function OpenAiForm() {
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
           )}
         />
-        <Button className={"text-white max-h-3"} onClick={handleLoadModels}>Add models<ArrowPathIcon className={"max-h-6"}></ArrowPathIcon></Button>
-        {
-          models.map(model => <span key={model}>{model}</span>)
-        }
       </Field>
+      <div className={"flex flex-col"}>
+        <div className={"flex flex-row"}>
+          <span>Loaded Models</span>
+          <ArrowPathIcon onClick={handleLoadModels} className={"max-h-6"}>Add models</ArrowPathIcon>
+        </div>
+        <div className={"flex flex-col"}>
+          {
+            models.map(model => <span key={model}>{model}</span>)
+          }
+        </div>
+      </div>
     </Fieldset>
   )
 }
