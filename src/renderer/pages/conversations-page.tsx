@@ -46,7 +46,7 @@ export function ConversationsPage() {
       chatId: conversation.id,
     }))
   }, [conversation])
-
+  
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -80,9 +80,9 @@ export function ConversationsPage() {
                   onChange={handleModelChange}
                 >
                   {
-                    models.map((model) => {
-                      return <option value={model} key={model}>{model}</option>
-                    })
+                    models.map((model) =>
+                      <option value={model} key={model}>{model}</option>,
+                    )
                   }
                 </Select>
                 <Input

@@ -26,9 +26,6 @@ export const modelsSlice = createSlice({
   name,
   initialState,
   reducers: {
-    updateModels(state, action: PayloadAction<TModel[]>) {
-      state.models = action.payload
-    },
     configureOpenAi(state, action: PayloadAction<OpenAiConfiguration>) {
       state.providers.openAi = action.payload
     },
