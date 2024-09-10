@@ -16,7 +16,8 @@ export function HeaderTab({children, to, className}: {
   className?: string
 }) {
   const classes = `flex rounded no-drag bg-white dark:bg-zinc-900 dark:text-white h-full items-center pl-[0.5rem] pr-[0.25rem] text-xs font-semibold hover:bg-white/50 dark:hover:bg-zinc-800`
-  const border = `border border-zinc-300 dark:border-zinc-800`
+  const borderActive = `border border-zinc-300 dark:border-zinc-700`
+  const border = `border border-transparent`
   return (
     <NavLink
       to={to}
@@ -25,6 +26,7 @@ export function HeaderTab({children, to, className}: {
           classes,
           border,
           isActive && clsx(
+            borderActive,
             "drop-shadow",
             "bg-zinc-700 hover:bg-zinc-700 dark:bg-zinc-900 hover:dark:bg-zinc-900 text-white",
           ),

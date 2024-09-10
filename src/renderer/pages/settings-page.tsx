@@ -5,11 +5,11 @@ import {ScrollPageLayout} from '../layouts/scroll-container'
 import {OpenAiForm} from '../wrapper/open-ai-form'
 import {Card} from '../wrapper/card'
 import {getMachineName} from '../features/user'
-import {useDispatch} from 'react-redux'
-import {useAppDispatch} from '../features/store'
+import {useAppDispatch, useAppSelector} from '../features/store'
 
 export function SettingsPage() {
   const dispatch = useAppDispatch()
+  const apis = useAppSelector(state => state.tools.api)
   const sectionRefs = {
     ApiSpecifications: useRef<HTMLDivElement>(null),
     OpenAi: useRef<HTMLDivElement>(null),
@@ -20,18 +20,24 @@ export function SettingsPage() {
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
+
   return (
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <Card>
-            <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={"p-2 min-h-[20rem]"}>
+            <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
               <h2 className={headerClasses}>Api Specifications</h2>
-              <div className={"py-4"}>
+            </div>
+            
+            <div className={"flex flex-col gap-4 py-4"}>
+              {
+                Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+              }
                 <ApiForm/>
-              </div>
             </div>
           </Card>
+          
           <Card>
             <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
               <h2 className={headerClasses}>Open AI Configuration</h2>
@@ -40,6 +46,7 @@ export function SettingsPage() {
               </div>
             </div>
           </Card>
+          
           <Card>
             <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
               <h2 className={headerClasses}>AWS Bed Rock</h2>
