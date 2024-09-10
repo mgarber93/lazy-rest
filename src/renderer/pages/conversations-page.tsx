@@ -14,11 +14,14 @@ import {User} from '../../models/user'
 import {Responder, TModel} from '../../models/responder'
 
 export function ConversationsPage() {
+  const dispatch = useAppDispatch()
   const conversation = useCurrentConversation()
   const user = useAppSelector((state) => state.user) as User
+  
+  const lazyRest = "REST"
+
   const [sectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
   const [value, setValue] = useState('')
-  const dispatch = useAppDispatch()
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -35,16 +38,28 @@ export function ConversationsPage() {
     setValue(e.target.value)
   }, [setValue])
   const models = useAppSelector((state) => state.models.models)
+  const tools = useAppSelector((state) => state.tools)
   const handleModelChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
-    const model = e.target.value as TModel
-    dispatch(setResponder({
-      responder: {
-        type: 'chat',
-        provider: 'openai',
-        model,
-      } satisfies Responder,
-      chatId: conversation.id,
-    }))
+    const model = e.target.value as TModel | string
+    if (model === lazyRest) {
+      dispatch(setResponder({
+        responder: {
+          type: 'organization',
+          provider: 'openai',
+          model: model as TModel,
+        } satisfies Responder,
+        chatId: conversation.id,
+      }))
+    } else {
+      dispatch(setResponder({
+        responder: {
+          type: 'chat',
+          provider: 'openai',
+          model: model as TModel,
+        } satisfies Responder,
+        chatId: conversation.id,
+      }))
+    }
   }, [conversation])
   
   return (
@@ -83,6 +98,9 @@ export function ConversationsPage() {
                     models.map((model) =>
                       <option value={model} key={model}>{model}</option>,
                     )
+                  }
+                  {
+                    Object.keys(tools.api).length > 0 && <option value={lazyRest}>Lazy Rest</option>
                   }
                 </Select>
                 <Input
