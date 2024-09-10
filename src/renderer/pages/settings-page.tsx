@@ -20,7 +20,7 @@ export function SettingsPage() {
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
-
+  
   return (
     <HeaderLayout>
       <div className="w-full h-full">
@@ -34,7 +34,7 @@ export function SettingsPage() {
               {
                 Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
               }
-                <ApiForm/>
+              <ApiForm/>
             </div>
           </Card>
           
