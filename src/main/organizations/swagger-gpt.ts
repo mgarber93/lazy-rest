@@ -1,13 +1,12 @@
+import {OpenAPI} from 'openapi-types'
 import {container, singleton} from 'tsyringe'
-
 import {PlannerFactory} from '../agents/planner-factory'
 import {Conversation} from '../../models/conversation'
 import {AuthoredContent} from '../../models/content'
 import {EndpointSelector} from './endpoint-selector'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
-import {OpenAPI} from 'openapi-types'
 import {oasToDescriptions} from '../utils/oas-filter'
-import {ApiCallPlan, PlanStep} from './api-call-plan'
+import {ApiCallPlan, PlanStep} from './models'
 
 
 @singleton()
@@ -34,12 +33,25 @@ export class SwaggerGpt {
     return JSON.stringify(oasToDescriptions(spec), null, 2)
   }
   
+  /**
+   * @todo this needs to be implemented at a high level
+   * when we update the plan, how do we save it to the renderer process?
+   * should we even be saving state in the renderer process?
+   * @param conversation
+   */
   async continue(conversation: Conversation) {
     const lastMessage = conversation.content.at(-1)
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     const plan = await this.createPlan(lastMessage)
     const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
-    const endpointResult = this.endpointSelector.createAndPrompt(conversation, plan)
+    // we now have a high level plan to present to the user in a progress stepper (if verbose)
+    while (plan.step < plan.steps.length) {
+      // detail the step in the plan given the api it corresponds to
+      const endpointResult = this.endpointSelector.createAndPrompt(conversation, plan)
+      // prompt user to execute (if verbose)
+      // show user results & interpret (if verbose)
+    }
+    // return interpretation of final result
   }
 }

@@ -7,7 +7,7 @@ import {ApiConfiguration} from '../models/api-configuration'
 import {OpenAPI} from 'openapi-types'
 import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ApiCallPlan} from '../main/organizations/api-call-plan'
+import {ApiCallPlan} from '../main/organizations/models'
 
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {

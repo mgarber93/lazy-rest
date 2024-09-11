@@ -2,7 +2,7 @@ import {Conversation} from '../../models/conversation'
 import {container, singleton} from 'tsyringe'
 import {Handler} from './handler'
 import {SwaggerGpt} from '../organizations/swagger-gpt'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 
 @singleton()

@@ -6,7 +6,7 @@ import {getRespondingModel, Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
-import {ApiCallPlan, HttpRequestPlan} from './api-call-plan'
+import {ApiCallPlan, HttpRequestPlan} from './models'
 
 @singleton()
 export class CallDetailer {

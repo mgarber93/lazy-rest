@@ -2,7 +2,7 @@ import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {OpenAiConfiguration} from '../models/provider-config'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
-import {ApiCallPlan} from '../main/organizations/api-call-plan'
+import {ApiCallPlan} from '../main/organizations/models'
 
 export type TInvokeChannel = keyof PreloadedApi
 

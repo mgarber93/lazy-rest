@@ -1,4 +1,4 @@
-import {PlanStep} from '../../main/organizations/api-call-plan'
+import {PlanStep} from '../../main/organizations/models'
 
 export function PlannedHttpRequest({step}: { step: PlanStep }) {
   const plan = step.action

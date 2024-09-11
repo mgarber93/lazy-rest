@@ -2,7 +2,7 @@ import {singleton} from 'tsyringe'
 import {AgentFactory} from '../agents/agent-factory'
 import {Conversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
-import {ApiCallPlan} from './api-call-plan'
+import {ApiCallPlan} from './models'
 
 
 // https://github.com/Yifan-Song793/RestGPT/blob/87677a7e129276b0e57f8d889fab01975ebf6f4d/model/api_selector.py#L19

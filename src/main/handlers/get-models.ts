@@ -10,7 +10,7 @@ export class ModelListHandle implements Handler<'getModels'> {
     console.log('GetModelsHandler:handle')
     switch (provider) {
       case "openai": {
-        return this.openAiLlm.getFavorite()
+        return this.openAiLlm.listOpenAiModels()
       }
       case "anthropic": {
         throw new Error('not implemented')

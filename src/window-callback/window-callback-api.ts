@@ -2,7 +2,7 @@ import {AuthoredContent} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
-import {ApiCallPlan} from '../main/organizations/api-call-plan'
+import {ApiCallPlan} from '../main/organizations/models'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 

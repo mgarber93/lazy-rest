@@ -3,7 +3,7 @@ import {Conversation, createConversation} from '../../models/conversation'
 import {AuthoredContent, createContent} from '../../models/content'
 import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 
 /**

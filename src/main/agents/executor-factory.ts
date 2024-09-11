@@ -6,7 +6,7 @@ import {oasToDescriptions} from '../utils/oas-filter'
 import {StreamedChatHandler} from '../handlers/streamed-chat'
 import {OpenAPI} from 'openapi-types'
 import {Responder} from '../../models/responder'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 @singleton()
 export class ExecutorFactory extends AgentFactory {

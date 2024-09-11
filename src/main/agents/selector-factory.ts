@@ -2,7 +2,7 @@ import {singleton} from 'tsyringe'
 import {Responder} from '../../models/responder'
 import {AgentFactory} from './agent-factory'
 import {Conversation} from '../../models/conversation'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 @singleton()
 export class SelectorFactory extends AgentFactory {

@@ -1,7 +1,7 @@
 import {singleton} from 'tsyringe'
 import {AgentFactory} from './agent-factory'
 import {Responder} from '../../models/responder'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 @singleton()
 export class ResultInterpreterFactory extends AgentFactory {

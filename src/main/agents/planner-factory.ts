@@ -1,7 +1,7 @@
 import {singleton} from 'tsyringe'
 import {AgentFactory} from './agent-factory'
 import {Responder} from '../../models/responder'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 // rest gpt https://arxiv.org/abs/2306.06624
 export const plannerTemplate = (descriptions: string) => `You are an agent that plans solution to user queries.
