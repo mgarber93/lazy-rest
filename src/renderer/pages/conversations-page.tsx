@@ -8,7 +8,7 @@ import {ScrollPageLayout} from '../layouts/scroll-container'
 import {Card} from '../wrapper/card'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {cardEffect} from '../utils/card'
-import {respond, setResponder, streamResponse} from '../features/chat'
+import {appendContent, setResponder, streamResponse} from '../features/chat'
 import {createContent} from '../../models/content'
 import {User} from '../../models/user'
 import {Responder, TModel} from '../../models/responder'
@@ -29,7 +29,7 @@ export function ConversationsPage() {
     if (e.key === 'Enter' && !e.shiftKey && value && conversation.responder) {
       e.preventDefault()
       const prompt = createContent(value, conversation.id, user?.username, 'user')
-      dispatch(respond(prompt))
+      dispatch(appendContent(prompt))
       dispatch(streamResponse({conversationId: conversation.id}))
       setValue('')
     }

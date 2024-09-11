@@ -35,7 +35,7 @@ export class ExecutorFactory extends AgentFactory {
   async create(plan: ApiCallPlan) {
     const {userGoal, steps, step} = plan
     const currentStep = this.getCurrentStep(plan)
-    if (!currentStep) {
+    if (!currentStep || !userGoal.message) {
       throw new Error('Invalid plan')
     }
     const getCurrentStep = await this.mainWindowCallbackConsumer.getOas(currentStep.apiId)

@@ -49,7 +49,6 @@ describe('SwaggerGpt', () => {
       "type": "organization",
       "provider": "openai",
       "model": "gpt-4o",
-      "orgId": "SwaggerGpt",
     },
   } satisfies Conversation
   beforeEach(() => {

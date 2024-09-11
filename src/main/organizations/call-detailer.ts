@@ -30,7 +30,7 @@ export class CallDetailer {
     const executorAgent = await this.agentFactory.create(plan)
     
     const messages: ChatCompletionMessageParam[] = executorAgent.content
-      .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
+      .map(item => ({role: item.role, content: item.message!, tool_call_id: item.id}))
     
     const model = getRespondingModel(executorAgent.responder as Responder)
     // responder can change depending on conversation history

@@ -5,6 +5,7 @@ import {Handler} from './handler'
 import {OpenAiLlm} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {SwaggerGpt} from '../organizations/swagger-gpt'
+import {createContent} from '../../models/content'
 
 
 @injectable()
@@ -34,7 +35,8 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
     if (!responder || !isModel(responder)) {
       throw new Error(StreamedChatHandler.Error_Message)
     }
-    const response = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, responder.model)
+    const response = createContent('', conversation.id, responder.model, 'assistant')
+    await this.mainWindowCallbackConsumer.appendContent(response)
     switch (responder.provider) {
       case "openai": {
         await this.openAiLlm.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)

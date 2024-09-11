@@ -12,7 +12,7 @@ export type TWindowSenderChannel = keyof WindowCallbackApi
 export const channelAllowList: TWindowSenderChannel[] = [
   'appendContentDelta',
   'loadAllOas',
-  'addNewResponse',
+  'appendContent',
   'getConversation',
   'getPlan',
 ]
@@ -26,7 +26,7 @@ export interface WindowCallbackApi {
   
   loadAllOas(): OpenAPI.Document[]
   
-  addNewResponse(chatId: string, author: string): AuthoredContent
+  appendContent(content: AuthoredContent): void
   
   getOas(oasId: string): OpenAPI.Document | null
   

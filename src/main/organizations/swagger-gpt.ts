@@ -2,7 +2,7 @@ import {OpenAPI} from 'openapi-types'
 import {container, singleton} from 'tsyringe'
 import {PlannerFactory} from '../agents/planner-factory'
 import {Conversation} from '../../models/conversation'
-import {AuthoredContent} from '../../models/content'
+import {AuthoredContent, createContent} from '../../models/content'
 import {EndpointSelector} from './endpoint-selector'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
@@ -43,15 +43,23 @@ export class SwaggerGpt {
     const lastMessage = conversation.content.at(-1)
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
-    const plan = await this.createPlan(lastMessage)
-    const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
-    // we now have a high level plan to present to the user in a progress stepper (if verbose)
-    while (plan.step < plan.steps.length) {
-      // detail the step in the plan given the api it corresponds to
-      const endpointResult = this.endpointSelector.createAndPrompt(conversation, plan)
-      // prompt user to execute (if verbose)
-      // show user results & interpret (if verbose)
-    }
+    
+    const plan = createContent('', conversation.id, conversation.responder!.model, 'assistant')
+    await this.mainWindowCallbackConsumer.appendContent(plan)
+    await this.mainWindowCallbackConsumer.appendContentDelta({
+      chatId: conversation.id,
+      delta: lastMessage.message?.toUpperCase() ?? '',
+      messageId: plan.id,
+    })
+    // const plan = await this.createPlan(lastMessage)
+    // const {result, agent} = await this.plannerFactory.createAndPrompt(conversation, plan)
+    // // we now have a high level plan to present to the user in a progress stepper (if verbose)
+    // while (plan.step < plan.steps.length) {
+    //   // detail the step in the plan given the api it corresponds to
+    //   const endpointResult = this.endpointSelector.createAndPrompt(conversation, plan)
+    //   // prompt user to execute (if verbose)
+    //   // show user results & interpret (if verbose)
+    // }
     // return interpretation of final result
   }
 }

@@ -29,9 +29,8 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     return this.windowSender.asyncSend("loadAllOas")
   }
   
-  async addNewResponse(chatId: string, author: string): Promise<AuthoredContent> {
-    const content = await this.windowSender.asyncSend('addNewResponse', chatId, author)
-    return content as AuthoredContent
+  async appendContent(content: AuthoredContent): Promise<void> {
+    await this.windowSender.asyncSend('appendContent', content)
   }
   
   async getOas(oasId: string) {
