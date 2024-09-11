@@ -51,7 +51,7 @@ export class OpenAiLlm {
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content || ""
       responseContent.message += delta
-      this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
+      await this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
     }
     content.push(responseContent)
     return content
