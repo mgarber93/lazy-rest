@@ -1,9 +1,10 @@
-import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import clsx from 'clsx'
-import {useAppDispatch, useAppSelector} from '../features/store'
 import {ChangeEvent, useCallback} from 'react'
-import {configureOpenAi, listOpenAiModels} from '../features/models'
+import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
+
+import {useAppDispatch, useAppSelector} from '../features/store'
+import {configureOpenAi, listOpenAiModels} from '../features/models'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
 
 export function OpenAiForm() {
@@ -45,7 +46,7 @@ export function OpenAiForm() {
         />
       </Field>
       <div className={"flex flex-col"}>
-        <div className={"flex flex-row"}>
+        <div className={"flex flex-row gap-4"}>
           <span>Loaded Models</span>
           <ArrowPathIcon onClick={handleLoadModels} className={"max-h-6"}>Add models</ArrowPathIcon>
         </div>

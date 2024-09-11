@@ -95,9 +95,7 @@ export function ConversationsPage() {
                   onChange={handleModelChange}
                 >
                   {
-                    models.map((model) =>
-                      <option value={model} key={model}>{model}</option>,
-                    )
+                    models.map((model) => <option value={model} key={model}>{model}</option>)
                   }
                   {
                     Object.keys(tools.api).length > 0 && <option value={lazyRest}>Lazy Rest</option>
