@@ -9,9 +9,31 @@ import {Card} from '../wrapper/card'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {cardEffect} from '../utils/card'
 import {appendContent, setResponder, streamResponse} from '../features/chat'
-import {createContent} from '../../models/content'
+import {AuthoredContent, createContent} from '../../models/content'
 import {User} from '../../models/user'
 import {Responder, TModel} from '../../models/responder'
+import {FeedContent} from '../components/feed-content'
+
+
+export function ConversationContent({content}: { content: AuthoredContent }) {
+  if (content.apiCallPlan) {
+    return <FeedContent content={content}/>
+  } else {
+    return <Card
+      className={clsx(
+        'leading-relaxed text-xl flex flex-col bg-zinc-50',
+        content.role === "user" && "ml-auto",
+      )}
+    >
+      <span
+        className={clsx('flex-1 whitespace-pre-wrap')}
+        key={content.id}
+      >
+        {content.message}
+      </span>
+    </Card>
+  }
+}
 
 export function ConversationsPage() {
   const dispatch = useAppDispatch()
@@ -19,7 +41,7 @@ export function ConversationsPage() {
   const user = useAppSelector((state) => state.user) as User
   
   const lazyRest = "REST"
-
+  
   const [sectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
   const [value, setValue] = useState('')
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
@@ -71,19 +93,7 @@ export function ConversationsPage() {
             "h-full",
           )}>
             {
-              conversation.content.map((content, index) => (
-                <Card
-                  className={clsx('leading-relaxed text-xl flex flex-col bg-zinc-50', content.role === "user" && "ml-auto")}
-                  key={index}
-                >
-                  <span
-                    className={clsx('flex-1 whitespace-pre-wrap')}
-                    key={content.id}
-                  >
-                    {content.message}
-                  </span>
-                </Card>
-              ))
+              conversation.content.map((content, index) => <ConversationContent content={content} key={index}/>)
             }
             <div className={clsx("mt-auto")}>
               <Field className={"flex w-full flex-row gap-x-2 bottom-2 ml-auto pt-4"}>
