@@ -27,7 +27,6 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
-
 export const chatsSlice = createSlice({
   name,
   initialState: [createConversation()],
