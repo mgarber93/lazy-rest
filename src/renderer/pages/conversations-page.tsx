@@ -17,7 +17,7 @@ import {FeedContent} from '../components/feed-content'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
-    return <FeedContent content={content}/>
+    return <FeedContent/>
   } else {
     return <Card
       className={clsx(
@@ -96,11 +96,21 @@ export function ConversationsPage() {
               conversation.content.map((content, index) => <ConversationContent content={content} key={index}/>)
             }
             <div className={clsx("mt-auto")}>
-              <Field className={"flex w-full flex-row gap-x-2 bottom-2 ml-auto pt-4"}>
+              <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto pt-4"}>
+                <Input
+                  className={clsx(
+                    cardEffect,
+                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl dark:shadow-zinc-800 dark:hover:shadow-zinc-600 border-0 w-full mt-auto',
+                  )}
+                  onKeyUpCapture={handleKeyPress}
+                  value={value}
+                  onChange={handleOnChange}
+                >
+                </Input>
                 <Select
                   name={"responder"}
                   aria-label={"responder"}
-                  className={clsx(cardEffect, "leading-relaxed text flex bg-zinc-50/90 shadow-2xl z-1 border-0")}
+                  className={clsx(cardEffect, "leading-relaxed text flex bg-zinc-50/90 shadow-2xl dark:shadow-none z-1 border-0")}
                   value={conversation?.responder?.model}
                   onChange={handleModelChange}
                 >
@@ -111,16 +121,6 @@ export function ConversationsPage() {
                     Object.keys(tools.api).length > 0 && <option value={lazyRest}>Lazy Rest</option>
                   }
                 </Select>
-                <Input
-                  className={clsx(
-                    cardEffect,
-                    'leading-relaxed text-xl flex bg-zinc-50/90 shadow-2xl z-1 border-0 w-full mt-auto',
-                  )}
-                  onKeyUpCapture={handleKeyPress}
-                  value={value}
-                  onChange={handleOnChange}
-                >
-                </Input>
               </Field>
             </div>
           </div>

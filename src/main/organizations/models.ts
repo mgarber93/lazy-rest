@@ -1,8 +1,7 @@
-import {AuthoredContent} from '../../models/content'
 import {OpenAPI} from 'openapi-types'
 
 export interface ApiCallPlan {
-  userGoal: AuthoredContent
+  userGoal: string
   state: object
   steps: PlanStep[]
   step: number
@@ -27,10 +26,8 @@ export interface CallPlan {
 }
 
 export interface PlanStep {
-  apiId: string                   // used for auth
-  background: string
-  actionDraft: string
-  action?: HttpRequestPlan        // step 1 make from background, draft
+  steps: string[]
+  apiId?: string                   // used for auth
   result?: object                 // step 2 make call, parse subset of response (stretch goal)
   resultInterpretation?: string   // step 3 decide to retry, continue to next step, or achieved user goal
 }

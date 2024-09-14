@@ -1,4 +1,4 @@
-import {singleton} from 'tsyringe'
+import {container, singleton} from 'tsyringe'
 import {AgentFactory} from '../agents/agent-factory'
 import {Conversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
@@ -58,15 +58,17 @@ Begin!`.replace(/(\n)+/g, '  \n')
 
 
 @singleton()
-export class EndpointSelector extends AgentFactory {
+export class EndpointSelector {
   model = {
     type: 'chat',
     provider: "openai",
     model: "gpt-4-turbo-preview",
   } satisfies Responder
-
-  public create(plan: ApiCallPlan): Promise<Conversation> {
+  agentFactory = container.resolve(AgentFactory)
+  
+  public async create(plan: ApiCallPlan): Promise<Conversation> {
     const instructions = selector(plan.endpoints)
-    return this.createAgent(plan.userGoal, instructions)
+    const convo = await this.agentFactory.createAgent(plan.userGoal, instructions, this.model)
+    return convo
   }
 }
