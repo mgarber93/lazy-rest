@@ -7,12 +7,12 @@ export class ModelListHandle implements Handler<'getModels'> {
   private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
   
   async handle(provider: TProvider) {
-    console.log('GetModelsHandler:handle')
+    console.log('GetModelsHandler:handle', 'test', provider)
     switch (provider) {
       case "openai": {
         return this.openAiLlm.listOpenAiModels()
       }
-      case "anthropic": {
+      default: {
         throw new Error('not implemented')
       }
     }

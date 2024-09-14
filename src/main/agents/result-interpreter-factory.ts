@@ -1,10 +1,9 @@
 import {singleton} from 'tsyringe'
-import {AgentFactory} from './agent-factory'
 import {Responder} from '../../models/responder'
 import {ApiCallPlan} from '../organizations/models'
 
 @singleton()
-export class ResultInterpreterFactory extends AgentFactory {
+export class ResultInterpreterFactory {
   model = {
     type: 'chat',
     provider: "openai",
@@ -23,6 +22,6 @@ You are on step ${step} of a plan which returned:
  ${JSON.stringify(current.result)}
 Answer if the goal of the call was achieved and what the result was
 `
-    return this.createAgent(userGoal, template)
+    return template
   }
 }

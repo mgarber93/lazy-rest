@@ -46,10 +46,12 @@ export function OpenAiForm() {
         />
       </Field>
       <div className={"flex flex-col"}>
-        <div className={"flex flex-row gap-4"}>
+        <button className={"flex flex-row gap-4"}>
           <span>Loaded Models</span>
-          <ArrowPathIcon onClick={handleLoadModels} className={"max-h-6"}>Add models</ArrowPathIcon>
-        </div>
+          <ArrowPathIcon onClick={handleLoadModels}
+                         className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
+            models</ArrowPathIcon>
+        </button>
         <div className={"flex flex-col"}>
           {
             models.map(model => <span key={model}>{model}</span>)

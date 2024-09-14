@@ -6,6 +6,7 @@ import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
 import {ApiCallPlan} from './organizations/models'
+import {ProviderConfiguration} from '../models/api-configuration'
 
 
 export type Promisify<T> = {
@@ -56,5 +57,9 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   
   async updateToolState(toolState: ToolState): Promise<void> {
     await this.windowSender.asyncSend('updateToolState', {toolState})
+  }
+  
+  async getProviderConfig() {
+    return await this.windowSender.asyncSend('getProviderConfig') as ProviderConfiguration
   }
 }

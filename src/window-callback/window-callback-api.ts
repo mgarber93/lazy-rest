@@ -3,6 +3,7 @@ import {OpenAPI} from 'openapi-types'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
 import {ApiCallPlan} from '../main/organizations/models'
+import {ProviderConfiguration} from '../models/api-configuration'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -35,4 +36,6 @@ export interface WindowCallbackApi {
   updateToolState(toolState: ToolState): void
   
   getPlan(id: PlanId): ApiCallPlan | null
+  
+  getProviderConfig(): ProviderConfiguration
 }

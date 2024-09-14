@@ -10,8 +10,9 @@ export class OpenAiLlm {
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
   async listOpenAiModels() {
-    const openai = this.manager.getOpenAi()
+    const openai = await this.manager.getOpenAi()
     const models = await openai.models.list()
+    console.log(models.data)
     return models.data
       .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
       .map(item => item.id)
@@ -20,13 +21,13 @@ export class OpenAiLlm {
   
   // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
   async getFavorite() {
-    return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo-preview'].join(',')
+    return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo-preview, o1-preview, o1-mini'].join(',')
   }
   
   async prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {
     const messages = content
       .map(mapAuthoredContentToChatCompletion)
-    const openai = this.manager.getOpenAi()
+    const openai = await this.manager.getOpenAi()
     const chatCompletion = await openai.chat.completions.create({
       model,
       messages,
@@ -41,7 +42,7 @@ export class OpenAiLlm {
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
     const messages = content
       .map(mapAuthoredContentToChatCompletion)
-    const openai = this.manager.getOpenAi()
+    const openai = await this.manager.getOpenAi()
     const stream = await openai.chat.completions.create({
       model,
       messages: messages,
@@ -58,7 +59,7 @@ export class OpenAiLlm {
   }
   
   async agentWithHttp(model: string, messages: ChatCompletionMessageParam[]) {
-    const openai = this.manager.getOpenAi()
+    const openai = await this.manager.getOpenAi()
     const result = await openai.chat.completions.create({
       messages,
       model,

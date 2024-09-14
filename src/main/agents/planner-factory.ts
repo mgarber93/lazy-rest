@@ -88,7 +88,7 @@ export class PlannerFactory extends AgentFactory {
       acc += `${spec.info.title}\n${spec.info.description}\n`
       return acc
     }, '')
-    return this.createAgent(plan.userGoal, plannerTemplate(descriptions))
+    return this.createAgent(plan.userGoal, plannerTemplate(descriptions), this.model)
   }
   
   extractPlanSteps(input: string): string[] {

@@ -3,7 +3,7 @@ import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {appendContent, appendDelta} from './features/chat'
 import {RootState, store} from './features/store'
 import {AuthoredContent} from '../models/content'
-import {ApiConfiguration} from '../models/api-configuration'
+import {ApiConfiguration, ProviderConfiguration} from '../models/api-configuration'
 import {OpenAPI} from 'openapi-types'
 import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
@@ -14,6 +14,12 @@ import {ApiCallPlan} from '../main/organizations/models'
  */
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {
+  }
+  
+  getProviderConfig() {
+    console.log('getting provider config')
+    const state = this.store.getState() as RootState
+    return state.models.providers as ProviderConfiguration
   }
   
   getConversation(id: ConversationId): Conversation {
