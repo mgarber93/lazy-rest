@@ -13,7 +13,7 @@ export enum ActivityTypes {
 export interface ActivityItem {
   id: string;
   type: string;
-  person: {
+  step: {
     name: string;
   };
   date: string;
@@ -24,14 +24,14 @@ const content = [
   {
     id: v4(),
     type: ActivityTypes.draft,
-    person: {name: 'Search for artist Skrillex to get id'},
+    step: {name: 'Search for artist Skrillex to get id'},
     date: '2023-10-05',
     dateTime: '2023-10-05T18:30:00Z',
   },
   {
     id: v4(),
     type: ActivityTypes.draft,
-    person: {name: `Search for artists with Skrillex's id within rest service`},
+    step: {name: `Search for artists with Skrillex's id within rest service`},
     date: '2023-10-04',
     dateTime: '2023-10-04T18:30:00Z',
   },
@@ -65,7 +65,7 @@ export function FeedContent() {
                   )}
                 </div>
                 <p className="flex-auto py-0.5 ">
-                  <span className="font-medium">{activityItem.person.name}</span> {activityItem.type} the
+                  <span className="font-medium">{activityItem.step.name}</span> {activityItem.type} the
                   invoice.
                 </p>
                 <time dateTime={activityItem.dateTime} className="flex-none py-0.5 ">
