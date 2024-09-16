@@ -55,24 +55,20 @@ export function FeedContent() {
             >
               <div className="w-px bg-gray-200 dark:bg-zinc-200"/>
             </div>
-            {
-              <>
-                <div className="relative flex h-6 w-6 flex-none items-center justify-center">
-                  {activityItem.type === 'paid' ? (
-                    <CheckCircleIcon aria-hidden="true" className="h-6 w-6 text-green-600 bg-white rounded-xl"/>
-                  ) : (
-                    <div className="h-3 w-3 rounded-full bg-gray-100 ring-1 ring-gray-300"/>
-                  )}
-                </div>
-                <p className="flex-auto py-0.5 ">
-                  <span className="font-medium">{activityItem.step.name}</span> {activityItem.type} the
-                  invoice.
-                </p>
-                <time dateTime={activityItem.dateTime} className="flex-none py-0.5 ">
-                  {activityItem.date}
-                </time>
-              </>
-            }
+            <div className="relative flex h-6 w-6 flex-none items-center justify-center">
+              {activityItem.type === 'paid' ? (
+                <CheckCircleIcon aria-hidden="true" className="h-6 w-6 text-green-600 bg-white rounded-xl"/>
+              ) : (
+                <div className="h-3 w-3 rounded-full bg-gray-100 ring-1 ring-gray-300"/>
+              )}
+            </div>
+            <p className="flex-auto">
+              <span
+                className={clsx("font-medium", activityItem.type === 'draft' && 'text-gray-500')}>{activityItem.step.name}</span>
+            </p>
+            <time dateTime={activityItem.dateTime} className="flex-none">
+              {activityItem.date}
+            </time>
           </li>
         ))}
       </ul>
