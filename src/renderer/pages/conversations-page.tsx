@@ -13,7 +13,8 @@ import {AuthoredContent, createContent} from '../../models/content'
 import {User} from '../../models/user'
 import {Responder, TModel} from '../../models/responder'
 import {FeedContent} from '../components/feed-content'
-
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -26,10 +27,10 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
       )}
     >
       <span
-        className={clsx('flex-1 whitespace-pre-wrap')}
+        className={clsx('flex-1')}
         key={content.id}
       >
-        {content.message}
+        <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
       </span>
     </Card>
   }
