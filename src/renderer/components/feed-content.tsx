@@ -1,10 +1,9 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, {ReactNode} from 'react'
 import {v4} from 'uuid'
-import {Button, Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
 import {PlusIcon} from '@heroicons/react/24/outline'
-import {Card, CardH2} from '../wrapper/card'
+import {Card, CardH2, HttpCallCard} from '../wrapper/card'
 
 
 export enum ActivityTypes {
@@ -49,27 +48,39 @@ export function PlanableComponent() {
   </div>
 }
 
-export function HttpCallCard() {
-  const elements = `border rounded-xl bg-black/15 border-zinc-700`
-  return <div className={"p-4 flex flex-row gap-2"}>
-    <Select name="status"
-            className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-blue-100")}
-            aria-label="Project status">
-      <option value="get">Get</option>
-      <option value="post">Post</option>
-      <option value="put">Put</option>
-      <option value="delete">Delete</option>
-    </Select>
-    <Input
-      className={clsx(
-        elements,
-        'flex-grow py-1.5 px-3 text-sm/6 text-white',
-        'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-      )}
-    />
-    <Button className={clsx(elements, "px-2 border-zinc-500")}
-            onClick={() => console.log('hello world')}>Send</Button>
-  </div>
+export function DraftActivity() {
+
+}
+
+export function PlanableActivity() {
+}
+
+export function ActiveActivity() {
+
+}
+
+function renderActivityItem(item: ActivityItem): ReactNode {
+  switch (item.type) {
+    case ActivityTypes.active: {
+      return <li key={item.id}
+                 className={clsx("relative flex flex-row gap-x-4", 'dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
+        <p className="flex-auto">
+              <span className={clsx("font-medium")}>
+                {item.step.name}
+              </span>
+        </p>
+      </li>
+    }
+    case ActivityTypes.draft: {
+      return <HttpCallCard/>
+    }
+    case ActivityTypes.planable: {
+      return <PlanableComponent/>
+    }
+    default: {
+      throw new Error(`Unsupported type "${item.type}"`)
+    }
+  }
 }
 
 export function FeedContent() {
@@ -77,22 +88,7 @@ export function FeedContent() {
     <Card>
       <CardH2>Call Plan</CardH2>
       <ul role="list" className="space-y-2">
-        {content.map((activityItem, activityItemIdx) => (
-          <li key={activityItem.id}
-              className={clsx("relative flex flex-col gap-x-4", 'dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
-            <p className="flex-auto">
-              <span className={clsx("font-medium", activityItem.type === 'draft' && 'text-gray-500')}>
-                {activityItem.step.name}
-              </span>
-            </p>
-            {
-              activityItem.type === ActivityTypes.planable && <PlanableComponent/>
-            }
-            {
-              activityItem.type === ActivityTypes.active && <HttpCallCard/>
-            }
-          </li>
-        ))}
+        {content.map(renderActivityItem)}
       </ul>
     </Card>
   )
