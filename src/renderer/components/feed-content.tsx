@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import React from 'react'
-import {CheckCircleIcon} from '@heroicons/react/24/outline'
 import {cardEffect} from '../utils/card'
 import {v4} from 'uuid'
 import {AuthoredContent} from '../../models/content'
@@ -46,34 +45,20 @@ export interface FeedContentProps {
 export function FeedContent() {
   return (
     <div className={clsx(cardEffect, " p-4 rounded-xl")}>
-      <ul role="list" className="space-y-6">
+      <div className={'text-sm mb-2 w-full border-b border-gray-200 dark:border-zinc-600 text-gray-500'}>
+        Call plan
+      </div>
+      <ul role="list" className="space-y-0">
         {content.map((activityItem, activityItemIdx) => (
-          <li key={activityItem.id} className="relative flex gap-x-4">
-            <div
-              className={clsx(
-                activityItemIdx === content.length - 1 ? 'h-6' : '-bottom-6',
-                'absolute left-0 top-0 flex w-6 justify-center',
-              )}
-            >
-              <div className="w-px bg-gray-200 dark:bg-zinc-200"/>
-            </div>
-            <div className="relative flex h-6 w-6 flex-none items-center justify-center">
-              {activityItem.type === ActivityTypes.done ? (
-                <CheckCircleIcon aria-hidden="true" className="h-6 w-6 text-green-600 bg-white rounded-xl"/>
-              ) : (
-                <div className="h-3 w-3 rounded-full bg-gray-100 ring-1 ring-gray-300"/>
-              )}
-            </div>
+          <li key={activityItem.id}
+              className={clsx("relative flex gap-x-4", activityItemIdx % 2 === 0 ? 'bg-zinc-900' : 'bg-zinc-800', 'border-b border-gray-600')}>
             <p className="flex-auto">
               <span className={clsx("font-medium", activityItem.type === 'draft' && 'text-gray-500')}>
                 {activityItem.step.name}
               </span>
             </p>
             <Button className={clsx("border hover:p-4 transition-all")}
-                    onClick={() => console.log('hello world')}>Test</Button>
-            <time dateTime={activityItem.dateTime} className="flex-none">
-              {activityItem.date}
-            </time>
+                    onClick={() => console.log('hello world')}>Detail</Button>
           </li>
         ))}
       </ul>
