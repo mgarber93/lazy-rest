@@ -4,8 +4,9 @@ import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
-import {Button, Fieldset} from '@headlessui/react'
+import {Fieldset} from '@headlessui/react'
 import {ApiFormElement} from '../components/api-form-element'
+import {AppButton} from '../components/app-button'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -95,12 +96,11 @@ export function ApiForm() {
       type={'password'}
       value={clientSecret}
     />
-    <Button
-      className={"border border-black/50 dark:border-white/50 bg-transparent hover:bg-black/15 hover:dark:bg-white/5 rounded py-2 px-4 w-fit"}
+    <AppButton
       onClick={handleSubmit}
       disabled={!isValid}
     >
       Save
-    </Button>
+    </AppButton>
   </Fieldset>
 }

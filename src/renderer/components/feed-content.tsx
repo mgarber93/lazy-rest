@@ -2,13 +2,15 @@ import clsx from 'clsx'
 import React from 'react'
 import {cardEffect} from '../utils/card'
 import {v4} from 'uuid'
-import {AuthoredContent} from '../../models/content'
 import {Button, Input, Select} from '@headlessui/react'
+import {AppButton} from './app-button'
+import {PlusIcon} from '@heroicons/react/24/outline'
 
 
 export enum ActivityTypes {
   active = 'active',
   draft = 'draft',
+  planable = 'planable',
   done = 'done',
 }
 
@@ -25,7 +27,7 @@ export interface ActivityItem {
 const content = [
   {
     id: v4(),
-    type: ActivityTypes.active,
+    type: ActivityTypes.planable,
     step: {name: 'Search for artist Skrillex to get id for Skrillex'},
     date: '2023-10-05',
     dateTime: '2023-10-05T18:30:00Z',
@@ -39,8 +41,12 @@ const content = [
   },
 ] as ActivityItem[]
 
-export interface FeedContentProps {
-  content?: AuthoredContent
+export function PlanableComponent() {
+  return <div className={"p-4 flex flex-row gap-2"}>
+    <AppButton>
+      <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
+    </AppButton>
+  </div>
 }
 
 export function HttpCallCard() {
@@ -82,7 +88,10 @@ export function FeedContent() {
               </span>
             </p>
             {
-              activityItem.type === 'active' && <HttpCallCard/>
+              activityItem.type === ActivityTypes.planable && <PlanableComponent/>
+            }
+            {
+              activityItem.type === ActivityTypes.active && <HttpCallCard/>
             }
           </li>
         ))}
