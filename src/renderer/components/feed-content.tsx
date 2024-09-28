@@ -79,7 +79,7 @@ export function FeedContent() {
       <ul role="list" className="space-y-2">
         {content.map((activityItem, activityItemIdx) => (
           <li key={activityItem.id}
-              className={clsx("relative flex flex-col gap-x-4", 'bg-black/5 dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
+              className={clsx("relative flex flex-col gap-x-4", 'dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
             <p className="flex-auto">
               <span className={clsx("font-medium", activityItem.type === 'draft' && 'text-gray-500')}>
                 {activityItem.step.name}
