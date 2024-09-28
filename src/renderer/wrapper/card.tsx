@@ -33,7 +33,7 @@ export function CardH3({children}: { children: ReactNode }) {
 }
 
 export function CardSection({children}: { children: ReactNode }) {
-  return <div className={"bg-black/5 p-2 rounded-xl flex flex-col gap-2"}>
+  return <div className={"bg-zinc-500/5 p-2 rounded-xl flex flex-col gap-2"}>
     {children}
   </div>
 }

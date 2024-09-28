@@ -24,7 +24,7 @@ export function SettingsPage() {
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sectionRefs={sectionRefs}>
-          <Card>
+          <Card className={"pb-4"}>
             <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
               <CardH2>Api Specifications</CardH2>
             </div>

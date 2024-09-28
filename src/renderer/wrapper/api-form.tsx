@@ -99,6 +99,7 @@ export function ApiForm() {
     <AppButton
       onClick={handleSubmit}
       disabled={!isValid}
+      className={"ml-auto mr-4"}
     >
       Save
     </AppButton>
