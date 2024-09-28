@@ -3,7 +3,7 @@ import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {OpenAiForm} from '../wrapper/open-ai-form'
-import {Card} from '../wrapper/card'
+import {Card, CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch, useAppSelector} from '../features/store'
 
@@ -16,7 +16,6 @@ export function SettingsPage() {
     BedRock: useRef<HTMLDivElement>(null),
   } as Record<string, MutableRefObject<HTMLDivElement>>
   const keys = Object.keys(sectionRefs)
-  const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
@@ -27,20 +26,25 @@ export function SettingsPage() {
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <Card>
             <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
-              <h2 className={headerClasses}>Api Specifications</h2>
+              <CardH2>Api Specifications</CardH2>
             </div>
-            
-            <div className={"flex flex-col gap-4 py-4"}>
-              {
-                Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
-              }
+            <CardSection>
+              {Object.keys(apis).length && <CardH3>Existing</CardH3>}
+              <div className={"flex flex-col"}>
+                {
+                  Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+                }
+              </div>
+            </CardSection>
+            <CardSection>
+              <CardH3>Add new</CardH3>
               <ApiForm/>
-            </div>
+            </CardSection>
           </Card>
           
           <Card>
             <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
-              <h2 className={headerClasses}>Open AI Configuration</h2>
+              <CardH2>Open AI Configuration</CardH2>
               <div className={"py-4"}>
                 <OpenAiForm/>
               </div>
@@ -49,7 +53,7 @@ export function SettingsPage() {
           
           <Card>
             <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
-              <h2 className={headerClasses}>AWS Bed Rock</h2>
+              <CardH2>AWS Bed Rock</CardH2>
               <div>todo</div>
             </div>
           </Card>

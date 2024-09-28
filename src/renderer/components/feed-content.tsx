@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import React from 'react'
-import {cardEffect} from '../utils/card'
 import {v4} from 'uuid'
 import {Button, Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
 import {PlusIcon} from '@heroicons/react/24/outline'
+import {Card, CardH2} from '../wrapper/card'
 
 
 export enum ActivityTypes {
@@ -74,14 +74,12 @@ export function HttpCallCard() {
 
 export function FeedContent() {
   return (
-    <div className={clsx(cardEffect, "p-4 rounded-xl")}>
-      <div className={'text-sm mb-2 w-full border-b border-gray-200 dark:border-zinc-600 text-gray-500'}>
-        Call plan
-      </div>
+    <Card>
+      <CardH2>Call Plan</CardH2>
       <ul role="list" className="space-y-2">
         {content.map((activityItem, activityItemIdx) => (
           <li key={activityItem.id}
-              className={clsx("relative flex flex-col gap-x-4", 'bg-black/15 border p-4 rounded-2xl border-gray-600')}>
+              className={clsx("relative flex flex-col gap-x-4", 'bg-black/5 dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
             <p className="flex-auto">
               <span className={clsx("font-medium", activityItem.type === 'draft' && 'text-gray-500')}>
                 {activityItem.step.name}
@@ -96,6 +94,6 @@ export function FeedContent() {
           </li>
         ))}
       </ul>
-    </div>
+    </Card>
   )
 }
