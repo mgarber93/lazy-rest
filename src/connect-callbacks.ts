@@ -7,6 +7,7 @@ export const connectCallbacks = (store: EnhancedStore) => {
   const callbacks = new ReduxStoreCallbackApi(store)
   channelAllowList.forEach(channelAllowList => {
     window.main.receive<TWindowSenderChannel>(channelAllowList, (event: Electron.IpcRendererEvent, promiseId: string, ...args: Parameters<typeof callbacks[typeof channelAllowList]>) => {
+      console.log(promiseId, args)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const result = callbacks[channelAllowList](...args)

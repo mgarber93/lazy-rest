@@ -17,7 +17,6 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
   }
   
   getProviderConfig() {
-    console.log('getting provider config')
     const state = this.store.getState() as RootState
     return state.models.providers as ProviderConfiguration
   }

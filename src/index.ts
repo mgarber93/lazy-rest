@@ -44,6 +44,7 @@ const createWindow = (): void => {
   mainWindow.webContents.on('did-finish-load', () => {
     const windowSender = container.resolve(WindowSender)
     windowSender.hasFinishedLoading((eventName: string, ...args: any) => {
+      console.log(`sending ${eventName} with args ${args}`)
       mainWindow.webContents.send(eventName, ...args)
     })
   })

@@ -11,6 +11,7 @@ export class WindowSender  {
   private _queue: { eventName: TWindowSenderChannel, args: unknown[] }[] = []
   
   hasFinishedLoading(sender: TSender) {
+    console.log('hasFinishedLoading')
     this._sender = sender
     for (const message of this._queue) {
       this._sender(message.eventName, ...message.args)
