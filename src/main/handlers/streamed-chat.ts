@@ -6,7 +6,7 @@ import {OpenAiProvider} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {SwaggerGpt} from '../organizations/swagger-gpt'
 import {createContent} from '../../models/content'
-import {OllamaProvider} from './ollama'
+import {OllamaProvider} from '../providers/ollama'
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {

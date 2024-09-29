@@ -18,7 +18,7 @@ export const listOpenAiModels = createAsyncThunk(
   `${name}/listModels`,
   async () => {
     const models = await window.main.getModels('openai')
-    return models.split(',')
+    return models
   },
 )
 

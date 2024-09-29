@@ -2,16 +2,18 @@ import {container, injectable} from 'tsyringe'
 import ollama from 'ollama'
 import {AuthoredContent, createContent} from '../../models/content'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
+import {PromptableProvider} from './promptable-provider'
 
 /**
  * https://www.npmjs.com/package/ollama
  */
 @injectable()
-export class OllamaProvider {
+export class OllamaProvider implements PromptableProvider {
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
-  list() {
-    return ollama.list()
+  async list() {
+    const listed = await ollama.list()
+    return listed.models.map(model => model.name)
   }
   
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string) {
