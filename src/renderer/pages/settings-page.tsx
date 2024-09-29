@@ -2,7 +2,7 @@ import React, {MutableRefObject, useEffect, useRef} from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
 import {ScrollPageLayout} from '../layouts/scroll-container'
-import {OpenAiForm} from '../wrapper/open-ai-form'
+import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
 import {Card, CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -29,7 +29,7 @@ export function SettingsPage() {
             <div ref={sectionRefs.Ollama} id={keys[1]} className={"min-h-[20rem]"}>
               <CardH2>Ollama</CardH2>
               <div className="py-4">
-              
+                <OllamaForm/>
               </div>
             </div>
           </Card>
