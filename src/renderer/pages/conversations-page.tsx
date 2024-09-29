@@ -1,4 +1,4 @@
-import React, {MutableRefObject, useState} from 'react'
+import React, {MutableRefObject, useCallback, useEffect, useRef, useState} from 'react'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -9,7 +9,7 @@ import {ScrollPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {UserInputForm} from './user-input-form'
-import {cardEffect} from '../wrapper/card'
+import {CardSection} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -17,43 +17,74 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   } else {
     return <div
       className={clsx(
-        'leading-relaxed text-xl flex flex-col m-1 px-2 py-1 transition duration-300',
-        content.role === "user" && "ml-auto",
+        'leading-relaxed text-xl flex flex-col px-2 py-1 transition duration-300',
+        content.role === "user" && "ml-auto w-fit",
       )}
     >
-      <span
-        className={clsx('flex-1')}
-        key={content.id}
-      >
-        <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
-      </span>
+      {
+        content.role === "user" && <CardSection>
+              <span
+                className={clsx('flex-1')}
+                key={content.id}
+              >
+            <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+          </span>
+        </CardSection>
+      }
+      {
+        content.role !== "user" && <div>
+                      <span
+                        className={clsx('flex-1')}
+                        key={content.id}
+                      >
+            <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+          </span>
+        </div>
+      }
+    
     </div>
   }
 }
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
-  const [sectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({})
+  const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({
+    'Query': useRef(null),
+    'Response': useRef(null),
+    'New Prompt': useRef(null),
+  })
+  
+  const scrollToSection = useCallback((section: string) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    sectionRefs[section]?.current?.scrollIntoView({alignToTop: true})
+  }, [sectionRefs])
+  
+  useEffect(() => {
+    scrollToSection('New Prompt')
+  }, [conversation])
+  
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <div className={clsx(
-            conversation.content.length && cardEffect,
-            "flex flex-col gap-y",
-            "h-fit",
-            "border-l border-r border-zinc-100 px-4",
-            "shadow-2xl shadow-zinc-300",
+            "flex flex-col",
+            "border-zinc-100 dark:border-zinc-800",
           )}>
             {
-              conversation.content.map((content, index) => <ConversationContent content={content} key={index}/>)
+              conversation.content.map((content, index) =>
+                <div ref={sectionRefs[index % 2 === 0 ? 'Query' : 'Response']}>
+                  <ConversationContent content={content} key={index}/>
+                </div>,
+              )
             }
           </div>
-          <div className={clsx("mt-auto")}>
+          <div className={clsx(
+          )} ref={sectionRefs['New Prompt']}>
             <UserInputForm/>
           </div>
         </ScrollPageLayout>
-      
       </div>
     </HeaderLayout>
   )
