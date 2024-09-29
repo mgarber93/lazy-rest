@@ -32,7 +32,7 @@ export function CardH3({children}: { children: ReactNode }) {
   return <h3 className={headerClasses}>{children}</h3>
 }
 
-export function CardSection({children, className}: { children: ReactNode, className: string }) {
+export function CardSection({children, className}: { children: ReactNode, className?: string }) {
   return <div className={clsx("bg-zinc-500/5 p-2 rounded-xl flex flex-col gap-2", className)}>
     {children}
   </div>
