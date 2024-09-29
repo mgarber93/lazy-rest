@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import React, {ReactNode, useCallback, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {v4} from 'uuid'
-import {ChevronDownIcon, ChevronUpIcon, MinusCircleIcon, PlusCircleIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {ChevronDownIcon, ChevronUpIcon, MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
 import {Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
 import {Card, CardH3, CardSection} from '../wrapper/card'
@@ -176,34 +176,11 @@ export function HttpCallCard({activity, index}: { activity: any, index?: number 
   </CardSection>
 }
 
-export function PlanableComponent() {
-  return <div className={"p-4 flex flex-row gap-2"}>
-    <AppButton>
-      <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]"/>
-    </AppButton>
-  </div>
-}
-
-export function ActiveActivity({activity}: { activity: ActivityItem }) {
-  return <li key={activity.id}
-             className={clsx("relative flex flex-row gap-x-4", 'dark:bg-black/15 border p-4 rounded-2xl border-gray-600')}>
-    <p className="flex-auto">
-      <span className={clsx("font-medium")}>
-        {activity.step.name}
-      </span>
-    </p>
-  </li>
-}
-
-function renderActivityItem(activity: ActivityItem, index: number): ReactNode {
-  return <HttpCallCard activity={activity} index={index}/>
-}
-
 export function FeedContent() {
   return (
     <Card>
       <CardH3>Call Plan</CardH3>
-      {content.map(renderActivityItem)}
+      {content.map((activity, index) => (<HttpCallCard activity={activity} index={index} key={activity.id}/>))}
     </Card>
   )
 }
