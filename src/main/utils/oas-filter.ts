@@ -1,5 +1,5 @@
 import {OpenAPI} from 'openapi-types'
-import {HttpRequestPlan} from '../organizations/api-call-plan'
+import {HttpRequestPlan} from '../organizations/models'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {

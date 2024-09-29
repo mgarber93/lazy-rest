@@ -1,31 +1,12 @@
-import React, {ReactNode, SetStateAction, useCallback, useMemo, useState} from 'react'
+import React, {SetStateAction, useCallback, useMemo, useState} from 'react'
 import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
 import {addApiConfiguration} from '../features/tools'
-import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
-import {inputClasses, labelClasses} from './open-ai-form'
-
-export function ApiFormElement({domName, label, changeHandler, placeholder, type, description}: {
-  domName: string,
-  label: ReactNode,
-  changeHandler: (...args: never[]) => void,
-  placeholder: string,
-  type: string,
-  description?: string
-}) {
-  return <Field>
-    <Label
-      className={labelClasses}>
-      <label htmlFor={domName}>{label}</label>
-    </Label>
-    <Description>
-      {description}
-    </Description>
-    <Input className={inputClasses} type={type} placeholder={placeholder} onChange={changeHandler}></Input>
-  </Field>
-}
+import {Fieldset} from '@headlessui/react'
+import {ApiFormElement} from '../components/api-form-element'
+import {AppButton} from '../components/app-button'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -55,11 +36,11 @@ export function ApiForm() {
       reader.readAsText(file)  // You can read it as Array Buffer or Binary String alternatively
     }
   }, [setName, setBaseUrl, setOas, setFileHandle, dispatch])
-
+  
   const isValid = useMemo(() => {
     return name && baseUrl && clientId && clientSecret && oas !== null
   }, [name, baseUrl, clientId, clientSecret, oas])
-
+  
   const handleSubmit = useCallback((event: React.FormEvent) => {
     event.preventDefault()
     localStorage.setItem(fileHandle, JSON.stringify(oas))
@@ -73,6 +54,7 @@ export function ApiForm() {
       placeholder={'Swagger OAS file'}
       changeHandler={handleFile}
       type={'file'}
+      value={''}
     />
     <ApiFormElement
       domName={'baseUrl'}
@@ -82,6 +64,7 @@ export function ApiForm() {
         target: { value: SetStateAction<string>; };
       }) => setBaseUrl(event.target.value)}
       type={'string'}
+      value={baseUrl}
     />
     <ApiFormElement
       domName={'apiName'}
@@ -91,15 +74,17 @@ export function ApiForm() {
         target: { value: SetStateAction<string>; };
       }) => setName(event.target.value)}
       type={'string'}
+      value={name}
     />
     <ApiFormElement
       domName={'clientId'}
-      label={'Client ID'}
+      label={'Client ID https://developer.spotify.com/dashboard'}
       placeholder={'Client ID to use'}
       changeHandler={(event: {
         target: { value: SetStateAction<string>; };
       }) => setClientId(event.target.value)}
       type={'string'}
+      value={clientId}
     />
     <ApiFormElement
       domName={'clientSecret'}
@@ -109,6 +94,14 @@ export function ApiForm() {
         target: { value: SetStateAction<string>; };
       }) => setClientSecret(event.target.value)}
       type={'password'}
+      value={clientSecret}
     />
+    <AppButton
+      onClick={handleSubmit}
+      disabled={!isValid}
+      className={"ml-auto mr-4"}
+    >
+      Save
+    </AppButton>
   </Fieldset>
 }

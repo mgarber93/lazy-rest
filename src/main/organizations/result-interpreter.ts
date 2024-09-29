@@ -26,15 +26,15 @@ export class ResultInterpreter {
       throw new Error('No conversation responder')
     }
     const model = conversation.responder.model
-    const newResponse = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, model)
-    const goal = conversation.content.at(-1)
-    const interpretation = await this.agentFactory.create(plan)
-    
-
-    await this.mainWindowCallbackConsumer.appendContentDelta({
-      chatId: conversation.id,
-      messageId: newResponse.id,
-      delta: interpretation.content.at(-1)?.message ?? '',
-    })
+    // const newResponse = await this.mainWindowCallbackConsumer.addNewResponse(conversation.id, model)
+    // const goal = conversation.content.at(-1)
+    // const interpretation = await this.agentFactory.create(plan)
+    //
+    //
+    // await this.mainWindowCallbackConsumer.appendContentDelta({
+    //   chatId: conversation.id,
+    //   messageId: newResponse.id,
+    //   delta: interpretation.content.at(-1)?.message ?? '',
+    // })
   }
 }

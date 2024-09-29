@@ -1,20 +1,20 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {OpenAiConfiguration} from '../../models/provider-config'
 import {TModel} from '../../models/responder'
+import {ClientOptions} from 'openai'
 
 const name = 'models'
 
 const initialState = {
   models: [] as TModel[],
   providers: {
-    openAi: null as OpenAiConfiguration | null,
+    openAi: null as ClientOptions | null,
     anthropic: null as object | null,
   },
   organizations: [""],
 }
 
 
-export const listModels = createAsyncThunk(
+export const listOpenAiModels = createAsyncThunk(
   `${name}/listModels`,
   async () => {
     const models = await window.main.getModels('openai')
@@ -26,15 +26,12 @@ export const modelsSlice = createSlice({
   name,
   initialState,
   reducers: {
-    updateModels(state, action: PayloadAction<TModel[]>) {
-      state.models = action.payload
-    },
-    configureOpenAi(state, action: PayloadAction<OpenAiConfiguration>) {
+    configureOpenAi(state, action: PayloadAction<ClientOptions>) {
       state.providers.openAi = action.payload
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(listModels.fulfilled, (state, action) => {
+    builder.addCase(listOpenAiModels.fulfilled, (state, action) => {
       state.models = action.payload as TModel[]
     })
   },

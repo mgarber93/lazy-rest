@@ -1,21 +1,21 @@
 import React, {useCallback, useEffect} from 'react'
 import {configureOpenAi} from '../features/models'
 import {useAppDispatch, useAppSelector} from '../features/store'
-import {OpenAiConfiguration} from '../../models/provider-config'
+import {ClientOptions} from 'openai'
 
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi)
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(configureOpenAi({apiKey: providerConfig?.apiKey ?? '', baseUrl: providerConfig?.baseUrl ?? ''}))
+    dispatch(configureOpenAi({apiKey: providerConfig?.apiKey ?? '', baseURL: providerConfig?.baseURL ?? ''}))
   }, [])
   const currentOpenAiConfig = useAppSelector(
     state => state.models.providers.openAi,
   )
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
-    const config = {...currentOpenAiConfig} as OpenAiConfiguration
-    config[name as keyof OpenAiConfiguration] = value
+    const config = {...currentOpenAiConfig} as ClientOptions
+    config[name as keyof ClientOptions] = value
     dispatch(configureOpenAi(config))
   }, [dispatch, currentOpenAiConfig])
   
@@ -40,7 +40,7 @@ function OpenAiConfigForm() {
         <input
           name="baseUrl"
           type="text"
-          value={providerConfig?.baseUrl || ''}
+          value={providerConfig?.baseURL || ''}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded"
         />

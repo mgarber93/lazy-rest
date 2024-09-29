@@ -7,7 +7,7 @@ export type Responder = {
   type: TResponder;
   provider: TProvider;
   model: TModel;
-  orgId?: string;
+  responding?: boolean;
 }
 
 export function createModelResponder(type: TResponder, model: TModel, provider: TProvider): Responder {

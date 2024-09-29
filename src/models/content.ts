@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
+import {ApiCallPlan} from '../main/organizations/models'
 
 export type Role = 'system' | 'assistant' | 'user' | 'tool'
 
@@ -8,12 +9,17 @@ export interface ContentDelta {
   delta: string
 }
 
+/**
+ * Message can be initialized with an empty string, but at the end of the api call plan we should put the
+ * final answer to the users query in the message string for the rest of the convo to read from
+ */
 export interface AuthoredContent {
   id: string;
   chatId: string;
   message: string;
+  apiCallPlan?: ApiCallPlan;
   author: string;
-  role: 'system' | 'assistant' | 'user' | 'tool';
+  role: Role;
 }
 
 export interface ToolCall extends AuthoredContent {

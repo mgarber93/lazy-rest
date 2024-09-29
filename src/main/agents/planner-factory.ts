@@ -1,7 +1,7 @@
 import {singleton} from 'tsyringe'
 import {AgentFactory} from './agent-factory'
 import {Responder} from '../../models/responder'
-import {ApiCallPlan} from '../organizations/api-call-plan'
+import {ApiCallPlan} from '../organizations/models'
 
 // rest gpt https://arxiv.org/abs/2306.06624
 export const plannerTemplate = (descriptions: string) => `You are an agent that plans solution to user queries.
@@ -88,6 +88,28 @@ export class PlannerFactory extends AgentFactory {
       acc += `${spec.info.title}\n${spec.info.description}\n`
       return acc
     }, '')
-    return this.createAgent(plan.userGoal, plannerTemplate(descriptions))
+    return this.createAgent(plan.userGoal, plannerTemplate(descriptions), this.model)
+  }
+  
+  extractPlanSteps(input: string): string[] {
+    const planSteps: string[] = []
+    const regex = /Plan step \d+:\s*(.*)/g
+    let match
+    while ((match = regex.exec(input)) !== null) {
+      planSteps.push(match[1])
+    }
+    return planSteps
+  }
+  
+  public async createAndPrompt(plan: ApiCallPlan) {
+    const agent = await this.create(plan)
+    const result = await this.promptAgent(agent)
+    console.log(`${this.constructor.name}:\n${result.message}\n`)
+    const steps = this.extractPlanSteps(result.message)
+    return {
+      result,
+      agent,
+      steps,
+    }
   }
 }

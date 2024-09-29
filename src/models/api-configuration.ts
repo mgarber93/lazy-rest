@@ -1,3 +1,5 @@
+import {ClientOptions} from 'openai'
+
 export interface ApiConfiguration {
   fileHandle: string;
   name: string;
@@ -9,4 +11,9 @@ export interface ApiConfiguration {
 export interface File {
   fileHandle: string;
   id: string;
+}
+
+export interface ProviderConfiguration {
+  openAi: ClientOptions | null;
+  anthropic: object | null;
 }

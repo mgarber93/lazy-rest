@@ -1,12 +1,10 @@
 import {container, singleton} from 'tsyringe'
-import {ChatCompletionMessageParam} from 'openai/resources'
 import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
-import {getRespondingModel, Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
 import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
-import {ApiCallPlan, HttpRequestPlan} from './api-call-plan'
+import {ApiCallPlan, HttpRequestPlan} from './models'
 
 @singleton()
 export class CallDetailer {
@@ -29,25 +27,25 @@ export class CallDetailer {
 
     const executorAgent = await this.agentFactory.create(plan)
     
-    const messages: ChatCompletionMessageParam[] = executorAgent.content
-      .map(item => ({role: item.role, content: item.message, tool_call_id: item.id}))
-    
-    const model = getRespondingModel(executorAgent.responder as Responder)
-    // responder can change depending on conversation history
-    // create another tool plan and for each call in the plan make the call
-    const toolPlan = await this.openAiLlm.agentWithHttp(model, messages)
-    for (const toolCall of toolPlan?.tool_calls ?? []) {
-      const {function: functionCall, id} = toolCall
-      const functionCallArgs = JSON.parse(functionCall.arguments)
-      // @todo assume only one and return first function call arg to GET
-      
-      return {
-        path: functionCallArgs.endpoint,
-        method: 'GET',
-        headers: {},
-        body: {},
-      } as HttpRequestPlan
-    }
+    // const messages: ChatCompletionMessageParam[] = executorAgent.content
+    //   .map(item => ({role: item.role, content: item.message!, tool_call_id: item.id}))
+    //
+    // const model = getRespondingModel(executorAgent.responder as Responder)
+    // // responder can change depending on conversation history
+    // // create another tool plan and for each call in the plan make the call
+    // const toolPlan = await this.openAiLlm.agentWithHttp(model, messages)
+    // for (const toolCall of toolPlan?.tool_calls ?? []) {
+    //   const {function: functionCall, id} = toolCall
+    //   const functionCallArgs = JSON.parse(functionCall.arguments)
+    //   // @todo assume only one and return first function call arg to GET
+    //
+    //   return {
+    //     path: functionCallArgs.endpoint,
+    //     method: 'GET',
+    //     headers: {},
+    //     body: {},
+    //   } as HttpRequestPlan
+    // }
     return null
     // no function call return ...?
   }

@@ -2,7 +2,8 @@ import {AuthoredContent} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
-import {ApiCallPlan} from '../main/organizations/api-call-plan'
+import {ApiCallPlan} from '../main/organizations/models'
+import {ProviderConfiguration} from '../models/api-configuration'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -12,7 +13,7 @@ export type TWindowSenderChannel = keyof WindowCallbackApi
 export const channelAllowList: TWindowSenderChannel[] = [
   'appendContentDelta',
   'loadAllOas',
-  'addNewResponse',
+  'appendContent',
   'getConversation',
   'getPlan',
 ]
@@ -26,7 +27,7 @@ export interface WindowCallbackApi {
   
   loadAllOas(): OpenAPI.Document[]
   
-  addNewResponse(chatId: string, author: string): AuthoredContent
+  appendContent(content: AuthoredContent): void
   
   getOas(oasId: string): OpenAPI.Document | null
   
@@ -35,4 +36,6 @@ export interface WindowCallbackApi {
   updateToolState(toolState: ToolState): void
   
   getPlan(id: PlanId): ApiCallPlan | null
+  
+  getProviderConfig(): ProviderConfiguration
 }

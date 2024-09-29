@@ -12,7 +12,6 @@ export function createConversation(id?: string): Conversation {
   }
 }
 
-
 export interface Conversation {
   id: string
   content: AuthoredContent[]
@@ -21,7 +20,6 @@ export interface Conversation {
   responder?: Responder
 }
 
-
 export interface ConversationId {
   id: string
 }
@@ -29,7 +27,6 @@ export interface ConversationId {
 export interface PlanId {
   id: string
 }
-
 
 export interface ConversationContext {
   conversationId: ConversationId

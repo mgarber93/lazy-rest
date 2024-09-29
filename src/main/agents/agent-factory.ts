@@ -1,10 +1,9 @@
 import {container} from 'tsyringe'
 import {Conversation, createConversation} from '../../models/conversation'
-import {AuthoredContent, createContent} from '../../models/content'
+import {createContent} from '../../models/content'
 import {Responder} from '../../models/responder'
 import {OpenAiLlm} from '../providers/openai'
-import {ApiCallPlan} from '../organizations/api-call-plan'
-
+import {ApiCallPlan} from '../organizations/models'
 
 /**
  * An Agent initial conversation has two contents:
@@ -15,18 +14,15 @@ import {ApiCallPlan} from '../organizations/api-call-plan'
  * @param userContent - Content to respond to
  * @param args
  */
-export abstract class AgentFactory {
-  protected abstract model: Responder
+export class AgentFactory {
   protected openAiLlm = container.resolve(OpenAiLlm)
-  public abstract create(plan: ApiCallPlan): Promise<Conversation>
   
-  protected async createAgent(goal: AuthoredContent, instructions: string): Promise<Conversation> {
-    const responder = this.model
+  public async createAgent(goal: string, instructions: string, responder: Responder): Promise<Conversation> {
     const agentInternalConversation = createConversation()
     agentInternalConversation.responder = responder
     const instructionContent = createContent(instructions, agentInternalConversation.id, 'system', 'system')
     agentInternalConversation.content.push(instructionContent)
-    agentInternalConversation.content.push(goal)
+    agentInternalConversation.content.push(createContent(goal, agentInternalConversation.id, 'user', 'user'))
     return agentInternalConversation
   }
   
@@ -41,13 +37,8 @@ export abstract class AgentFactory {
     return authoredResponse
   }
   
-  protected getCurrentStep(plan: ApiCallPlan) {
-    const {steps, step} = plan
-    return steps.at(step)
-  }
   
-  public async createAndPrompt(conversation: Conversation, plan: ApiCallPlan) {
-    const agent = await this.create(plan)
+  public async createAndPrompt(plan: ApiCallPlan, agent: Conversation) {
     const result = await this.promptAgent(agent)
     console.log(`${this.constructor.name}:\n${result.message}\n`)
     return {

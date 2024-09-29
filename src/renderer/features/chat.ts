@@ -27,12 +27,11 @@ export const streamResponse = createAsyncThunk(
   },
 )
 
-
 export const chatsSlice = createSlice({
   name,
   initialState: [createConversation()],
   reducers: {
-    respond: (state, action: PayloadAction<AuthoredContent>) => {
+    appendContent: (state, action: PayloadAction<AuthoredContent>) => {
       const {id, chatId} = action.payload
       if (!id)
         throw new Error('no id')
@@ -102,7 +101,7 @@ export const chatsSlice = createSlice({
 
 // Export actions to use dispatch in component
 export const {
-  respond,
+  appendContent,
   startNewChat,
   removeChat,
   updateTitle,

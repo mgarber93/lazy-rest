@@ -1,23 +1,23 @@
-import {OpenAiConfiguration} from '../../models/provider-config'
-import OpenAI from 'openai'
-import {singleton} from 'tsyringe'
+import OpenAI, {ClientOptions} from 'openai'
+import {container, singleton} from 'tsyringe'
+import {AsyncWindowSenderApi} from '../async-window-sender-api'
 
 
 // manages provider config and high level llm queries like get fast, get cheap, etc
 @singleton()
 export class ConfigurationManager {
-  openAiConfig: OpenAiConfiguration | null = null
+  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
+  private openAiConfig: unknown
   
-  getOpenAi() {
-    // todo request from windowSender?
+  async getOpenAi() {
     if (!this.openAiConfig) {
-      throw new Error('Not configured for openai!')
+      const config = await this.mainWindowCallbackConsumer.getProviderConfig()
+      this.openAiConfig = config.openAi
     }
-    const {baseUrl, apiKey} = this.openAiConfig
-    return new OpenAI({baseURL: baseUrl, apiKey})
+    return new OpenAI(this.openAiConfig as ClientOptions)
   }
   
-  setOpenAiConfig(openAiConfig: OpenAiConfiguration): void {
+  setOpenAiConfig(openAiConfig: ClientOptions): void {
     this.openAiConfig = openAiConfig
   }
 }
