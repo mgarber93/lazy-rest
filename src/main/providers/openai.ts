@@ -5,10 +5,11 @@ import {ConfigurationManager} from './configuration-manager'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 
 @injectable()
-export class OpenAiLlm {
+export class OpenAiProvider {
   private manager = container.resolve(ConfigurationManager)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
+  // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
   async listOpenAiModels() {
     const openai = await this.manager.getOpenAi()
     const models = await openai.models.list()
@@ -17,11 +18,6 @@ export class OpenAiLlm {
       .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
       .map(item => item.id)
       .join(',')
-  }
-  
-  // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
-  async getFavorite() {
-    return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo-preview, o1-preview, o1-mini'].join(',')
   }
   
   async prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {

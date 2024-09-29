@@ -2,7 +2,7 @@ import {container} from 'tsyringe'
 import {Conversation, createConversation} from '../../models/conversation'
 import {createContent} from '../../models/content'
 import {Responder} from '../../models/responder'
-import {OpenAiLlm} from '../providers/openai'
+import {OpenAiProvider} from '../providers/openai'
 import {ApiCallPlan} from '../organizations/models'
 
 /**
@@ -15,7 +15,7 @@ import {ApiCallPlan} from '../organizations/models'
  * @param args
  */
 export class AgentFactory {
-  protected openAiLlm = container.resolve(OpenAiLlm)
+  protected openAiLlm = container.resolve(OpenAiProvider)
   
   public async createAgent(goal: string, instructions: string, responder: Responder): Promise<Conversation> {
     const agentInternalConversation = createConversation()

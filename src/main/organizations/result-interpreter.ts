@@ -1,12 +1,12 @@
 import {container} from 'tsyringe'
 import {ConversationContext} from '../../models/conversation'
-import {OpenAiLlm} from '../providers/openai'
+import {OpenAiProvider} from '../providers/openai'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {ResultInterpreterFactory} from '../agents/result-interpreter-factory'
 
 
 export class ResultInterpreter {
-  private openAiLlm = container.resolve(OpenAiLlm)
+  private openAiLlm = container.resolve(OpenAiProvider)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private agentFactory = container.resolve(ResultInterpreterFactory)
   
