@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm'
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollPageLayout} from '../layouts/scroll-container'
-import {Card} from '../wrapper/card'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {UserInputForm} from './user-input-form'
@@ -15,9 +14,9 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
     return <FeedContent/>
   } else {
-    return <Card
+    return <div
       className={clsx(
-        'leading-relaxed text-xl flex flex-col bg-zinc-50',
+        'leading-relaxed text-xl flex flex-col m-1 px-2 py-1 hover:bg-black/5 hover:dark:bg-white/5 rounded-2xl transition duration-300',
         content.role === "user" && "ml-auto",
       )}
     >
@@ -27,7 +26,7 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
       >
         <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
       </span>
-    </Card>
+    </div>
   }
 }
 
