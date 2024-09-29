@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import React, {ReactNode} from 'react'
+import React, {ReactNode, useCallback, useState} from 'react'
 import {v4} from 'uuid'
-import {MinusCircleIcon, PlusCircleIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {ChevronDownIcon, ChevronUpIcon, MinusCircleIcon, PlusCircleIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
 import {Card, CardH3, CardSection} from '../wrapper/card'
@@ -28,7 +28,7 @@ export interface ActivityItem {
 const content = [
   {
     id: v4(),
-    type: ActivityTypes.draft,
+    type: ActivityTypes.active,
     step: {
       name: 'Search for Artist “Skrillex”: Retrieve Skrillex’s artist ID by searching for his name using the Spotify API.',
       httpVerb: 'GET',
@@ -120,7 +120,7 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
   return <div className={clsx('flex flex-col gap-1')}>
     <div className={"flex flex-row gap-2"}>
       <Select name="status"
-              className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-blue-100")}
+              className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100")}
               aria-label="Project status"
               defaultValue={step?.httpVerb?.toLowerCase()}>
         <option value="get">Get</option>
@@ -160,11 +160,19 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
 }
 
 export function HttpCallCard({activity, index}: { activity: any, index?: number }) {
+  const [isOpen, setIsOpen] = useState(activity.type === ActivityTypes.active)
+  const handleToggle = useCallback(() => {
+    setIsOpen(isOpen => !isOpen)
+  }, [isOpen, setIsOpen])
   return <CardSection className={"flex flex-col gap-1"}>
     <div className={"h-full rounded-xl p-2"}>
-      <CardH3>{(index ?? 0) + 1}) {activity.step.name}</CardH3>
+      <div className={"flex flex-row gap-2"}>
+        {(index ?? 0) + 1}) {activity.step.name}
+        {isOpen && <ChevronUpIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>}
+        {!isOpen && <ChevronDownIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>}
+      </div>
     </div>
-    <HttpCallForm step={activity.step}/>
+    {isOpen && <HttpCallForm step={activity.step}/>}
   </CardSection>
 }
 
@@ -188,29 +196,14 @@ export function ActiveActivity({activity}: { activity: ActivityItem }) {
 }
 
 function renderActivityItem(activity: ActivityItem, index: number): ReactNode {
-  switch (activity.type) {
-    case ActivityTypes.active: {
-      return <ActiveActivity activity={activity}/>
-    }
-    case ActivityTypes.draft: {
-      return <HttpCallCard activity={activity} index={index}/>
-    }
-    case ActivityTypes.planable: {
-      return <PlanableComponent/>
-    }
-    default: {
-      throw new Error(`Unsupported type "${activity.type}"`)
-    }
-  }
+  return <HttpCallCard activity={activity} index={index}/>
 }
 
 export function FeedContent() {
   return (
     <Card>
       <CardH3>Call Plan</CardH3>
-      <ul role="list" className="space-y-2">
-        {content.map(renderActivityItem)}
-      </ul>
+      {content.map(renderActivityItem)}
     </Card>
   )
 }
