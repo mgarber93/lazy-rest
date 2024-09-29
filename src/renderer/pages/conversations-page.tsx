@@ -9,6 +9,7 @@ import {ScrollPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {UserInputForm} from './user-input-form'
+import {cardEffect} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -16,7 +17,7 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   } else {
     return <div
       className={clsx(
-        'leading-relaxed text-xl flex flex-col m-1 px-2 py-1 hover:bg-black/5 hover:dark:bg-white/5 rounded-2xl transition duration-300',
+        'leading-relaxed text-xl flex flex-col m-1 px-2 py-1 transition duration-300',
         content.role === "user" && "ml-auto",
       )}
     >
@@ -38,17 +39,21 @@ export function ConversationsPage() {
       <div className={clsx("w-full h-full")}>
         <ScrollPageLayout sectionRefs={sectionRefs}>
           <div className={clsx(
+            conversation.content.length && cardEffect,
             "flex flex-col gap-y",
-            "h-full",
+            "h-fit",
+            "border-l border-r border-zinc-100 px-4",
+            "shadow-2xl shadow-zinc-300",
           )}>
             {
               conversation.content.map((content, index) => <ConversationContent content={content} key={index}/>)
             }
-            <div className={clsx("mt-auto")}>
-              <UserInputForm/>
-            </div>
+          </div>
+          <div className={clsx("mt-auto")}>
+            <UserInputForm/>
           </div>
         </ScrollPageLayout>
+      
       </div>
     </HeaderLayout>
   )
