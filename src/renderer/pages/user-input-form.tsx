@@ -15,7 +15,6 @@ export function UserInputForm() {
   const user = useAppSelector(state => state.user)
   const [promptMessage, setPromptMessage] = useState('')
   
-  
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -36,6 +35,7 @@ export function UserInputForm() {
     setPromptMessage(e.target.value)
   }, [setPromptMessage])
   const models = useAppSelector((state) => state.models.models)
+  const ollamaModels = useAppSelector(state => state.models.ollamaModels)
   const tools = useAppSelector((state) => state.tools)
   const handleModelChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     const model = e.target.value as TModel | string
@@ -52,7 +52,7 @@ export function UserInputForm() {
       dispatch(setResponder({
         responder: {
           type: 'chat',
-          provider: 'openai',
+          provider: ollamaModels.includes(model) ? 'ollama' : 'openai',
           model: model as TModel,
         } satisfies Responder,
         chatId: conversation.id,
@@ -81,6 +81,9 @@ export function UserInputForm() {
     >
       {
         models.map((model) => <option value={model} key={model}>{model}</option>)
+      }
+      {
+        ollamaModels.map((model) => <option value={model} key={model}>{model}</option>)
       }
       {
         Object.keys(tools.api).length > 0 && <option value={lazyRest}>Lazy Rest</option>
