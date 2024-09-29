@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, {ReactNode} from 'react'
 import {v4} from 'uuid'
-import {PlusIcon} from '@heroicons/react/24/outline'
+import {MinusCircleIcon, PlusCircleIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
 import {Card, CardH3, CardSection} from '../wrapper/card'
@@ -136,7 +136,7 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
                  onClick={() => console.log(step)}>Send</AppButton>
     </div>
     {
-      Object.entries(step?.queryParams ?? {}).map(entry => (<div className={"flex flex-row gap-2"}>
+      Object.entries(step?.queryParams ?? {}).map(entry => (<div className={"flex flex-row gap-1 pl-2"}>
         <Input
           className={inputClass}
           placeholder="Key"
@@ -147,8 +147,15 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
           placeholder="Value"
           defaultValue={entry[1]}
         />
+        <div className={"flex flex-col justify-center"}>
+          <MinusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
+        </div>
       </div>))
     }
+    <div
+      className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black py-2 px-1 transition pl-2"}>
+      <PlusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
+    </div>
   </div>
 }
 
@@ -168,7 +175,6 @@ export function PlanableComponent() {
     </AppButton>
   </div>
 }
-
 
 export function ActiveActivity({activity}: { activity: ActivityItem }) {
   return <li key={activity.id}
