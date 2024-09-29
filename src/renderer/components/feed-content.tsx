@@ -111,26 +111,44 @@ const content = [
 
 export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
   const elements = `border rounded-xl bg-transparent border-zinc-700`
-  return <div className={"p-4 flex flex-row gap-2"}>
-    <Select name="status"
-            className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-blue-100")}
-            aria-label="Project status"
-            defaultValue={step?.httpVerb?.toLowerCase()}>
-      <option value="get">Get</option>
-      <option value="post">Post</option>
-      <option value="put">Put</option>
-      <option value="delete">Delete</option>
-    </Select>
-    <Input
-      className={clsx(
-        elements,
-        'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
-        'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-      )}
-      defaultValue={step?.url}
-    />
-    <AppButton className={clsx(elements, "px-2 border-zinc-500")}
-               onClick={() => console.log(step)}>Send</AppButton>
+  const inputClass = clsx(
+    elements,
+    'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
+    'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
+  )
+  
+  return <div className={clsx('flex flex-col gap-1')}>
+    <div className={"flex flex-row gap-2"}>
+      <Select name="status"
+              className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-blue-100")}
+              aria-label="Project status"
+              defaultValue={step?.httpVerb?.toLowerCase()}>
+        <option value="get">Get</option>
+        <option value="post">Post</option>
+        <option value="put">Put</option>
+        <option value="delete">Delete</option>
+      </Select>
+      <Input
+        className={inputClass}
+        defaultValue={step?.url}
+      />
+      <AppButton className={clsx(elements, "px-2 border-zinc-500")}
+                 onClick={() => console.log(step)}>Send</AppButton>
+    </div>
+    {
+      Object.entries(step?.queryParams ?? {}).map(entry => (<div className={"flex flex-row gap-2"}>
+        <Input
+          className={inputClass}
+          placeholder="Key"
+          defaultValue={entry[0]}
+        />
+        <Input
+          className={inputClass}
+          placeholder="Value"
+          defaultValue={entry[1]}
+        />
+      </div>))
+    }
   </div>
 }
 
