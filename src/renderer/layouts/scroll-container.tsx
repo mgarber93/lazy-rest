@@ -41,7 +41,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%]"
+  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("col-span-1 h-[calc(100vh-55.313px)]")}>
@@ -56,8 +56,11 @@ export function ScrollPageLayout({sectionRefs, children}: {
         "col-span-5 top-4 rounded-2xl",
         "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
         background,
+        effect,
       )}>
-        {children}
+        <div className={"p-4"}>
+          {children}
+        </div>
       </div>
       <div className="col-span-1"></div>
     </Center>

@@ -4,7 +4,7 @@ import {v4} from 'uuid'
 import {ChevronDownIcon, ChevronUpIcon, MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
 import {Input, Select} from '@headlessui/react'
 import {AppButton} from './app-button'
-import {Card, CardH3, CardSection} from '../wrapper/card'
+import {CardH3, CardSection} from '../wrapper/card'
 
 export enum ActivityTypes {
   active = 'active',
@@ -179,9 +179,9 @@ export function HttpCallCard({activity, index}: { activity: any, index?: number 
 
 export function FeedContent() {
   return (
-    <Card>
-      <CardH3>Call Plan</CardH3>
+    <div>
+      <CardH3 className={"mb-2"}>Call Plan</CardH3>
       {content.map((activity, index) => (<HttpCallCard activity={activity} index={index} key={activity.id}/>))}
-    </Card>
+    </div>
   )
 }

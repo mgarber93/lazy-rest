@@ -3,7 +3,7 @@ import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
 import {ScrollPageLayout} from '../layouts/scroll-container'
 import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
-import {Card, CardH2, CardH3, CardSection} from '../wrapper/card'
+import {CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch, useAppSelector} from '../features/store'
 
@@ -25,32 +25,26 @@ export function SettingsPage() {
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sectionRefs={sectionRefs}>
-          <Card>
             <div ref={sectionRefs.Ollama} id={keys[1]} className={"min-h-[20rem]"}>
               <CardH2>Ollama</CardH2>
               <div className="py-4">
                 <OllamaForm/>
               </div>
             </div>
-          </Card>
-          <Card>
-            <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
+          
+          <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
               <CardH2>Open AI</CardH2>
               <div className={"py-4"}>
                 <OpenAiForm/>
               </div>
             </div>
-          </Card>
           
-          <Card>
-            <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
+          <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
               <CardH2>AWS Bed Rock</CardH2>
               <div>todo</div>
             </div>
-          </Card>
           
-          <Card className={"pb-4"}>
-            <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
+          <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
               <CardH2>Api Specifications</CardH2>
             </div>
             <CardSection>
@@ -65,7 +59,6 @@ export function SettingsPage() {
               <CardH3>Add new</CardH3>
               <ApiForm/>
             </CardSection>
-          </Card>
         </ScrollPageLayout>
       </div>
     </HeaderLayout>
