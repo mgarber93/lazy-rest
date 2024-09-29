@@ -136,7 +136,8 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
                  onClick={() => console.log(step)}>Send</AppButton>
     </div>
     {
-      Object.entries(step?.queryParams ?? {}).map(entry => (<div className={"flex flex-row gap-1 pl-2"}>
+      Object.entries(step?.queryParams ?? {}).map((entry, index) => (
+        <div className={"flex flex-row gap-1 pl-2"} key={index}>
         <Input
           className={inputClass}
           placeholder="Key"
