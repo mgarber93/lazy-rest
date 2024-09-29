@@ -25,6 +25,7 @@ export function CardH2({children}: { children: ReactNode }) {
 /**
  * Separates sections of a card
  * @param children
+ * @param className - override styling
  * @constructor
  */
 export function CardH3({children, className}: { children: ReactNode, className?: string }) {
@@ -33,7 +34,8 @@ export function CardH3({children, className}: { children: ReactNode, className?:
 }
 
 export function CardSection({children, className}: { children: ReactNode, className?: string }) {
-  return <div className={clsx("bg-zinc-500/5 p-2 rounded-3xl flex flex-col gap-2", className)}>
+  return <div
+    className={clsx("bg-zinc-500/5 dark:bg-zinc-500/15 px-2 py-1 rounded-3xl flex flex-col gap-2", className)}>
     {children}
   </div>
 }

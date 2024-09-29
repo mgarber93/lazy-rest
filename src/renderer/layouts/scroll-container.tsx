@@ -44,7 +44,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
   const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
-      <div className={clsx("col-span-1 h-[calc(100vh-55.313px)]")}>
+      <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
         <aside className={clsx(effect,
           "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
           background,
@@ -53,7 +53,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
         </aside>
       </div>
       <div className={clsx(
-        "col-span-5 top-4 rounded-2xl",
+        "col-span-4 top-4 rounded-2xl",
         "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
         background,
         effect,
@@ -62,7 +62,9 @@ export function ScrollPageLayout({sectionRefs, children}: {
           {children}
         </div>
       </div>
-      <div className="col-span-1"></div>
+      <div className="col-span-1 lg:col-span-0">
+      
+      </div>
     </Center>
   </div>
   
