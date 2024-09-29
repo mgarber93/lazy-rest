@@ -1,6 +1,8 @@
 import React, {ChangeEvent, KeyboardEventHandler, MutableRefObject, useCallback, useState} from 'react'
 import clsx from 'clsx'
 import {Field, Input, Select} from '@headlessui/react'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
@@ -12,8 +14,6 @@ import {AuthoredContent, createContent} from '../../models/content'
 import {User} from '../../models/user'
 import {Responder, TModel} from '../../models/responder'
 import {FeedContent} from '../components/feed-content'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
