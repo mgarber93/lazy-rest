@@ -1,7 +1,7 @@
 import {ReactNode} from 'react'
 import clsx from 'clsx'
 
-export const cardEffect = "rounded-xl px-4 py-2 bg-zinc-50 dark:bg-zinc-800 dark:shadow drop-shadow mb-2 shadow-zinc-300 dark:shadow-zinc-950 border-2 border-transparent hover:border-zinc-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
+export const cardEffect = "rounded-3xl px-2 py-1 bg-zinc-50 dark:bg-zinc-900 dark:shadow drop-shadow shadow-zinc-500 dark:shadow-zinc-950 border-2 border-transparent hover:border-zinc-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
 export function Card({children, className}: { children: ReactNode, className?: string }) {
   const layout = 'flex flex-col gap-4'
@@ -27,13 +27,13 @@ export function CardH2({children}: { children: ReactNode }) {
  * @param children
  * @constructor
  */
-export function CardH3({children}: { children: ReactNode }) {
+export function CardH3({children, className}: { children: ReactNode, className?: string }) {
   const headerClasses = `font-semibold border-b border-black/20 dark:border-white/50 leading-relaxed`
-  return <h3 className={headerClasses}>{children}</h3>
+  return <h3 className={clsx(headerClasses, className)}>{children}</h3>
 }
 
 export function CardSection({children, className}: { children: ReactNode, className?: string }) {
-  return <div className={clsx("bg-zinc-500/5 p-2 rounded-xl flex flex-col gap-2", className)}>
+  return <div className={clsx("bg-zinc-500/5 p-2 rounded-3xl flex flex-col gap-2", className)}>
     {children}
   </div>
 }

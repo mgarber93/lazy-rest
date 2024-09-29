@@ -3,25 +3,21 @@ import {AuthoredContent, createContent, isToolCall} from '../../models/content'
 import {container, injectable} from 'tsyringe'
 import {ConfigurationManager} from './configuration-manager'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
+import {PromptableProvider} from './promptable-provider'
 
 @injectable()
-export class OpenAiLlm {
+export class OpenAiProvider implements PromptableProvider {
   private manager = container.resolve(ConfigurationManager)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
-  async listOpenAiModels() {
+  // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
+  async list() {
     const openai = await this.manager.getOpenAi()
     const models = await openai.models.list()
     console.log(models.data)
     return models.data
       .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
       .map(item => item.id)
-      .join(',')
-  }
-  
-  // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
-  async getFavorite() {
-    return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo-preview, o1-preview, o1-mini'].join(',')
   }
   
   async prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {

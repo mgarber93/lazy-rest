@@ -1,14 +1,14 @@
 import {container, singleton} from 'tsyringe'
 import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
-import {OpenAiLlm} from '../providers/openai'
+import {OpenAiProvider} from '../providers/openai'
 import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
 import {ApiCallPlan, HttpRequestPlan} from './models'
 
 @singleton()
 export class CallDetailer {
-  private openAiLlm: OpenAiLlm = container.resolve(OpenAiLlm)
+  private openAiLlm: OpenAiProvider = container.resolve(OpenAiProvider)
   private agentFactory = container.resolve(ExecutorFactory)
   
   async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan, oasSpec: OpenAPI.Document[], plan: ApiCallPlan) {

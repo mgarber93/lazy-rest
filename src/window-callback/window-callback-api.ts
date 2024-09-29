@@ -14,8 +14,10 @@ export const channelAllowList: TWindowSenderChannel[] = [
   'appendContentDelta',
   'loadAllOas',
   'appendContent',
+  'getOas',
   'getConversation',
   'getPlan',
+  'getProviderConfig',
 ]
 
 /**
