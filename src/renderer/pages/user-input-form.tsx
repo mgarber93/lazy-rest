@@ -8,7 +8,11 @@ import {Field, Input, Select} from '@headlessui/react'
 import clsx from 'clsx'
 import {cardEffect} from '../wrapper/card'
 
-export function UserInputForm() {
+interface UserInputFormProps {
+  disabled?: any
+}
+
+export function UserInputForm({disabled}: UserInputFormProps) {
   const lazyRest = "REST"
   const conversation = useCurrentConversation()
   const dispatch = useAppDispatch()
@@ -64,20 +68,27 @@ export function UserInputForm() {
     <Input
       className={clsx(
         cardEffect,
-        'leading-relaxed text-xl flex bg-neutral-50/90 shadow-2xl dark:shadow-neutral-800 dark:hover:shadow-black/55 border-0 w-full mt-auto',
+        'leading-relaxed text-xl flex bg-neutral-50/90 dark:shadow-neutral-800 dark:hover:shadow-black/55 border-0 w-full mt-auto',
+        "shadow-2xl",
       )}
       onKeyUpCapture={handleKeyPress}
       value={promptMessage}
       onChange={handleOnChange}
+      disabled={disabled}
     >
     </Input>
-    
+
     <Select
       name={"responder"}
       aria-label={"responder"}
-      className={clsx(cardEffect, "leading-relaxed text flex bg-neutral-50/90 shadow-2xl dark:shadow-none z-1 border")}
+      className={clsx(
+        cardEffect,
+        "leading-relaxed text flex bg-neutral-50/90 shadow-2xl dark:shadow-none z-1 border",
+        "shadow-2xl",
+      )}
       value={conversation?.responder?.model}
       onChange={handleModelChange}
+      disabled
     >
       {
         models?.map((model) => <option value={model} key={model}>{model}</option>)

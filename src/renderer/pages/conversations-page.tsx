@@ -90,7 +90,6 @@ export function ConversationsPage() {
               )
             }
           </div>
-        
         </ScrollUserInputPageLayout>
       </div>
     </HeaderLayout>

@@ -5,6 +5,7 @@ import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
 import {AppIconButton} from './app-icon-button'
 import {PencilIcon} from '@heroicons/react/24/solid'
+import {useCurrentConversation} from '../hooks/current-conversation'
 
 export interface ISection {
   id: string
@@ -100,6 +101,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
 }) {
   const effect = "border border-transparent border-black/5 h-full"
   const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
+  const convo = useCurrentConversation()
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
       <aside className={clsx(effect,
@@ -122,7 +124,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
       <div className={clsx(
         "col-span-4 row-span-1 bg-transparent",
       )}>
-        <UserInputForm/>
+        <UserInputForm disabled={convo?.content?.at(-1)?.apiCallPlan ?? false}/>
       </div>
     </Center>
   </div>
