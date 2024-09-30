@@ -1,10 +1,9 @@
-import React, {ReactNode, RefObject, useCallback} from 'react'
+import React, {ReactNode, RefObject, useCallback, useState} from 'react'
 import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
 import {PencilIcon} from '@heroicons/react/24/solid'
-import {motion} from 'framer-motion'
 
 export interface ISection {
   id: string
@@ -17,28 +16,34 @@ export function Sections({sections}: {
   sections: ISection[],
 }) {
   const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
-    
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
-  // const keys = sectionRefs.map((ref) => ref.current?.id)
+  const [clicked, setClicked] = useState<boolean>(false)
+  const handleMouseUp = useCallback(() => {
+    setClicked(false)
+  }, [setClicked])
+  const handleMouseDown = useCallback(() => {
+    setClicked(true)
+  }, [setClicked])
+
   return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
     <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
       <CardH3 className={"w-full border-b-0"}>On this page
       </CardH3>
-      <motion.div
+      <div
         className={clsx(
-          "size-7 p-1 ml-auto relative right-0 bg-gray-200 rounded-full transition-colors",
-          "hover:*:fill-white px-1",
+          "rounded-full",
+          "size-7 p-1 ml-auto relative right-0 bg-gray-200 dark:bg-gray-700  transition-colors",
+          "px-1 hover:scale-125 transition-transform cursor-pointer",
+          clicked && "hover:scale-90",
         )}
-        whileHover={{
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)",
-          scale: 1.2,
-        }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
       >
-        <PencilIcon className={"w-full h-full"}/>
-      </motion.div>
+        <PencilIcon className={"w-full h-full pointer-events-none"}/>
+      </div>
     
     </div>
     
