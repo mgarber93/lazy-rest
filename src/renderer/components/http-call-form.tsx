@@ -30,7 +30,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value
-    console.log('Selected HTTP Verb:', selectedValue)
     dispatch(updateStep({
       chatId: convo.id,
       contentId: contentId,
@@ -44,11 +43,13 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
-    console.log('Input URL:', inputValue)
     dispatch(updateStep({
       chatId: convo.id,
       contentId: contentId,
-      nextPlan: {url: inputValue} as Partial<HttpRequestPlan>,
+      nextPlan: {
+        ...step,
+        url: inputValue,
+      } as Partial<HttpRequestPlan>,
       sequenceId,
     } satisfies UpdateStepActivityPayload))
   }, [convo, contentId, sequenceId])
@@ -73,6 +74,7 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       <Input
         className={inputClass}
         defaultValue={step?.url}
+        onChange={handleInputChange}
       />
       <AppButton
         className={clsx(elements, "px-2 border-neutral-500")}
