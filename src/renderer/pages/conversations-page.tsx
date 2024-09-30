@@ -49,7 +49,6 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
-  
   const refs = Array.from({length: 256}, () => useRef(null))
   const sections = [
     ...conversation.content.map((c, i) => (
@@ -93,11 +92,10 @@ export function ConversationsPage() {
                     animate={{opacity: 1}}
                     exit={{opacity: 0, height: 0}}
                     key={content.id}
-                    transition={{damping: 10, stiffness: 1000, duration: 0.11}}
+                    transition={{damping: 10, stiffness: 750, duration: 0.11}}
                     ref={sections.at(-1)?.ref}
                   >
                   <ConversationContent content={content} key={index}/>
-                  
                   </motion.div>,
                 )
               }
