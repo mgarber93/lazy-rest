@@ -23,6 +23,7 @@ export function HeaderTab({children, to, className}: {
   return (
     <NavLink
       to={to}
+      tabIndex={-1}
       className={
         ({isActive}) => clsx(
           classes,
@@ -112,7 +113,7 @@ export function Header() {
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
         <HeaderTab to={"/config"} className={""}>
-          <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem] mr-[0.25rem]"/>
+          <Cog6ToothIcon tabIndex={-1} aria-hidden="true" className="h-[1.25rem] w-[1.25rem] mr-[0.25rem]"/>
         </HeaderTab>
         <div className={clsx('overflow-scroll flex flex-row w-full h-full gap-1')}>
           {chats.map((chat) => (
