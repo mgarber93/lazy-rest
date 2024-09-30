@@ -37,7 +37,6 @@ export function QueryParameterForm({step}: { step?: Partial<HttpRequestPlan> }) 
   </div>
 }
 
-
 export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan> }) {
   const tabs = [
     {
@@ -57,9 +56,9 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     },
   ]
   return (
-    <TabGroup className={"flex w-full flex-col bg-white/25 rounded-3xl mb-1 mt-2"}>
+    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-black/25 rounded-3xl mb-1 mt-2"}>
       <TabList
-        className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15">
+        className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
         {tabs.map(({name}) => (
           <Tab
             key={name}
@@ -74,19 +73,19 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         ))}
       </TabList>
       <TabPanels className="mt-3">
-        <TabPanel key={'Params'} className="rounded-xl bg-white/5 p-3">
+        <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           <QueryParameterForm step={step}/>
         </TabPanel>
-        <TabPanel key={'Auth'} className="rounded-xl bg-white/5 p-3">
+        <TabPanel key={'Auth'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           Auth
         </TabPanel>
-        <TabPanel key={'Headers'} className="rounded-xl bg-white/5 p-3">
+        <TabPanel key={'Headers'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           Headers
         </TabPanel>
-        <TabPanel key={'Body'} className="rounded-xl bg-white/5 p-3">
+        <TabPanel key={'Body'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           Body
         </TabPanel>
-        <TabPanel key={'Responses'} className="rounded-xl bg-white/5 p-3">
+        <TabPanel key={'Responses'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           Body
         </TabPanel>
       </TabPanels>
