@@ -1,8 +1,9 @@
-import React, {ReactNode, RefObject, useCallback, useState} from 'react'
+import React, {ReactNode, RefObject, useCallback} from 'react'
 import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
+import {AppIconButton} from './app-icon-button'
 import {PencilIcon} from '@heroicons/react/24/solid'
 
 export interface ISection {
@@ -20,30 +21,14 @@ export function Sections({sections}: {
     // @ts-ignore
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
-  const [clicked, setClicked] = useState<boolean>(false)
-  const handleMouseUp = useCallback(() => {
-    setClicked(false)
-  }, [setClicked])
-  const handleMouseDown = useCallback(() => {
-    setClicked(true)
-  }, [setClicked])
   
   return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
     <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
       <CardH3 className={"w-full border-b-0"}>On this page
       </CardH3>
-      <div
-        className={clsx(
-          "rounded-full",
-          "size-7 p-1 ml-auto relative right-0 bg-gray-200 dark:bg-black/50 transition-colors",
-          "px-1 hover:scale-125 transition-transform cursor-pointer",
-          clicked && "hover:scale-90",
-        )}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-      >
+      <AppIconButton>
         <PencilIcon className={"w-full h-full dark:fill-zinc-200 hover:fill pointer-events-none"}/>
-      </div>
+      </AppIconButton>
     </div>
     <ul>
       {
