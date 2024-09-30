@@ -76,29 +76,28 @@ export function ScrollUserInputPageLayout({sectionRefs, children}: {
   const effect = "border border-transparent border-black/5 h-full"
   const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
-    <Center className={"grid-rows-2"}>
-      <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)] row-span-2")}>
-        <aside className={clsx(effect,
-          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-          background,
-        )}>
-          <Sections sectionRefs={sectionRefs}/>
-        </aside>
-      </div>
+    <Center className={"lg:col-span-1 "}>
+      <aside className={clsx(effect,
+        "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+        background,
+        "row-span-2 col-span-2 lg:col-span-1",
+      )}>
+        <Sections sectionRefs={sectionRefs}/>
+      </aside>
       <div className={clsx(
-        "col-span-4 top-4 rounded-2xl  row-span-2",
+        "col-span-4 top-4 rounded-2xl",
         "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
         background,
         effect,
+        "row-span-1 col-span-4",
+        "p-4",
       )}>
-        <div className={"p-4"}>
-          {children}
-        </div>
-        <div>
-          <UserInputForm/>
-        </div>
+        {children}
       </div>
-      <div className="col-span-1 lg:col-span-0">
+      <div className={clsx(
+        "col-span-4 row-span-1",
+      )} ref={sectionRefs['New Prompt']}>
+        <UserInputForm/>
       </div>
     </Center>
   </div>

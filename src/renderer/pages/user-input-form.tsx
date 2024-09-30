@@ -60,7 +60,7 @@ export function UserInputForm() {
     }
   }, [conversation])
   
-  return <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto pt-4"}>
+  return <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>
     <Input
       className={clsx(
         cardEffect,

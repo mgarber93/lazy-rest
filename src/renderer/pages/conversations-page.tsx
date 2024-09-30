@@ -8,7 +8,6 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
-import {UserInputForm} from './user-input-form'
 import {CardSection} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
@@ -80,10 +79,7 @@ export function ConversationsPage() {
               )
             }
           </div>
-          <div className={clsx(
-          )} ref={sectionRefs['New Prompt']}>
-            <UserInputForm/>
-          </div>
+        
         </ScrollUserInputPageLayout>
       </div>
     </HeaderLayout>
