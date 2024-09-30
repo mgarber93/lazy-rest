@@ -1,7 +1,7 @@
-import React, {MutableRefObject, useEffect, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
-import {ScrollPageLayout} from '../layouts/scroll-container'
+import {ISection, ScrollPageLayout} from '../layouts/scroll-container'
 import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
 import {CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
@@ -10,13 +10,33 @@ import {useAppDispatch, useAppSelector} from '../features/store'
 export function SettingsPage() {
   const dispatch = useAppDispatch()
   const apis = useAppSelector(state => state.tools.api)
-  const sectionRefs = {
-    Ollama: useRef<HTMLDivElement>(null),
-    OpenAi: useRef<HTMLDivElement>(null),
-    BedRock: useRef<HTMLDivElement>(null),
-    ApiSpecifications: useRef<HTMLDivElement>(null),
-  } as Record<string, MutableRefObject<HTMLDivElement>>
-  const keys = Object.keys(sectionRefs)
+  const Ollama = useRef<HTMLDivElement>(null)
+  const OpenAi = useRef<HTMLDivElement>(null)
+  const BedRock = useRef<HTMLDivElement>(null)
+  const ApiSpecifications = useRef<HTMLDivElement>(null)
+  const configSections = [
+    {
+      ref: Ollama,
+      id: "ollama",
+      label: "Ollama",
+    },
+    {
+      ref: OpenAi,
+      id: "openai",
+      label: "Open AI",
+    },
+    {
+      ref: BedRock,
+      id: "bedrock",
+      label: "AWS Bed Rock",
+    },
+    {
+      ref: ApiSpecifications,
+      id: "apispecifications",
+      label: "Api Specifications",
+    },
+  ] satisfies ISection[]
+  
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
@@ -24,41 +44,41 @@ export function SettingsPage() {
   return (
     <HeaderLayout>
       <div className="w-full h-full">
-        <ScrollPageLayout sectionRefs={sectionRefs}>
-            <div ref={sectionRefs.Ollama} id={keys[1]} className={"min-h-[20rem]"}>
-              <CardH2>Ollama</CardH2>
-              <div className="py-4">
-                <OllamaForm/>
-              </div>
+        <ScrollPageLayout sections={configSections}>
+          <div ref={Ollama} className={"min-h-[20rem]"}>
+            <CardH2>Ollama</CardH2>
+            <div className="py-4">
+              <OllamaForm/>
             </div>
+          </div>
           
-          <div ref={sectionRefs.OpenAi} id={keys[1]} className={"min-h-[20rem]"}>
-              <CardH2>Open AI</CardH2>
-              <div className={"py-4"}>
-                <OpenAiForm/>
-              </div>
+          <div ref={OpenAi} className={"min-h-[20rem]"}>
+            <CardH2>Open AI</CardH2>
+            <div className={"py-4"}>
+              <OpenAiForm/>
             </div>
+          </div>
           
-          <div ref={sectionRefs.BedRock} id={keys[2]} className={"min-h-[20rem]"}>
-              <CardH2>AWS Bed Rock</CardH2>
-              <div>todo</div>
-            </div>
+          <div ref={BedRock} className={"min-h-[20rem]"}>
+            <CardH2>AWS Bed Rock</CardH2>
+            <div>todo</div>
+          </div>
           
-          <div ref={sectionRefs.ApiSpecifications} id={keys[0]} className={""}>
-              <CardH2>Api Specifications</CardH2>
+          <div ref={ApiSpecifications} className={""}>
+            <CardH2>Api Specifications</CardH2>
+          </div>
+          <CardSection>
+            {Object.keys(apis).length && <CardH3>Existing</CardH3>}
+            <div className={"flex flex-col"}>
+              {
+                Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+              }
             </div>
-            <CardSection>
-              {Object.keys(apis).length && <CardH3>Existing</CardH3>}
-              <div className={"flex flex-col"}>
-                {
-                  Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
-                }
-              </div>
-            </CardSection>
-            <CardSection>
-              <CardH3>Add new</CardH3>
-              <ApiForm/>
-            </CardSection>
+          </CardSection>
+          <CardSection>
+            <CardH3>Add new</CardH3>
+            <ApiForm/>
+          </CardSection>
         </ScrollPageLayout>
       </div>
     </HeaderLayout>

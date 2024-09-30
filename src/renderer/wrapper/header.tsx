@@ -18,11 +18,12 @@ export function HeaderTab({children, to, className}: {
   className?: string
 }) {
   const classes = `flex rounded no-drag bg-white h-full items-center pl-[0.5rem] pr-[0.25rem] text-xs font-semibold`
-  const borderActive = `border border-zinc-500 dark:border-zinc-700`
-  const border = `border border-transparent hover:border-zinc-500 hover:dark:border-zinc-700`
+  const borderActive = `border border-neutral-500 dark:border-neutral-700`
+  const border = `border border-transparent hover:border-neutral-500 hover:dark:border-neutral-700`
   return (
     <NavLink
       to={to}
+      tabIndex={-1}
       className={
         ({isActive}) => clsx(
           classes,
@@ -30,9 +31,9 @@ export function HeaderTab({children, to, className}: {
           isActive && clsx(
             borderActive,
             "drop-shadow",
-            "bg-white hover:bg-white dark:bg-zinc-800 hover:dark:bg-zinc-800 dark:text-white",
+            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
           ),
-          !isActive && clsx("bg-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:bg-zinc-900"),
+          !isActive && clsx("bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
           className,
         )}>
       {children}
@@ -103,16 +104,25 @@ export function Header() {
       handleRemoveChat(chat.id)
     },
   )
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.metaKey && event.key === '.'
+    },
+    (event: KeyboardEvent) => {
+      navigate('/config')
+    },
+  )
   return (
     <header
       className={clsx(
         transparent,
-        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-zinc-300 dark:border-b-zinc-700 z-1 pb-1",
-        "bg-zinc-200/50 dark:bg-zinc-950 pt-[3px] pb-[3px]",
+        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-neutral-300 dark:border-b-neutral-700 z-1 pb-1",
+        "bg-neutral-200/50 dark:bg-neutral-950 pt-[3px] pb-[3px]",
       )}>
       <ul className="w-full h-full ml-[5rem] flex items-center overflow-scroll gap-1">
         <HeaderTab to={"/config"} className={""}>
-          <Cog6ToothIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem] mr-[0.25rem]"/>
+          <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
+                         className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
         </HeaderTab>
         <div className={clsx('overflow-scroll flex flex-row w-full h-full gap-1')}>
           {chats.map((chat) => (
@@ -124,7 +134,7 @@ export function Header() {
                 <div className="ml-auto">
                   <XMarkIcon
                     onClick={() => handleRemoveChat(chat.id)}
-                    className="h-[1.5rem] w-[1.5rem] hover:text-zinc-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
+                    className="h-[1.5rem] w-[1.5rem] hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
                   />
                 </div>
               </div>

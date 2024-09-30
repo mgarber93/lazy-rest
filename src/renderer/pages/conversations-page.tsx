@@ -1,15 +1,15 @@
-import React, {MutableRefObject, useCallback, useEffect, useRef, useState} from 'react'
+import React, {RefObject, useCallback, useEffect, useRef} from 'react'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ScrollPageLayout} from '../layouts/scroll-container'
+import {ISection, ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
-import {UserInputForm} from './user-input-form'
 import {CardSection} from '../wrapper/card'
+import {v4} from 'uuid'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -41,50 +41,57 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
           </span>
         </div>
       }
-    
     </div>
   }
 }
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
-  const [sectionRefs, setSectionRefs] = useState<Record<string, MutableRefObject<HTMLDivElement | null>>>({
-    'Query': useRef(null),
-    'Response': useRef(null),
-    'New Prompt': useRef(null),
-  })
   
-  const scrollToSection = useCallback((section: string) => {
+  const refs = Array.from({length: 256}, () => useRef(null))
+  const sections = [
+    ...conversation.content.map((c, i) => (
+      {
+        id: v4(),
+        ref: refs[i],
+        label: `${c.role}: ${c.author.padStart(20, "")}`,
+      } satisfies ISection)),
+    {
+      id: v4(),
+      ref: refs[conversation.content.length],
+      label: 'New',
+    },
+  ]
+  const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
+    
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    sectionRefs[section]?.current?.scrollIntoView({alignToTop: true})
-  }, [sectionRefs])
+    section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
+  }, [])
   
   useEffect(() => {
-    scrollToSection('New Prompt')
+    const nextSection = sections.at(-1)?.ref
+    nextSection && scrollToSection(nextSection)
   }, [conversation])
   
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
-        <ScrollPageLayout sectionRefs={sectionRefs}>
+        <ScrollUserInputPageLayout sections={sections}>
           <div className={clsx(
             "flex flex-col",
-            "border-zinc-100 dark:border-zinc-800",
+            "border-neutral-100 dark:border-neutral-800",
           )}>
             {
               conversation.content.map((content, index) =>
-                <div key={index} ref={sectionRefs[index % 2 === 0 ? 'Query' : 'Response']}>
+                <div key={index} ref={sections.at(-1)?.ref}>
                   <ConversationContent content={content} key={index}/>
                 </div>,
               )
             }
           </div>
-          <div className={clsx(
-          )} ref={sectionRefs['New Prompt']}>
-            <UserInputForm/>
-          </div>
-        </ScrollPageLayout>
+        
+        </ScrollUserInputPageLayout>
       </div>
     </HeaderLayout>
   )
