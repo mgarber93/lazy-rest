@@ -58,7 +58,9 @@ export function HttpCallForm({step, contentId, sequenceId}: {
           "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100",
         )}
         aria-label="Project status"
-        defaultValue={step?.httpVerb}>
+        defaultValue={step?.httpVerb}
+        onChange={handleSelectChange}
+      >
         <option value="GET">Get</option>
         <option value="POST">Post</option>
         <option value="PUT">Put</option>
