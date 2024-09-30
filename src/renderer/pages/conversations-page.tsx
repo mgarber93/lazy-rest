@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ScrollPageLayout} from '../layouts/scroll-container'
+import {ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {UserInputForm} from './user-input-form'
@@ -67,7 +67,7 @@ export function ConversationsPage() {
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
-        <ScrollPageLayout sectionRefs={sectionRefs}>
+        <ScrollUserInputPageLayout sectionRefs={sectionRefs}>
           <div className={clsx(
             "flex flex-col",
             "border-zinc-100 dark:border-zinc-800",
@@ -84,7 +84,7 @@ export function ConversationsPage() {
           )} ref={sectionRefs['New Prompt']}>
             <UserInputForm/>
           </div>
-        </ScrollPageLayout>
+        </ScrollUserInputPageLayout>
       </div>
     </HeaderLayout>
   )
