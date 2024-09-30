@@ -41,7 +41,7 @@ export function Sections({sections}: {
     </AppHorizontalChip>
     <ul className={"flex flex-col gap-1"}>
       {
-        sections.map((s) => (
+        sections?.map((s) => (
           <li key={s.id}>
             <a
               href={`#${s}`}
