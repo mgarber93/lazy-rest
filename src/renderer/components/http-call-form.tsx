@@ -8,12 +8,6 @@ import {HttpRequestPlan} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 
-const elements = `border rounded-xl bg-transparent border-neutral-700`
-const inputClass = clsx(
-  elements,
-  'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
-  'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-)
 
 export function HttpCallForm({step, contentId, sequenceId}: {
   step?: Partial<HttpRequestPlan>,
@@ -21,6 +15,11 @@ export function HttpCallForm({step, contentId, sequenceId}: {
   sequenceId: string
 }) {
   const elements = `border rounded-xl bg-transparent border-neutral-700`
+  const inputClass = clsx(
+    elements,
+    'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
+    'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
+  )
   const convo = useCurrentConversation()
   const dispatch = useAppDispatch()
   const handleSendClick = useCallback(() => {

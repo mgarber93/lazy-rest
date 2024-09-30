@@ -57,9 +57,9 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     },
   ]
   return (
-    <TabGroup className={"flex w-full flex-col bg-white/25 rounded"}>
+    <TabGroup className={"flex w-full flex-col bg-white/25 rounded-3xl mb-1 mt-2"}>
       <TabList
-        className="flex gap-4 content-around rounded-t w-full justify-center items-center justify-items-center content-center">
+        className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15">
         {tabs.map(({name}) => (
           <Tab
             key={name}
