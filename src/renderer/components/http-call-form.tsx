@@ -8,12 +8,13 @@ import {HttpRequestPlan} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 
-
-export function HttpCallForm({step, contentId, sequenceId}: {
+export interface HttpCallFormProps {
   step?: Partial<HttpRequestPlan>,
   contentId: string,
-  sequenceId: string
-}) {
+  sequenceId: number
+}
+
+export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   const elements = `border rounded-xl bg-transparent border-neutral-700`
   const inputClass = clsx(
     elements,
@@ -33,8 +34,11 @@ export function HttpCallForm({step, contentId, sequenceId}: {
     dispatch(updateStep({
       chatId: convo.id,
       contentId: contentId,
-      nextActivity: {httpVerb: selectedValue} as Partial<HttpRequestPlan>,
-      stepId: sequenceId,
+      nextPlan: {
+        ...step,
+        httpVerb: selectedValue,
+      } as Partial<HttpRequestPlan>,
+      sequenceId,
     } satisfies UpdateStepActivityPayload))
   }, [convo])
   
@@ -44,8 +48,8 @@ export function HttpCallForm({step, contentId, sequenceId}: {
     dispatch(updateStep({
       chatId: convo.id,
       contentId: contentId,
-      nextActivity: {url: inputValue} as Partial<HttpRequestPlan>,
-      stepId: sequenceId,
+      nextPlan: {url: inputValue} as Partial<HttpRequestPlan>,
+      sequenceId,
     } satisfies UpdateStepActivityPayload))
   }, [convo, contentId, sequenceId])
   

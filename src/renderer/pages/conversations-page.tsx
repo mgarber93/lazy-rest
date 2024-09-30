@@ -12,10 +12,9 @@ import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {CardSection} from '../wrapper/card'
 
-
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
-    return <FeedContent/>
+    return <FeedContent apiCallPlan={content.apiCallPlan}/>
   } else {
     return <div
       className={clsx(

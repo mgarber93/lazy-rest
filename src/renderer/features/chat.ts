@@ -30,8 +30,8 @@ export const streamResponse = createAsyncThunk(
 export interface UpdateStepActivityPayload {
   chatId: string,
   contentId: string,
-  stepId: string,
-  nextActivity: Partial<HttpRequestPlan>
+  sequenceId: number,
+  nextPlan: Partial<HttpRequestPlan>
 }
 
 export const chatsSlice = createSlice({
@@ -104,22 +104,20 @@ export const chatsSlice = createSlice({
       foundChat.responder = responder
     },
     updateStep: (state, action: PayloadAction<UpdateStepActivityPayload>) => {
-      const chat = state.find(chat => chat.id === action.payload.chatId)
+      const {chatId, contentId, sequenceId} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
       if (!chat) {
         console.warn('no matching chat found when updating step')
         return
       }
-      const content = chat.content.find(c => c.id === action.payload.contentId)
+      const content = chat.content.find(c => c.id === contentId)
       if (!content) {
         console.warn('no matching content found when updating step')
         return
       }
-      const stepIndex = content.apiCallPlan?.steps.findIndex(s => s.id === action.payload.stepId)
-      if (stepIndex === undefined || stepIndex < 0) {
-        console.warn('no matching step found when updating step')
-        return
-      }
-      Object.assign(content.apiCallPlan?.steps[stepIndex].step ?? {}, action.payload.nextActivity)
+      const sequence = content.apiCallPlan?.steps[sequenceId]
+      content.apiCallPlan ??= {steps: []}
+      content.apiCallPlan.steps[sequenceId].step = Object.assign(sequence ?? {}, action.payload.nextPlan)
     },
   },
 })

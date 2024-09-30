@@ -4,10 +4,15 @@ import {ChevronUpIcon} from '@heroicons/react/24/outline'
 import {motion} from 'framer-motion'
 import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
-import {mockSequence, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {ApiCallPlan, mockSequence, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
 
-export function HttpCallCard({activity, index}: { activity: SequenceActivity, index?: number }) {
+export function HttpCallCard({activity, index}: {
+  activity: SequenceActivity,
+  index: number,
+  apiCallPlan: ApiCallPlan
+}) {
   const [isOpen, setIsOpen] = useState(activity.progressStage === ProgressStage.active)
+  
   const handleToggle = useCallback(() => {
     setIsOpen(isOpen => !isOpen)
   }, [isOpen, setIsOpen])
@@ -32,16 +37,20 @@ export function HttpCallCard({activity, index}: { activity: SequenceActivity, in
       transition={{duration: 0.2}}
       style={{overflow: 'hidden'}}
     >
-      <HttpCallForm step={activity.step} contentId={activity.id} sequenceId={activity.id}/>
+      <HttpCallForm step={activity.step} contentId={activity.id} sequenceId={index}/>
     </motion.div>
   </CardSection>
 }
 
-export function FeedContent() {
+export interface FeedContentProps {
+  apiCallPlan: ApiCallPlan
+}
+
+export function FeedContent({apiCallPlan}: FeedContentProps) {
   return (
     <div className={"flex flex-col gap-2"}>
       {mockSequence.map((activity, index) => (
-        <HttpCallCard activity={activity} index={index} key={activity.id}/>),
+        <HttpCallCard apiCallPlan={apiCallPlan} activity={activity} index={index} key={activity.id}/>),
       )}
     </div>
   )
