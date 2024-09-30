@@ -14,7 +14,7 @@ import {CardSection} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
-    return <FeedContent apiCallPlan={content.apiCallPlan}/>
+    return <FeedContent contentId={content.id} apiCallPlan={content.apiCallPlan}/>
   } else {
     return <div
       className={clsx(

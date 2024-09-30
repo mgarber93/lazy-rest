@@ -3,7 +3,8 @@ import {AuthoredContent, ContentDelta} from '../../models/content'
 import {Conversation, createConversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
-import {HttpRequestPlan} from '../../models/api-call-plan'
+import {HttpRequestPlan, ProgressStage} from '../../models/api-call-plan'
+import {v4} from 'uuid'
 
 const name = 'chats'
 
@@ -104,7 +105,7 @@ export const chatsSlice = createSlice({
       foundChat.responder = responder
     },
     updateStep: (state, action: PayloadAction<UpdateStepActivityPayload>) => {
-      const {chatId, contentId, sequenceId} = action.payload
+      const {chatId, contentId, sequenceId, nextPlan} = action.payload
       const chat = state.find(chat => chat.id === chatId)
       if (!chat) {
         console.warn('no matching chat found when updating step')
@@ -115,9 +116,15 @@ export const chatsSlice = createSlice({
         console.warn('no matching content found when updating step')
         return
       }
-      const sequence = content.apiCallPlan?.steps[sequenceId]
       content.apiCallPlan ??= {steps: []}
-      content.apiCallPlan.steps[sequenceId].step = Object.assign(sequence ?? {}, action.payload.nextPlan)
+      const {apiCallPlan} = content
+      const sequence = content.apiCallPlan?.steps[sequenceId]
+      apiCallPlan.steps[sequenceId] ??= {
+        id: v4(),
+        step: nextPlan,
+        progressStage: ProgressStage.active,
+      }
+      Object.assign(apiCallPlan.steps[sequenceId].step, action.payload.nextPlan)
     },
   },
 })

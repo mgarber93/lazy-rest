@@ -6,10 +6,18 @@ import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
 import {ApiCallPlan, mockSequence, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
 
-export function HttpCallCard({activity, index}: {
+// @todo remove when implemented
+function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
+  return arr1
+    .map((val, index) => val ?? arr2[index])
+    .concat(arr2.slice(arr1.length))
+}
+
+export function HttpCallCard({activity, index, contentId}: {
   activity: SequenceActivity,
   index: number,
-  apiCallPlan: ApiCallPlan
+  apiCallPlan: ApiCallPlan,
+  contentId: string
 }) {
   const [isOpen, setIsOpen] = useState(activity.progressStage === ProgressStage.active)
   
@@ -37,20 +45,22 @@ export function HttpCallCard({activity, index}: {
       transition={{duration: 0.2}}
       style={{overflow: 'hidden'}}
     >
-      <HttpCallForm step={activity.step} contentId={activity.id} sequenceId={index}/>
+      <HttpCallForm step={activity.step} contentId={contentId} sequenceId={index}/>
     </motion.div>
   </CardSection>
 }
 
 export interface FeedContentProps {
   apiCallPlan: ApiCallPlan
+  contentId: string
 }
 
-export function FeedContent({apiCallPlan}: FeedContentProps) {
+export function FeedContent({apiCallPlan, contentId}: FeedContentProps) {
   return (
     <div className={"flex flex-col gap-2"}>
-      {mockSequence.map((activity, index) => (
-        <HttpCallCard apiCallPlan={apiCallPlan} activity={activity} index={index} key={activity.id}/>),
+      {mergeArrays(apiCallPlan.steps, mockSequence).map((activity, index) => (
+        <HttpCallCard contentId={contentId} apiCallPlan={apiCallPlan} activity={activity} index={index}
+                      key={activity.id}/>),
       )}
     </div>
   )
