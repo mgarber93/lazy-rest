@@ -64,9 +64,9 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
           <Tab
             key={name}
             className={clsx(
-              "rounded-full py-1 px-3 text-sm/6 font-semibold",
+              "rounded-full py-1 px-3 text-sm/6 font-semibold border border-transparent",
               "bg-black/5 data-[selected]:bg-black/10 data-[hover]:bg-black/5 data-[selected]:data-[hover]:bg-black/10",
-              "focus:outline-none data-[selected]:dark:bg-white/10 data-[hover]:dark:bg-white/5 data-[selected]:data-[hover]:dark:bg-white/10 data-[focus]:outline-1 data-[focus]:dark:outline-white",
+              "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 data-[selected]:dark:border-white/25 data-[hover]:dark:bg-white/5 data-[selected]:data-[hover]:dark:bg-black/25 data-[focus]:outline-1 data-[focus]:dark:outline-white",
             )}
           >
             {name}
