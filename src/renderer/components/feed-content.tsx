@@ -110,7 +110,7 @@ const content = [
 ] as ActivityItem[]
 
 export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
-  const elements = `border rounded-xl bg-transparent border-zinc-700`
+  const elements = `border rounded-xl bg-transparent border-neutral-700`
   const inputClass = clsx(
     elements,
     'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
@@ -132,7 +132,7 @@ export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
         className={inputClass}
         defaultValue={step?.url}
       />
-      <AppButton className={clsx(elements, "px-2 border-zinc-500")}
+      <AppButton className={clsx(elements, "px-2 border-neutral-500")}
                  onClick={() => console.log(step)}>Send</AppButton>
     </div>
     {

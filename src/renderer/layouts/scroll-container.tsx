@@ -36,7 +36,7 @@ export function Sections({sections}: {
       <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
       <AppIconButton>
-        <PencilIcon className={"w-full h-full dark:fill-zinc-200 hover:fill pointer-events-none"}/>
+        <PencilIcon className={"w-full h-full dark:fill-neutral-200 hover:fill pointer-events-none"}/>
       </AppIconButton>
     </AppHorizontalChip>
     <ul className={"flex flex-col gap-1"}>
@@ -66,7 +66,7 @@ export function ScrollPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
+  const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
@@ -98,7 +98,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
+  const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
       <aside className={clsx(effect,
