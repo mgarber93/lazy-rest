@@ -3,32 +3,33 @@ import clsx from 'clsx'
 import {MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
 import {HttpRequestPlan} from '../../models/api-call-plan'
 
-const elements = `border rounded-xl bg-transparent border-neutral-700`
+const elements = `border rounded-xl bg-transparent border-neutral-700 dark:bg-neutral-950/5`
 const inputClass = clsx(
   elements,
   'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
   'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
 )
 
-export function KeyValueForm<T extends Record<string, any>>({data}: { data?: Partial<T> }) {
+export function KeyValueForm<T extends Record<string, never>>({data}: { data?: Partial<T> }) {
   return <div className={clsx("flex flex-col gap-y-1")}>
     {
-      Object.entries(data ?? {}).map((entry, index) => (
-        <div className={"flex flex-row gap-x-1"} key={index}>
-          <Input
-            className={inputClass}
-            placeholder="Key"
-            defaultValue={entry[0]}
-          />
-          <Input
-            className={inputClass}
-            placeholder="Value"
-            defaultValue={entry[1]}
-          />
-          <div className={"flex flex-col justify-center"}>
-            <MinusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
-          </div>
-        </div>))
+      Object.entries(data ?? {})
+        .map((entry, index) => (
+          <div className={"flex flex-row gap-x-1"} key={index}>
+            <Input
+              className={inputClass}
+              placeholder="Key"
+              defaultValue={entry[0]}
+            />
+            <Input
+              className={inputClass}
+              placeholder="Value"
+              defaultValue={entry[1]}
+            />
+            <div className={"flex flex-col justify-center"}>
+              <MinusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
+            </div>
+          </div>))
     }
     <div
       className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black/15 transition pl-2"}>
