@@ -14,7 +14,7 @@ export function QueryParameterForm({step}: { step?: Partial<HttpRequestPlan> }) 
   return <div className={clsx("flex flex-col gap-y-1")}>
     {
       Object.entries(step?.queryParams ?? {}).map((entry, index) => (
-        <div className={"flex flex-row gap-x-1 pl-2"} key={index}>
+        <div className={"flex flex-row gap-x-1"} key={index}>
           <Input
             className={inputClass}
             placeholder="Key"
@@ -31,8 +31,8 @@ export function QueryParameterForm({step}: { step?: Partial<HttpRequestPlan> }) 
         </div>))
     }
     <div
-      className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black py-2 px-1 transition pl-2"}>
-      <PlusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
+      className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black/15 transition pl-2"}>
+      <PlusCircleIcon className={clsx("h-7 w-7 ml-auto cursor-pointer mr-[-1px]")}/>
     </div>
   </div>
 }
@@ -72,7 +72,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
           </Tab>
         ))}
       </TabList>
-      <TabPanels className="mt-3">
+      <TabPanels className="">
         <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           <QueryParameterForm step={step}/>
         </TabPanel>
