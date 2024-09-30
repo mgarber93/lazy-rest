@@ -42,18 +42,18 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     {
       name: 'Params',
     },
-    {
-      name: 'Auth',
-    },
+    // {
+    //   name: 'Auth',
+    // },
     {
       name: 'Headers',
     },
     {
       name: 'Body',
     },
-    {
-      name: 'Responses',
-    },
+    // {
+    //   name: 'Responses',
+    // },
   ]
   return (
     <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded-3xl mb-1 mt-2"}>
@@ -76,17 +76,11 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
           <KeyValueForm data={step?.queryParams ?? {}}/>
         </TabPanel>
-        <TabPanel key={'Auth'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
-          Auth
-        </TabPanel>
         <TabPanel key={'Headers'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
-          Headers
+          <KeyValueForm data={step?.headers ?? {}}/>
         </TabPanel>
         <TabPanel key={'Body'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
-          Body
-        </TabPanel>
-        <TabPanel key={'Responses'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
-          Body
+          <KeyValueForm data={step?.body ?? {}}/>
         </TabPanel>
       </TabPanels>
     </TabGroup>

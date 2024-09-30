@@ -13,7 +13,7 @@ export function AppButton({children, onClick, disabled, className}: {
   const hoverFlip = "hover:dark:bg-white/80 hover:bg-black hover:text-white hover:dark:border-black hover:dark:text-black"
   return (
     <motion.button
-      whileTap={{scale: 0.85}}
+      whileTap={{scale: 0.95}}
       transition={{duration: 0.001}}
       className={clsx(
         button,

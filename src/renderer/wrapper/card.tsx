@@ -35,7 +35,7 @@ export function CardH3({children, className}: { children: ReactNode, className?:
 
 export function CardSection({children, className}: { children: ReactNode, className?: string }) {
   return <div
-    className={clsx("bg-neutral-500/5 dark:bg-neutral-500/15 px-2 py-1 rounded-3xl flex flex-col gap-2", className)}>
+    className={clsx("bg-neutral-500/5 dark:bg-neutral-950/15 dark:border-white/5 border px-2 py-1 rounded-3xl flex flex-col gap-2", className)}>
     {children}
   </div>
 }
