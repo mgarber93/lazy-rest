@@ -1,34 +1,60 @@
-import React, {MutableRefObject, ReactNode, useCallback} from 'react'
+import React, {ReactNode, RefObject, useCallback} from 'react'
 import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
+import {PencilIcon} from '@heroicons/react/24/solid'
+import {motion} from 'framer-motion'
+
+export interface ISection {
+  id: string
+  ref: RefObject<HTMLDivElement | null>
+  label: string
+}
 
 
-export function Sections({sectionRefs}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement | null>>,
+export function Sections({sections}: {
+  sections: ISection[],
 }) {
-  const scrollToSection = useCallback((section: string) => {
+  const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
+    
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    sectionRefs[section]?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
-  }, [sectionRefs])
-  const keys = Object.keys(sectionRefs)
-  return keys.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
-    <CardH3>On this page</CardH3>
+    section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
+  }, [])
+  // const keys = sectionRefs.map((ref) => ref.current?.id)
+  return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
+    <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
+      <CardH3 className={"w-full border-b-0"}>On this page
+      </CardH3>
+      <motion.div
+        className={clsx(
+          "size-7 p-1 ml-auto relative right-0 bg-gray-200 rounded-full transition-colors",
+          "hover:*:fill-white px-1",
+        )}
+        whileHover={{
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)",
+          scale: 1.2,
+        }}
+      >
+        <PencilIcon className={"w-full h-full"}/>
+      </motion.div>
+    
+    </div>
+    
     <ul>
       {
-        Object.keys(sectionRefs).map((sectionKey) => (
-          <li key={sectionKey}>
+        sections.map((s) => (
+          <li key={s.id}>
             <a
-              href={`#${sectionKey}`}
+              href={`#${s}`}
               onClick={(e) => {
                 e.preventDefault()
-                scrollToSection(sectionKey)
+                scrollToSection(s.ref)
               }}
-              className={"text-sm text-nowrap text-ellipsis"}
+              className={"text-sm text-nowrap text-ellipsis whitespace-pre"}
             >
-              {sectionKey.replace(/([A-Z])/g, " $1".toLowerCase())}
+              {s.label}
             </a>
           </li>
         ))
@@ -37,8 +63,8 @@ export function Sections({sectionRefs}: {
   </div> : <></>
 }
 
-export function ScrollPageLayout({sectionRefs, children}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement | null>>,
+export function ScrollPageLayout({sections, children}: {
+  sections: ISection[],
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
@@ -50,7 +76,7 @@ export function ScrollPageLayout({sectionRefs, children}: {
           "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
           background,
         )}>
-          <Sections sectionRefs={sectionRefs}/>
+          <Sections sections={sections}/>
         </aside>
       </div>
       <div className={clsx(
@@ -69,8 +95,8 @@ export function ScrollPageLayout({sectionRefs, children}: {
   </div>
 }
 
-export function ScrollUserInputPageLayout({sectionRefs, children}: {
-  sectionRefs: Record<string, MutableRefObject<HTMLDivElement | null>>,
+export function ScrollUserInputPageLayout({sections, children}: {
+  sections: ISection[],
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
@@ -82,7 +108,7 @@ export function ScrollUserInputPageLayout({sectionRefs, children}: {
         background,
         "row-span-2 col-span-2 lg:col-span-1",
       )}>
-        <Sections sectionRefs={sectionRefs}/>
+        <Sections sections={sections}/>
       </aside>
       <div className={clsx(
         "col-span-4 top-4 rounded-2xl",
@@ -96,7 +122,7 @@ export function ScrollUserInputPageLayout({sectionRefs, children}: {
       </div>
       <div className={clsx(
         "col-span-4 row-span-1",
-      )} ref={sectionRefs['New Prompt']}>
+      )}>
         <UserInputForm/>
       </div>
     </Center>
