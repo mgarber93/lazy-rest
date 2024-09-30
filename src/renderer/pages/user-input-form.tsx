@@ -88,7 +88,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       )}
       value={conversation?.responder?.model}
       onChange={handleModelChange}
-      disabled
+      disabled={disabled}
     >
       {
         models?.map((model) => <option value={model} key={model}>{model}</option>)

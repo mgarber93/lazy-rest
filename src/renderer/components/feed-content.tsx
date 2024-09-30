@@ -1,12 +1,10 @@
 import clsx from 'clsx'
 import React, {useCallback, useState} from 'react'
-import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/24/outline'
+import {ChevronUpIcon} from '@heroicons/react/24/outline'
+import {motion} from 'framer-motion'
 import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
 import {mockSequence, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
-
-
-import {motion} from 'framer-motion'
 
 export function HttpCallCard({activity, index}: { activity: SequenceActivity, index?: number }) {
   const [isOpen, setIsOpen] = useState(activity.progressStage === ProgressStage.active)
@@ -18,8 +16,14 @@ export function HttpCallCard({activity, index}: { activity: SequenceActivity, in
     <div className={"h-full rounded-xl p-2"}>
       <div className={"flex flex-row gap-2"}>
         {(index ?? 0) + 1}) {activity.step.name}
-        {isOpen && <ChevronUpIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>}
-        {!isOpen && <ChevronDownIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>}
+        <motion.div
+          initial={{rotate: 0}}
+          animate={{rotate: isOpen ? -180 : 0}}
+          transition={{duration: 0.2}}
+          className={clsx("ml-auto")}
+        >
+          <ChevronUpIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>
+        </motion.div>
       </div>
     </div>
     <motion.div

@@ -2,6 +2,8 @@ import React, {RefObject, useCallback, useEffect, useRef} from 'react'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import {v4} from 'uuid'
+import {AnimatePresence, motion} from "framer-motion"
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
@@ -9,7 +11,7 @@ import {ISection, ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
 import {CardSection} from '../wrapper/card'
-import {v4} from 'uuid'
+
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -71,7 +73,9 @@ export function ConversationsPage() {
   
   useEffect(() => {
     const nextSection = sections.at(-1)?.ref
-    nextSection && scrollToSection(nextSection)
+    if (nextSection) {
+      setTimeout(() => nextSection && scrollToSection(nextSection), 110)
+    }
   }, [conversation])
   
   return (
@@ -82,13 +86,22 @@ export function ConversationsPage() {
             "flex flex-col",
             "border-neutral-100 dark:border-neutral-800",
           )}>
-            {
-              conversation.content.map((content, index) =>
-                <div key={index} ref={sections.at(-1)?.ref}>
+            <AnimatePresence>
+              {
+                conversation.content.map((content, index) => <motion.div
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0, height: 0}}
+                    key={content.id}
+                    transition={{damping: 10, stiffness: 1000, duration: 0.11}}
+                    ref={sections.at(-1)?.ref}
+                  >
                   <ConversationContent content={content} key={index}/>
-                </div>,
-              )
-            }
+                  
+                  </motion.div>,
+                )
+              }
+            </AnimatePresence>
           </div>
         </ScrollUserInputPageLayout>
       </div>

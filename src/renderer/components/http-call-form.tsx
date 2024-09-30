@@ -48,8 +48,8 @@ export function HttpCallForm({step, contentId, sequenceId}: {
       stepId: sequenceId,
     } satisfies UpdateStepActivityPayload))
   }, [convo, contentId, sequenceId])
-
-  return <div className={clsx('flex flex-col gap-1')}>
+  
+  return <div className={clsx('flex flex-col gap-1 mt-1')}>
     <div className={"flex flex-row gap-2"}>
       <Select
         name="status"
