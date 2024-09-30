@@ -3,6 +3,7 @@ import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
+import {AppIconButton} from './app-icon-button'
 import {PencilIcon} from '@heroicons/react/24/solid'
 import {motion} from 'framer-motion'
 
@@ -12,6 +13,21 @@ export interface ISection {
   label: string
 }
 
+export interface ISection {
+  id: string
+  ref: RefObject<HTMLDivElement | null>
+  label: string
+}
+
+export function AppHorizontalChip({children}: { children: React.ReactNode }) {
+  return <div
+    className={clsx(
+      "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-black/25 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
+      "select-none",
+    )}>
+    {children}
+  </div>
+}
 
 export function Sections({sections}: {
   sections: ISection[],
@@ -22,27 +38,16 @@ export function Sections({sections}: {
     // @ts-ignore
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
-  // const keys = sectionRefs.map((ref) => ref.current?.id)
+  
   return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
-    <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
-      <CardH3 className={"w-full border-b-0"}>On this page
+    <AppHorizontalChip>
+      <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
-      <motion.div
-        className={clsx(
-          "size-7 p-1 ml-auto relative right-0 bg-gray-200 rounded-full transition-colors",
-          "hover:*:fill-white px-1",
-        )}
-        whileHover={{
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)",
-          scale: 1.2,
-        }}
-      >
-        <PencilIcon className={"w-full h-full"}/>
-      </motion.div>
-    
-    </div>
-    
-    <ul>
+      <AppIconButton>
+        <PencilIcon className={"w-full h-full dark:fill-neutral-200 hover:fill pointer-events-none"}/>
+      </AppIconButton>
+    </AppHorizontalChip>
+    <ul className={"flex flex-col gap-1"}>
       {
         sections.map((s) => (
           <li key={s.id}>
@@ -53,6 +58,7 @@ export function Sections({sections}: {
                 scrollToSection(s.ref)
               }}
               className={"text-sm text-nowrap text-ellipsis whitespace-pre"}
+              tabIndex={-1}
             >
               {s.label}
             </a>
@@ -68,7 +74,7 @@ export function ScrollPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
+  const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
@@ -100,7 +106,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-zinc-50/50 bg-zinc-50 dark:bg-zinc-900/[95%] shadow-xl"
+  const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
       <aside className={clsx(effect,
@@ -121,7 +127,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
         {children}
       </div>
       <div className={clsx(
-        "col-span-4 row-span-1",
+        "col-span-4 row-span-1 bg-transparent",
       )}>
         <UserInputForm/>
       </div>

@@ -41,7 +41,6 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
           </span>
         </div>
       }
-    
     </div>
   }
 }
@@ -81,7 +80,7 @@ export function ConversationsPage() {
         <ScrollUserInputPageLayout sections={sections}>
           <div className={clsx(
             "flex flex-col",
-            "border-zinc-100 dark:border-zinc-800",
+            "border-neutral-100 dark:border-neutral-800",
           )}>
             {
               conversation.content.map((content, index) =>
