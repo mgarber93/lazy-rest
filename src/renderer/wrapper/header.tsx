@@ -1,13 +1,15 @@
 import React, {ReactElement, useCallback, useState} from 'react'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {XMarkIcon} from '@heroicons/react/16/solid'
-import {NavLink} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {removeChat, startNewChat} from '../features/chat'
 import {createConversation} from '../../models/conversation'
 import {transparent} from '../utils/transparent'
 import {v4} from 'uuid'
+import {useKeyPress} from '../hooks/use-key-press'
+import {useCurrentConversation} from '../hooks/current-conversation'
 
 
 export function HeaderTab({children, to, className}: {
@@ -40,8 +42,13 @@ export function HeaderTab({children, to, className}: {
 
 export function Header() {
   const chats = useAppSelector(state => state.chats)
+  const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
   const dispatch = useAppDispatch()
+
+// Add above the Header component
+  const navigate = useNavigate()
+  
   
   // Define callback for removing a chat
   const handleRemoveChat = useCallback((chatId: string) => {
@@ -54,6 +61,28 @@ export function Header() {
     setNewChatId(v4())
   }, [dispatch, newChatId])
   
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.altKey && event.metaKey && event.key === 'ArrowRight'
+    },
+    (event: KeyboardEvent) => {
+      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? 0
+      const nextChatIndex = (currentChatIndex + 1) % chats.length
+      const nextChat = chats[nextChatIndex]
+      nextChat && navigate(`/chats/${nextChat.id}`)
+    },
+  )
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.altKey && event.metaKey && event.key === 'ArrowLeft'
+    },
+    (event: KeyboardEvent) => {
+      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? 0
+      const nextChatIndex = (currentChatIndex - 1) % chats.length
+      const nextChat = chats[nextChatIndex]
+      nextChat && navigate(`/chats/${nextChat.id}`)
+    },
+  )
   return (
     <header
       className={clsx(
