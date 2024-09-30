@@ -72,6 +72,7 @@ export function Header() {
       nextChat && navigate(`/chats/${nextChat.id}`)
     },
   )
+  
   useKeyPress(
     (event: KeyboardEvent) => {
       return event.altKey && event.metaKey && event.key === 'ArrowLeft'
@@ -81,6 +82,25 @@ export function Header() {
       const nextChatIndex = (currentChatIndex - 1) % chats.length
       const nextChat = chats[nextChatIndex]
       nextChat && navigate(`/chats/${nextChat.id}`)
+    },
+  )
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.metaKey && event.key === 't'
+    },
+    (event: KeyboardEvent) => {
+      handleStartNewChat()
+      const nextChat = chats.at(-1)
+      nextChat && navigate(`/chats/${nextChat.id}`)
+    },
+  )
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.metaKey && event.key === 'w'
+    },
+    (event: KeyboardEvent) => {
+      event.preventDefault()
+      handleRemoveChat(chat.id)
     },
   )
   return (
