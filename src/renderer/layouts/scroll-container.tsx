@@ -35,14 +35,14 @@ export function Sections({sections}: {
       <div
         className={clsx(
           "rounded-full",
-          "size-7 p-1 ml-auto relative right-0 bg-gray-200 dark:bg-gray-700  transition-colors",
+          "size-7 p-1 ml-auto relative right-0 bg-gray-200 dark:bg-black/50 transition-colors",
           "px-1 hover:scale-125 transition-transform cursor-pointer",
           clicked && "hover:scale-90",
         )}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
       >
-        <PencilIcon className={"w-full h-full pointer-events-none"}/>
+        <PencilIcon className={"w-full h-full dark:fill-zinc-200 hover:fill pointer-events-none"}/>
       </div>
     
     </div>
@@ -126,7 +126,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
         {children}
       </div>
       <div className={clsx(
-        "col-span-4 row-span-1",
+        "col-span-4 row-span-1 bg-transparent",
       )}>
         <UserInputForm/>
       </div>

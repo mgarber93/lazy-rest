@@ -41,7 +41,6 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
           </span>
         </div>
       }
-    
     </div>
   }
 }
