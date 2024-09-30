@@ -74,7 +74,7 @@ export function ConversationsPage() {
           )}>
             {
               conversation.content.map((content, index) =>
-                <div ref={sectionRefs[index % 2 === 0 ? 'Query' : 'Response']}>
+                <div key={index} ref={sectionRefs[index % 2 === 0 ? 'Query' : 'Response']}>
                   <ConversationContent content={content} key={index}/>
                 </div>,
               )
