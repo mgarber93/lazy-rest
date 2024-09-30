@@ -12,6 +12,15 @@ export interface ISection {
   label: string
 }
 
+export function AppHorizontalChip({children}: { children: React.ReactNode }) {
+  return <div
+    className={clsx(
+      "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-black/25 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
+      "select-none",
+    )}>
+    {children}
+  </div>
+}
 
 export function Sections({sections}: {
   sections: ISection[],
@@ -23,14 +32,14 @@ export function Sections({sections}: {
   }, [])
   
   return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
-    <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
-      <CardH3 className={"w-full border-b-0"}>On this page
+    <AppHorizontalChip>
+      <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
       <AppIconButton>
         <PencilIcon className={"w-full h-full dark:fill-zinc-200 hover:fill pointer-events-none"}/>
       </AppIconButton>
-    </div>
-    <ul>
+    </AppHorizontalChip>
+    <ul className={"flex flex-col gap-1"}>
       {
         sections.map((s) => (
           <li key={s.id}>
@@ -41,6 +50,7 @@ export function Sections({sections}: {
                 scrollToSection(s.ref)
               }}
               className={"text-sm text-nowrap text-ellipsis whitespace-pre"}
+              tabIndex={-1}
             >
               {s.label}
             </a>
