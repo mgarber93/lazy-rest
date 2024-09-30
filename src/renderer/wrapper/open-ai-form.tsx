@@ -6,6 +6,8 @@ import {ArrowPathIcon} from '@heroicons/react/24/outline'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {configureOpenAi, listOllamaModels, listOpenAiModels} from '../features/models'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
+import {AppIconButton} from '../layouts/app-icon-button'
+import {AppHorizontalChip} from '../layouts/scroll-container'
 
 export function OllamaForm() {
   const models = useAppSelector(state => state.models.ollamaModels) ?? []
@@ -17,10 +19,19 @@ export function OllamaForm() {
     <Fieldset>
       <div className={"flex flex-col"}>
         <button className={"flex flex-row gap-4"}>
-          <span>Loaded Models</span>
-          <ArrowPathIcon onClick={handleLoadModels}
-                         className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
-            models</ArrowPathIcon>
+          <AppHorizontalChip className={"w-full"}>
+            <span>Loaded Models</span>
+            <AppIconButton>
+              <ArrowPathIcon
+                onClick={handleLoadModels}
+                className={clsx(
+                  "max-h-6 border dark:border-transparent hover:shadow transition-shadow w-fit text-nowrap rounded"
+                )}>
+                Add models
+              </ArrowPathIcon>
+            
+            </AppIconButton>
+          </AppHorizontalChip>
         </button>
         <div className={"flex flex-col"}>
           {
