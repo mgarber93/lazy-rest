@@ -1,10 +1,9 @@
 import clsx from 'clsx'
 import React, {useCallback, useState} from 'react'
 import {v4} from 'uuid'
-import {ChevronDownIcon, ChevronUpIcon, MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
-import {Input, Select} from '@headlessui/react'
-import {AppButton} from './app-button'
-import {CardH3, CardSection} from '../wrapper/card'
+import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/24/outline'
+import {CardSection} from '../wrapper/card'
+import {HttpCallForm} from './http-call-form'
 
 export enum ActivityTypes {
   active = 'active',
@@ -109,57 +108,6 @@ const content = [
   },
 ] as ActivityItem[]
 
-export function HttpCallForm({step}: { step?: ActivityItem['step'] }) {
-  const elements = `border rounded-xl bg-transparent border-neutral-700`
-  const inputClass = clsx(
-    elements,
-    'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
-    'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-  )
-  
-  return <div className={clsx('flex flex-col gap-1')}>
-    <div className={"flex flex-row gap-2"}>
-      <Select name="status"
-              className={clsx(elements, "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100")}
-              aria-label="Project status"
-              defaultValue={step?.httpVerb?.toLowerCase()}>
-        <option value="get">Get</option>
-        <option value="post">Post</option>
-        <option value="put">Put</option>
-        <option value="delete">Delete</option>
-      </Select>
-      <Input
-        className={inputClass}
-        defaultValue={step?.url}
-      />
-      <AppButton className={clsx(elements, "px-2 border-neutral-500")}
-                 onClick={() => console.log(step)}>Send</AppButton>
-    </div>
-    {
-      Object.entries(step?.queryParams ?? {}).map((entry, index) => (
-        <div className={"flex flex-row gap-1 pl-2"} key={index}>
-        <Input
-          className={inputClass}
-          placeholder="Key"
-          defaultValue={entry[0]}
-        />
-        <Input
-          className={inputClass}
-          placeholder="Value"
-          defaultValue={entry[1]}
-        />
-        <div className={"flex flex-col justify-center"}>
-          <MinusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
-        </div>
-      </div>))
-    }
-    <div
-      className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black py-2 px-1 transition pl-2"}>
-      <PlusCircleIcon className={clsx("h-7 w-7 cursor-pointer")}/>
-    </div>
-  </div>
-}
-
 export function HttpCallCard({activity, index}: { activity: any, index?: number }) {
   const [isOpen, setIsOpen] = useState(activity.type === ActivityTypes.active)
   const handleToggle = useCallback(() => {
@@ -180,7 +128,6 @@ export function HttpCallCard({activity, index}: { activity: any, index?: number 
 export function FeedContent() {
   return (
     <div className={"flex flex-col gap-2"}>
-      <CardH3 className={"mb-2"}>Call Plan</CardH3>
       {content.map((activity, index) => (<HttpCallCard activity={activity} index={index} key={activity.id}/>))}
     </div>
   )
