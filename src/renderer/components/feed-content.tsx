@@ -179,7 +179,7 @@ export function HttpCallCard({activity, index}: { activity: any, index?: number 
 
 export function FeedContent() {
   return (
-    <div>
+    <div className={"flex flex-col gap-2"}>
       <CardH3 className={"mb-2"}>Call Plan</CardH3>
       {content.map((activity, index) => (<HttpCallCard activity={activity} index={index} key={activity.id}/>))}
     </div>

@@ -104,6 +104,14 @@ export function Header() {
       handleRemoveChat(chat.id)
     },
   )
+  useKeyPress(
+    (event: KeyboardEvent) => {
+      return event.metaKey && event.key === '.'
+    },
+    (event: KeyboardEvent) => {
+      navigate('/config')
+    },
+  )
   return (
     <header
       className={clsx(
