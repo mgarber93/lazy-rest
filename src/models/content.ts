@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
-import {ApiCallPlan} from '../main/organizations/models'
+import {ApiCallPlan} from './api-call-plan'
 
 export type Role = 'system' | 'assistant' | 'user' | 'tool'
 

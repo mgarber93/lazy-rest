@@ -1,5 +1,5 @@
 import {OpenAPI} from 'openapi-types'
-import {HttpRequestPlan} from '../organizations/models'
+import {HttpRequestPlan} from '../../models/api-call-plan'
 
 function setEndpointDescription(object: Record<string, any>, path: string, key: string, value: any) {
   if (!(path in object)) {
@@ -70,9 +70,9 @@ export function treeShake(oasSpec: OpenAPI.Document, plans: HttpRequestPlan[]) {
   const spec = {} as Record<string, any>
   for (const endpointPath in oasSpec.paths) {
     for (const plan of plans) {
-      if (fuzzyMatch(endpointPath, plan.path)) {
+      if (fuzzyMatch(endpointPath, plan.url)) {
         const matched = oasSpec.paths[endpointPath]
-        const verb = plan.method.toLowerCase()
+        const verb = plan.httpVerb.toLowerCase()
         spec[endpointPath] = {}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

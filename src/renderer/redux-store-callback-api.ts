@@ -7,7 +7,7 @@ import {ApiConfiguration, ProviderConfiguration} from '../models/api-configurati
 import {OpenAPI} from 'openapi-types'
 import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ApiCallPlan} from '../main/organizations/models'
+import {ApiCallPlan} from '../models/api-call-plan'
 
 /**
  * Ideally methods match action (KISS)

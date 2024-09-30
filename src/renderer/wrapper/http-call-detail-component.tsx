@@ -1,7 +1,7 @@
 import {Input, Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
 import clsx from 'clsx'
-import {ActivityItem} from '../components/feed-content'
 import {MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
+import {HttpRequestPlan} from '../../models/api-call-plan'
 
 const elements = `border rounded-xl bg-transparent border-neutral-700`
 const inputClass = clsx(
@@ -10,7 +10,7 @@ const inputClass = clsx(
   'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
 )
 
-export function QueryParameterForm({step}: { step?: ActivityItem['step'] }) {
+export function QueryParameterForm({step}: { step?: Partial<HttpRequestPlan> }) {
   return <div className={clsx("flex flex-col gap-y-1")}>
     {
       Object.entries(step?.queryParams ?? {}).map((entry, index) => (
@@ -38,7 +38,7 @@ export function QueryParameterForm({step}: { step?: ActivityItem['step'] }) {
 }
 
 
-export function HttpCallDetailComponent({step}: { step?: ActivityItem['step'] }) {
+export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan> }) {
   const tabs = [
     {
       name: 'Params',

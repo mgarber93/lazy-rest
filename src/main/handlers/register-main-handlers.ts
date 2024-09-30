@@ -6,7 +6,6 @@ import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {OpenAiConfigHandler} from './open-ai-config-handler'
 import {CallbackHandler} from './callback-handler'
-import {PlanProgressor} from './plan-progressor'
 
 
 /**
@@ -20,5 +19,4 @@ export function registerMainHandlers() {
   container.register<Handler<'callback'>>('callback', {useClass: CallbackHandler})
   container.register<Handler<'setOpenAiConfiguration'>>('setOpenAiConfiguration', {useClass: OpenAiConfigHandler})
   container.register<Handler<'getModels'>>('getModels', {useClass: ModelListHandle})
-  container.register<Handler<'continuePlan'>>('continuePlan', {useClass: PlanProgressor})
 }

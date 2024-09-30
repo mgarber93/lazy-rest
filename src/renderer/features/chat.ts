@@ -3,9 +3,9 @@ import {AuthoredContent, ContentDelta} from '../../models/content'
 import {Conversation, createConversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
+import {HttpRequestPlan} from '../../models/api-call-plan'
 
 const name = 'chats'
-
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
@@ -26,6 +26,13 @@ export const streamResponse = createAsyncThunk(
     await window.main.streamedChat(conversation)
   },
 )
+
+export interface UpdateStepActivityPayload {
+  chatId: string,
+  contentId: string,
+  stepId: string,
+  nextActivity: Partial<HttpRequestPlan>
+}
 
 export const chatsSlice = createSlice({
   name,
@@ -96,6 +103,24 @@ export const chatsSlice = createSlice({
       }
       foundChat.responder = responder
     },
+    updateStep: (state, action: PayloadAction<UpdateStepActivityPayload>) => {
+      const chat = state.find(chat => chat.id === action.payload.chatId)
+      if (!chat) {
+        console.warn('no matching chat found when updating step')
+        return
+      }
+      const content = chat.content.find(c => c.id === action.payload.contentId)
+      if (!content) {
+        console.warn('no matching content found when updating step')
+        return
+      }
+      const stepIndex = content.apiCallPlan?.steps.findIndex(s => s.id === action.payload.stepId)
+      if (stepIndex === undefined || stepIndex < 0) {
+        console.warn('no matching step found when updating step')
+        return
+      }
+      Object.assign(content.apiCallPlan?.steps[stepIndex].step ?? {}, action.payload.nextActivity)
+    },
   },
 })
 
@@ -107,6 +132,7 @@ export const {
   updateTitle,
   appendDelta,
   setResponder,
+  updateStep,
 } = chatsSlice.actions
 
 
