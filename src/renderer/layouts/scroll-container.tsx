@@ -27,7 +27,7 @@ export function Sections({sections}: {
   const handleMouseDown = useCallback(() => {
     setClicked(true)
   }, [setClicked])
-
+  
   return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
     <div className={"flex flex-row border-b-2 border-black/5 pb-2"}>
       <CardH3 className={"w-full border-b-0"}>On this page
@@ -44,9 +44,7 @@ export function Sections({sections}: {
       >
         <PencilIcon className={"w-full h-full dark:fill-zinc-200 hover:fill pointer-events-none"}/>
       </div>
-    
     </div>
-    
     <ul>
       {
         sections.map((s) => (
