@@ -37,9 +37,6 @@ export function SettingsPage() {
     },
   ] satisfies ISection[]
   
-  //   ApiSpecifications: useRef<HTMLDivElement>(null),
-  // } as ISection[]
-  // const keys = Object.keys(sectionRefs)
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
