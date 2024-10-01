@@ -22,16 +22,19 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     // },
   ]
   return (
-    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1 mt-2"}>
+    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"}>
       <TabList
         className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
         {tabs.map(({name}) => (
           <Tab
             key={name}
             className={clsx(
-              "rounded-full py-1 px-3 text-sm/6 font-semibold border border-transparent",
+              "rounded-xl py-1 px-3 text-sm/6 font-semibold border border-transparent dark:text-neutral-400",
               "bg-black/5 data-[selected]:bg-black/10 data-[hover]:bg-black/5 data-[selected]:data-[hover]:bg-black/10",
-              "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 data-[selected]:dark:border-white/25 data-[hover]:dark:bg-white/5 data-[selected]:data-[hover]:dark:bg-black/25 data-[focus]:outline-1 data-[focus]:dark:outline-white",
+              "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 ",
+              "data-[selected]:dark:border-white/1 5 ",
+              "data-[hover]:dark:bg-white/5 data-[selected]:data-[hover]:dark:bg-black/25 " +
+              "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:text-neutral-200",
             )}
           >
             {name}
