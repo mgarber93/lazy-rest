@@ -34,7 +34,7 @@ export function Sections({sections}: {
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
   
-  return sections.length > 0 ? <div className={"p-2 rounded m-2"}>
+  return sections.length > 0 ? <div className={"rounded p-2 mr-2 rounded-tl-none rounded-bl-none"}>
     <AppHorizontalChip>
       <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
