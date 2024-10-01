@@ -1,6 +1,6 @@
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch, useAppSelector} from '../features/store'
-import React, {ChangeEvent, KeyboardEventHandler, useCallback, useState} from 'react'
+import React, {ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
 import {createContent} from '../../models/content'
 import {appendContent, setResponder, streamResponse} from '../features/chat'
 import {Responder, TModel} from '../../models/responder'
@@ -27,7 +27,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       console.warn('log on first!')
       return
     }
-    if (e.key === 'Enter' && !e.shiftKey && value && conversation.responder) {
+    if (e.key === 'Enter' && !e.shiftKey && value) {
       e.preventDefault()
       const prompt = createContent(value, conversation.id, user?.username, 'user')
       dispatch(appendContent(prompt))
@@ -63,6 +63,31 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       }))
     }
   }, [conversation])
+  
+  useEffect(() => {
+    const model = conversation.responder?.model
+    // set model on page load if we don't have one and have options
+    if (!model && models.length > 0) {
+      // default to lazy rest when ready
+      // dispatch(setResponder({
+      //   responder: {
+      //     type: 'organization',
+      //     provider: 'openai',
+      //     model: model as TModel,
+      //   } satisfies Responder,
+      //   chatId: conversation.id,
+      // }))
+      const nextModel = [...ollamaModels, ...models].at(0) as TModel
+      console.log('nextModel', nextModel)
+      dispatch(setResponder({
+        responder: {
+          type: 'chat',
+          provider: ollamaModels.includes(nextModel) ? 'ollama' : 'openai',
+          model: nextModel,
+        } satisfies Responder,
+        chatId: conversation.id,
+      }))  }
+  }, [models, conversation])
   
   return <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>
     <Input
