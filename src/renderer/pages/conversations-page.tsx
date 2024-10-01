@@ -18,12 +18,12 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   } else {
     return <div
       className={clsx(
-        'leading-relaxed text-xl flex flex-col px-2 py-1 transition duration-300',
+        'leading-relaxed text-xl flex flex-col py-1 transition duration-300',
         content.role === "user" && "ml-auto w-fit",
       )}
     >
       {
-        content.role === "user" && <CardSection>
+        content.role === "user" && <CardSection className={"dark:bg-amber-100/[5%]"}>
               <span
                 className={clsx('flex-1')}
                 key={content.id}

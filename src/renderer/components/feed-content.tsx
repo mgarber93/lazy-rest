@@ -25,7 +25,9 @@ export function HttpCallCard({activity, index, contentId}: {
     setIsOpen(isOpen => !isOpen)
   }, [isOpen, setIsOpen])
   
-  return <CardSection className={"flex flex-col gap-1"}>
+  return <CardSection className={clsx(
+    "flex flex-col gap-1",
+  )}>
     <div className={"h-full rounded p-2"}>
       <div className={"flex flex-row gap-2"}>
         {(index ?? 0) + 1}) {activity.step.name}
@@ -57,7 +59,7 @@ export interface FeedContentProps {
 
 export function FeedContent({apiCallPlan, contentId}: FeedContentProps) {
   return (
-    <div className={"flex flex-col gap-2"}>
+    <div className={"flex flex-col gap-1.5"}>
       {mergeArrays(apiCallPlan.steps, mockSequence).map((activity, index) => (
         <HttpCallCard contentId={contentId} apiCallPlan={apiCallPlan} activity={activity} index={index}
                       key={activity.id}/>),
