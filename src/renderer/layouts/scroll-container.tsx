@@ -1,4 +1,4 @@
-import React, {ReactNode, RefObject, useCallback} from 'react'
+import React, {ReactNode, RefObject, useCallback, useEffect, useRef, useState} from 'react'
 import {Center} from '../wrapper/center'
 import clsx from 'clsx'
 import {CardH3} from '../wrapper/card'
@@ -18,7 +18,7 @@ export function AppHorizontalChip({children, className}: { children: React.React
     className={clsx(
       "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-black/25 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
       "select-none",
-      className
+      className,
     )}>
     {children}
   </div>
@@ -102,6 +102,27 @@ export function ScrollUserInputPageLayout({sections, children}: {
   const effect = "border border-transparent border-black/5 h-full"
   const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
   const convo = useCurrentConversation()
+  const contentRef = useRef<HTMLDivElement | null>(null)
+  const [isScrollable, setIsScrollable] = useState(false)
+  
+  useEffect(() => {
+    const checkScrollable = () => {
+      if (contentRef.current) {
+        const isScrollable = contentRef.current.scrollHeight > contentRef.current.clientHeight
+        setIsScrollable(isScrollable)
+      }
+    }
+    // Check scrollable state initially
+    checkScrollable()
+    
+    // Add resize listener to recheck scrollable state on resize
+    window.addEventListener('resize', checkScrollable)
+    
+    return () => {
+      window.removeEventListener('resize', checkScrollable)
+    }
+  }, [convo])
+  
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
       <aside className={clsx(effect,
@@ -111,14 +132,18 @@ export function ScrollUserInputPageLayout({sections, children}: {
       )}>
         <Sections sections={sections}/>
       </aside>
-      <div className={clsx(
-        "col-span-4 top-4 rounded-2xl",
-        "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
-        background,
-        effect,
-        "row-span-1 col-span-4",
-        "p-4",
-      )}>
+      <div
+        className={clsx(
+          "col-span-4 top-4 rounded-2xl",
+          "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
+          background,
+          effect,
+          "row-span-1 col-span-4",
+          "py-0 px-1 transition-all",
+          isScrollable && '-mt-1.5 rounded-t-none',
+        )}
+        ref={contentRef}
+      >
         {children}
       </div>
       <div className={clsx(

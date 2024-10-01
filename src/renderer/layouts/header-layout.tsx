@@ -13,7 +13,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         <Header></Header>
         <div className={clsx(
           lgTransparent,
-          "h-full w-full px-2 py-2 overflow-scroll",
+          "h-full w-full px-2 py-1 overflow-scroll",
         )}>
           {children}
         </div>
