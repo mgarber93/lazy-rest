@@ -22,7 +22,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     // },
   ]
   return (
-    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded-3xl mb-1 mt-2"}>
+    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1 mt-2"}>
       <TabList
         className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
         {tabs.map(({name}) => (
@@ -39,13 +39,13 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         ))}
       </TabList>
       <TabPanels className="">
-        <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
+        <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded p-3">
           <KeyValueForm data={step?.queryParams ?? {}}/>
         </TabPanel>
-        <TabPanel key={'Headers'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
+        <TabPanel key={'Headers'} className="bg-white/5 dark:bg-black/5 rounded p-3">
           <KeyValueForm data={step?.headers ?? {}}/>
         </TabPanel>
-        <TabPanel key={'Body'} className="bg-white/5 dark:bg-black/5 rounded-xl p-3">
+        <TabPanel key={'Body'} className="bg-white/5 dark:bg-black/5 rounded p-3">
           <KeyValueForm data={step?.body ?? {}}/>
         </TabPanel>
       </TabPanels>

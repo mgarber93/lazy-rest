@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import {Input} from '@headlessui/react'
 import {MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline'
 
-const elements = `border rounded-xl bg-transparent border-neutral-700 dark:bg-neutral-950/5`
+const elements = `border rounded bg-transparent border-neutral-700 dark:bg-neutral-950/5`
 
 export const inputClass = clsx(
   elements,
@@ -66,7 +66,7 @@ export function KeyValueForm<T extends Record<string, any>>({data, onChange}: Ke
           </div>))
     }
     <div
-      className={"flex flex-col justify-center w-full rounded-xl hover:bg-black/5 border border-transparent hover:border-black/15 transition pl-2"}
+      className={"flex flex-col justify-center w-full rounded hover:bg-black/5 border border-transparent hover:border-black/15 transition pl-2"}
       onClick={handleRowAdd}
     >
       <PlusCircleIcon className={clsx("h-7 w-7 ml-auto cursor-pointer mr-[-1px]")}/>

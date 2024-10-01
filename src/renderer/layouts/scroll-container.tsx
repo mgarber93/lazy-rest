@@ -33,7 +33,7 @@ export function Sections({sections}: {
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
   
-  return sections.length > 0 ? <div className={"p-2 transition-all rounded-xl m-2"}>
+  return sections.length > 0 ? <div className={"p-2 transition-all rounded m-2"}>
     <AppHorizontalChip>
       <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
@@ -80,7 +80,7 @@ export function ScrollPageLayout({sections, children}: {
         </aside>
       </div>
       <div className={clsx(
-        "col-span-4 top-4 rounded-2xl",
+        "col-span-4 top-4 rounded",
         "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
         background,
         effect,
@@ -134,7 +134,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
       </aside>
       <div
         className={clsx(
-          "col-span-4 top-4 rounded-2xl",
+          "col-span-4 top-4 rounded",
           "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
           background,
           effect,

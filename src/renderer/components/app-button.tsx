@@ -9,7 +9,7 @@ export function AppButton({children, onClick, disabled, className}: {
   disabled?: boolean,
   className?: string
 }) {
-  const button = "border border-black/50 dark:border-neutral-700 dark:bg-transparent bg-transparent rounded py-2 px-4 max-w-36 rounded-lg"
+  const button = "border border-black/50 dark:border-neutral-700 dark:bg-transparent bg-transparent rounded py-2 px-4 max-w-36 rounded"
   const hoverFlip = "hover:dark:bg-white/80 hover:bg-black hover:text-white hover:dark:border-black hover:dark:text-black"
   return (
     <motion.button

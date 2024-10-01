@@ -15,7 +15,7 @@ export interface HttpCallFormProps {
 }
 
 export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
-  const elements = `border rounded-xl bg-transparent border-neutral-700`
+  const elements = `border rounded bg-transparent border-neutral-700`
   const inputClass = clsx(
     elements,
     'flex-grow py-1.5 px-3 text-sm/6 dark:text-white',
