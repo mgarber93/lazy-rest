@@ -2,6 +2,7 @@ import React, {ReactNode, useState} from 'react'
 import clsx from 'clsx'
 
 import {motion} from 'framer-motion'
+import {Button} from '@headlessui/react'
 
 export function AppButton({children, onClick, disabled, className}: {
   children: ReactNode,
@@ -19,21 +20,31 @@ export function AppButton({children, onClick, disabled, className}: {
     }, 300) // resets back to 1 after 300ms
   }
   return (
-    <motion.button
-      whileTap={{scale: 0.96}}
-      animate={isMouseUp ? {scale: [1, 1.05, 1]} : undefined}
-      transition={isMouseUp ? {duration: 0.3} : undefined} // Slower on mouse up
+    <Button
       className={clsx(
-        button,
-        hoverFlip,
-        "bg-white/5 p-1 rounded h-full flex items-center justify-center",
-        className,
+        "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:text-neutral-200",
+        "outline-2 outline-blue-800 data-[focus]:dark:bg-white data-[focus]:dark:text-black",
       )}
-      onClick={onClick}
-      disabled={disabled}
-      onMouseUp={handleMouseUp}
     >
-      {children}
-    </motion.button>
+      <motion.button
+        whileTap={{scale: 0.96}}
+        animate={isMouseUp ? {scale: [1, 1.05, 1]} : undefined}
+        transition={isMouseUp ? {duration: 0.3} : undefined} // Slower on mouse up
+        className={clsx(
+          button,
+          hoverFlip,
+          "bg-white/5 p-1 rounded h-full flex items-center justify-center",
+          className,
+          "data-[selected]:data-[hover]:dark:bg-black/25 outline-0",
+        )}
+        tabIndex={-1}
+        onClick={onClick}
+        disabled={disabled}
+        onMouseUp={handleMouseUp}
+      >
+        {children}
+      </motion.button>
+    </Button>
+  
   )
 }

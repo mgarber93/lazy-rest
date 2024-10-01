@@ -28,7 +28,7 @@ export function HttpCallCard({activity, index, contentId}: {
   return <CardSection className={clsx(
     "flex flex-col gap-1",
   )}>
-    <div className={"h-full rounded p-2"}>
+    <div className={"h-full rounded p-2 px-0"}>
       <div className={"flex flex-row gap-2"}>
         {(index ?? 0) + 1}) {activity.step.name}
         <motion.div

@@ -69,10 +69,12 @@ export function ConversationsPage() {
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
   
+  const delay = 10
+  
   useEffect(() => {
     const nextSection = sections.at(-1)?.ref
     if (nextSection) {
-      setTimeout(() => nextSection && scrollToSection(nextSection), 110)
+      setTimeout(() => nextSection && scrollToSection(nextSection), delay)
     }
   }, [conversation])
   
@@ -91,7 +93,7 @@ export function ConversationsPage() {
                     animate={{opacity: 1}}
                     exit={{opacity: 0, height: 0}}
                     key={content.id}
-                    transition={{damping: 10, stiffness: 750, duration: 0.11}}
+                    transition={{damping: 1, stiffness: 750, duration: delay / 1000}}
                     ref={sections.at(-1)?.ref}
                   >
                   <ConversationContent content={content} key={index}/>

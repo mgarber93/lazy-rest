@@ -6,6 +6,7 @@ import {UserInputForm} from '../pages/user-input-form'
 import {AppIconButton} from './app-icon-button'
 import {PencilIcon} from '@heroicons/react/24/solid'
 import {useCurrentConversation} from '../hooks/current-conversation'
+import {AnimatePresence, motion} from 'framer-motion'
 
 export interface ISection {
   id: string
@@ -33,7 +34,7 @@ export function Sections({sections}: {
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
   
-  return sections.length > 0 ? <div className={"p-2 transition-all rounded m-2"}>
+  return sections.length > 0 ? <div className={"p-2 rounded m-2"}>
     <AppHorizontalChip>
       <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
@@ -69,15 +70,19 @@ export function ScrollPageLayout({sections, children}: {
 }) {
   const effect = "border border-transparent border-black/5 h-full"
   const background = "bg-amber-50/5 dark:bg-neutral-900/[95%] shadow-xl"
+  const convo = useCurrentConversation()
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
-        <aside className={clsx(effect,
-          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-          background,
-        )}>
-          <Sections sections={sections}/>
-        </aside>
+        <AnimatePresence>{
+          !!convo.content.length && <aside className={clsx(effect,
+            "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+            background,
+          )}>
+            <Sections sections={sections}/>
+          </aside>
+        }</AnimatePresence>
+      
       </div>
       <div className={clsx(
         "col-span-4 top-4 rounded",
@@ -125,13 +130,15 @@ export function ScrollUserInputPageLayout({sections, children}: {
   
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
-      <aside className={clsx(effect,
-        "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-        background,
-        "row-span-2 col-span-2 lg:col-span-1",
-      )}>
-        <Sections sections={sections}/>
-      </aside>
+      <AnimatePresence>{
+        convo.content.length ? <motion.aside className={clsx(effect,
+          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+          background,
+          "row-span-2 col-span-2 lg:col-span-1",
+        )}>
+          <Sections sections={sections}/>
+        </motion.aside> : <div className={"row-span-2 col-span-2 lg:col-span-1"}></div>
+      }</AnimatePresence>
       <div
         className={clsx(
           "col-span-4 top-4 rounded",
