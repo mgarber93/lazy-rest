@@ -70,19 +70,15 @@ export function ScrollPageLayout({sections, children}: {
 }) {
   const effect = "border border-transparent border-black/5 h-full"
   const background = "bg-amber-50/5 dark:bg-neutral-900/[95%] shadow-xl"
-  const convo = useCurrentConversation()
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
-        <AnimatePresence>{
-          !!convo.content.length && <aside className={clsx(effect,
-            "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-            background,
-          )}>
-            <Sections sections={sections}/>
-          </aside>
-        }</AnimatePresence>
-      
+        <aside className={clsx(effect,
+          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+          background,
+        )}>
+          <Sections sections={sections}/>
+        </aside>
       </div>
       <div className={clsx(
         "col-span-4 top-4 rounded",
