@@ -68,7 +68,7 @@ export function ScrollPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-neutral-50/50 bg-neutral-50 dark:bg-neutral-900/[95%] shadow-xl"
+  const background = "bg-amber-50/5 dark:bg-neutral-900/[95%] shadow-xl"
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>

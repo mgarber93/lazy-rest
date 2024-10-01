@@ -21,7 +21,7 @@ export function AppButton({children, onClick, disabled, className}: {
   return (
     <motion.button
       whileTap={{scale: 0.96}}
-      animate={isMouseUp ? {scale: [1, 1.01, 1.01, 1]} : undefined}
+      animate={isMouseUp ? {scale: [1, 1.05, 1]} : undefined}
       transition={isMouseUp ? {duration: 0.3} : undefined} // Slower on mouse up
       className={clsx(
         button,
