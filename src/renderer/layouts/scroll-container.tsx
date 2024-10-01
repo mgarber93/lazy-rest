@@ -131,28 +131,48 @@ export function ScrollUserInputPageLayout({sections, children}: {
   return <div className={clsx('h-[calc(100vh-55.313px)]')}>
     <Center className={"lg:col-span-1 "}>
       <AnimatePresence>{
-        convo.content.length ? <motion.aside className={clsx(effect,
-          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-          background,
-          "row-span-2 col-span-2 lg:col-span-1",
-        )}>
+        convo.content.length > 3 ? <motion.aside
+          initial={{opacity: 0, height: 'auto'}}
+          animate={{opacity: 1, height: 'auto'}}
+          exit={{opacity: 0, height: 0}}
+          transition={{duration: 0.3}}
+          className={clsx(effect,
+            "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+            background,
+            "row-span-2 col-span-2 lg:col-span-1",
+          )}
+        >
           <Sections sections={sections}/>
-        </motion.aside> : <div className={"row-span-2 col-span-2 lg:col-span-1"}></div>
+        </motion.aside> : <motion.div
+          initial={{opacity: 1, height: 'auto'}}
+          animate={{opacity: 0, height: 'auto'}}
+          exit={{opacity: 0, height: '0'}}
+          transition={{duration: 0.1}}
+          className={"row-span-2 col-span-2 lg:col-span-1"}
+        >
+          <Sections sections={sections}/>
+        </motion.div>
       }</AnimatePresence>
-      <div
-        className={clsx(
-          "col-span-4 top-4 rounded",
-          "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
-          background,
-          effect,
-          "row-span-1 col-span-4",
-          "py-0 px-1 transition-all",
-          isScrollable && '-mt-1.5 rounded-t-none',
-        )}
-        ref={contentRef}
-      >
-        {children}
-      </div>
+      <AnimatePresence>{
+        convo.content.length ? <motion.div
+          initial={{opacity: 0, height: 'auto'}}
+          animate={{opacity: 1, height: 'auto'}}
+          exit={{opacity: 0, height: 0}}
+          transition={{duration: 0.2}}
+          className={clsx(
+            "col-span-4 top-4 rounded",
+            "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
+            background,
+            effect,
+            "row-span-1 col-span-4",
+            "py-0 px-1 transition-all",
+            isScrollable && '-mt-1.5 rounded-t-none',
+          )}
+          ref={contentRef}
+        >
+          {children}
+        </motion.div> : <div className={"col-span-4"}></div>
+      }</AnimatePresence>
       <div className={clsx(
         "col-span-4 row-span-1 bg-transparent",
       )}>

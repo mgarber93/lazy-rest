@@ -25,25 +25,26 @@ export function AppButton({children, onClick, disabled, className}: {
         "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:text-neutral-200",
         "outline-2 outline-blue-800 data-[focus]:dark:bg-white data-[focus]:dark:text-black",
       )}
+      disabled={disabled}
+      onClick={onClick}
+      onMouseUp={handleMouseUp}
     >
-      <motion.button
+      <motion.div
         whileTap={{scale: 0.96}}
         animate={isMouseUp ? {scale: [1, 1.05, 1]} : undefined}
-        transition={isMouseUp ? {duration: 0.3} : undefined} // Slower on mouse up
+        transition={isMouseUp ? {duration: 0.1} : undefined} // Slower on mouse up
         className={clsx(
           button,
           hoverFlip,
           "bg-white/5 p-1 rounded h-full flex items-center justify-center",
           className,
           "data-[selected]:data-[hover]:dark:bg-black/25 outline-0",
+          "z-40",
         )}
         tabIndex={-1}
-        onClick={onClick}
-        disabled={disabled}
-        onMouseUp={handleMouseUp}
       >
         {children}
-      </motion.button>
+      </motion.div>
     </Button>
   
   )
