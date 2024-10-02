@@ -31,7 +31,7 @@ export function Sections({sections}: {
   const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
+    section?.current?.scrollIntoView({behavior: 'instant', alignToTop: true})
   }, [])
   
   return sections.length > 0 ? <div className={"rounded p-2 mr-2 rounded-tl-none rounded-bl-none"}>
@@ -69,10 +69,10 @@ export function ScrollPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-amber-50/5 dark:bg-neutral-900/[95%] shadow-xl"
-  return <div className={clsx('h-[calc(100vh-55.313px)]')}>
+  const background = "bg-amber-50/5 dark:bg-neutral-900/[75%] shadow-xl"
+  return <div className={clsx('h-[calc(100vh-46.993px)]')}>
     <Center>
-      <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-55.313px)]")}>
+      <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-47px)]")}>
         <aside className={clsx(effect,
           "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
           background,
@@ -82,7 +82,7 @@ export function ScrollPageLayout({sections, children}: {
       </div>
       <div className={clsx(
         "col-span-4 top-4 rounded",
-        "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
+        "h-[calc(100vh-47px)] mb-2 overflow-y-scroll",
         background,
         effect,
       )}>
@@ -124,14 +124,14 @@ export function ScrollUserInputPageLayout({sections, children}: {
     }
   }, [convo])
   
-  return <div className={clsx('h-[calc(100vh-55.313px)]')}>
+  return <div className={clsx('h-[calc(100vh-47px)]')}>
     <Center className={""}>
       <AnimatePresence>{
         convo.content.length > 3 ? <motion.aside
           initial={{opacity: 0, height: 'auto'}}
           animate={{opacity: 1, height: 'auto'}}
           exit={{opacity: 0, height: 0}}
-          transition={{duration: 0.3}}
+          transition={{duration: 0.03}}
           className={clsx(effect,
             "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
             background,
@@ -151,17 +151,17 @@ export function ScrollUserInputPageLayout({sections, children}: {
       }</AnimatePresence>
       <AnimatePresence>{
         convo.content.length ? <motion.div
-          initial={{opacity: 0, height: 'auto'}}
+          initial={{opacity: 0.8, height: 'auto'}}
           animate={{opacity: 1, height: 'auto'}}
           exit={{opacity: 0, height: 0}}
-          transition={{duration: 0.2}}
+          transition={{duration: 0.3}}
           className={clsx(
             "col-span-4 top-4 rounded",
-            "h-[calc(100vh-55.313px)] mb-2 overflow-y-scroll",
+            "h-[calc(100vh-47px)] mb-2 overflow-y-scroll",
             background,
             effect,
             "row-span-1 col-span-5 lg:col-span-4",
-            "py-0 px-1 transition-all",
+            "py-0 px-1",
             isScrollable && '-mt-1.5 rounded-t-none',
           )}
           ref={contentRef}
