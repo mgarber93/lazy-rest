@@ -1,7 +1,6 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .drag {
   -webkit-app-region: drag;
@@ -11,8 +10,18 @@
   -webkit-app-region: no-drag;
 }
 
-:root {
-  --opacity-level: .95
+@layer base {
+  input:focus,
+  textarea:focus,
+  select:focus,
+  button:focus,
+  a:focus {
+    --tw-ring-color: transparent;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+  }
 }
 
 .opacity-dynamic {
@@ -21,5 +30,4 @@
 
 * {
   font-family: Poppins;
-  outline: none;
 }

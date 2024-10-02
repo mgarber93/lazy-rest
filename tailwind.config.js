@@ -7,10 +7,10 @@ module.exports = {
         DEFAULT: '1px',
       },
       ringColor: {
-        DEFAULT: '#fff',
+        DEFAULT: 'transparent',
       },
-      outlineColor: {
-        DEFAULT: '#fff',
+      borderColor: {
+        DEFAULT: 'transparent',
       },
       colors: {
         'teal': {

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import {ChangeEvent, useCallback} from 'react'
-import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
+import {Button, Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
 
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -18,7 +18,7 @@ export function OllamaForm() {
   return (
     <Fieldset>
       <div className={"flex flex-col"}>
-        <button className={"flex flex-row gap-4"}>
+        <Button className={"flex flex-row gap-4"}>
           <AppHorizontalChip className={"w-full"}>
             <span>Loaded Models</span>
             <AppIconButton>
@@ -32,7 +32,7 @@ export function OllamaForm() {
             
             </AppIconButton>
           </AppHorizontalChip>
-        </button>
+        </Button>
         <div className={"flex flex-col"}>
           {
             models.map(model => <span key={model}>{model}</span>)
@@ -83,12 +83,12 @@ export function OpenAiForm() {
         />
       </Field>
       <div className={"flex flex-col"}>
-        <button className={"flex flex-row gap-4"}>
+        <Button className={"flex flex-row gap-4"}>
           <span>Loaded Models</span>
           <ArrowPathIcon onClick={handleLoadModels}
                          className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
             models</ArrowPathIcon>
-        </button>
+        </Button>
         <div className={"flex flex-col"}>
           {
             models.map(model => <span key={model}>{model}</span>)

@@ -13,12 +13,14 @@ import * as path from 'path'
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    icon: path.join(__dirname, 'src', 'assets', 'icon')
+    icon: path.join(__dirname, 'src', 'assets', 'icon.ico'),
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
-    new MakerZIP({}, ['darwin']),
+    new MakerSquirrel({
+      setupIcon: path.join(__dirname, 'src', 'assets', 'icon.ico'), // Installer icon
+    }),
+    new MakerZIP({}, ['darwin', 'win32']),
     new MakerRpm({}),
     new MakerDeb({})
   ],
