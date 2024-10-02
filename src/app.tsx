@@ -9,6 +9,10 @@ import {ConversationsPage} from './renderer/pages/conversations-page'
 import {connectCallbacks} from './connect-callbacks'
 import {SettingsPage} from './renderer/pages/settings-page'
 
+import "@fontsource/poppins" // Defaults to weight 400
+import "@fontsource/poppins/400.css" // Specify weight
+import "@fontsource/poppins/400-italic.css" // Specify weight and style
+
 connectCallbacks(store)
 
 const container = document.getElementById('root')
