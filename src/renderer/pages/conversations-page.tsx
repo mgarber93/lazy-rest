@@ -23,7 +23,7 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
       )}
     >
       {
-        content.role === "user" && <CardSection className={"dark:bg-amber-800/5"}>
+        content.role === "user" && <CardSection className={"bg-transparent dark:border-black/0"}>
               <span
                 className={clsx('flex-1')}
                 key={content.id}
