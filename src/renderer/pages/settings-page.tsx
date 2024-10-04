@@ -67,16 +67,18 @@ export function SettingsPage() {
           <div ref={ApiSpecifications} className={""}>
             <CardH2>Api Specifications</CardH2>
           </div>
+          {Object.keys(apis).length > 0 && <CardSection>
+            <CardH3>Existing</CardH3>
+                <CardH3>Existing</CardH3>
+              <div className={"flex flex-col"}>
+                {
+                  Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+                }
+              </div>
+            </CardSection>
+          }
           <CardSection>
-            {Object.keys(apis).length && <CardH3>Existing</CardH3>}
-            <div className={"flex flex-col"}>
-              {
-                Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
-              }
-            </div>
-          </CardSection>
-          <CardSection>
-            <CardH3>Add new</CardH3>
+            <CardH3>Use api specification info</CardH3>
             <ApiForm/>
           </CardSection>
         </ScrollPageLayout>
