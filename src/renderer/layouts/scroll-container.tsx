@@ -17,7 +17,7 @@ export interface ISection {
 export function AppHorizontalChip({children, className}: { children: React.ReactNode, className?: string }) {
   return <div
     className={clsx(
-      "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-black/25 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
+      "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-white/15 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
       "select-none",
       className,
     )}>
