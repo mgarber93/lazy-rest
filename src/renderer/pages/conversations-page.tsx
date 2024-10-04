@@ -66,21 +66,8 @@ export function MapContentToCardSection({content, ref}: { content: AuthoredConte
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
   const refs = Array.from({length: 256}, () => useRef(null))
-  const sections = [
-    ...conversation.content.map((c, i) => (
-      {
-        id: v4(),
-        ref: refs[i],
-        label: `${c.role}: ${c.author.padStart(20, "")}`,
-      } satisfies ISection)),
-    {
-      id: v4(),
-      ref: refs[conversation.content.length],
-      label: 'New',
-    },
-  ]
+  const sections = [] as ISection[]
   const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
-    
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
@@ -102,6 +89,18 @@ export function ConversationsPage() {
         return [content]
       }
       if (acc.length === 1) {
+        sections.push(
+          {
+            id: v4(),
+            ref: refs[index-1],
+            label: `${acc[0].author} asks ${content.author}`,
+          } satisfies ISection,
+          {
+            id: v4(),
+            ref: refs[index],
+            label: `${content.author} answers ${acc[0].author}`,
+          } satisfies ISection,
+        )
         contentCards.push(
           <motion.div
             className={clsx(
