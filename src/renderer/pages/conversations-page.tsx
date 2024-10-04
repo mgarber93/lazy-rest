@@ -1,4 +1,4 @@
-import React, {RefObject, useCallback, useEffect, useRef} from 'react'
+import React, {ReactNode, RefObject, useCallback, useEffect, useRef} from 'react'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -10,7 +10,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {ISection, ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
-import {CardSection} from '../wrapper/card'
+import {Card, CardSection} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -23,7 +23,7 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
       )}
     >
       {
-        content.role === "user" && <CardSection className={"bg-transparent dark:border-black/0"}>
+        content.role === "user" && <CardSection className={"bg-transparent dark:border-white/50"}>
               <span
                 className={clsx('flex-1')}
                 key={content.id}
@@ -44,6 +44,23 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
       }
     </div>
   }
+}
+
+// sections.at(-1)?.ref
+export function MapContentToCardSection({content, ref}: { content: AuthoredContent, ref: RefObject<HTMLDivElement> }) {
+  const delay = 10
+  return <React.Fragment key={content.id}>
+    <motion.div
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      exit={{opacity: 0, height: 0}}
+      key={content.id}
+      transition={{damping: 1, stiffness: 750, duration: delay / 1000}}
+      ref={ref}
+    >
+      <ConversationContent content={content}/>
+    </motion.div>
+  </React.Fragment>
 }
 
 export function ConversationsPage() {
@@ -78,6 +95,24 @@ export function ConversationsPage() {
     }
   }, [conversation])
   
+  const contentCards = [] as ReactNode[]
+  conversation.content
+    .reduce((acc: AuthoredContent[], content: AuthoredContent, index: number) => {
+      if (acc.length === 0) {
+        return [content]
+      }
+      if (acc.length === 1) {
+        contentCards.push(
+          <motion.div className={"p-4 border-4 dark:border-neutral-800 hover:border-white/25"}>
+            <MapContentToCardSection content={acc[0]} ref={sections[index - 1].ref as RefObject<HTMLDivElement>}/>
+            <MapContentToCardSection content={content} ref={sections[index]?.ref as RefObject<HTMLDivElement>}/>
+          </motion.div>,
+        )
+        return []
+      }
+      return acc
+    }, [])
+  
   return (
     <HeaderLayout>
       <div className={clsx("w-full h-full")}>
@@ -88,23 +123,7 @@ export function ConversationsPage() {
           )}>
             <AnimatePresence>
               {
-                conversation.content.map((content, index) => (
-                  <React.Fragment key={content.id}>
-                    <motion.div
-                      initial={{opacity: 0}}
-                      animate={{opacity: 1}}
-                      exit={{opacity: 0, height: 0}}
-                      key={content.id}
-                      transition={{damping: 1, stiffness: 750, duration: delay / 1000}}
-                      ref={sections.at(-1)?.ref}
-                    >
-                      <ConversationContent content={content} key={index}/>
-                    </motion.div>
-                    {(index + 1) % 2 === 0 && index !== conversation.content.length - 1 && (
-                      <div className="w-full size-4 bg-neutral-200 dark:bg-neutral-800"></div>
-                    )}
-                  </React.Fragment>
-                ))
+                ...contentCards
               }
             </AnimatePresence>
           </div>

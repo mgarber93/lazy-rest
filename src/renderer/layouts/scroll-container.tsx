@@ -161,7 +161,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
             background,
             effect,
             "row-span-1 col-span-5 lg:col-span-4",
-            "py-0 px-1",
+            "p-0 bg-transparent",
             isScrollable && '-mt-1.5 rounded-t-none',
           )}
           ref={contentRef}
