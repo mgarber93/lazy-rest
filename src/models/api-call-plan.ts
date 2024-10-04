@@ -22,10 +22,13 @@ export enum ProgressStage {
   done = 'done',
 }
 
+/**
+ * An action in a sequence that allows for planning
+ */
 export interface SequenceActivity {
-  id: string;
-  progressStage: ProgressStage;
-  step: Partial<HttpRequestPlan>;
+  id: string
+  progressStage: ProgressStage
+  step: Partial<HttpRequestPlan>
 }
 
 export const mockSequence = [
