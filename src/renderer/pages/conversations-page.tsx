@@ -10,7 +10,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {ISection, ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {AuthoredContent} from '../../models/content'
 import {FeedContent} from '../components/feed-content'
-import {Card, CardSection} from '../wrapper/card'
+import {CardSection} from '../wrapper/card'
 
 export function ConversationContent({content}: { content: AuthoredContent }) {
   if (content.apiCallPlan) {
@@ -18,16 +18,16 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   } else {
     return <div
       className={clsx(
-        'leading-relaxed text-xl flex flex-col py-1 transition duration-300',
+        'leading-relaxed text-xl flex flex-col py-1 transition duration-300 dark:border-white/50 rounded-xl',
         content.role === "user" && "ml-auto w-fit",
       )}
     >
       {
-        content.role === "user" && <CardSection className={"bg-transparent dark:border-white/50"}>
-              <span
-                className={clsx('flex-1')}
-                key={content.id}
-              >
+        content.role === "user" && <CardSection>
+          <span
+            className={clsx('flex-1 text-right max-w-[40vw]  flex ml-auto')}
+            key={content.id}
+          >
             <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
           </span>
         </CardSection>
@@ -103,7 +103,13 @@ export function ConversationsPage() {
       }
       if (acc.length === 1) {
         contentCards.push(
-          <motion.div className={"p-4 border-4 dark:border-neutral-800 hover:border-white/25"}>
+          <motion.div
+            className={clsx(
+              "p-4 border-4 dark:border-neutral-800 rounded-2xl",
+            )}
+            whileHover={{borderColor: 'white/5'}}
+            transition={{duration: delay / 1000}}
+          >
             <MapContentToCardSection content={acc[0]} ref={sections[index - 1].ref as RefObject<HTMLDivElement>}/>
             <MapContentToCardSection content={content} ref={sections[index]?.ref as RefObject<HTMLDivElement>}/>
           </motion.div>,
@@ -118,7 +124,7 @@ export function ConversationsPage() {
       <div className={clsx("w-full h-full")}>
         <ScrollUserInputPageLayout sections={sections}>
           <div className={clsx(
-            "flex flex-col",
+            "flex flex-col gap-y-4 p-4",
             "border-neutral-100 dark:border-neutral-800",
           )}>
             <AnimatePresence>
