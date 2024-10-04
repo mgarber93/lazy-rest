@@ -46,7 +46,6 @@ export function ConversationContent({content}: { content: AuthoredContent }) {
   }
 }
 
-// sections.at(-1)?.ref
 export function MapContentToCardSection({content, ref}: { content: AuthoredContent, ref: RefObject<HTMLDivElement> }) {
   const delay = 10
   return <React.Fragment key={content.id}>

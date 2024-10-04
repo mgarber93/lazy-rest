@@ -52,7 +52,7 @@ export function Sections({sections}: {
                 e.preventDefault()
                 scrollToSection(s.ref)
               }}
-              className={"text-sm text-nowrap text-ellipsis whitespace-pre"}
+              className={"text-xs text-nowrap text-ellipsis overflow-hidden whitespace-pre"}
               tabIndex={-1}
             >
               {s.label}
