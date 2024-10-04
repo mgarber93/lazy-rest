@@ -88,17 +88,23 @@ export function ConversationsPage() {
           )}>
             <AnimatePresence>
               {
-                conversation.content.map((content, index) => <motion.div
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0, height: 0}}
-                    key={content.id}
-                    transition={{damping: 1, stiffness: 750, duration: delay / 1000}}
-                    ref={sections.at(-1)?.ref}
-                  >
-                  <ConversationContent content={content} key={index}/>
-                  </motion.div>,
-                )
+                conversation.content.map((content, index) => (
+                  <React.Fragment key={content.id}>
+                    <motion.div
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0, height: 0}}
+                      key={content.id}
+                      transition={{damping: 1, stiffness: 750, duration: delay / 1000}}
+                      ref={sections.at(-1)?.ref}
+                    >
+                      <ConversationContent content={content} key={index}/>
+                    </motion.div>
+                    {(index + 1) % 2 === 0 && index !== conversation.content.length - 1 && (
+                      <div className="w-full size-4 bg-neutral-200 dark:bg-neutral-800"></div>
+                    )}
+                  </React.Fragment>
+                ))
               }
             </AnimatePresence>
           </div>

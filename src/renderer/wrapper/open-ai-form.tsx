@@ -29,7 +29,6 @@ export function OllamaForm() {
                 )}>
                 Add models
               </ArrowPathIcon>
-            
             </AppIconButton>
           </AppHorizontalChip>
         </Button>
