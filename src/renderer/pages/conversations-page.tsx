@@ -105,7 +105,7 @@ export function ConversationsPage() {
         contentCards.push(
           <motion.div
             className={clsx(
-              "p-4 border-4 dark:border-neutral-800 rounded-2xl",
+              "p-4 border-4 border-neutral-100 dark:border-neutral-800 rounded-2xl",
             )}
             whileHover={{borderColor: 'white/5'}}
             transition={{duration: delay / 1000}}
