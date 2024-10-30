@@ -93,8 +93,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
     <Input
       className={clsx(
         cardEffect,
-        'leading-relaxed text-xl flex bg-neutral-50/90 dark:shadow-neutral-800 dark:hover:shadow-black/55 border-0 w-full mt-auto',
-        "shadow-2xl",
+        'leading-relaxed text-xl flex bg-neutral-50/90 border-0 w-full mt-auto',
       )}
       onKeyUpCapture={handleKeyPress}
       value={promptMessage}
@@ -108,8 +107,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       aria-label={"responder"}
       className={clsx(
         cardEffect,
-        "leading-relaxed text flex bg-neutral-50/90 shadow-2xl dark:shadow-none z-1 border",
-        "shadow-2xl",
+        "leading-relaxed text flex bg-neutral-50/90 z-1 border",
       )}
       value={conversation?.responder?.model}
       onChange={handleModelChange}
