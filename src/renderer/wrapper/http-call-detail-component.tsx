@@ -33,7 +33,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
               "bg-black/5 data-[selected]:bg-black/10 data-[hover]:bg-black/5 data-[selected]:data-[hover]:bg-black/10",
               "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 ",
               "data-[selected]:dark:border-white/1",
-              "data-[hover]:dark:bg-white/5 data-[selected]:data-[hover]:dark:bg-black/25 " +
+              "data-[hover]:dark:bg-black/50 data-[selected]:data-[hover]:dark:bg-black/50",
               "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:text-neutral-200",
             )}
           >
@@ -42,13 +42,13 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         ))}
       </TabList>
       <TabPanels className="">
-        <TabPanel key={'Params'} className="bg-white/5 dark:bg-black/5 rounded p-3">
+        <TabPanel key={'Params'} className="rounded p-3">
           <KeyValueForm data={step?.queryParams ?? {}}/>
         </TabPanel>
-        <TabPanel key={'Headers'} className="bg-white/5 dark:bg-black/5 rounded p-3">
+        <TabPanel key={'Headers'} className="rounded p-3">
           <KeyValueForm data={step?.headers ?? {}}/>
         </TabPanel>
-        <TabPanel key={'Body'} className="bg-white/5 dark:bg-black/5 rounded p-3">
+        <TabPanel key={'Body'} className="rounded p-3">
           <KeyValueForm data={step?.body ?? {}}/>
         </TabPanel>
       </TabPanels>

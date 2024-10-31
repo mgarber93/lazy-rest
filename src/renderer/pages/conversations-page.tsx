@@ -71,9 +71,8 @@ export function ConversationsPage() {
     // @ts-ignore
     section?.current?.scrollIntoView({behavior: 'smooth', alignToTop: true})
   }, [])
-  
   const delay = 10
-  
+
   useEffect(() => {
     const nextSection = sections.at(-1)?.ref
     if (nextSection) {
@@ -103,7 +102,7 @@ export function ConversationsPage() {
         contentCards.push(
           <motion.div
             className={clsx(
-              "p-4 border-4 border-neutral-100 dark:border-neutral-800 rounded-2xl",
+              "border-4 border-neutral-100 dark:border-neutral-800 rounded-2xl",
             )}
             whileHover={{borderColor: 'white/5'}}
             transition={{duration: delay / 1000}}
@@ -122,7 +121,7 @@ export function ConversationsPage() {
       <div className={clsx("w-full h-full")}>
         <ScrollUserInputPageLayout sections={sections}>
           <div className={clsx(
-            "flex flex-col gap-y-4 p-4",
+            "flex flex-col gap-y-4 py-1",
             "border-neutral-100 dark:border-neutral-800",
           )}>
             <AnimatePresence>
