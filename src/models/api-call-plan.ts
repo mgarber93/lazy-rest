@@ -15,6 +15,10 @@ export interface HttpRequestPlan {
   body: object
 }
 
+export interface HttpResponse<T = any> {
+  body: T
+}
+
 export enum ProgressStage {
   active = 'active',
   draft = 'draft',
