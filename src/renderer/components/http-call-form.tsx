@@ -4,7 +4,7 @@ import {AppButton} from './app-button'
 import React, {useCallback} from 'react'
 import {HttpCallDetailComponent} from '../wrapper/http-call-detail-component'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {HttpRequestPlan} from '../../models/api-call-plan'
+import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 
@@ -12,6 +12,23 @@ export interface HttpCallFormProps {
   step?: Partial<HttpRequestPlan>,
   contentId: string,
   sequenceId: number
+}
+
+export function Response({response}: { response: HttpResponse | null }) {
+  return (
+    <div className="response-container">
+      {response ? (
+        Object.entries(response.data).map(([key, value]) => (
+          <div key={key}>
+            <strong>{key}: </strong>
+            <span>{JSON.stringify(value)}</span>
+          </div>
+        ))
+      ) : (
+        <p>No response data available.</p>
+      )}
+    </div>
+  )
 }
 
 export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
@@ -22,6 +39,7 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
     'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
   )
   const convo = useCurrentConversation()
+  const [response, setResponse] = React.useState<HttpResponse | null>(null)
   const dispatch = useAppDispatch()
   const handleSendClick = useCallback(async () => {
     console.log('handleSendClick')
@@ -32,7 +50,8 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
     } satisfies HttpRequestPlan)
     // todo show response
     console.log(JSON.stringify(response, null, 2))
-  }, [convo])
+    setResponse(response)
+  }, [convo, setResponse])
   // dispatch update step when select and input changes to update step
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,7 +88,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
           elements,
           "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100",
         )}
-        aria-label="Project status"
         defaultValue={step?.httpVerb}
         onChange={handleSelectChange}
       >
@@ -91,5 +109,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       </AppButton>
     </div>
     <HttpCallDetailComponent step={step}/>
+    <Response response={response}/>
   </div>
 }
