@@ -23,8 +23,15 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   )
   const convo = useCurrentConversation()
   const dispatch = useAppDispatch()
-  const handleSendClick = useCallback(() => {
+  const handleSendClick = useCallback(async () => {
     console.log('handleSendClick')
+    const response = await window.main.fetch({
+      url: "https://rickandmortyapi.com/api/character/?page=1",
+      httpVerb: 'GET',
+      headers: {'Content-Type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8'},
+    } satisfies HttpRequestPlan)
+    // todo show response
+    console.log(JSON.stringify(response, null, 2))
   }, [convo])
   // dispatch update step when select and input changes to update step
   

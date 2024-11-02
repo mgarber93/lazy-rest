@@ -7,12 +7,12 @@ export interface ApiCallPlan {
 export type THttp = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 
 export interface HttpRequestPlan {
-  name: string;
+  name?: string;
   httpVerb: THttp;
   url: string;
-  queryParams: object;
+  queryParams?: object;
   headers: Record<string, string>;
-  body: object
+  body?: object
 }
 
 export interface HttpResponse<T = any> {
