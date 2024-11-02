@@ -6,6 +6,7 @@ import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {OpenAiConfigHandler} from './open-ai-config-handler'
 import {CallbackHandler} from './callback-handler'
+import {HttpClient} from '../tools/http-client'
 
 
 /**
@@ -19,4 +20,5 @@ export function registerMainHandlers() {
   container.register<Handler<'callback'>>('callback', {useClass: CallbackHandler})
   container.register<Handler<'setOpenAiConfiguration'>>('setOpenAiConfiguration', {useClass: OpenAiConfigHandler})
   container.register<Handler<'getModels'>>('getModels', {useClass: ModelListHandle})
+  container.register<Handler<'fetch'>>('fetch', {useClass: HttpClient})
 }

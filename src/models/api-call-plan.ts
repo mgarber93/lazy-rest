@@ -11,12 +11,13 @@ export interface HttpRequestPlan {
   httpVerb: THttp;
   url: string;
   queryParams: object;
-  headers: object;
+  headers: Record<string, string>;
   body: object
 }
 
 export interface HttpResponse<T = any> {
-  body: T
+  data: T
+  status: number
 }
 
 export enum ProgressStage {

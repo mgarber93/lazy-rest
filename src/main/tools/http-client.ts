@@ -1,9 +1,22 @@
 import {singleton} from 'tsyringe'
 import fetch from 'node-fetch'
+import {Handler} from '../handlers/handler'
+import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 
 @singleton()
-export class HttpClient {
- async getToken(baseUrl: string, clientId: string, clientSecret: string): Promise<string> {
+export class HttpClient implements Handler<'fetch'> {
+  async handle(plan: HttpRequestPlan): Promise<HttpResponse> {
+    const response = await fetch(plan.url, {
+      method: plan.httpVerb,
+      body: JSON.stringify(plan.body),
+      headers: plan.headers,
+    })
+    const data = await response.json()
+    
+    return {data, status: response.status}
+  }
+  
+  async getToken(baseUrl: string, clientId: string, clientSecret: string): Promise<string> {
     if (!clientId) {
       throw new Error('clientId is required')
     }
