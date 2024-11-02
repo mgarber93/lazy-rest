@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import {ChangeEvent, useCallback} from 'react'
-import {Description, Field, Fieldset, Input, Label} from '@headlessui/react'
+import {Button, Description, Field, Fieldset, Input, Label} from '@headlessui/react'
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
 
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -18,7 +18,7 @@ export function OllamaForm() {
   return (
     <Fieldset>
       <div className={"flex flex-col"}>
-        <button className={"flex flex-row gap-4"}>
+        <Button className={"flex flex-row gap-4"}>
           <AppHorizontalChip className={"w-full"}>
             <span>Loaded Models</span>
             <AppIconButton>
@@ -29,10 +29,9 @@ export function OllamaForm() {
                 )}>
                 Add models
               </ArrowPathIcon>
-            
             </AppIconButton>
           </AppHorizontalChip>
-        </button>
+        </Button>
         <div className={"flex flex-col"}>
           {
             models.map(model => <span key={model}>{model}</span>)
@@ -77,18 +76,18 @@ export function OpenAiForm() {
         <Label className="text-sm/6 font-medium text-black dark:text-white">Base URL (todo)</Label>
         <Input
           className={clsx(
-            'mt-3 block w-full rounded-lg border-none bg-black/5 dark:bg-white/5 py-1.5 px-3 text-sm/6 text-black dark:text-white',
+            'mt-3 block w-full rounded border-none bg-black/5 dark:bg-white/5 py-1.5 px-3 text-sm/6 text-black dark:text-white',
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
           )}
         />
       </Field>
       <div className={"flex flex-col"}>
-        <button className={"flex flex-row gap-4"}>
+        <Button className={"flex flex-row gap-4"}>
           <span>Loaded Models</span>
           <ArrowPathIcon onClick={handleLoadModels}
                          className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
             models</ArrowPathIcon>
-        </button>
+        </Button>
         <div className={"flex flex-col"}>
           {
             models.map(model => <span key={model}>{model}</span>)

@@ -2,14 +2,12 @@ import {container, singleton} from 'tsyringe'
 import {AuthoredContent} from '../../models/content'
 import {treeShake} from '../utils/oas-filter'
 import {OpenAiProvider} from '../providers/openai'
-import {ExecutorFactory} from '../agents/executor-factory'
 import {OpenAPI} from 'openapi-types'
-import {ApiCallPlan, HttpRequestPlan} from './models'
+import {ApiCallPlan, HttpRequestPlan} from '../../models/api-call-plan'
 
 @singleton()
 export class CallDetailer {
   private openAiLlm: OpenAiProvider = container.resolve(OpenAiProvider)
-  private agentFactory = container.resolve(ExecutorFactory)
   
   async handle(userContent: AuthoredContent, endpointCallPlan: HttpRequestPlan, oasSpec: OpenAPI.Document[], plan: ApiCallPlan) {
     const specForPlannedCall = oasSpec.reduce((acc: Record<string, any>, spec: OpenAPI.Document) => {
@@ -25,7 +23,6 @@ export class CallDetailer {
     }
     const endpoints = JSON.stringify(specForPlannedCall)
 
-    const executorAgent = await this.agentFactory.create(plan)
     
     // const messages: ChatCompletionMessageParam[] = executorAgent.content
     //   .map(item => ({role: item.role, content: item.message!, tool_call_id: item.id}))

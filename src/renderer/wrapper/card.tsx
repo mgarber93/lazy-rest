@@ -1,7 +1,7 @@
 import {ReactNode} from 'react'
 import clsx from 'clsx'
 
-export const cardEffect = "rounded-3xl px-2 py-1 bg-neutral-50 dark:bg-neutral-900 dark:shadow drop-shadow shadow-neutral-500 dark:shadow-neutral-950 border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
+export const cardEffect = "rounded bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
 export function Card({children, className}: { children: ReactNode, className?: string }) {
   const layout = 'flex flex-col gap-4'
@@ -35,7 +35,7 @@ export function CardH3({children, className}: { children: ReactNode, className?:
 
 export function CardSection({children, className}: { children: ReactNode, className?: string }) {
   return <div
-    className={clsx("bg-neutral-500/5 dark:bg-neutral-500/15 px-2 py-1 rounded-3xl flex flex-col gap-2", className)}>
+    className={clsx("bg-neutral-500/5 dark:border-white/5 border-2 px-2 py-1 rounded-lg flex flex-col gap-2", className)}>
     {children}
   </div>
 }

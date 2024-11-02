@@ -1,20 +1,20 @@
+import {ClientOptions} from 'openai'
 import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
-import {ApiCallPlan} from '../main/organizations/models'
-import {ClientOptions} from 'openai'
+import {HttpRequestPlan, HttpResponse} from '../models/api-call-plan'
 
 export type TInvokeChannel = keyof PreloadedApi
 
 export type TWindowSenderCallback<T extends keyof WindowCallbackApi> = (event: never, id: string, ...args: Parameters<WindowCallbackApi[T]>) => ReturnType<WindowCallbackApi[T]>
 
 export const INVOKE_CHANNELS = [
-  'streamedChat',
-  'getMachineName',
-  'setOpenAiConfiguration',
   'callback',
   'getModels',
-  'continuePlan',
+  'getMachineName',
+  'setOpenAiConfiguration',
+  'streamedChat',
+  'fetch',
 ] as TInvokeChannel[]
 
 export interface WindowSenderProtocol {
@@ -29,7 +29,7 @@ export interface WindowSenderProtocol {
 }
 
 export interface WindowReceiverProtocol {
-  callback<T extends keyof WindowCallbackApi>(promiseId: string, arg: ReturnType<WindowCallbackApi[T]>): void;
+  callback<T extends keyof WindowCallbackApi>(promiseId: string, arg: ReturnType<WindowCallbackApi[T]>): void
 }
 
 // type safe api
@@ -42,5 +42,5 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   
   streamedChat(conversation: Conversation): Promise<void>
   
-  continuePlan(conversation: Conversation): Promise<ApiCallPlan>
+  fetch(plan: HttpRequestPlan): Promise<HttpResponse>
 }

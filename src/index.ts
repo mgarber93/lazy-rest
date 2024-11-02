@@ -2,7 +2,6 @@ import "reflect-metadata"
 import {app, BrowserWindow} from 'electron'
 import * as process from 'process'
 import {setupInvokeHandlers} from './main'
-import installExtension, {REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS} from 'electron-devtools-installer'
 import {registerMainHandlers} from './main/handlers/register-main-handlers'
 import * as path from 'node:path'
 import {WindowSender} from './main/utils/window-sender'
@@ -44,7 +43,6 @@ const createWindow = (): void => {
   mainWindow.webContents.on('did-finish-load', () => {
     const windowSender = container.resolve(WindowSender)
     windowSender.hasFinishedLoading((eventName: string, ...args: any) => {
-      console.log(`sending ${eventName} with args ${args}`)
       mainWindow.webContents.send(eventName, ...args)
     })
   })
@@ -54,7 +52,7 @@ const createWindow = (): void => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+  // https://www.electronjs.org/docs/latest/tutorial/devtools-extension
   createWindow()
 })
 

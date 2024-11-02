@@ -20,7 +20,7 @@ function OpenAiConfigForm() {
   }, [dispatch, currentOpenAiConfig])
   
   return (
-    <form className="p-6 bg-white shadow rounded-lg">
+    <form className="p-6 bg-white shadow rounded">
       <h2 className="text-xl font-bold mb-4">
         Open AI
       </h2>

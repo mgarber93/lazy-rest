@@ -45,21 +45,21 @@ export function SettingsPage() {
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sections={configSections}>
-          <div ref={Ollama} className={"min-h-[20rem]"}>
+          <div ref={Ollama} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>Ollama</CardH2>
             <div className="py-4">
               <OllamaForm/>
             </div>
           </div>
           
-          <div ref={OpenAi} className={"min-h-[20rem]"}>
+          <div ref={OpenAi} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>Open AI</CardH2>
             <div className={"py-4"}>
               <OpenAiForm/>
             </div>
           </div>
           
-          <div ref={BedRock} className={"min-h-[20rem]"}>
+          <div ref={BedRock} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>AWS Bed Rock</CardH2>
             <div>todo</div>
           </div>
@@ -67,16 +67,18 @@ export function SettingsPage() {
           <div ref={ApiSpecifications} className={""}>
             <CardH2>Api Specifications</CardH2>
           </div>
+          {Object.keys(apis).length > 0 && <CardSection>
+            <CardH3>Existing</CardH3>
+                <CardH3>Existing</CardH3>
+              <div className={"flex flex-col"}>
+                {
+                  Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+                }
+              </div>
+            </CardSection>
+          }
           <CardSection>
-            {Object.keys(apis).length && <CardH3>Existing</CardH3>}
-            <div className={"flex flex-col"}>
-              {
-                Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
-              }
-            </div>
-          </CardSection>
-          <CardSection>
-            <CardH3>Add new</CardH3>
+            <CardH3>Use api specification info</CardH3>
             <ApiForm/>
           </CardSection>
         </ScrollPageLayout>

@@ -1,13 +1,13 @@
+import {OpenAPI} from 'openapi-types'
 import {EnhancedStore} from '@reduxjs/toolkit'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {appendContent, appendDelta} from './features/chat'
 import {RootState, store} from './features/store'
 import {AuthoredContent} from '../models/content'
 import {ApiConfiguration, ProviderConfiguration} from '../models/api-configuration'
-import {OpenAPI} from 'openapi-types'
 import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ApiCallPlan} from '../main/organizations/models'
+import {ApiCallPlan} from '../models/api-call-plan'
 
 /**
  * Ideally methods match action (KISS)

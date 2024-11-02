@@ -5,8 +5,8 @@ import {OpenAPI} from 'openapi-types'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ToolState} from '../renderer/features/tools'
-import {ApiCallPlan} from './organizations/models'
 import {ProviderConfiguration} from '../models/api-configuration'
+import {ApiCallPlan} from '../models/api-call-plan'
 
 
 export type Promisify<T> = {

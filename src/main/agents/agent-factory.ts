@@ -3,7 +3,7 @@ import {Conversation, createConversation} from '../../models/conversation'
 import {createContent} from '../../models/content'
 import {Responder} from '../../models/responder'
 import {OpenAiProvider} from '../providers/openai'
-import {ApiCallPlan} from '../organizations/models'
+import {ApiCallPlan} from '../../models/api-call-plan'
 
 /**
  * An Agent initial conversation has two contents:

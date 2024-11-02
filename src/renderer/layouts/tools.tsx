@@ -25,7 +25,7 @@ export const Tools: React.FC = () => {
                   team.current
                     ? 'border-neutral-600 text-neutral-600'
                     : 'border-neutral-200 text-neutral-400 group-hover:border-neutral-600 group-hover:text-neutral-600',
-                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white dark:bg-black text-[0.625rem] font-medium',
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded border bg-white dark:bg-black text-[0.625rem] font-medium',
                 )}
               >
                 {team.initial}

@@ -1,12 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {ApiConfiguration} from '../../models/api-configuration'
 import {Approvable} from '../../models/approvable'
-import {CallPlan} from '../../main/organizations/models'
 
 export interface ToolState {
   approvable: Approvable | null
   api: Record<string, ApiConfiguration>
-  plans: Record<string, CallPlan>
 }
 
 export const toolsSlice = createSlice({

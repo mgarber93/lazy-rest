@@ -1,9 +1,3 @@
-import {container, singleton} from 'tsyringe'
-import {AgentFactory} from '../agents/agent-factory'
-import {Conversation} from '../../models/conversation'
-import {Responder} from '../../models/responder'
-import {ApiCallPlan} from './models'
-
 
 // https://github.com/Yifan-Song793/RestGPT/blob/87677a7e129276b0e57f8d889fab01975ebf6f4d/model/api_selector.py#L19
 export const selector = (endpoints: string) => `
@@ -56,19 +50,3 @@ Note, if the API path contains "{}", it means that it is a variable and you shou
 
 Begin!`.replace(/(\n)+/g, '  \n')
 
-
-@singleton()
-export class EndpointSelector {
-  model = {
-    type: 'chat',
-    provider: "openai",
-    model: "gpt-4-turbo-preview",
-  } satisfies Responder
-  agentFactory = container.resolve(AgentFactory)
-  
-  public async create(plan: ApiCallPlan): Promise<Conversation> {
-    const instructions = selector(plan.endpoints)
-    const convo = await this.agentFactory.createAgent(plan.userGoal, instructions, this.model)
-    return convo
-  }
-}

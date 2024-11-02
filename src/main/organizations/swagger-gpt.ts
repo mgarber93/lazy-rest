@@ -1,31 +1,21 @@
 import {OpenAPI} from 'openapi-types'
 import {container, singleton} from 'tsyringe'
-import {PlannerFactory} from '../agents/planner-factory'
 import {Conversation} from '../../models/conversation'
 import {AuthoredContent} from '../../models/content'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {oasToDescriptions} from '../utils/oas-filter'
-import {ApiCallPlan, PlanStep} from './models'
 import {v4} from 'uuid'
+import {mockSequence, SequenceActivity} from '../../models/api-call-plan'
 
 
 @singleton()
 export class SwaggerGpt {
-  private plannerFactory = container.resolve(PlannerFactory)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
   private async createPlan(userGoal: string) {
     const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
     const endpoints = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + this.specToOas(spec), '')
-    
-    return {
-      userGoal,
-      state: {},
-      steps: [] as PlanStep[],
-      step: 0,
-      endpoints,
-      oasSpec,
-    } satisfies ApiCallPlan
+    return mockSequence as SequenceActivity[]
   }
   
   specToOas(spec: OpenAPI.Document): string {
@@ -43,16 +33,17 @@ export class SwaggerGpt {
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
-    const apiCallPlan = await this.createPlan(lastMessage.message)
+    const activities = await this.createPlan(lastMessage.message)
     const plan = {
       id: v4(),
       chatId: id,
       author: responder?.model ?? 'gpt-4o',
       role: 'assistant',
       message: '',
-      apiCallPlan,
+      apiCallPlan: {
+        steps: activities,
+      },
     } satisfies AuthoredContent
-    const {result, agent, steps} = await this.plannerFactory.createAndPrompt(apiCallPlan)
     
     await this.mainWindowCallbackConsumer.appendContent(plan)
     // const plan = await this.createPlan(lastMessage)

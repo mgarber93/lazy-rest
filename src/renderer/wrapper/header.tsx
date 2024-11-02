@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {removeChat, startNewChat} from '../features/chat'
 import {createConversation} from '../../models/conversation'
-import {transparent} from '../utils/transparent'
+import {headerTransparencyEffect} from '../utils/transparent'
 import {v4} from 'uuid'
 import {useKeyPress} from '../hooks/use-key-press'
 import {useCurrentConversation} from '../hooks/current-conversation'
@@ -115,7 +115,7 @@ export function Header() {
   return (
     <header
       className={clsx(
-        transparent,
+        headerTransparencyEffect,
         "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-neutral-300 dark:border-b-neutral-700 z-1 pb-1",
         "bg-neutral-200/50 dark:bg-neutral-950 pt-[3px] pb-[3px]",
       )}>
