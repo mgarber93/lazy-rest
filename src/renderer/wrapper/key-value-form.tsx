@@ -66,10 +66,10 @@ export function KeyValueForm<T extends Record<string, any>>({data, onChange}: Ke
           </div>))
     }
     <div
-      className={"flex flex-col justify-center w-full rounded hover:bg-black/5 border border-transparent hover:border-black/15 transition pl-2"}
+      className={"flex flex-col justify-center w-full rounded hover:bg-black/5 border border-transparent hover:border-black/15 dark:hover:bg-white/15 hover:opacity-30 transition pl-2"}
       onClick={handleRowAdd}
     >
-      <PlusCircleIcon className={clsx("h-7 w-7 ml-auto cursor-pointer mr-[-1px]")}/>
+      <PlusCircleIcon className={clsx("h-7 w-7 ml-auto cursor-pointer mr-[-1px] opacity-70")}/>
     </div>
   </div>
 }
