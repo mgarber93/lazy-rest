@@ -86,11 +86,12 @@ export function UserInputForm({disabled}: UserInputFormProps) {
           model: nextModel,
         } satisfies Responder,
         chatId: conversation.id,
-      }))  }
+      }))
+    }
   }, [models, conversation])
   
   return <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>
-    <Input
+    {!disabled && <Input
       className={clsx(
         cardEffect,
         'leading-relaxed text-xl flex bg-neutral-50/90 border-0 w-full mt-auto',
@@ -100,9 +101,9 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       onChange={handleOnChange}
       disabled={disabled}
     >
-    </Input>
-
-    <Select
+    </Input>}
+    
+    {!disabled && <Select
       name={"responder"}
       aria-label={"responder"}
       className={clsx(
@@ -122,6 +123,6 @@ export function UserInputForm({disabled}: UserInputFormProps) {
       {
         Object.keys(tools.api).length > 0 && <option value={lazyRest}>Lazy Rest</option>
       }
-    </Select>
+    </Select>}
   </Field>
 }
