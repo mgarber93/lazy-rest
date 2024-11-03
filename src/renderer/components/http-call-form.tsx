@@ -7,7 +7,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
-import {ResponseViewer} from './responseViewer'
+import {ResponseViewer} from './response-viewer'
 
 
 export interface HttpCallFormProps {
