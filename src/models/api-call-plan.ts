@@ -13,6 +13,7 @@ export interface HttpRequestPlan {
   queryParams?: object;
   headers: Record<string, string>;
   body?: object
+  response?: HttpResponse
 }
 
 export interface HttpResponse<T = any> {

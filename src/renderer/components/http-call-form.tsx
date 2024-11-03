@@ -16,6 +16,13 @@ export interface HttpCallFormProps {
   sequenceId: number
 }
 
+/**
+ *
+ * @param step
+ * @param contentId
+ * @param sequenceId
+ * @constructor
+ */
 export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   const elements = `border rounded bg-transparent border-neutral-700`
   const inputClass = clsx(
@@ -27,9 +34,12 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
   const [response, setResponse] = React.useState<HttpResponse | null>(null)
   const dispatch = useAppDispatch()
   const handleSendClick = useCallback(async () => {
+    if (!step) {
+      return
+    }
     console.log('handleSendClick')
     const response = await window.main.fetch({
-      url: "https://rickandmortyapi.com/api/character/?page=1",
+      url: step.url!,
       httpVerb: 'GET',
       headers: {'Content-Type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8'},
     } satisfies HttpRequestPlan)
@@ -37,7 +47,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
     console.log(JSON.stringify(response, null, 2))
     setResponse(response)
   }, [convo, setResponse])
-  // dispatch update step when select and input changes to update step
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value

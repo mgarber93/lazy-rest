@@ -14,7 +14,7 @@ export function ResponseViewer({response}: { response: { data: object } | null }
       options={{readOnly: true, automaticLayout: true}
       }
       value={code}
-      theme="vs-dark"
+      theme={window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "vs-dark" : "light"}
     />
   </div>
 }
