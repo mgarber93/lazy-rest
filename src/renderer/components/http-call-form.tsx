@@ -7,28 +7,13 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
+import {ResponseViewer} from './response-viewer'
+
 
 export interface HttpCallFormProps {
   step?: Partial<HttpRequestPlan>,
   contentId: string,
   sequenceId: number
-}
-
-export function Response({response}: { response: HttpResponse | null }) {
-  return (
-    <div className="response-container">
-      {response ? (
-        Object.entries(response.data).map(([key, value]) => (
-          <div key={key}>
-            <strong>{key}: </strong>
-            <span>{JSON.stringify(value)}</span>
-          </div>
-        ))
-      ) : (
-        <p>No response data available.</p>
-      )}
-    </div>
-  )
 }
 
 export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
@@ -109,6 +94,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       </AppButton>
     </div>
     <HttpCallDetailComponent step={step}/>
-    <Response response={response}/>
+    <ResponseViewer response={response}/>
   </div>
 }
