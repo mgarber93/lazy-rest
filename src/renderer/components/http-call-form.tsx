@@ -43,10 +43,12 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       httpVerb: 'GET',
       headers: {'Content-Type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8'},
     } satisfies HttpRequestPlan)
-    // todo show response
-    console.log(JSON.stringify(response, null, 2))
     setResponse(response)
   }, [convo, setResponse])
+  
+  const handleContinue = useCallback(() => {
+    console.log('handleContinue')
+  }, [])
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value
@@ -61,7 +63,7 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
     } satisfies UpdateStepActivityPayload))
   }, [convo])
   
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUrlChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
     dispatch(updateStep({
       chatId: convo.id,
@@ -93,16 +95,18 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       <Input
         className={inputClass}
         defaultValue={step?.url}
-        onChange={handleInputChange}
+        onChange={handleUrlChange}
       />
-      <AppButton
-        className={clsx(elements, "px-2 border-neutral-500")}
-        onClick={handleSendClick}
-      >
-        Send
-      </AppButton>
     </div>
     <HttpCallDetailComponent step={step}/>
     <ResponseViewer response={response}/>
+    <div className={"w-full grid pt-4 pb-1"}>
+      <AppButton
+        className={clsx(elements, "px-2 border-neutral-500 ml-auto")}
+        onClick={response ? handleContinue : handleSendClick}
+      >
+        {response ? 'Continue' : 'Send'}
+      </AppButton>
+    </div>
   </div>
 }
