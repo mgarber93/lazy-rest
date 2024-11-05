@@ -15,7 +15,7 @@ use [node version manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#inst
 to use multiple versions of npm on my computer at once. Then to develop as an electron app you can install once
 
 ```shell
-npm install 
+npm install
 ```
 
 Now to run the development server run

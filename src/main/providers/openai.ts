@@ -1,28 +1,34 @@
-import {ChatCompletionMessageParam} from 'openai/resources'
-import {AuthoredContent, createContent, isToolCall} from '../../models/content'
-import {container, injectable} from 'tsyringe'
-import {ConfigurationManager} from './configuration-manager'
-import {AsyncWindowSenderApi} from '../async-window-sender-api'
-import {PromptableProvider} from './promptable-provider'
+import { ChatCompletionMessageParam } from "openai/resources"
+import {
+  AuthoredContent,
+  createContent,
+  isToolCall
+} from "../../models/content"
+import { container, injectable } from "tsyringe"
+import { ConfigurationManager } from "./configuration-manager"
+import { AsyncWindowSenderApi } from "../async-window-sender-api"
+import { PromptableProvider } from "./promptable-provider"
 
 @injectable()
 export class OpenAiProvider implements PromptableProvider {
   private manager = container.resolve(ConfigurationManager)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
-  
+
   // https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
   async list() {
     const openai = await this.manager.getOpenAi()
     const models = await openai.models.list()
     console.log(models.data)
     return models.data
-      .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
-      .map(item => item.id)
+      .filter((item) => item.object === "model" && item.id.startsWith("gpt"))
+      .map((item) => item.id)
   }
   
-  async prompt(model: string, content: AuthoredContent[]): Promise<RoleContent> {
-    const messages = content
-      .map(mapAuthoredContentToChatCompletion)
+  async prompt(
+    model: string,
+    content: AuthoredContent[]
+  ): Promise<RoleContent> {
+    const messages = content.map(mapAuthoredContentToChatCompletion)
     const openai = await this.manager.getOpenAi()
     const chatCompletion = await openai.chat.completions.create({
       model,
@@ -30,30 +36,38 @@ export class OpenAiProvider implements PromptableProvider {
     })
     const message = chatCompletion.choices[0].message
     return {
-      content: message.content ?? '',
+      content: message.content ?? "",
       role: message.role,
     } satisfies RoleContent
   }
   
-  async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
-    const messages = content
-      .map(mapAuthoredContentToChatCompletion)
+  async streamedPrompt(
+    model: string,
+    content: AuthoredContent[],
+    chatId: string,
+    messageId: string
+  ): Promise<AuthoredContent[]> {
+    const messages = content.map(mapAuthoredContentToChatCompletion)
     const openai = await this.manager.getOpenAi()
     const stream = await openai.chat.completions.create({
       model,
       messages: messages,
       stream: true,
     })
-    const responseContent = createContent('', chatId, model, 'assistant')
+    const responseContent = createContent("", chatId, model, "assistant")
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content || ""
       responseContent.message += delta
-      await this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
+      await this.mainWindowCallbackConsumer.appendContentDelta({
+        delta,
+        chatId,
+        messageId
+      })
     }
     content.push(responseContent)
     return content
   }
-  
+
   async agentWithHttp(model: string, messages: ChatCompletionMessageParam[]) {
     const openai = await this.manager.getOpenAi()
     const result = await openai.chat.completions.create({
@@ -61,7 +75,7 @@ export class OpenAiProvider implements PromptableProvider {
       model,
       tools: [
         {
-          type: 'function',
+          type: "function",
           function: {
             name: "GET",
             description: "Retrieves data from the server without modifying it.",
@@ -69,8 +83,8 @@ export class OpenAiProvider implements PromptableProvider {
               type: "object",
               properties: {
                 endpoint: {
-                  type: 'string',
-                  description: 'endpoint to call (e.g. /search?customer=123)',
+                  type: "string",
+                  description: "endpoint to call (e.g. /search?customer=123)"
                 },
               },
               required: ["endpoint"],
@@ -83,17 +97,18 @@ export class OpenAiProvider implements PromptableProvider {
   }
 }
 
-export function mapAuthoredContentToChatCompletion(content: AuthoredContent): ChatCompletionMessageParam {
+export function mapAuthoredContentToChatCompletion(
+  content: AuthoredContent
+): ChatCompletionMessageParam {
   switch (content.role) {
     case "system":
     case "assistant":
     case "user": {
-      return {role: content.role, content: content.message}
+      return { role: content.role, content: content.message }
     }
     case "tool": {
-      if (!isToolCall(content))
-        throw new Error(`content isn't a tool call`)
-      
+      if (!isToolCall(content)) throw new Error(`content isn't a tool call`)
+
       return {
         role: content.role,
         content: content.message,
@@ -104,18 +119,18 @@ export function mapAuthoredContentToChatCompletion(content: AuthoredContent): Ch
 }
 
 interface ToolParameter {
-  type: 'object' | 'string' | 'number';
-  enum: string[];
-  description: string;
+  type: "object" | "string" | "number"
+  enum: string[]
+  description: string
 }
 
 export interface Tool {
-  name: string;
-  description: string;
-  parameters: Record<string, ToolParameter>;
+  name: string
+  description: string
+  parameters: Record<string, ToolParameter>
 }
 
 export interface RoleContent {
-  role: "system" | "assistant" | "user",
+  role: "system" | "assistant" | "user"
   content: string
 }

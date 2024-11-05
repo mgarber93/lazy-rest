@@ -1,13 +1,16 @@
-import {OpenAPI} from 'openapi-types'
-import {EnhancedStore} from '@reduxjs/toolkit'
-import {WindowCallbackApi} from '../window-callback/window-callback-api'
-import {appendContent, appendDelta} from './features/chat'
-import {RootState, store} from './features/store'
-import {AuthoredContent} from '../models/content'
-import {ApiConfiguration, ProviderConfiguration} from '../models/api-configuration'
-import {ToolState} from './features/tools'
-import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ApiCallPlan} from '../models/api-call-plan'
+import { OpenAPI } from "openapi-types"
+import { EnhancedStore } from "@reduxjs/toolkit"
+import { WindowCallbackApi } from "../window-callback/window-callback-api"
+import { appendContent, appendDelta } from "./features/chat"
+import { RootState, store } from "./features/store"
+import { AuthoredContent } from "../models/content"
+import {
+  ApiConfiguration,
+  ProviderConfiguration
+} from "../models/api-configuration"
+import { ToolState } from "./features/tools"
+import { Conversation, ConversationId, PlanId } from "../models/conversation"
+import { ApiCallPlan } from "../models/api-call-plan"
 
 /**
  * Ideally methods match action (KISS)
@@ -15,27 +18,27 @@ import {ApiCallPlan} from '../models/api-call-plan'
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {
   }
-  
+
   getProviderConfig() {
     const state = this.store.getState() as RootState
     return state.models.providers as ProviderConfiguration
   }
-  
+
   getConversation(id: ConversationId): Conversation {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
-  
+
   updateToolState(toolState: ToolState): void {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
-  
+
   getPlan(id: PlanId): ApiCallPlan {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
-  
+
   getApi(apiId: string): ApiConfiguration | null {
-    const {tools} = store.getState() as RootState
-    const {api} = tools
+    const { tools } = store.getState() as RootState
+    const { api } = tools
     for (const key in api) {
       if (key === apiId) {
         return api[key]
@@ -45,13 +48,13 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
   }
   
   appendContentDelta(authoredContentDelta: {
-    chatId: string,
-    messageId: string,
-    delta: string,
+    chatId: string
+    messageId: string
+    delta: string
     closed: boolean
   }): void {
-    const {chatId, messageId, delta} = authoredContentDelta
-    this.store.dispatch(appendDelta({chatId, messageId, delta}))
+    const { chatId, messageId, delta } = authoredContentDelta
+    this.store.dispatch(appendDelta({ chatId, messageId, delta }))
   }
   
   loadAllOas(): OpenAPI.Document[] {
@@ -79,9 +82,9 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
   }
   
   getOas(oasId: string): OpenAPI.Document | null {
-    const {tools} = this.store.getState() as RootState
-    const {api} = tools
-    const {fileHandle} = api[oasId]
+    const { tools } = this.store.getState() as RootState
+    const { api } = tools
+    const { fileHandle } = api[oasId]
     const file = localStorage.getItem(fileHandle)
     if (file !== null) {
       const oas = JSON.parse(file) as OpenAPI.Document | null

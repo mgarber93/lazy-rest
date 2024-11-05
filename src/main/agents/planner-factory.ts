@@ -1,7 +1,6 @@
-
-
 // rest gpt https://arxiv.org/abs/2306.06624
-export const plannerTemplate = (descriptions: string) => `You are an agent that plans solution to user queries.
+export const plannerTemplate = (descriptions: string) =>
+  `You are an agent that plans solution to user queries.
 You should always give your plan in natural language.
 Another model will receive your plan and find the right API calls and give you the result in natural language.
 If you assess that the current plan has not been fulfilled, you can output "Continue" to let the API selector select another API to fulfill the plan.
@@ -69,4 +68,4 @@ API response: Successfully called POST /playlists/7LjHVU3t3fcxj5aiPFEW4T/tracks 
 Thought: I am finished executing a plan and have the data the used asked to create
 Final Answer: I have made a new playlist called "Love Coldplay" containing Yellow and Viva La Vida by Coldplay.
 
-Begin!`.replace(/(\n)+/g, '  \n')
+Begin!`.replace(/(\n)+/g, "  \n")

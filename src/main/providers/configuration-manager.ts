@@ -1,7 +1,6 @@
-import OpenAI, {ClientOptions} from 'openai'
-import {container, singleton} from 'tsyringe'
-import {AsyncWindowSenderApi} from '../async-window-sender-api'
-
+import OpenAI, { ClientOptions } from "openai"
+import { container, singleton } from "tsyringe"
+import { AsyncWindowSenderApi } from "../async-window-sender-api"
 
 // manages provider config and high level llm queries like get fast, get cheap, etc
 @singleton()

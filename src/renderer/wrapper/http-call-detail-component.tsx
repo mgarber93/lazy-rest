@@ -1,31 +1,39 @@
-import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
-import clsx from 'clsx'
-import {HttpRequestPlan} from '../../models/api-call-plan'
-import {KeyValueForm} from './key-value-form'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
+import clsx from "clsx"
+import { HttpRequestPlan } from "../../models/api-call-plan"
+import { KeyValueForm } from "./key-value-form"
 
-export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan> }) {
+export function HttpCallDetailComponent({
+                                          step
+                                        }: {
+  step?: Partial<HttpRequestPlan>
+}) {
   const tabs = [
     {
-      name: 'Params',
+      name: "Params"
     },
     // {
     //   name: 'Auth',
     // },
     {
-      name: 'Headers',
+      name: "Headers"
     },
     {
-      name: 'Body',
+      name: "Body"
     },
     // {
     //   name: 'Responses',
     // },
   ]
   return (
-    <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"}>
+    <TabGroup
+      className={
+        "flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"
+      }
+    >
       <TabList
         className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
-        {tabs.map(({name}) => (
+        {tabs.map(({ name }) => (
           <Tab
             key={name}
             className={clsx(
@@ -42,14 +50,14 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         ))}
       </TabList>
       <TabPanels className="">
-        <TabPanel key={'Params'} className="rounded p-3">
-          <KeyValueForm data={step?.queryParams ?? {}}/>
+        <TabPanel key={"Params"} className="rounded p-3">
+          <KeyValueForm data={step?.queryParams ?? {}} />
         </TabPanel>
-        <TabPanel key={'Headers'} className="rounded p-3">
-          <KeyValueForm data={step?.headers ?? {}}/>
+        <TabPanel key={"Headers"} className="rounded p-3">
+          <KeyValueForm data={step?.headers ?? {}} />
         </TabPanel>
-        <TabPanel key={'Body'} className="rounded p-3">
-          <KeyValueForm data={step?.body ?? {}}/>
+        <TabPanel key={"Body"} className="rounded p-3">
+          <KeyValueForm data={step?.body ?? {}} />
         </TabPanel>
       </TabPanels>
     </TabGroup>

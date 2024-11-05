@@ -1,15 +1,18 @@
-import {ReactNode} from 'react'
-import clsx from 'clsx'
+import { ReactNode } from "react"
+import clsx from "clsx"
 
-export const cardEffect = "rounded bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
+export const cardEffect =
+  "rounded bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
-export function Card({children, className}: { children: ReactNode, className?: string }) {
-  const layout = 'flex flex-col gap-4'
-  return (
-    <div className={clsx(cardEffect, layout, className)}>
-      {children}
-    </div>
-  )
+export function Card({
+                       children,
+                       className
+                     }: {
+  children: ReactNode
+  className?: string
+}) {
+  const layout = "flex flex-col gap-4"
+  return <div className={clsx(cardEffect, layout, className)}>{children}</div>
 }
 
 /**
@@ -17,7 +20,7 @@ export function Card({children, className}: { children: ReactNode, className?: s
  * @param children
  * @constructor
  */
-export function CardH2({children}: { children: ReactNode }) {
+export function CardH2({ children }: { children: ReactNode }) {
   const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
   return <h2 className={headerClasses}>{children}</h2>
 }
@@ -28,14 +31,32 @@ export function CardH2({children}: { children: ReactNode }) {
  * @param className - override styling
  * @constructor
  */
-export function CardH3({children, className}: { children: ReactNode, className?: string }) {
+export function CardH3({
+                         children,
+                         className
+                       }: {
+  children: ReactNode
+  className?: string
+}) {
   const headerClasses = `font-semibold border-b border-black/20 dark:border-white/50 leading-relaxed`
   return <h3 className={clsx(headerClasses, className)}>{children}</h3>
 }
 
-export function CardSection({children, className}: { children: ReactNode, className?: string }) {
-  return <div
-    className={clsx("bg-neutral-500/5 dark:border-white/5 border-2 px-2 py-1 rounded-lg flex flex-col gap-2", className)}>
-    {children}
-  </div>
+export function CardSection({
+                              children,
+                              className
+                            }: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <div
+      className={clsx(
+        "bg-neutral-500/5 dark:border-white/5 border-2 px-2 py-1 rounded-lg flex flex-col gap-2",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
 }

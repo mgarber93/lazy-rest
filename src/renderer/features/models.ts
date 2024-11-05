@@ -1,8 +1,8 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {TModel} from '../../models/responder'
-import {ClientOptions} from 'openai'
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { TModel } from "../../models/responder"
+import { ClientOptions } from "openai"
 
-const name = 'models'
+const name = "models"
 
 const initialState = {
   models: [] as TModel[],
@@ -15,11 +15,10 @@ const initialState = {
   organizations: [""],
 }
 
-
 export const listOpenAiModels = createAsyncThunk(
   `${name}/listModels`,
   async () => {
-    const models = await window.main.getModels('openai')
+    const models = await window.main.getModels("openai")
     return models
   },
 )
@@ -27,7 +26,7 @@ export const listOpenAiModels = createAsyncThunk(
 export const listOllamaModels = createAsyncThunk(
   `${name}/listOllamaModels`,
   async () => {
-    const models = await window.main.getModels('ollama')
+    const models = await window.main.getModels("ollama")
     return models
   },
 )
@@ -50,5 +49,4 @@ export const modelsSlice = createSlice({
   },
 })
 
-
-export const {configureOpenAi} = modelsSlice.actions
+export const { configureOpenAi } = modelsSlice.actions

@@ -1,6 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {ApiConfiguration} from '../../models/api-configuration'
-import {Approvable} from '../../models/approvable'
+import { createSlice } from "@reduxjs/toolkit"
+import { ApiConfiguration } from "../../models/api-configuration"
+import { Approvable } from "../../models/approvable"
 
 export interface ToolState {
   approvable: Approvable | null
@@ -8,16 +8,16 @@ export interface ToolState {
 }
 
 export const toolsSlice = createSlice({
-  name: 'tools',
+  name: "tools",
   initialState: {
     api: {},
   } as ToolState,
   reducers: {
     addApiConfiguration: (state, action) => {
-      const {key, configuration} = action.payload
+      const { key, configuration } = action.payload
       state.api[key] = configuration
     },
   },
 })
 
-export const {addApiConfiguration} = toolsSlice.actions
+export const { addApiConfiguration } = toolsSlice.actions

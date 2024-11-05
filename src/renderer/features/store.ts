@@ -1,11 +1,10 @@
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
-import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {chatsSlice} from './chat'
-import {userSlice} from './user'
-import {modelsSlice} from './models'
-import {loadState, localStorageMiddleware} from '../middleware/local-storage'
-import {toolsSlice} from './tools'
-
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit"
+import { chatsSlice } from "./chat"
+import { userSlice } from "./user"
+import { modelsSlice } from "./models"
+import { loadState, localStorageMiddleware } from "../middleware/local-storage"
+import { toolsSlice } from "./tools"
 
 const preloadedState = loadState()
 
@@ -19,7 +18,8 @@ export function createStore() {
     },
     preloadedState,
     devTools: true,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(localStorageMiddleware)
   })
 }
 export const store = createStore()
@@ -29,7 +29,12 @@ export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

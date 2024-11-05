@@ -1,11 +1,14 @@
-import {OpenAPI} from 'openapi-types'
+import { OpenAPI } from "openapi-types"
 
-export const buildCallerPrompt = (goal: string, apiDocs: OpenAPI.Document | null) => {
+export const buildCallerPrompt = (
+  goal: string,
+  apiDocs: OpenAPI.Document | null
+) => {
   if (!goal) {
-    throw new Error('Api Caller prompt missing goal for Call!')
+    throw new Error("Api Caller prompt missing goal for Call!")
   }
   if (!apiDocs) {
-    throw new Error('Api Caller prompt missing apiDocs for Call!')
+    throw new Error("Api Caller prompt missing apiDocs for Call!")
   }
   
   const serializedApiDocs = JSON.stringify(apiDocs, null, 2)
@@ -22,5 +25,3 @@ If the API path contains "{}", it means that it is a variable and you should rep
 You can use http request methods, i.e., GET, POST, DELETE, PATCH, PUT, and generate the corresponding parameters according to the tools description.
 `
 }
-
-

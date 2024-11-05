@@ -1,8 +1,8 @@
-import {ipcMain, IpcMainInvokeEvent} from 'electron'
+import { ipcMain, IpcMainInvokeEvent } from "electron"
 
-import {container} from 'tsyringe'
-import {TInvokeChannel} from '../preloader/preloaded-api'
-import {Handler} from './handlers/handler'
+import { container } from "tsyringe"
+import { TInvokeChannel } from "../preloader/preloaded-api"
+import { Handler } from "./handlers/handler"
 
 export function setupInvokeHandlers() {
   const channels = container.resolve<TInvokeChannel[]>("InvokeChannels")

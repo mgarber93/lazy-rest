@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useLayoutEffect, useRef} from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
 
 export const useKeyPress = (
   predicate: (event: KeyboardEvent) => boolean,
@@ -10,7 +10,7 @@ export const useKeyPress = (
   useLayoutEffect(() => {
     callbackRef.current = callback
   })
-  
+
   // handle what happens on key press
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
@@ -21,17 +21,15 @@ export const useKeyPress = (
     },
     [predicate, callback],
   )
-  
+
   useEffect(() => {
     // target is either the provided node or the document
     const targetNode = node ?? document
     // attach the event listener
-    targetNode &&
-    targetNode.addEventListener("keydown", handleKeyPress)
-    
+    targetNode && targetNode.addEventListener("keydown", handleKeyPress)
+
     // remove the event listener
     return () =>
-      targetNode &&
-      targetNode.removeEventListener("keydown", handleKeyPress)
+      targetNode && targetNode.removeEventListener("keydown", handleKeyPress)
   }, [handleKeyPress, node])
 }

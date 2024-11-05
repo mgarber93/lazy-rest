@@ -1,13 +1,13 @@
-import {v4} from 'uuid'
-import {AuthoredContent} from './content'
-import {Responder} from './responder'
-import {ToolState} from '../renderer/features/tools'
+import { v4 } from "uuid"
+import { AuthoredContent } from "./content"
+import { Responder } from "./responder"
+import { ToolState } from "../renderer/features/tools"
 
 export function createConversation(id?: string): Conversation {
   return {
     id: id ?? v4(),
     content: [] as AuthoredContent[],
-    title: '',
+    title: "",
     created: Date(),
   }
 }

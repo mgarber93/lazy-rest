@@ -1,3 +1,3 @@
-import 'reflect-metadata'
+import "reflect-metadata"
 
-import 'openai/shims/node'
+import "openai/shims/node"

@@ -1,1 +1,1 @@
-export type TAutoPrompter = 'rest api' | 'execute plan'
+export type TAutoPrompter = "rest api" | "execute plan"

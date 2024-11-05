@@ -7,8 +7,8 @@
 ├── main                    - Main process
 ├── models
 ├── preload.ts
-├── preloaded               - can use ipcRenderer 
-├── prompts                 - Prompts for LLMS 
+├── preloaded               - can use ipcRenderer
+├── prompts                 - Prompts for LLMS
 ├── renderer                - React & Redux
 └── renderer.ts
 ```

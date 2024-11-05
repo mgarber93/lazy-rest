@@ -1,9 +1,9 @@
-import {AuthoredContent} from '../models/content'
-import {OpenAPI} from 'openapi-types'
-import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ToolState} from '../renderer/features/tools'
-import {ProviderConfiguration} from '../models/api-configuration'
-import {ApiCallPlan} from '../models/api-call-plan'
+import { AuthoredContent } from "../models/content"
+import { OpenAPI } from "openapi-types"
+import { Conversation, ConversationId, PlanId } from "../models/conversation"
+import { ToolState } from "../renderer/features/tools"
+import { ProviderConfiguration } from "../models/api-configuration"
+import { ApiCallPlan } from "../models/api-call-plan"
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -11,13 +11,13 @@ export type TWindowSenderChannel = keyof WindowCallbackApi
  * Channels preloader will allow at runtime
  */
 export const channelAllowList: TWindowSenderChannel[] = [
-  'appendContentDelta',
-  'loadAllOas',
-  'appendContent',
-  'getOas',
-  'getConversation',
-  'getPlan',
-  'getProviderConfig',
+  "appendContentDelta",
+  "loadAllOas",
+  "appendContent",
+  "getOas",
+  "getConversation",
+  "getPlan",
+  "getProviderConfig"
 ]
 
 /**
@@ -25,8 +25,13 @@ export const channelAllowList: TWindowSenderChannel[] = [
  * protocol, implemented by Provider. WindowSender makes the return type a promise
  */
 export interface WindowCallbackApi {
-  appendContentDelta(authoredContentDelta: { chatId: string, messageId: string, delta: string, closed: boolean }): void
-  
+  appendContentDelta(authoredContentDelta: {
+    chatId: string
+    messageId: string
+    delta: string
+    closed: boolean
+  }): void
+
   loadAllOas(): OpenAPI.Document[]
   
   appendContent(content: AuthoredContent): void
