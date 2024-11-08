@@ -13,7 +13,7 @@ export function ResponseViewer({
   const [theme, setTheme] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "vs-dark"
-      : "light"
+      : "light",
   )
   // const monaco = useMonaco()
   useEffect(() => {

@@ -47,7 +47,7 @@ export function HttpCallForm({
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         Accept: "application/json; charset=utf-8"
-      }
+      },
     } satisfies HttpRequestPlan)
     setResponse(response)
   }, [convo, setResponse])
@@ -55,7 +55,7 @@ export function HttpCallForm({
   const handleContinue = useCallback(() => {
     console.log("handleContinue")
   }, [])
-  
+
   const handleSelectChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedValue = event.target.value
@@ -68,12 +68,12 @@ export function HttpCallForm({
             httpVerb: selectedValue
           } as Partial<HttpRequestPlan>,
           sequenceId
-        } satisfies UpdateStepActivityPayload)
+        } satisfies UpdateStepActivityPayload),
       )
     },
     [convo]
   )
-  
+
   const handleUrlChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = event.target.value
@@ -86,7 +86,7 @@ export function HttpCallForm({
             url: inputValue
           } as Partial<HttpRequestPlan>,
           sequenceId
-        } satisfies UpdateStepActivityPayload)
+        } satisfies UpdateStepActivityPayload),
       )
     },
     [convo, contentId, sequenceId]

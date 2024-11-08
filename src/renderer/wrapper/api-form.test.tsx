@@ -14,7 +14,7 @@ describe("ApiForm tests", () => {
     const result = render(
       <Provider store={store}>
         <ApiForm />
-      </Provider>
+      </Provider>,
     )
     const file = new File(["dummy content"], "dummy.yaml", {
       type: "application/yaml"

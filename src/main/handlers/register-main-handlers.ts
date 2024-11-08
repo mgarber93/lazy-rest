@@ -15,7 +15,7 @@ export function registerMainHandlers() {
   container.register<TInvokeChannel[]>("InvokeChannels", {
     useValue: INVOKE_CHANNELS
   })
-  
+
   container.register<Handler<"streamedChat">>("streamedChat", {
     useClass: StreamedChatHandler
   })

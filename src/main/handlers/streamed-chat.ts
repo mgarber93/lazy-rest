@@ -14,7 +14,7 @@ export class StreamedChatHandler implements Handler<"streamedChat"> {
   private swaggerGptPlanProgressor = container.resolve(SwaggerGpt)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private ollama = container.resolve(OllamaProvider)
-  
+
   static Error_Message =
     "conversation has no model set. did you want to set it or maybe just default to something the user set"
 

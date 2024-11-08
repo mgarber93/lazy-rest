@@ -8,7 +8,7 @@ import { ApiCallPlan, HttpRequestPlan } from "../../models/api-call-plan"
 @singleton()
 export class CallDetailer {
   private openAiLlm: OpenAiProvider = container.resolve(OpenAiProvider)
-  
+
   async handle(
     userContent: AuthoredContent,
     endpointCallPlan: HttpRequestPlan,

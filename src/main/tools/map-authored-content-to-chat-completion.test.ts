@@ -19,7 +19,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
-  
+
   it("should transform assistant role content correctly", () => {
     const content: AuthoredContent = {
       id: "2",
@@ -34,7 +34,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
-  
+
   it("should transform user role content correctly", () => {
     const content: AuthoredContent = {
       id: "3",
@@ -49,7 +49,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
-  
+
   it("should throw an error when invalid tool role content is provided", () => {
     const content = {
       id: "4",
@@ -59,7 +59,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       role: "tool" // incorrect type
     }
     expect(() =>
-      mapAuthoredContentToChatCompletion(content as AuthoredContent)
+      mapAuthoredContentToChatCompletion(content as AuthoredContent),
     ).toThrow()
   })
   

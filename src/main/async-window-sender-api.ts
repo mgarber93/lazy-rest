@@ -21,7 +21,7 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   async callback(id: string, arg: never): Promise<void> {
     this.windowSender.callback(id, arg)
   }
-  
+
   async appendContentDelta({
                              chatId,
                              messageId,

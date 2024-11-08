@@ -35,7 +35,7 @@ export function KeyValueForm<T extends Record<string, any>>({
           delete newData[oldKey]
           newData[key as keyof T] = value
         }
-        
+
         onChange?.(newData)
       }
     },

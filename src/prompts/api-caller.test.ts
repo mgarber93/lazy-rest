@@ -11,7 +11,7 @@ describe("buildCallerPrompt Function", () => {
     api = await OpenAPIParser.parse(filePath)
     console.log("API name: %s, Version: %s", api.info.title, api.info.version)
   })
-  
+
   test("should throw an error if goal is missing", () => {
     expect(() => buildCallerPrompt("", api)).toThrowError(
       "Api Caller prompt missing goal for Call!"

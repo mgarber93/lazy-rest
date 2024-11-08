@@ -16,7 +16,7 @@ import { ApiCallPlan } from "../../models/api-call-plan"
  */
 export class AgentFactory {
   protected openAiLlm = container.resolve(OpenAiProvider)
-  
+
   public async createAgent(
     goal: string,
     instructions: string,

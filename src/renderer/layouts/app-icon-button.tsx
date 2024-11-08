@@ -9,7 +9,7 @@ export function AppIconButton({ children }: { children: React.ReactNode }) {
   const handleMouseDown = useCallback(() => {
     setClicked(true)
   }, [setClicked])
-  
+
   return (
     <div
       className={clsx(

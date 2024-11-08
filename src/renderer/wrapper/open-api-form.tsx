@@ -13,7 +13,7 @@ function OpenAiConfigForm() {
       configureOpenAi({
         apiKey: providerConfig?.apiKey ?? "",
         baseURL: providerConfig?.baseURL ?? ""
-      })
+      }),
     )
   }, [])
   const currentOpenAiConfig = useAppSelector(

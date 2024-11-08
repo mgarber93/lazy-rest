@@ -15,7 +15,7 @@ export class OllamaProvider implements PromptableProvider {
     const listed = await ollama.list()
     return listed.models.map((model) => model.name)
   }
-  
+
   async streamedPrompt(
     model: string,
     content: AuthoredContent[],

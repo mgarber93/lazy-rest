@@ -23,7 +23,7 @@ export class OpenAiProvider implements PromptableProvider {
       .filter((item) => item.object === "model" && item.id.startsWith("gpt"))
       .map((item) => item.id)
   }
-  
+
   async prompt(
     model: string,
     content: AuthoredContent[]
@@ -40,7 +40,7 @@ export class OpenAiProvider implements PromptableProvider {
       role: message.role,
     } satisfies RoleContent
   }
-  
+
   async streamedPrompt(
     model: string,
     content: AuthoredContent[],

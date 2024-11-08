@@ -55,7 +55,7 @@ export function Header() {
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
   const dispatch = useAppDispatch()
-  
+
   // Add above the Header component
   const navigate = useNavigate()
 

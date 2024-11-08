@@ -53,7 +53,7 @@ export function Sections({ sections }: { sections: ISection[] }) {
     },
     []
   )
-  
+
   return sections.length > 0 ? (
     <div className={"rounded p-2 mr-2 rounded-tl-none rounded-bl-none"}>
       <AppHorizontalChip>
@@ -158,7 +158,7 @@ export function ScrollUserInputPageLayout({
       window.removeEventListener("resize", checkScrollable)
     }
   }, [convo])
-  
+
   return (
     <div className={clsx("h-[calc(100vh-47px)]")}>
       <Center className={""}>

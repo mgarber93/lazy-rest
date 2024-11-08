@@ -36,21 +36,21 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
     this.hasPreloaded = true
     return preloadedApi as PreloadedApi
   }
-  
+
   callback<T extends keyof WindowCallbackApi>(
     promiseId: string,
     arg: ReturnType<WindowCallbackApi[T]>
   ) {
     ipcRenderer.invoke("callback", arg)
   }
-  
+
   receive<T extends keyof WindowCallbackApi>(
     channel: T,
     func: (
       event: never,
       id: string,
       ...args: Parameters<WindowCallbackApi[T]>
-    ) => ReturnType<WindowCallbackApi[T]>
+    ) => ReturnType<WindowCallbackApi[T]>,
   ): void {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)

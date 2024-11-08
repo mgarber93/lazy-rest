@@ -19,7 +19,7 @@ export function createStore() {
     preloadedState,
     devTools: true,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(localStorageMiddleware)
+      getDefaultMiddleware().concat(localStorageMiddleware),
   })
 }
 export const store = createStore()

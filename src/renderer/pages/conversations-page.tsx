@@ -37,7 +37,7 @@ export function ConversationContent({ content }: { content: AuthoredContent }) {
         {content.role === "user" && (
           <CardSection>
             <span
-              className={clsx("flex-1 text-right max-w-[40vw]  flex ml-auto")}
+              className={clsx("flex-1 text-right max-w-[50vw] flex ml-auto")}
               key={content.id}
             >
               <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
@@ -86,9 +86,7 @@ export function ConversationsPage() {
   const sections = [] as ISection[]
   const scrollToSection = useCallback(
     (section: RefObject<HTMLDivElement | null>) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      section?.current?.scrollIntoView({ behavior: "smooth", alignToTop: true })
+      section?.current?.scrollIntoView({ behavior: "smooth" })
     },
     []
   )

@@ -16,7 +16,7 @@ export function ApiForm() {
   const [oas, setOas] = useState(null)
   const [fileHandle, setFileHandle] = useState("")
   const dispatch = useAppDispatch()
-  
+
   const handleFile = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0]
@@ -26,7 +26,7 @@ export function ApiForm() {
           const yaml = parse(reader.result as string) as OpenAPI.Document
           setName(yaml.info.contact?.name ?? "")
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore the type must be wrong or something? Its on spotifies swagger
+          // @ts-ignore the type must be wrong or something? It's on spotify's swagger
           setBaseUrl(yaml.servers[0].url)
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -37,13 +37,13 @@ export function ApiForm() {
         reader.readAsText(file) // You can read it as Array Buffer or Binary String alternatively
       }
     },
-    [setName, setBaseUrl, setOas, setFileHandle, dispatch]
+    [setName, setBaseUrl, setOas, setFileHandle]
   )
 
   const isValid = useMemo(() => {
     return name && baseUrl && clientId && clientSecret && oas !== null
   }, [name, baseUrl, clientId, clientSecret, oas])
-  
+
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault()
@@ -52,7 +52,7 @@ export function ApiForm() {
         addApiConfiguration({
           key: fileHandle,
           configuration: { name, baseUrl, clientId, clientSecret, fileHandle }
-        })
+        }),
       )
     },
     [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle]

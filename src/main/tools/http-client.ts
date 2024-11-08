@@ -12,10 +12,10 @@ export class HttpClient implements Handler<"fetch"> {
       headers: plan.headers,
     })
     const data = await response.json()
-    
+
     return { data, status: response.status }
   }
-  
+
   async getToken(
     baseUrl: string,
     clientId: string,

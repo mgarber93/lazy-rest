@@ -29,12 +29,12 @@ export interface WindowSenderProtocol {
 
   // type unsafe api
   send(channel: TWindowSenderChannel, data: never): void
-  
+
   receive<T extends TWindowSenderChannel>(
     channel: T,
     func: TWindowSenderCallback<T>
   ): void
-  
+
   remove(
     channel: TWindowSenderChannel,
     func: (...args: never[]) => void

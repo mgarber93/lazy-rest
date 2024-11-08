@@ -24,7 +24,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
   const [promptMessage, setPromptMessage] = useState("")
-  
+
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -70,7 +70,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
               model: model as TModel
             } satisfies Responder,
             chatId: conversation.id
-          })
+          }),
         )
       } else {
         dispatch(
@@ -81,7 +81,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
               model: model as TModel
             } satisfies Responder,
             chatId: conversation.id
-          })
+          }),
         )
       }
     },
@@ -111,11 +111,11 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
             model: nextModel
           } satisfies Responder,
           chatId: conversation.id
-        })
+        }),
       )
     }
   }, [models, conversation])
-  
+
   return (
     <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>
       {!disabled && (

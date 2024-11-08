@@ -14,7 +14,7 @@ describe("useCurrentConversation", () => {
     const { result } = renderHook(() => useCurrentConversation(), {
       wrapper: ({ children }) => (
         <Provider store={store}> {children} </Provider>
-      )
+      ),
     })
     expect(result.current.id).not.toBeUndefined()
   })
@@ -30,12 +30,12 @@ describe("useCurrentConversation", () => {
   //
   //   expect(result.current.id).toBe('Test chat')
   // })
-  
+
   test("returns new chat if no chats exists", () => {
     const { result } = renderHook(() => useCurrentConversation(), {
       wrapper: ({ children }) => (
         <Provider store={store}> {children} </Provider>
-      )
+      ),
     })
     
     expect(result.current.title).toBe(createConversation().title)
