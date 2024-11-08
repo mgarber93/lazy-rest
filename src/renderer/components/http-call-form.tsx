@@ -50,7 +50,7 @@ export function HttpCallForm({
       },
     } satisfies HttpRequestPlan)
     setResponse(response)
-  }, [convo, setResponse])
+  }, [step])
 
   const handleContinue = useCallback(() => {
     console.log("handleContinue")
@@ -71,7 +71,7 @@ export function HttpCallForm({
         } satisfies UpdateStepActivityPayload),
       )
     },
-    [convo]
+    [contentId, convo.id, dispatch, sequenceId, step]
   )
 
   const handleUrlChange = useCallback(
@@ -89,7 +89,7 @@ export function HttpCallForm({
         } satisfies UpdateStepActivityPayload),
       )
     },
-    [convo, contentId, sequenceId]
+    [dispatch, convo.id, contentId, step, sequenceId]
   )
   
   return (

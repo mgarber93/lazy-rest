@@ -15,7 +15,7 @@ function OpenAiConfigForm() {
         baseURL: providerConfig?.baseURL ?? ""
       }),
     )
-  }, [])
+  }, [dispatch, providerConfig])
   const currentOpenAiConfig = useAppSelector(
     (state) => state.models.providers.openAi
   )

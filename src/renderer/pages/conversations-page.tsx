@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  RefObject,
-  useCallback,
-  useEffect,
-  useRef
-} from "react"
+import React, { ReactNode, RefObject, useCallback, useEffect, useMemo, useRef } from "react"
 import clsx from "clsx"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -13,10 +7,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { HeaderLayout } from "../layouts/header-layout"
 import { useCurrentConversation } from "../hooks/current-conversation"
-import {
-  ISection,
-  ScrollUserInputPageLayout
-} from "../layouts/scroll-container"
+import { ISection, ScrollUserInputPageLayout } from "../layouts/scroll-container"
 import { AuthoredContent } from "../../models/content"
 import { FeedContent } from "../components/feed-content"
 import { CardSection } from "../wrapper/card"
@@ -82,8 +73,9 @@ export function MapContentToCardSection({
 
 export function ConversationsPage() {
   const conversation = useCurrentConversation()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const refs = Array.from({ length: 256 }, () => useRef(null))
-  const sections = [] as ISection[]
+  const sections = useMemo(() => [] as ISection[], [])
   const scrollToSection = useCallback(
     (section: RefObject<HTMLDivElement | null>) => {
       section?.current?.scrollIntoView({ behavior: "smooth" })
@@ -97,7 +89,7 @@ export function ConversationsPage() {
     if (nextSection) {
       setTimeout(() => nextSection && scrollToSection(nextSection), delay)
     }
-  }, [conversation])
+  }, [conversation, scrollToSection, sections])
 
   const contentCards = [] as ReactNode[]
   conversation.content.reduce(

@@ -1,12 +1,6 @@
 import { useCurrentConversation } from "../hooks/current-conversation"
 import { useAppDispatch, useAppSelector } from "../features/store"
-import React, {
-  ChangeEvent,
-  KeyboardEventHandler,
-  useCallback,
-  useEffect,
-  useState
-} from "react"
+import React, { ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useState } from "react"
 import { createContent } from "../../models/content"
 import { appendContent, setResponder, streamResponse } from "../features/chat"
 import { Responder, TModel } from "../../models/responder"
@@ -47,7 +41,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
         setPromptMessage("")
       }
     },
-    [conversation, user]
+    [conversation.id, dispatch, user?.username]
   )
   const handleOnChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +79,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
         )
       }
     },
-    [conversation]
+    [conversation.id, dispatch, ollamaModels]
   )
 
   useEffect(() => {
@@ -114,7 +108,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
         }),
       )
     }
-  }, [models, conversation])
+  }, [models, conversation, ollamaModels, dispatch])
 
   return (
     <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>

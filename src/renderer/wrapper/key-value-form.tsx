@@ -5,7 +5,7 @@ import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 
 const elements = `border rounded bg-transparent border-neutral-700 dark:bg-neutral-950/5`
 
-export const inputClass = clsx(
+const inputClass = clsx(
   elements,
   "flex-grow py-1.5 px-3 text-sm/6 dark:text-white",
   "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
@@ -39,7 +39,7 @@ export function KeyValueForm<T extends Record<string, any>>({
         onChange?.(newData)
       }
     },
-    [dataAsRows]
+    [data, onChange]
   )
 
   const handleRowRemove = useCallback((index: number) => {

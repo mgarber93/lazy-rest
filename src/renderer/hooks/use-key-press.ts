@@ -19,7 +19,7 @@ export const useKeyPress = (
         callbackRef.current(event)
       }
     },
-    [predicate, callback],
+    [predicate]
   )
 
   useEffect(() => {
