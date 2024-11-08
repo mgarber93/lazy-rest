@@ -57,7 +57,7 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     }
     return conversation as Conversation
   }
-  
+
   async getPlan(planId: PlanId) {
     const plan = await this.windowSender.asyncSend("getPlan", { planId })
     if (!plan) {

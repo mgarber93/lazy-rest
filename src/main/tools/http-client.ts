@@ -45,7 +45,7 @@ export class HttpClient implements Handler<"fetch"> {
     const token = result.access_token
     return token
   }
-  
+
   async get(token: string, baseUrl: string, endpoint: string): Promise<object> {
     const options = {
       method: "GET",

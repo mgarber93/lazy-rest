@@ -1,6 +1,12 @@
 import { useCurrentConversation } from "../hooks/current-conversation"
 import { useAppDispatch, useAppSelector } from "../features/store"
-import React, { ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useState } from "react"
+import React, {
+  ChangeEvent,
+  KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useState
+} from "react"
 import { createContent } from "../../models/content"
 import { appendContent, setResponder, streamResponse } from "../features/chat"
 import { Responder, TModel } from "../../models/responder"
@@ -124,7 +130,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
           disabled={disabled}
         ></Input>
       )}
-      
+
       {!disabled && (
         <Select
           name={"responder"}

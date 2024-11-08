@@ -4,7 +4,12 @@ import { ChevronUpIcon } from "@heroicons/react/24/outline"
 import { motion } from "framer-motion"
 import { CardSection } from "../wrapper/card"
 import { HttpCallForm } from "./http-call-form"
-import { ApiCallPlan, mockSequence, ProgressStage, SequenceActivity } from "../../models/api-call-plan"
+import {
+  ApiCallPlan,
+  mockSequence,
+  ProgressStage,
+  SequenceActivity
+} from "../../models/api-call-plan"
 
 // @todo remove when implemented
 function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {

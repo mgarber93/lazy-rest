@@ -62,7 +62,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       mapAuthoredContentToChatCompletion(content as AuthoredContent),
     ).toThrow()
   })
-  
+
   it("should transform valid tool role content correctly", () => {
     const content: AuthoredContent & { tool_call_id: string } = {
       id: "5",

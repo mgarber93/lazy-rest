@@ -42,7 +42,7 @@ export default tseslint.config(
         // See also https://github.com/import-js/eslint-import-resolver-typescript#configuration
         typescript: true,
         node: true
-      }
-    }
-  }
+      },
+    },
+  },
 )
