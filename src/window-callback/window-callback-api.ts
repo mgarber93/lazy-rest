@@ -17,7 +17,7 @@ export const channelAllowList: TWindowSenderChannel[] = [
   "getOas",
   "getConversation",
   "getPlan",
-  "getProviderConfig"
+  "getProviderConfig",
 ]
 
 /**
@@ -33,16 +33,16 @@ export interface WindowCallbackApi {
   }): void
 
   loadAllOas(): OpenAPI.Document[]
-  
+
   appendContent(content: AuthoredContent): void
-  
+
   getOas(oasId: string): OpenAPI.Document | null
-  
+
   getConversation(id: ConversationId): Conversation | null
-  
+
   updateToolState(toolState: ToolState): void
-  
+
   getPlan(id: PlanId): ApiCallPlan | null
-  
+
   getProviderConfig(): ProviderConfiguration
 }

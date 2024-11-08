@@ -1,11 +1,4 @@
-import React, {
-  ReactNode,
-  RefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from "react"
+import React, { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Center } from "../wrapper/center"
 import clsx from "clsx"
 import { CardH3 } from "../wrapper/card"
@@ -22,9 +15,9 @@ export interface ISection {
 }
 
 export function AppHorizontalChip({
-                                    children,
-                                    className
-                                  }: {
+  children,
+  className,
+}: {
   children: React.ReactNode
   className?: string
 }) {
@@ -33,7 +26,7 @@ export function AppHorizontalChip({
       className={clsx(
         "flex flex-row border-b-2 border-black/5 pl-2 -mx-2 bg-black/5 dark:bg-white/15 px-2 pt-1 rounded-tl rounded-bl rounded-br-2xl rounded-tr-2xl",
         "select-none",
-        className
+        className,
       )}
     >
       {children}
@@ -48,10 +41,10 @@ export function Sections({ sections }: { sections: ISection[] }) {
       // @ts-ignore
       section?.current?.scrollIntoView({
         behavior: "instant",
-        alignToTop: true
+        alignToTop: true,
       })
     },
-    []
+    [],
   )
 
   return sections.length > 0 ? (
@@ -92,9 +85,9 @@ export function Sections({ sections }: { sections: ISection[] }) {
 }
 
 export function ScrollPageLayout({
-                                   sections,
-                                   children
-                                 }: {
+  sections,
+  children,
+}: {
   sections: ISection[]
   children?: ReactNode
 }) {
@@ -107,7 +100,7 @@ export function ScrollPageLayout({
           <aside
             className={clsx(
               effect,
-              "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl"
+              "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
             )}
           >
             <Sections sections={sections} />
@@ -117,7 +110,7 @@ export function ScrollPageLayout({
           className={clsx(
             "col-span-4 top-4 rounded",
             "h-[calc(100vh-47px)] mb-2 overflow-y-scroll",
-            effect
+            effect,
           )}
         >
           <div className={"p-4"}>{children}</div>
@@ -129,9 +122,9 @@ export function ScrollPageLayout({
 }
 
 export function ScrollUserInputPageLayout({
-                                            sections,
-                                            children
-                                          }: {
+  sections,
+  children,
+}: {
   sections: ISection[]
   children?: ReactNode
 }) {
@@ -172,7 +165,7 @@ export function ScrollUserInputPageLayout({
               className={clsx(
                 effect,
                 "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
-                "row-span-2 col-span-1 lg:col-span-1"
+                "row-span-2 col-span-1 lg:col-span-1",
               )}
             >
               <Sections sections={sections} />
@@ -202,7 +195,7 @@ export function ScrollUserInputPageLayout({
                 effect,
                 "row-span-1 col-span-5 lg:col-span-4",
                 "p-0 bg-transparent",
-                isScrollable && "-mt-1.5 rounded-t-none"
+                isScrollable && "-mt-1.5 rounded-t-none",
               )}
               ref={contentRef}
             >

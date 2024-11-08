@@ -17,7 +17,7 @@ describe("ApiForm tests", () => {
       </Provider>,
     )
     const file = new File(["dummy content"], "dummy.yaml", {
-      type: "application/yaml"
+      type: "application/yaml",
     })
     const fileInput = result.getByLabelText(/Open Api Spec/i)
     await userEvent.upload(fileInput, file)

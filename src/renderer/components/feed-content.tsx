@@ -4,12 +4,7 @@ import { ChevronUpIcon } from "@heroicons/react/24/outline"
 import { motion } from "framer-motion"
 import { CardSection } from "../wrapper/card"
 import { HttpCallForm } from "./http-call-form"
-import {
-  ApiCallPlan,
-  mockSequence,
-  ProgressStage,
-  SequenceActivity
-} from "../../models/api-call-plan"
+import { ApiCallPlan, mockSequence, ProgressStage, SequenceActivity } from "../../models/api-call-plan"
 
 // @todo remove when implemented
 function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
@@ -19,23 +14,23 @@ function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
 }
 
 export function HttpCallCard({
-                               activity,
-                               index,
-                               contentId
-                             }: {
+  activity,
+  index,
+  contentId,
+}: {
   activity: SequenceActivity
   index: number
   apiCallPlan: ApiCallPlan
   contentId: string
 }) {
   const [isOpen, setIsOpen] = useState(
-    activity.progressStage === ProgressStage.active
+    activity.progressStage === ProgressStage.active,
   )
 
   const handleToggle = useCallback(() => {
     setIsOpen((isOpen) => !isOpen)
   }, [setIsOpen])
-  
+
   return (
     <CardSection className={clsx("flex flex-col gap-1")}>
       <div className={"h-full rounded p-2 px-0"}>

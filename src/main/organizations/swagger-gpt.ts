@@ -15,7 +15,7 @@ export class SwaggerGpt {
     const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
     const endpoints = oasSpec.reduce(
       (acc: string, spec: OpenAPI.Document) => acc + this.specToOas(spec),
-      ""
+      "",
     )
     return mockSequence as SequenceActivity[]
   }
@@ -45,7 +45,7 @@ export class SwaggerGpt {
         steps: activities,
       },
     } satisfies AuthoredContent
-    
+
     await this.mainWindowCallbackConsumer.appendContent(plan)
     // const plan = await this.createPlan(lastMessage)
     // // we now have a high level plan to present to the user in a progress stepper (if verbose)

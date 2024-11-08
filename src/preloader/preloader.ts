@@ -1,20 +1,12 @@
 import { inject, injectable } from "tsyringe"
 import { ipcRenderer } from "electron"
-import {
-  PreloadedApi,
-  WindowReceiverProtocol,
-  WindowSenderProtocol
-} from "./preloaded-api"
-import {
-  channelAllowList,
-  TWindowSenderChannel,
-  WindowCallbackApi
-} from "../window-callback/window-callback-api"
+import { PreloadedApi, WindowReceiverProtocol, WindowSenderProtocol } from "./preloaded-api"
+import { channelAllowList, TWindowSenderChannel, WindowCallbackApi } from "../window-callback/window-callback-api"
 
 @injectable()
 export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
   constructor(
-    @inject("InvokeChannels") private invokeChannels: (keyof PreloadedApi)[]
+    @inject("InvokeChannels") private invokeChannels: (keyof PreloadedApi)[],
   ) {
     this.receive = this.receive.bind(this)
     this.remove = this.remove.bind(this)
@@ -30,7 +22,7 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
     for (const invokeChannel of this.invokeChannels) {
       preloadedApi[invokeChannel] = ipcRenderer.invoke.bind(
         ipcRenderer,
-        invokeChannel
+        invokeChannel,
       )
     }
     this.hasPreloaded = true
@@ -39,7 +31,7 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
 
   callback<T extends keyof WindowCallbackApi>(
     promiseId: string,
-    arg: ReturnType<WindowCallbackApi[T]>
+    arg: ReturnType<WindowCallbackApi[T]>,
   ) {
     ipcRenderer.invoke("callback", arg)
   }
@@ -61,7 +53,7 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
 
   remove(
     channel: keyof WindowCallbackApi,
-    func: (...args: never[]) => void
+    func: (...args: never[]) => void,
   ): Promise<void> {
     if (!channelAllowList.includes(channel)) {
       console.error(channel)
@@ -70,7 +62,7 @@ export class Preloader implements WindowSenderProtocol, WindowReceiverProtocol {
     }
     return Promise.resolve()
   }
-  
+
   send(channel: TWindowSenderChannel, data: any) {
     if (channelAllowList.includes(channel)) {
       ipcRenderer.send(channel, data)

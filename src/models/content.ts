@@ -43,7 +43,7 @@ export function createContent(
   message: string,
   chatId: string,
   author: string,
-  role: Role
+  role: Role,
 ): AuthoredContent {
   const id = generateId()
   return {

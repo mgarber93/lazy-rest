@@ -5,7 +5,7 @@ function setEndpointDescription(
   object: Record<string, any>,
   path: string,
   key: string,
-  value: any
+  value: any,
 ) {
   if (!(path in object)) {
     object[path] = {}
@@ -44,11 +44,11 @@ export function oasToDescriptions(oasSpec: OpenAPI.Document): object {
 export function fuzzyMatch(a: string, b: string): boolean {
   const aSegments = a.split("/")
   const bSegments = b.split("/")
-  
+
   if (aSegments.length !== bSegments.length) {
     return false
   }
-  
+
   for (let i = 0; i < aSegments.length; i++) {
     const aSegment = aSegments[i]
     const bSegment = bSegments[i]

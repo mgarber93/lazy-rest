@@ -7,7 +7,7 @@ const openApiSpec = spec as unknown as OpenAPI.Document
 test("fuzzyMatch", () => {
   const actual = fuzzyMatch(
     "/artists/00FQb4jTyendYWaN8pK0wa/albums",
-    "/artists/{artist_id}/albums"
+    "/artists/{artist_id}/albums",
   )
   expect(actual).toBe(true)
 })

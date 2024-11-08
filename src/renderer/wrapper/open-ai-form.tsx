@@ -1,26 +1,11 @@
 import clsx from "clsx"
 import { ChangeEvent, useCallback } from "react"
-import {
-  Button,
-  Description,
-  Field,
-  Fieldset,
-  Input,
-  Label
-} from "@headlessui/react"
+import { Button, Description, Field, Fieldset, Input, Label } from "@headlessui/react"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
 
 import { useAppDispatch, useAppSelector } from "../features/store"
-import {
-  configureOpenAi,
-  listOllamaModels,
-  listOpenAiModels
-} from "../features/models"
-import {
-  descriptionClasses,
-  inputClasses,
-  labelClasses
-} from "../components/api-form-element"
+import { configureOpenAi, listOllamaModels, listOpenAiModels } from "../features/models"
+import { descriptionClasses, inputClasses, labelClasses } from "../components/api-form-element"
 import { AppIconButton } from "../layouts/app-icon-button"
 import { AppHorizontalChip } from "../layouts/scroll-container"
 
@@ -40,7 +25,7 @@ export function OllamaForm() {
               <ArrowPathIcon
                 onClick={handleLoadModels}
                 className={clsx(
-                  "max-h-6 border dark:border-transparent hover:shadow transition-shadow w-fit text-nowrap rounded"
+                  "max-h-6 border dark:border-transparent hover:shadow transition-shadow w-fit text-nowrap rounded",
                 )}
               >
                 Add models
@@ -67,7 +52,7 @@ export function OpenAiForm() {
       const value = event.target.value
       dispatch(configureOpenAi({ apiKey: value }))
     },
-    [dispatch]
+    [dispatch],
   )
   const handleLoadModels = useCallback(() => {
     dispatch(listOpenAiModels())
@@ -101,7 +86,7 @@ export function OpenAiForm() {
         <Input
           className={clsx(
             "mt-3 block w-full rounded border-none bg-black/5 dark:bg-white/5 py-1.5 px-3 text-sm/6 text-black dark:text-white",
-            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
           )}
         />
       </Field>

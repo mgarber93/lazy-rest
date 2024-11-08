@@ -12,10 +12,10 @@ import { useKeyPress } from "../hooks/use-key-press"
 import { useCurrentConversation } from "../hooks/current-conversation"
 
 export function HeaderTab({
-                            children,
-                            to,
-                            className
-                          }: {
+  children,
+  to,
+  className,
+}: {
   children: ReactElement
   to: string
   className?: string
@@ -32,15 +32,15 @@ export function HeaderTab({
           classes,
           border,
           isActive &&
-          clsx(
-            borderActive,
-            "drop-shadow",
-            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white"
-          ),
+            clsx(
+              borderActive,
+              "drop-shadow",
+              "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
+            ),
           !isActive &&
-          clsx(
-            "bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"
-          ),
+            clsx(
+              "bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900",
+            ),
           className,
         )
       }
@@ -64,7 +64,7 @@ export function Header() {
     (chatId: string) => {
       dispatch(removeChat(chatId))
     },
-    [dispatch]
+    [dispatch],
   )
 
   // Define callback for starting a new chat

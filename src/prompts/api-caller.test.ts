@@ -14,13 +14,13 @@ describe("buildCallerPrompt Function", () => {
 
   test("should throw an error if goal is missing", () => {
     expect(() => buildCallerPrompt("", api)).toThrowError(
-      "Api Caller prompt missing goal for Call!"
+      "Api Caller prompt missing goal for Call!",
     )
   })
 
   test("should throw an error if apiDocs is missing", () => {
     expect(() => buildCallerPrompt("Goal 1", null)).toThrowError(
-      "Api Caller prompt missing apiDocs for Call!"
+      "Api Caller prompt missing apiDocs for Call!",
     )
   })
 })

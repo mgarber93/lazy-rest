@@ -42,7 +42,7 @@ export class StreamedChatHandler implements Handler<"streamedChat"> {
       "",
       conversation.id,
       responder.model,
-      "assistant"
+      "assistant",
     )
     await this.mainWindowCallbackConsumer.appendContent(response)
     switch (responder.provider) {
@@ -51,7 +51,7 @@ export class StreamedChatHandler implements Handler<"streamedChat"> {
           responder.model,
           conversation.content,
           conversation.id,
-          response.id
+          response.id,
         )
         return
       }
@@ -60,7 +60,7 @@ export class StreamedChatHandler implements Handler<"streamedChat"> {
           responder.model,
           conversation.content,
           conversation.id,
-          response.id
+          response.id,
         )
         return
       }
@@ -69,7 +69,7 @@ export class StreamedChatHandler implements Handler<"streamedChat"> {
       }
     }
   }
-  
+
   /**
    * An organization reply is a calling plan
    * @param conversation

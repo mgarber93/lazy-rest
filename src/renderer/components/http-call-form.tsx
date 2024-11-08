@@ -23,15 +23,15 @@ export interface HttpCallFormProps {
  * @constructor
  */
 export function HttpCallForm({
-                               step,
-                               contentId,
-                               sequenceId
-                             }: HttpCallFormProps) {
+  step,
+  contentId,
+  sequenceId,
+}: HttpCallFormProps) {
   const elements = `border rounded bg-transparent border-neutral-700`
   const inputClass = clsx(
     elements,
     "flex-grow py-1.5 px-3 text-sm/6 dark:text-white",
-    "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+    "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
   )
   const convo = useCurrentConversation()
   const [response, setResponse] = React.useState<HttpResponse | null>(null)
@@ -46,7 +46,7 @@ export function HttpCallForm({
       httpVerb: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        Accept: "application/json; charset=utf-8"
+        Accept: "application/json; charset=utf-8",
       },
     } satisfies HttpRequestPlan)
     setResponse(response)
@@ -65,13 +65,13 @@ export function HttpCallForm({
           contentId: contentId,
           nextPlan: {
             ...step,
-            httpVerb: selectedValue
+            httpVerb: selectedValue,
           } as Partial<HttpRequestPlan>,
-          sequenceId
+          sequenceId,
         } satisfies UpdateStepActivityPayload),
       )
     },
-    [contentId, convo.id, dispatch, sequenceId, step]
+    [contentId, convo.id, dispatch, sequenceId, step],
   )
 
   const handleUrlChange = useCallback(
@@ -83,13 +83,13 @@ export function HttpCallForm({
           contentId: contentId,
           nextPlan: {
             ...step,
-            url: inputValue
+            url: inputValue,
           } as Partial<HttpRequestPlan>,
-          sequenceId
+          sequenceId,
         } satisfies UpdateStepActivityPayload),
       )
     },
-    [dispatch, convo.id, contentId, step, sequenceId]
+    [dispatch, convo.id, contentId, step, sequenceId],
   )
 
   return (
@@ -99,7 +99,7 @@ export function HttpCallForm({
           name="status"
           className={clsx(
             elements,
-            "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100"
+            "h-full bg-transparent data-[hover]:shadow data-[focus]:bg-black-100",
           )}
           defaultValue={step?.httpVerb}
           onChange={handleSelectChange}

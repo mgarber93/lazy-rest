@@ -13,7 +13,7 @@ export class CallDetailer {
     userContent: AuthoredContent,
     endpointCallPlan: HttpRequestPlan,
     oasSpec: OpenAPI.Document[],
-    plan: ApiCallPlan
+    plan: ApiCallPlan,
   ) {
     const specForPlannedCall = oasSpec.reduce(
       (acc: Record<string, any>, spec: OpenAPI.Document) => {
@@ -23,7 +23,7 @@ export class CallDetailer {
         }
         return acc
       },
-      {} as Record<string, any>
+      {} as Record<string, any>,
     )
 
     if (Object.keys(specForPlannedCall).length === 0) {

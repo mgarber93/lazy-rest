@@ -2,7 +2,7 @@ export const template = (
   userGoal: any,
   steps: any[],
   step: string,
-  result: object
+  result: object,
 ) => `
 You are an expert parser of json. You had a plan to achieve:
 ${userGoal}

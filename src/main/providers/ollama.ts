@@ -20,11 +20,11 @@ export class OllamaProvider implements PromptableProvider {
     model: string,
     content: AuthoredContent[],
     chatId: string,
-    messageId: string
+    messageId: string,
   ) {
     const messages = content.map((authored) => ({
       role: authored.role,
-      content: authored.message
+      content: authored.message,
     }))
     const response = await ollama.chat({ model, messages, stream: true })
     const responseContent = createContent("", chatId, model, "assistant")
@@ -33,7 +33,7 @@ export class OllamaProvider implements PromptableProvider {
       await this.mainWindowCallbackConsumer.appendContentDelta({
         delta: chunk.message.content,
         chatId,
-        messageId
+        messageId,
       })
     }
     content.push(responseContent)

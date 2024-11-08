@@ -11,11 +11,11 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       chatId: "chat1",
       message: "System message",
       author: "System",
-      role: "system"
+      role: "system",
     }
     const expected: ChatCompletionMessageParam = {
       role: "system",
-      content: "System message"
+      content: "System message",
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
@@ -26,11 +26,11 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       chatId: "chat2",
       message: "Assistant message",
       author: "Assistant",
-      role: "assistant"
+      role: "assistant",
     }
     const expected: ChatCompletionMessageParam = {
       role: "assistant",
-      content: "Assistant message"
+      content: "Assistant message",
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
@@ -41,11 +41,11 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       chatId: "chat3",
       message: "User message",
       author: "User",
-      role: "user"
+      role: "user",
     }
     const expected: ChatCompletionMessageParam = {
       role: "user",
-      content: "User message"
+      content: "User message",
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })
@@ -56,7 +56,7 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       chatId: "chat4",
       message: "Tool message",
       author: "Tool",
-      role: "tool" // incorrect type
+      role: "tool", // incorrect type
     }
     expect(() =>
       mapAuthoredContentToChatCompletion(content as AuthoredContent),
@@ -70,12 +70,12 @@ describe("mapAuthoredContentToChatCompletion function", () => {
       message: "Tool call message",
       author: "Tool",
       role: "tool",
-      tool_call_id: "tool1"
+      tool_call_id: "tool1",
     }
     const expected: ChatCompletionMessageParam & { tool_call_id: string } = {
       role: "tool",
       content: "Tool call message",
-      tool_call_id: "tool1"
+      tool_call_id: "tool1",
     }
     expect(mapAuthoredContentToChatCompletion(content)).toStrictEqual(expected)
   })

@@ -7,7 +7,7 @@ import { Preloader } from "./preloader/preloader"
 import { INVOKE_CHANNELS, TInvokeChannel } from "./preloader/preloaded-api"
 
 container.register<TInvokeChannel[]>("InvokeChannels", {
-  useValue: INVOKE_CHANNELS
+  useValue: INVOKE_CHANNELS,
 })
 
 const preloadedApi = container.resolve<Preloader>(Preloader)

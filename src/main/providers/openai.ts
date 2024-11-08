@@ -1,9 +1,5 @@
 import { ChatCompletionMessageParam } from "openai/resources"
-import {
-  AuthoredContent,
-  createContent,
-  isToolCall
-} from "../../models/content"
+import { AuthoredContent, createContent, isToolCall } from "../../models/content"
 import { container, injectable } from "tsyringe"
 import { ConfigurationManager } from "./configuration-manager"
 import { AsyncWindowSenderApi } from "../async-window-sender-api"
@@ -26,7 +22,7 @@ export class OpenAiProvider implements PromptableProvider {
 
   async prompt(
     model: string,
-    content: AuthoredContent[]
+    content: AuthoredContent[],
   ): Promise<RoleContent> {
     const messages = content.map(mapAuthoredContentToChatCompletion)
     const openai = await this.manager.getOpenAi()
@@ -45,7 +41,7 @@ export class OpenAiProvider implements PromptableProvider {
     model: string,
     content: AuthoredContent[],
     chatId: string,
-    messageId: string
+    messageId: string,
   ): Promise<AuthoredContent[]> {
     const messages = content.map(mapAuthoredContentToChatCompletion)
     const openai = await this.manager.getOpenAi()
@@ -61,7 +57,7 @@ export class OpenAiProvider implements PromptableProvider {
       await this.mainWindowCallbackConsumer.appendContentDelta({
         delta,
         chatId,
-        messageId
+        messageId,
       })
     }
     content.push(responseContent)
@@ -84,7 +80,7 @@ export class OpenAiProvider implements PromptableProvider {
               properties: {
                 endpoint: {
                   type: "string",
-                  description: "endpoint to call (e.g. /search?customer=123)"
+                  description: "endpoint to call (e.g. /search?customer=123)",
                 },
               },
               required: ["endpoint"],
@@ -98,7 +94,7 @@ export class OpenAiProvider implements PromptableProvider {
 }
 
 export function mapAuthoredContentToChatCompletion(
-  content: AuthoredContent
+  content: AuthoredContent,
 ): ChatCompletionMessageParam {
   switch (content.role) {
     case "system":

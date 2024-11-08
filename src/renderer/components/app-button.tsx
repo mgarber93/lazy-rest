@@ -5,11 +5,11 @@ import { motion } from "framer-motion"
 import { Button } from "@headlessui/react"
 
 export function AppButton({
-                            children,
-                            onClick,
-                            disabled,
-                            className
-                          }: {
+  children,
+  onClick,
+  disabled,
+  className,
+}: {
   children: ReactNode
   onClick?: (event: React.FormEvent) => void
   disabled?: boolean

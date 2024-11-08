@@ -1,12 +1,6 @@
 import { useCurrentConversation } from "../hooks/current-conversation"
 import { useAppDispatch, useAppSelector } from "../features/store"
-import React, {
-  ChangeEvent,
-  KeyboardEventHandler,
-  useCallback,
-  useEffect,
-  useState
-} from "react"
+import React, { ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useState } from "react"
 import { createContent } from "../../models/content"
 import { appendContent, setResponder, streamResponse } from "../features/chat"
 import { Responder, TModel } from "../../models/responder"
@@ -40,20 +34,20 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
           value,
           conversation.id,
           user?.username,
-          "user"
+          "user",
         )
         dispatch(appendContent(prompt))
         dispatch(streamResponse({ conversationId: conversation.id }))
         setPromptMessage("")
       }
     },
-    [conversation.id, dispatch, user?.username]
+    [conversation.id, dispatch, user?.username],
   )
   const handleOnChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setPromptMessage(e.target.value)
     },
-    [setPromptMessage]
+    [setPromptMessage],
   )
   const models = useAppSelector((state) => state.models.models)
   const ollamaModels = useAppSelector((state) => state.models.ollamaModels)
@@ -67,9 +61,9 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
             responder: {
               type: "organization",
               provider: "openai",
-              model: model as TModel
+              model: model as TModel,
             } satisfies Responder,
-            chatId: conversation.id
+            chatId: conversation.id,
           }),
         )
       } else {
@@ -78,14 +72,14 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
             responder: {
               type: "chat",
               provider: ollamaModels.includes(model) ? "ollama" : "openai",
-              model: model as TModel
+              model: model as TModel,
             } satisfies Responder,
-            chatId: conversation.id
+            chatId: conversation.id,
           }),
         )
       }
     },
-    [conversation.id, dispatch, ollamaModels]
+    [conversation.id, dispatch, ollamaModels],
   )
 
   useEffect(() => {
@@ -108,9 +102,9 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
           responder: {
             type: "chat",
             provider: ollamaModels.includes(nextModel) ? "ollama" : "openai",
-            model: nextModel
+            model: nextModel,
           } satisfies Responder,
-          chatId: conversation.id
+          chatId: conversation.id,
         }),
       )
     }
@@ -122,7 +116,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
         <Input
           className={clsx(
             cardEffect,
-            "leading-relaxed text-xl flex bg-neutral-100/90 dark:bg-neutral-950 border-0 w-full mt-aut flex-grow"
+            "leading-relaxed text-xl flex bg-neutral-100/90 dark:bg-neutral-950 border-0 w-full mt-aut flex-grow",
           )}
           onKeyUpCapture={handleKeyPress}
           value={promptMessage}
@@ -137,7 +131,7 @@ export function UserInputForm({ disabled }: UserInputFormProps) {
           aria-label={"responder"}
           className={clsx(
             cardEffect,
-            "leading-relaxed text flex bg-neutral-100/90 dark:bg-neutral-950 z-1 border max-w-50 flex-shrink"
+            "leading-relaxed text flex bg-neutral-100/90 dark:bg-neutral-950 z-1 border max-w-50 flex-shrink",
           )}
           value={conversation?.responder?.model}
           onChange={handleModelChange}

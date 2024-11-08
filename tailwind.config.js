@@ -4,13 +4,13 @@ module.exports = {
   theme: {
     extend: {
       ringWidth: {
-        DEFAULT: "1px"
+        DEFAULT: "1px",
       },
       ringColor: {
-        DEFAULT: "transparent"
+        DEFAULT: "transparent",
       },
       borderColor: {
-        DEFAULT: "transparent"
+        DEFAULT: "transparent",
       },
       colors: {
         teal: {
@@ -23,7 +23,7 @@ module.exports = {
           600: "#2B6469",
           700: "#204246",
           800: "#142123",
-          900: "#0A1011"
+          900: "#0A1011",
         },
         "olive-green": {
           50: "#F2F4E2",
@@ -35,7 +35,7 @@ module.exports = {
           600: "#5C6418",
           700: "#3D4310",
           800: "#1F2108",
-          900: "#0F1004"
+          900: "#0F1004",
         },
         "reddish-orange": {
           50: "#FDEDEA",
@@ -47,7 +47,7 @@ module.exports = {
           600: "#8F433C",
           700: "#5F2D28",
           800: "#301614",
-          900: "#180B0A"
+          900: "#180B0A",
         },
         "green-teal": {
           50: "#E2F6F0",
@@ -59,7 +59,7 @@ module.exports = {
           600: "#2B6F51",
           700: "#204038",
           800: "#142020",
-          900: "#0A1010"
+          900: "#0A1010",
         },
         "blue-violet": {
           50: "#EDE6F5",
@@ -71,7 +71,7 @@ module.exports = {
           600: "#432969",
           700: "#2C1C46",
           800: "#160E23",
-          900: "#0B0711"
+          900: "#0B0711",
         },
         magenta: {
           50: "#F5E6F2",
@@ -83,7 +83,7 @@ module.exports = {
           600: "#692963",
           700: "#461C42",
           800: "#231021",
-          900: "#110811"
+          900: "#110811",
         },
         "deep-purple": {
           50: "#F0E5F2",
@@ -95,7 +95,7 @@ module.exports = {
           600: "#4C1E52",
           700: "#39163E",
           800: "#270F2B",
-          900: "#140715"
+          900: "#140715",
         },
         "dark-purple": {
           50: "#F3E8F4",
@@ -107,7 +107,7 @@ module.exports = {
           600: "#66296C",
           700: "#4A1F4E",
           800: "#2D1430",
-          900: "#170A18"
+          900: "#170A18",
         },
         "light-purple": {
           50: "#F9F0FA",
@@ -119,7 +119,7 @@ module.exports = {
           600: "#964C9D",
           700: "#713876",
           800: "#4B254E",
-          900: "#261227"
+          900: "#261227",
         },
         "soft-lavender": {
           50: "#FBF3FA",
@@ -131,7 +131,7 @@ module.exports = {
           600: "#A26AAA",
           700: "#7A4F82",
           800: "#513559",
-          900: "#291A2D"
+          900: "#291A2D",
         },
         salmon: {
           50: "#FEF6F7",
@@ -143,7 +143,7 @@ module.exports = {
           600: "#D29AA2",
           700: "#B6858C",
           800: "#9B7076",
-          900: "#7F5B60"
+          900: "#7F5B60",
         },
         "light-desert": {
           50: "#FFFBFA",
@@ -155,7 +155,7 @@ module.exports = {
           600: "#DCC9BF",
           700: "#C0B1A7",
           800: "#A5998F",
-          900: "#897177"
+          900: "#897177",
         },
         "light-forest": {
           50: "#F9F9F7",
@@ -167,7 +167,7 @@ module.exports = {
           600: "#C3C0B9",
           700: "#A8A5A0",
           800: "#8D8A87",
-          900: "#726F6E"
+          900: "#726F6E",
         },
         "army-green": {
           50: "#F4F7F5",
@@ -179,7 +179,7 @@ module.exports = {
           600: "#9AAD9B",
           700: "#849685",
           800: "#6E7F6F",
-          900: "#586859"
+          900: "#586859",
         },
         "dark-green": {
           50: "#F1F2F2",
@@ -191,11 +191,11 @@ module.exports = {
           600: "#424E4F",
           700: "#3A4546",
           800: "#323C3D",
-          900: "#2A3334"
+          900: "#2A3334",
         },
       },
     },
   },
   plugins: [require("@tailwindcss/forms")],
-  mode: "jit"
+  mode: "jit",
 }

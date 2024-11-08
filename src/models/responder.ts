@@ -13,7 +13,7 @@ export type Responder = {
 export function createModelResponder(
   type: TResponder,
   model: TModel,
-  provider: TProvider
+  provider: TProvider,
 ): Responder {
   return {
     type,

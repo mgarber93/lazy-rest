@@ -37,7 +37,7 @@ describe("useCurrentConversation", () => {
         <Provider store={store}> {children} </Provider>
       ),
     })
-    
+
     expect(result.current.title).toBe(createConversation().title)
   })
 })

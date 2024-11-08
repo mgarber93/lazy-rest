@@ -6,7 +6,7 @@ export const rules: Required<ModuleOptions>["rules"] = [
     // We're specifying native_modules in the test because the asset relocator loader generates a
     // "fake" .node file which is really a cjs file.
     test: /native_modules[/\\].+\.node$/,
-    use: "node-loader"
+    use: "node-loader",
   },
   {
     test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
@@ -14,7 +14,7 @@ export const rules: Required<ModuleOptions>["rules"] = [
     use: {
       loader: "@vercel/webpack-asset-relocator-loader",
       options: {
-        outputAssetBase: "native_modules"
+        outputAssetBase: "native_modules",
       },
     },
   },
@@ -39,17 +39,17 @@ export const rules: Required<ModuleOptions>["rules"] = [
         loader: "postcss-loader",
         options: {
           postcssOptions: {
-            plugins: ["tailwindcss", "autoprefixer"]
+            plugins: ["tailwindcss", "autoprefixer"],
           },
         },
       },
       // Compiles Sass to CSS
-      "sass-loader"
+      "sass-loader",
     ],
   },
   {
     test: /\.(woff|woff2|eot|ttf|otf)$/, // Match font file extensions
-    type: "asset/resource" // For Webpack 5
+    type: "asset/resource", // For Webpack 5
     // For Webpack 4 and below, use the following instead:
     // use: {
     //   loader: 'file-loader',
@@ -69,7 +69,7 @@ export const rules: Required<ModuleOptions>["rules"] = [
         loader: "postcss-loader",
         options: {
           postcssOptions: {
-            plugins: ["tailwindcss", "autoprefixer"]
+            plugins: ["tailwindcss", "autoprefixer"],
           },
         },
       },
@@ -79,6 +79,6 @@ export const rules: Required<ModuleOptions>["rules"] = [
   {
     test: /\.css$/i,
     include: /node_modules/,
-    use: ["style-loader", "css-loader"]
+    use: ["style-loader", "css-loader"],
   },
 ]

@@ -1,11 +1,4 @@
-import React, {
-  ReactNode,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef
-} from "react"
+import React, { ReactNode, RefObject, useCallback, useEffect, useMemo, useRef } from "react"
 import clsx from "clsx"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -14,10 +7,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { HeaderLayout } from "../layouts/header-layout"
 import { useCurrentConversation } from "../hooks/current-conversation"
-import {
-  ISection,
-  ScrollUserInputPageLayout
-} from "../layouts/scroll-container"
+import { ISection, ScrollUserInputPageLayout } from "../layouts/scroll-container"
 import { AuthoredContent } from "../../models/content"
 import { FeedContent } from "../components/feed-content"
 import { CardSection } from "../wrapper/card"
@@ -32,7 +22,7 @@ export function ConversationContent({ content }: { content: AuthoredContent }) {
       <div
         className={clsx(
           "leading-relaxed text-xl flex flex-col py-1 transition duration-300 dark:border-white/50 rounded-xl",
-          content.role === "user" && "ml-auto w-fit"
+          content.role === "user" && "ml-auto w-fit",
         )}
       >
         {content.role === "user" && (
@@ -58,9 +48,9 @@ export function ConversationContent({ content }: { content: AuthoredContent }) {
 }
 
 export function MapContentToCardSection({
-                                          content,
-                                          ref
-                                        }: {
+  content,
+  ref,
+}: {
   content: AuthoredContent
   ref: RefObject<HTMLDivElement>
 }) {
@@ -90,7 +80,7 @@ export function ConversationsPage() {
     (section: RefObject<HTMLDivElement | null>) => {
       section?.current?.scrollIntoView({ behavior: "smooth" })
     },
-    []
+    [],
   )
   const delay = 10
 
@@ -142,7 +132,7 @@ export function ConversationsPage() {
       }
       return acc
     },
-    []
+    [],
   )
 
   return (
@@ -152,7 +142,7 @@ export function ConversationsPage() {
           <div
             className={clsx(
               "flex flex-col gap-y-4 py-1",
-              "border-neutral-100 dark:border-neutral-800"
+              "border-neutral-100 dark:border-neutral-800",
             )}
           >
             <AnimatePresence>{...contentCards}</AnimatePresence>

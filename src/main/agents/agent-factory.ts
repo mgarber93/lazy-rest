@@ -20,7 +20,7 @@ export class AgentFactory {
   public async createAgent(
     goal: string,
     instructions: string,
-    responder: Responder
+    responder: Responder,
   ): Promise<Conversation> {
     const agentInternalConversation = createConversation()
     agentInternalConversation.responder = responder
@@ -28,11 +28,11 @@ export class AgentFactory {
       instructions,
       agentInternalConversation.id,
       "system",
-      "system"
+      "system",
     )
     agentInternalConversation.content.push(instructionContent)
     agentInternalConversation.content.push(
-      createContent(goal, agentInternalConversation.id, "user", "user")
+      createContent(goal, agentInternalConversation.id, "user", "user"),
     )
     return agentInternalConversation
   }
@@ -45,17 +45,17 @@ export class AgentFactory {
     const { model } = responder
     const { content: response, role } = await this.openAiLlm.prompt(
       model,
-      content
+      content,
     )
     const authoredResponse = createContent(
       response,
       content[0].chatId,
       model,
-      role
+      role,
     )
     return authoredResponse
   }
-  
+
   public async createAndPrompt(plan: ApiCallPlan, agent: Conversation) {
     const result = await this.promptAgent(agent)
     console.log(`${this.constructor.name}:\n${result.message}\n`)

@@ -23,11 +23,11 @@ const root = createRoot(container)
 const router = createHashRouter([
   {
     path: "config",
-    element: <SettingsPage />
+    element: <SettingsPage />,
   },
   {
     path: "chats/:chatId",
-    element: <ConversationsPage />
+    element: <ConversationsPage />,
   },
   {
     path: "*",

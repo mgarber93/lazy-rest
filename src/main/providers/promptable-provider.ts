@@ -7,6 +7,6 @@ export interface PromptableProvider {
     model: string,
     content: AuthoredContent[],
     chatId: string,
-    messageId: string
+    messageId: string,
   ): Promise<AuthoredContent[]>
 }

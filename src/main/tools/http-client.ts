@@ -19,7 +19,7 @@ export class HttpClient implements Handler<"fetch"> {
   async getToken(
     baseUrl: string,
     clientId: string,
-    clientSecret: string
+    clientSecret: string,
   ): Promise<string> {
     if (!clientId) {
       throw new Error("clientId is required")
@@ -34,9 +34,9 @@ export class HttpClient implements Handler<"fetch"> {
       method: "POST",
       headers: {
         Authorization: "Basic " + buffer.toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: "grant_type=client_credentials"
+      body: "grant_type=client_credentials",
     }
 
     const response = await fetch(baseUrl, authOptions)
@@ -51,7 +51,7 @@ export class HttpClient implements Handler<"fetch"> {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     }
     const response = await fetch(`${baseUrl}${endpoint}`, options)

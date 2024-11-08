@@ -42,7 +42,7 @@ export const chatsSlice = createSlice({
       const { id, chatId } = action.payload
       if (!id) throw new Error("no id")
       const conversation = state.find(
-        (conversation) => conversation.id === chatId
+        (conversation) => conversation.id === chatId,
       )
       if (!conversation) {
         return state
@@ -58,13 +58,13 @@ export const chatsSlice = createSlice({
     appendDelta: (state, action: PayloadAction<ContentDelta>) => {
       const { chatId, messageId, delta } = action.payload
       const conversation = state.find(
-        (conversation) => conversation.id === chatId
+        (conversation) => conversation.id === chatId,
       )
       if (!conversation) {
         return state
       }
       const chat = conversation.content.find(
-        (content) => content.id === messageId
+        (content) => content.id === messageId,
       )
       if (!chat) {
         return state
@@ -82,12 +82,12 @@ export const chatsSlice = createSlice({
     },
     updateTitle: (
       state,
-      action: PayloadAction<{ id: string; title: string }>
+      action: PayloadAction<{ id: string; title: string }>,
     ) => {
       const chat = state.find((chat) => chat.id === action.payload.id)
       if (!chat) {
         console.error(
-          `Chat with id ${action.payload.id} not found when updating title`
+          `Chat with id ${action.payload.id} not found when updating title`,
         )
         return state
       }
@@ -103,7 +103,7 @@ export const chatsSlice = createSlice({
     },
     setResponder: (
       state,
-      action: PayloadAction<{ responder: Responder; chatId: string }>
+      action: PayloadAction<{ responder: Responder; chatId: string }>,
     ) => {
       const { chatId, responder } = action.payload
       const foundChat = state.find((chat) => chat.id === chatId)

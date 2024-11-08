@@ -7,7 +7,7 @@ import { AsyncWindowSenderApi } from "../async-window-sender-api"
 export class ConfigurationManager {
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private openAiConfig: unknown
-  
+
   async getOpenAi() {
     if (!this.openAiConfig) {
       const config = await this.mainWindowCallbackConsumer.getProviderConfig()
@@ -15,7 +15,7 @@ export class ConfigurationManager {
     }
     return new OpenAI(this.openAiConfig as ClientOptions)
   }
-  
+
   setOpenAiConfig(openAiConfig: ClientOptions): void {
     this.openAiConfig = openAiConfig
   }

@@ -3,8 +3,8 @@ module.exports = {
   testEnvironment: "jsdom",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.js$": "babel-jest"
+    "^.+\\.js$": "babel-jest",
   },
   setupFilesAfterEnv: ["./jest.setup.ts"],
-  transformIgnorePatterns: ["/node_modules/(?!yaml).+\\.js$"]
+  transformIgnorePatterns: ["/node_modules/(?!yaml).+\\.js$"],
 }

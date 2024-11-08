@@ -57,7 +57,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /albums:
     get:
       operationId: get-multiple-albums
@@ -82,7 +82,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /albums/{id}/tracks:
     get:
       operationId: get-an-albums-tracks
@@ -111,7 +111,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}:
     get:
       tags:
@@ -135,7 +135,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists:
     get:
       tags:
@@ -167,7 +167,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/albums:
     get:
       tags:
@@ -196,7 +196,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/top-tracks:
     get:
       tags:
@@ -222,7 +222,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/related-artists:
     get:
       tags:
@@ -246,7 +246,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /shows/{id}:
     get:
       tags:
@@ -298,7 +298,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /shows/{id}/episodes:
     get:
       tags:
@@ -426,7 +426,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audiobooks:
     get:
       operationId: get-multiple-audiobooks
@@ -451,7 +451,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audiobooks/{id}/chapters:
     get:
       operationId: get-audiobook-chapters
@@ -479,7 +479,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/audiobooks:
     get:
       tags:
@@ -599,7 +599,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /chapters:
     get:
       operationId: get-several-chapters
@@ -624,7 +624,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /tracks/{id}:
     get:
       tags:
@@ -659,7 +659,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /tracks:
     get:
       tags:
@@ -692,7 +692,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /search:
     get:
       tags:
@@ -792,7 +792,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me:
     get:
       tags:
@@ -858,7 +858,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
     put:
       tags:
         - Playlists
@@ -1679,7 +1679,7 @@ paths:
             title: Type
             description: |
               The type of entity to return. Valid values: `artists` or `tracks`
-            enum: [ "artists", "tracks" ]
+            enum: ["artists", "tracks"]
             type: string
         - name: time_range
           required: false
@@ -1726,7 +1726,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /users/{user_id}/playlists:
     get:
       tags:
@@ -1915,7 +1915,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories:
     get:
       tags:
@@ -1947,7 +1947,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories/{category_id}:
     get:
       tags:
@@ -1986,7 +1986,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories/{category_id}/playlists:
     get:
       tags:
@@ -2019,7 +2019,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /playlists/{playlist_id}/images:
     get:
       tags:
@@ -2043,7 +2043,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
     put:
       tags:
         - Playlists
@@ -2101,7 +2101,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/following:
     get:
       tags:
@@ -2353,7 +2353,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-features:
     get:
       tags:
@@ -2386,7 +2386,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-features/{id}:
     get:
       tags:
@@ -2419,7 +2419,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-analysis/{id}:
     get:
       tags:
@@ -2450,7 +2450,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /recommendations:
     get:
       tags:
@@ -2910,7 +2910,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /recommendations/available-genre-seeds:
     get:
       tags:
@@ -2930,7 +2930,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/player:
     get:
       tags:
@@ -3538,7 +3538,7 @@ paths:
                     type: array
                     items:
                       type: string
-                    example: [ "CA", "BR", "IT" ]
+                    example: ["CA", "BR", "IT"]
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
@@ -3546,7 +3546,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
 
 components:
   securitySchemes:
@@ -3857,7 +3857,7 @@ components:
             properties:
               genres:
                 type: array
-                example: [ "alternative", "samba" ]
+                example: ["alternative", "samba"]
                 items:
                   type: string
 
@@ -4114,7 +4114,7 @@ components:
         application/json:
           schema:
             type: array
-            example: [ false, true ]
+            example: [false, true]
             items:
               type: boolean
 
@@ -4201,7 +4201,7 @@ components:
       properties:
         reason:
           type: string
-          enum: [ "market", "product", "explicit" ]
+          enum: ["market", "product", "explicit"]
           description: |
             The reason for the restriction. Albums may be restricted if the content is not available in a given market, to the user's subscription type, or when the user's account is set to not play explicit content.
             Additional reasons may be added in the future.
@@ -4255,7 +4255,7 @@ components:
           type: array
           items:
             type: string
-          example: [ "Prog rock", "Grunge" ]
+          example: ["Prog rock", "Grunge"]
           description: |
             A list of the genres the artist is associated with. If not yet classified, the array is empty.
         href:
@@ -4282,7 +4282,7 @@ components:
             The popularity of the artist. The value will be between 0 and 100, with 100 being the most popular. The artist's popularity is calculated from the popularity of all the artist's tracks.
         type:
           type: string
-          enum: [ "artist" ]
+          enum: ["artist"]
           description: |
             The object type.
         uri:
@@ -4313,7 +4313,7 @@ components:
             The name of the artist.
         type:
           type: string
-          enum: [ "artist" ]
+          enum: ["artist"]
           description: |
             The object type.
         uri:
@@ -4579,7 +4579,7 @@ components:
             The user's profile image.
         type:
           type: string
-          enum: [ "user" ]
+          enum: ["user"]
           description: |
             The object type.
         uri:
@@ -4875,7 +4875,7 @@ components:
             type: number
             minimum: 0
             maximum: 1
-          example: [ 0.212, 0.141, 0.294 ]
+          example: [0.212, 0.141, 0.294]
         timbre:
           type: array
           description: |
@@ -4887,7 +4887,7 @@ components:
             The actual timbre of the segment is best described as a linear combination of these 12 basis functions weighted by the coefficient values: timbre = c1 x b1 + c2 x b2 + ... + c12 x b12, where c1 to c12 represent the 12 coefficients and b1 to b12 the 12 basis functions as displayed below. Timbre vectors are best used in comparison with each other.
           items:
             type: number
-          example: [ 42.115, 64.373, -0.233 ]
+          example: [42.115, 64.373, -0.233]
 
     TimeSignature:
       type: integer
@@ -5008,7 +5008,7 @@ components:
             A link to the Web API endpoint providing full details of the track.
         type:
           type: string
-          enum: [ "audio_features" ]
+          enum: ["audio_features"]
           description: |
             The object type.
         uri:
@@ -5717,7 +5717,7 @@ components:
             The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.
         type:
           type: string
-          enum: [ "user" ]
+          enum: ["user"]
           description: |
             The object type.
         uri:
@@ -5853,7 +5853,7 @@ components:
           type: string
           description: |
             The object type: "track".
-          enum: [ "track" ]
+          enum: ["track"]
         uri:
           type: string
           description: |
@@ -5975,7 +5975,7 @@ components:
           type: array
           items:
             type: string
-          example: [ "fr", "en" ]
+          example: ["fr", "en"]
           description: |
             A list of the languages used in the episode, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.
         name:
@@ -5992,7 +5992,7 @@ components:
         release_date_precision:
           type: string
           example: day
-          enum: [ "year", "month", "day" ]
+          enum: ["year", "month", "day"]
           description: |
             The precision with which `release_date` value is known.
         resume_point:
@@ -6002,7 +6002,7 @@ components:
             The user's most recent position in the episode. Set if the supplied access token is a user token and has the scope 'user-read-playback-position'.
         type:
           type: string
-          enum: [ "episode" ]
+          enum: ["episode"]
           description: |
             The object type.
         uri:
@@ -6117,7 +6117,7 @@ components:
             The publisher of the show.
         type:
           type: string
-          enum: [ "show" ]
+          enum: ["show"]
           description: |
             The object type.
         uri:
@@ -6252,7 +6252,7 @@ components:
             The publisher of the audiobook.
         type:
           type: string
-          enum: [ "audiobook" ]
+          enum: ["audiobook"]
           description: |
             The object type.
         uri:
@@ -6305,7 +6305,7 @@ components:
           type: string
           description: |
             The type of the album.
-          enum: [ album, single, compilation ]
+          enum: [album, single, compilation]
           example: compilation
         total_tracks:
           type: integer
@@ -6315,7 +6315,7 @@ components:
           type: array
           items:
             type: string
-          example: [ "CA", "BR", "IT" ]
+          example: ["CA", "BR", "IT"]
           description: |
             The markets in which the album is available: [ISO 3166-1 alpha-2 country codes](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _**NOTE**: an album is considered available in a market when at least 1 of its tracks is available in that market._
         external_urls:
@@ -6349,7 +6349,7 @@ components:
             The date the album was first released.
         release_date_precision:
           type: string
-          enum: [ "year", "month", "day" ]
+          enum: ["year", "month", "day"]
           example: "year"
           description: |
             The precision with which `release_date` value is known.
@@ -6360,7 +6360,7 @@ components:
             Included in the response when a content restriction is applied.
         type:
           type: string
-          enum: [ "album" ]
+          enum: ["album"]
           description: |
             The object type.
         uri:
@@ -6394,7 +6394,7 @@ components:
           properties:
             album_group:
               type: string
-              enum: [ album, single, compilation, appears_on ]
+              enum: [album, single, compilation, appears_on]
               example: compilation
               description: |
                 This field describes the relationship between the artist and the album.
@@ -6512,7 +6512,7 @@ components:
           type: array
           items:
             type: string
-          example: [ "fr", "en" ]
+          example: ["fr", "en"]
           description: |
             A list of the languages used in the chapter, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.
         name:
@@ -6529,7 +6529,7 @@ components:
         release_date_precision:
           type: string
           example: day
-          enum: [ "year", "month", "day" ]
+          enum: ["year", "month", "day"]
           description: |
             The precision with which `release_date` value is known.
         resume_point:
@@ -6539,7 +6539,7 @@ components:
             The user's most recent position in the chapter. Set if the supplied access token is a user token and has the scope 'user-read-playback-position'.
         type:
           type: string
-          enum: [ "episode" ]
+          enum: ["episode"]
           description: |
             The object type.
         uri:
@@ -6593,7 +6593,7 @@ components:
               type: array
               items:
                 type: string
-              example: [ "Egg punk", "Noise rock" ]
+              example: ["Egg punk", "Noise rock"]
               description: |
                 A list of the genres the album is associated with. If not yet classified, the array is empty.
             label:

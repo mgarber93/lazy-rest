@@ -8,7 +8,7 @@ const elements = `border rounded bg-transparent border-neutral-700 dark:bg-neutr
 const inputClass = clsx(
   elements,
   "flex-grow py-1.5 px-3 text-sm/6 dark:text-white",
-  "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+  "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
 )
 
 export type KeyValueFormProps<T> = {
@@ -17,9 +17,9 @@ export type KeyValueFormProps<T> = {
 }
 
 export function KeyValueForm<T extends Record<string, any>>({
-                                                              data,
-                                                              onChange
-                                                            }: KeyValueFormProps<T>) {
+  data,
+  onChange,
+}: KeyValueFormProps<T>) {
   const [dataAsRows, setDataAsRows] = useState(Object.entries(data))
   useEffect(() => {
     setDataAsRows(Object.entries(data))
@@ -39,7 +39,7 @@ export function KeyValueForm<T extends Record<string, any>>({
         onChange?.(newData)
       }
     },
-    [data, onChange]
+    [data, onChange],
   )
 
   const handleRowRemove = useCallback((index: number) => {
@@ -61,7 +61,7 @@ export function KeyValueForm<T extends Record<string, any>>({
               handleChange(
                 index,
                 e.target.value as keyof T,
-                entry[1] as T[keyof T]
+                entry[1] as T[keyof T],
               )
             }
           />
@@ -73,7 +73,7 @@ export function KeyValueForm<T extends Record<string, any>>({
               handleChange(
                 index,
                 entry[0] as keyof T,
-                e.target.value as T[keyof T]
+                e.target.value as T[keyof T],
               )
             }
           />
@@ -93,7 +93,7 @@ export function KeyValueForm<T extends Record<string, any>>({
       >
         <PlusCircleIcon
           className={clsx(
-            "h-7 w-7 ml-auto cursor-pointer mr-[-1px] opacity-70"
+            "h-7 w-7 ml-auto cursor-pointer mr-[-1px] opacity-70",
           )}
         />
       </div>

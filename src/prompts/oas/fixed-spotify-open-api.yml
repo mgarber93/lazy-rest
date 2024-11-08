@@ -55,7 +55,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /albums:
     get:
       operationId: get-multiple-albums
@@ -78,7 +78,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /albums/{id}/tracks:
     get:
       operationId: get-an-albums-tracks
@@ -105,7 +105,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}:
     get:
       tags:
@@ -127,7 +127,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists:
     get:
       tags:
@@ -157,7 +157,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/albums:
     get:
       tags:
@@ -184,7 +184,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/top-tracks:
     get:
       tags:
@@ -208,7 +208,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /artists/{id}/related-artists:
     get:
       tags:
@@ -230,7 +230,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /shows/{id}:
     get:
       tags:
@@ -278,7 +278,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /shows/{id}/episodes:
     get:
       tags:
@@ -398,7 +398,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audiobooks:
     get:
       operationId: get-multiple-audiobooks
@@ -421,7 +421,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audiobooks/{id}/chapters:
     get:
       operationId: get-audiobook-chapters
@@ -447,7 +447,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/audiobooks:
     get:
       tags:
@@ -565,7 +565,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /chapters:
     get:
       operationId: get-several-chapters
@@ -588,7 +588,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /tracks/{id}:
     get:
       tags:
@@ -621,7 +621,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /tracks:
     get:
       tags:
@@ -652,7 +652,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /search:
     get:
       tags:
@@ -749,7 +749,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me:
     get:
       tags:
@@ -813,7 +813,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
     put:
       tags:
         - Playlists
@@ -1675,7 +1675,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /users/{user_id}/playlists:
     get:
       tags:
@@ -1862,7 +1862,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories:
     get:
       tags:
@@ -1894,7 +1894,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories/{category_id}:
     get:
       tags:
@@ -1933,7 +1933,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /browse/categories/{category_id}/playlists:
     get:
       tags:
@@ -1966,7 +1966,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /playlists/{playlist_id}/images:
     get:
       tags:
@@ -1988,7 +1988,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
     put:
       tags:
         - Playlists
@@ -2046,7 +2046,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/following:
     get:
       tags:
@@ -2286,7 +2286,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-features:
     get:
       tags:
@@ -2317,7 +2317,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-features/{id}:
     get:
       tags:
@@ -2348,7 +2348,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /audio-analysis/{id}:
     get:
       tags:
@@ -2379,7 +2379,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /recommendations:
     get:
       tags:
@@ -2837,7 +2837,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /recommendations/available-genre-seeds:
     get:
       tags:
@@ -2857,7 +2857,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/player:
     get:
       tags:
@@ -3429,7 +3429,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequests"
       security:
-        - oauth_2_0: [ ]
+        - oauth_2_0: []
   /me/top/artists:
     get:
       tags:

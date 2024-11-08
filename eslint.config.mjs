@@ -11,22 +11,22 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      eslintConfigPrettier
+      eslintConfigPrettier,
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser
+      globals: globals.browser,
     },
     plugins: {
       "react-hooks": reactHooks,
-      "react-refresh": reactRefresh
+      "react-refresh": reactRefresh,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": [
         "warn",
-        { allowConstantExport: true }
+        { allowConstantExport: true },
       ],
       "@/semi": ["error", "never"],
       "no-unused-vars": "off",
@@ -35,13 +35,13 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/no-require-imports": "off",
-      "no-empty-pattern": "off"
+      "no-empty-pattern": "off",
     },
     settings: {
       "import/resolver": {
         // See also https://github.com/import-js/eslint-import-resolver-typescript#configuration
         typescript: true,
-        node: true
+        node: true,
       },
     },
   },

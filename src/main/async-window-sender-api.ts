@@ -23,15 +23,15 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   }
 
   async appendContentDelta({
-                             chatId,
-                             messageId,
-                             delta
-                           }: ContentDelta): Promise<void> {
+    chatId,
+    messageId,
+    delta,
+  }: ContentDelta): Promise<void> {
     process.stdout.write(delta)
     await this.windowSender.asyncSend("appendContentDelta", {
       delta,
       chatId,
-      messageId
+      messageId,
     })
   }
 
@@ -50,7 +50,7 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
 
   async getConversation(id: ConversationId) {
     const conversation = await this.windowSender.asyncSend("getConversation", {
-      id
+      id,
     })
     if (conversation === null) {
       throw new Error("Conversation not found")
@@ -65,14 +65,14 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     }
     return plan as ApiCallPlan
   }
-  
+
   async updateToolState(toolState: ToolState): Promise<void> {
     await this.windowSender.asyncSend("updateToolState", { toolState })
   }
-  
+
   async getProviderConfig() {
     return (await this.windowSender.asyncSend(
-      "getProviderConfig"
+      "getProviderConfig",
     )) as ProviderConfiguration
   }
 }

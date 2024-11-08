@@ -12,13 +12,13 @@ export const rendererConfig: Configuration = {
     ...plugins,
     new MonacoWebpackPlugin({
       languages: ["javascript", "typescript", "css", "html", "json"],
-      filename: "worker/[name].worker.js"
+      filename: "worker/[name].worker.js",
     }),
   ],
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"]
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
   },
   output: {
-    publicPath: ""
+    publicPath: "",
   },
 }

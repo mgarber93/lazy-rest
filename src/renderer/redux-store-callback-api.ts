@@ -4,10 +4,7 @@ import { WindowCallbackApi } from "../window-callback/window-callback-api"
 import { appendContent, appendDelta } from "./features/chat"
 import { RootState, store } from "./features/store"
 import { AuthoredContent } from "../models/content"
-import {
-  ApiConfiguration,
-  ProviderConfiguration
-} from "../models/api-configuration"
+import { ApiConfiguration, ProviderConfiguration } from "../models/api-configuration"
 import { ToolState } from "./features/tools"
 import { Conversation, ConversationId, PlanId } from "../models/conversation"
 import { ApiCallPlan } from "../models/api-call-plan"
@@ -16,8 +13,7 @@ import { ApiCallPlan } from "../models/api-call-plan"
  * Ideally methods match action (KISS)
  */
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
-  constructor(private readonly store: EnhancedStore) {
-  }
+  constructor(private readonly store: EnhancedStore) {}
 
   getProviderConfig() {
     const state = this.store.getState() as RootState
@@ -46,7 +42,7 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     }
     return null
   }
-  
+
   appendContentDelta(authoredContentDelta: {
     chatId: string
     messageId: string
@@ -56,12 +52,12 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     const { chatId, messageId, delta } = authoredContentDelta
     this.store.dispatch(appendDelta({ chatId, messageId, delta }))
   }
-  
+
   loadAllOas(): OpenAPI.Document[] {
     const state = this.store.getState() as RootState
     const apis = state.tools.api as Record<string, any>
     const responses = []
-    
+
     for (const key in apis) {
       if (!Object.prototype.hasOwnProperty.call(apis, key)) {
         continue
@@ -76,11 +72,11 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     }
     return responses
   }
-  
+
   appendContent(content: AuthoredContent): void {
     this.store.dispatch(appendContent(content))
   }
-  
+
   getOas(oasId: string): OpenAPI.Document | null {
     const { tools } = this.store.getState() as RootState
     const { api } = tools

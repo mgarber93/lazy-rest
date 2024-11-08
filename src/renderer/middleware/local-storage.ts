@@ -24,17 +24,17 @@ export function loadState<T>(): T {
 
 export const localStorageMiddleware =
   (store: MiddlewareAPI) =>
-    (next: Dispatch<UnknownAction>) =>
-      (action: UnknownAction) => {
-        const result = next(action)
-        const state = store.getState()
-        const keys = Object.keys(state)
-        localStorage.setItem("keys", JSON.stringify(keys))
-        keys
-          .filter((key) => key !== "keys")
-          .forEach((key) => {
-            localStorage.setItem(key, JSON.stringify(state[key]))
-          })
-        
-        return result
-      }
+  (next: Dispatch<UnknownAction>) =>
+  (action: UnknownAction) => {
+    const result = next(action)
+    const state = store.getState()
+    const keys = Object.keys(state)
+    localStorage.setItem("keys", JSON.stringify(keys))
+    keys
+      .filter((key) => key !== "keys")
+      .forEach((key) => {
+        localStorage.setItem(key, JSON.stringify(state[key]))
+      })
+
+    return result
+  }

@@ -1,10 +1,4 @@
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions
-} from "@headlessui/react"
+import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react"
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { useState } from "react"
@@ -14,7 +8,7 @@ const people = [
   { id: 2, name: "Wade Cooper" },
   { id: 3, name: "Tanya Fox" },
   { id: 4, name: "Arlene Mccoy" },
-  { id: 5, name: "Devon Webb" }
+  { id: 5, name: "Devon Webb" },
 ] as ComboSelectable[]
 
 export interface ComboSelectable {
@@ -30,8 +24,8 @@ export function AppCombobox() {
     query === ""
       ? people
       : people.filter((person) => {
-        return person.name.toLowerCase().includes(query.toLowerCase())
-      })
+          return person.name.toLowerCase().includes(query.toLowerCase())
+        })
 
   return (
     <div className="mx-auto h-screen w-52 pt-20">
@@ -44,7 +38,7 @@ export function AppCombobox() {
           <ComboboxInput
             className={clsx(
               "w-full rounded border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
-              "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+              "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
             )}
             displayValue={(person: ComboSelectable) => person?.name ?? ""}
             onChange={(event) => setQuery(event.target.value)}
@@ -59,7 +53,7 @@ export function AppCombobox() {
           transition
           className={clsx(
             "w-[var(--input-width)] rounded border border-white/5 bg-white/5 p-1 [--anchor-gap:var(--spacing-1)] empty:invisible",
-            "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0"
+            "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
           )}
         >
           {filteredPeople.map((person) => (

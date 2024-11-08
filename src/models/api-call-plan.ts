@@ -48,11 +48,11 @@ export const mockSequence = [
       queryParams: {
         q: "Skrillex",
         type: "artist",
-        limit: "1"
+        limit: "1",
       },
       headers: {
         Authorization: "Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     },
   },
@@ -64,11 +64,11 @@ export const mockSequence = [
       httpVerb: "GET",
       url: "https://api.spotify.com/v1/artists/{artist_id}/top-tracks",
       queryParams: {
-        country: "US"
+        country: "US",
       },
       headers: {
         Authorization: "Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     },
   },
@@ -81,7 +81,7 @@ export const mockSequence = [
       url: "https://api.spotify.com/v1/me",
       headers: {
         Authorization: "Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     },
   },
@@ -94,7 +94,7 @@ export const mockSequence = [
       url: "https://api.spotify.com/v1/users/{user_id}/playlists",
       headers: {
         Authorization: "Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: {
         name: "Skrillex Top Tracks",
@@ -112,10 +112,10 @@ export const mockSequence = [
       url: "https://api.spotify.com/v1/playlists/{playlist_id}/tracks",
       headers: {
         Authorization: "Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: {
-        uris: ["spotify:track:1", "spotify:track:2", "..."] // Replace with actual track URIs
+        uris: ["spotify:track:1", "spotify:track:2", "..."], // Replace with actual track URIs
       },
     },
   },

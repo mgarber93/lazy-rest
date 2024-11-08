@@ -37,7 +37,7 @@ export function ApiForm() {
         reader.readAsText(file) // You can read it as Array Buffer or Binary String alternatively
       }
     },
-    [setName, setBaseUrl, setOas, setFileHandle]
+    [setName, setBaseUrl, setOas, setFileHandle],
   )
 
   const isValid = useMemo(() => {
@@ -51,13 +51,13 @@ export function ApiForm() {
       dispatch(
         addApiConfiguration({
           key: fileHandle,
-          configuration: { name, baseUrl, clientId, clientSecret, fileHandle }
+          configuration: { name, baseUrl, clientId, clientSecret, fileHandle },
         }),
       )
     },
-    [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle]
+    [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle],
   )
-  
+
   return (
     <Fieldset className={"flex flex-col col-span-3 gap-4"}>
       <ApiFormElement

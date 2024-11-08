@@ -1,8 +1,5 @@
 import { EnhancedStore } from "@reduxjs/toolkit"
-import {
-  channelAllowList,
-  TWindowSenderChannel
-} from "./window-callback/window-callback-api"
+import { channelAllowList, TWindowSenderChannel } from "./window-callback/window-callback-api"
 import { ReduxStoreCallbackApi } from "./renderer/redux-store-callback-api"
 
 export const connectCallbacks = (store: EnhancedStore) => {

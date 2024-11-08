@@ -4,22 +4,22 @@ import { HttpRequestPlan } from "../../models/api-call-plan"
 import { KeyValueForm } from "./key-value-form"
 
 export function HttpCallDetailComponent({
-                                          step
-                                        }: {
+  step,
+}: {
   step?: Partial<HttpRequestPlan>
 }) {
   const tabs = [
     {
-      name: "Params"
+      name: "Params",
     },
     // {
     //   name: 'Auth',
     // },
     {
-      name: "Headers"
+      name: "Headers",
     },
     {
-      name: "Body"
+      name: "Body",
     },
     // {
     //   name: 'Responses',
@@ -31,8 +31,7 @@ export function HttpCallDetailComponent({
         "flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"
       }
     >
-      <TabList
-        className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
+      <TabList className="flex gap-4 content-around rounded-t w-full justify-center py-1 border-b border-black/15 dark:border-white/25">
         {tabs.map(({ name }) => (
           <Tab
             key={name}

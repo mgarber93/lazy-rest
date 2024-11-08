@@ -17,10 +17,10 @@ export const mainConfig: Configuration = {
   plugins: [
     ...plugins,
     new CopyPlugin({
-      patterns: [{ from: "src/assets", to: "assets" }]
+      patterns: [{ from: "src/assets", to: "assets" }],
     }),
   ],
   resolve: {
-    extensions: [".js", "d.ts", ".ts", ".jsx", ".tsx", ".css", ".json"]
+    extensions: [".js", "d.ts", ".ts", ".jsx", ".tsx", ".css", ".json"],
   },
 }

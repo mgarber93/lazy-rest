@@ -3,8 +3,8 @@ import { Editor } from "@monaco-editor/react"
 import clsx from "clsx"
 
 export function ResponseViewer({
-                                 response
-                               }: {
+  response,
+}: {
   response: { data: object } | null
 }) {
   const code = response

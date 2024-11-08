@@ -69,9 +69,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Albums"
-        ],
+        "tags": ["Albums"],
         "summary": "Get Album\n",
         "description": "Get Spotify catalog information for a single album.\n",
         "parameters": [
@@ -109,9 +107,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Albums"
-        ],
+        "tags": ["Albums"],
         "summary": "Get Several Albums\n",
         "description": "Get Spotify catalog information for multiple albums identified by their Spotify IDs.\n",
         "parameters": [
@@ -149,10 +145,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Albums",
-          "Tracks"
-        ],
+        "tags": ["Albums", "Tracks"],
         "summary": "Get Album Tracks\n",
         "description": "Get Spotify catalog information about an album’s tracks.\nOptional parameters can be used to limit the number of tracks returned.\n",
         "parameters": [
@@ -192,9 +185,7 @@
     },
     "/artists/{id}": {
       "get": {
-        "tags": [
-          "Artists"
-        ],
+        "tags": ["Artists"],
         "operationId": "get-an-artist",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -229,9 +220,7 @@
     },
     "/artists": {
       "get": {
-        "tags": [
-          "Artists"
-        ],
+        "tags": ["Artists"],
         "operationId": "get-multiple-artists",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -274,10 +263,7 @@
     },
     "/artists/{id}/albums": {
       "get": {
-        "tags": [
-          "Artists",
-          "Albums"
-        ],
+        "tags": ["Artists", "Albums"],
         "operationId": "get-an-artists-albums",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -324,10 +310,7 @@
     },
     "/artists/{id}/top-tracks": {
       "get": {
-        "tags": [
-          "Artists",
-          "Tracks"
-        ],
+        "tags": ["Artists", "Tracks"],
         "operationId": "get-an-artists-top-tracks",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -365,9 +348,7 @@
     },
     "/artists/{id}/related-artists": {
       "get": {
-        "tags": [
-          "Artists"
-        ],
+        "tags": ["Artists"],
         "operationId": "get-an-artists-related-artists",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -402,9 +383,7 @@
     },
     "/shows/{id}": {
       "get": {
-        "tags": [
-          "Shows"
-        ],
+        "tags": ["Shows"],
         "operationId": "get-a-show",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -435,18 +414,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-position"
-            ]
+            "oauth_2_0": ["user-read-playback-position"]
           }
         ]
       }
     },
     "/shows": {
       "get": {
-        "tags": [
-          "Shows"
-        ],
+        "tags": ["Shows"],
         "operationId": "get-multiple-shows",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -484,10 +459,7 @@
     },
     "/shows/{id}/episodes": {
       "get": {
-        "tags": [
-          "Shows",
-          "Episodes"
-        ],
+        "tags": ["Shows", "Episodes"],
         "operationId": "get-a-shows-episodes",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -524,18 +496,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-position"
-            ]
+            "oauth_2_0": ["user-read-playback-position"]
           }
         ]
       }
     },
     "/episodes/{id}": {
       "get": {
-        "tags": [
-          "Episodes"
-        ],
+        "tags": ["Episodes"],
         "operationId": "get-an-episode",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -574,18 +542,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-position"
-            ]
+            "oauth_2_0": ["user-read-playback-position"]
           }
         ]
       }
     },
     "/episodes": {
       "get": {
-        "tags": [
-          "Episodes"
-        ],
+        "tags": ["Episodes"],
         "operationId": "get-multiple-episodes",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
@@ -624,9 +588,7 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-position"
-            ]
+            "oauth_2_0": ["user-read-playback-position"]
           }
         ]
       }
@@ -637,9 +599,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Audiobooks"
-        ],
+        "tags": ["Audiobooks"],
         "summary": "Get an Audiobook\n",
         "description": "Get Spotify catalog information for a single audiobook. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.\n",
         "parameters": [
@@ -683,9 +643,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Audiobooks"
-        ],
+        "tags": ["Audiobooks"],
         "summary": "Get Several Audiobooks\n",
         "description": "Get Spotify catalog information for several audiobooks identified by their Spotify IDs. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.\n",
         "parameters": [
@@ -723,10 +681,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Audiobooks",
-          "Chapters"
-        ],
+        "tags": ["Audiobooks", "Chapters"],
         "summary": "Get Audiobook Chapters\n",
         "description": "Get Spotify catalog information about an audiobook's chapters. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.\n",
         "parameters": [
@@ -766,10 +721,7 @@
     },
     "/me/audiobooks": {
       "get": {
-        "tags": [
-          "Audiobooks",
-          "Library"
-        ],
+        "tags": ["Audiobooks", "Library"],
         "operationId": "get-users-saved-audiobooks",
         "summary": "Get User's Saved Audiobooks\n",
         "description": "Get a list of the audiobooks saved in the current Spotify user's 'Your Music' library.\n",
@@ -797,17 +749,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Audiobooks",
-          "Library"
-        ],
+        "tags": ["Audiobooks", "Library"],
         "operationId": "save-audiobooks-user",
         "summary": "Save Audiobooks for Current User\n",
         "description": "Save one or more audiobooks to the current Spotify user's library.\n",
@@ -832,17 +779,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Audiobooks",
-          "Library"
-        ],
+        "tags": ["Audiobooks", "Library"],
         "operationId": "remove-audiobooks-user",
         "summary": "Remove User's Saved Audiobooks\n",
         "description": "Remove one or more audiobooks from the Spotify user's library.\n",
@@ -867,19 +809,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       }
     },
     "/me/audiobooks/contains": {
       "get": {
-        "tags": [
-          "Audiobooks",
-          "Library"
-        ],
+        "tags": ["Audiobooks", "Library"],
         "operationId": "check-users-saved-audiobooks",
         "summary": "Check User's Saved Audiobooks\n",
         "description": "Check if one or more audiobooks are already saved in the current Spotify user's library.\n",
@@ -904,9 +841,7 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       }
@@ -917,9 +852,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Chapters"
-        ],
+        "tags": ["Chapters"],
         "summary": "Get a Chapter\n",
         "description": "Get Spotify catalog information for a single audiobook chapter. Chapters are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.\n",
         "parameters": [
@@ -957,9 +890,7 @@
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataPolicyList"
         },
-        "tags": [
-          "Chapters"
-        ],
+        "tags": ["Chapters"],
         "summary": "Get Several Chapters\n",
         "description": "Get Spotify catalog information for several audiobook chapters identified by their Spotify IDs. Chapters are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.\n",
         "parameters": [
@@ -993,9 +924,7 @@
     },
     "/tracks/{id}": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-track",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataWithMachineLearningPolicyList"
@@ -1041,9 +970,7 @@
     },
     "/tracks": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-several-tracks",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataWithMachineLearningPolicyList"
@@ -1089,9 +1016,7 @@
     },
     "/search": {
       "get": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "operationId": "search",
         "x-spotify-policy-list": [
           {
@@ -1174,9 +1099,7 @@
               "title": "Include External",
               "description": "If `include_external=audio` is specified it signals that the client can play externally hosted audio content, and marks\nthe content as playable in the response. By default externally hosted audio content is marked as unplayable in the response.\n",
               "type": "string",
-              "enum": [
-                "audio"
-              ]
+              "enum": ["audio"]
             }
           }
         ],
@@ -1203,9 +1126,7 @@
     },
     "/me": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "get-current-users-profile",
         "summary": "Get Current User's Profile\n",
         "description": "Get detailed profile information about the current user (including the\ncurrent user's username).\n",
@@ -1225,19 +1146,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-private",
-              "user-read-email"
-            ]
+            "oauth_2_0": ["user-read-private", "user-read-email"]
           }
         ]
       }
     },
     "/playlists/{playlist_id}": {
       "get": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "operationId": "get-playlist",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataWithMachineLearningPolicyList"
@@ -1287,10 +1203,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "Playlists",
-          "Library"
-        ],
+        "tags": ["Playlists", "Library"],
         "operationId": "change-playlist-details",
         "summary": "Change Playlist Details\n",
         "description": "Change a playlist's name and public/private state. (The user must, of\ncourse, own the playlist.)\n",
@@ -1348,20 +1261,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       }
     },
     "/playlists/{playlist_id}/tracks": {
       "get": {
-        "tags": [
-          "Playlists",
-          "Tracks"
-        ],
+        "tags": ["Playlists", "Tracks"],
         "operationId": "get-playlists-tracks",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataWithMachineLearningPolicyList"
@@ -1412,17 +1319,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-read-private"
-            ]
+            "oauth_2_0": ["playlist-read-private"]
           }
         ]
       },
       "post": {
-        "tags": [
-          "Playlists",
-          "Tracks"
-        ],
+        "tags": ["Playlists", "Tracks"],
         "operationId": "add-tracks-to-playlist",
         "summary": "Add Items to Playlist\n",
         "description": "Add one or more items to a user's playlist.\n",
@@ -1492,18 +1394,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Playlists",
-          "Tracks"
-        ],
+        "tags": ["Playlists", "Tracks"],
         "operationId": "reorder-or-replace-playlists-tracks",
         "summary": "Update Playlist Items\n",
         "description": "Either reorder or replace items in a playlist depending on the request's parameters.\nTo reorder items, include `range_start`, `insert_before`, `range_length` and `snapshot_id` in the request's body.\nTo replace items, include `uris` as either a query parameter or in the request's body.\nReplacing items in a playlist will overwrite its existing items. This operation can be used for replacing or clearing items in a playlist.\n<br/>\n**Note**: Replace and reorder are mutually exclusive operations which share the same endpoint, but have different parameters.\nThese operations can't be applied together in a single request.\n",
@@ -1577,18 +1473,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Playlists",
-          "Tracks"
-        ],
+        "tags": ["Playlists", "Tracks"],
         "operationId": "remove-tracks-playlist",
         "summary": "Remove Playlist Items\n",
         "description": "Remove one or more items from a user's playlist.\n",
@@ -1602,9 +1492,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "tracks"
-                ],
+                "required": ["tracks"],
                 "properties": {
                   "tracks": {
                     "type": "array",
@@ -1644,20 +1532,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       }
     },
     "/me/playlists": {
       "get": {
-        "tags": [
-          "Playlists",
-          "Library"
-        ],
+        "tags": ["Playlists", "Library"],
         "operationId": "get-a-list-of-current-users-playlists",
         "summary": "Get Current User's Playlists\n",
         "description": "Get a list of the playlists owned or followed by the current Spotify\nuser.\n",
@@ -1694,19 +1576,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-read-private"
-            ]
+            "oauth_2_0": ["playlist-read-private"]
           }
         ]
       }
     },
     "/me/albums": {
       "get": {
-        "tags": [
-          "Albums",
-          "Library"
-        ],
+        "tags": ["Albums", "Library"],
         "operationId": "get-users-saved-albums",
         "summary": "Get User's Saved Albums\n",
         "description": "Get a list of the albums saved in the current Spotify user's 'Your Music' library.\n",
@@ -1737,17 +1614,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Albums",
-          "Library"
-        ],
+        "tags": ["Albums", "Library"],
         "operationId": "save-albums-user",
         "summary": "Save Albums for Current User\n",
         "description": "Save one or more albums to the current user's 'Your Music' library.\n",
@@ -1791,17 +1663,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Albums",
-          "Library"
-        ],
+        "tags": ["Albums", "Library"],
         "operationId": "remove-albums-user",
         "summary": "Remove Users' Saved Albums\n",
         "description": "Remove one or more albums from the current user's 'Your Music' library.\n",
@@ -1845,19 +1712,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       }
     },
     "/me/albums/contains": {
       "get": {
-        "tags": [
-          "Albums",
-          "Library"
-        ],
+        "tags": ["Albums", "Library"],
         "operationId": "check-users-saved-albums",
         "summary": "Check User's Saved Albums\n",
         "description": "Check if one or more albums is already saved in the current Spotify user's 'Your Music' library.\n",
@@ -1882,19 +1744,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       }
     },
     "/me/tracks": {
       "get": {
-        "tags": [
-          "Tracks",
-          "Library"
-        ],
+        "tags": ["Tracks", "Library"],
         "operationId": "get-users-saved-tracks",
         "summary": "Get User's Saved Tracks\n",
         "description": "Get a list of the songs saved in the current Spotify user's 'Your Music' library.\n",
@@ -1925,17 +1782,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Tracks",
-          "Library"
-        ],
+        "tags": ["Tracks", "Library"],
         "operationId": "save-tracks-user",
         "summary": "Save Tracks for Current User\n",
         "description": "Save one or more tracks to the current user's 'Your Music' library.\n",
@@ -1950,9 +1802,7 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true,
-                "required": [
-                  "uris"
-                ],
+                "required": ["uris"],
                 "properties": {
                   "ids": {
                     "type": "array",
@@ -1982,17 +1832,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Tracks",
-          "Library"
-        ],
+        "tags": ["Tracks", "Library"],
         "operationId": "remove-tracks-user",
         "summary": "Remove User's Saved Tracks\n",
         "description": "Remove one or more tracks from the current user's 'Your Music' library.\n",
@@ -2036,19 +1881,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       }
     },
     "/me/tracks/contains": {
       "get": {
-        "tags": [
-          "Tracks",
-          "Library"
-        ],
+        "tags": ["Tracks", "Library"],
         "operationId": "check-users-saved-tracks",
         "summary": "Check User's Saved Tracks\n",
         "description": "Check if one or more tracks is already saved in the current Spotify user's 'Your Music' library.\n",
@@ -2073,19 +1913,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       }
     },
     "/me/episodes": {
       "get": {
-        "tags": [
-          "Episodes",
-          "Library"
-        ],
+        "tags": ["Episodes", "Library"],
         "operationId": "get-users-saved-episodes",
         "summary": "Get User's Saved Episodes\n",
         "description": "Get a list of the episodes saved in the current Spotify user's library.<br/>\nThis API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).\n",
@@ -2116,18 +1951,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read",
-              "user-read-playback-position"
-            ]
+            "oauth_2_0": ["user-library-read", "user-read-playback-position"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Episodes",
-          "Library"
-        ],
+        "tags": ["Episodes", "Library"],
         "operationId": "save-episodes-user",
         "summary": "Save Episodes for Current User\n",
         "description": "Save one or more episodes to the current user's library.<br/>\nThis API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).\n",
@@ -2150,9 +1979,7 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true,
-                "required": [
-                  "uris"
-                ],
+                "required": ["uris"],
                 "properties": {
                   "ids": {
                     "type": "array",
@@ -2182,17 +2009,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Episodes",
-          "Library"
-        ],
+        "tags": ["Episodes", "Library"],
         "operationId": "remove-episodes-user",
         "summary": "Remove User's Saved Episodes\n",
         "description": "Remove one or more episodes from the current user's library.<br/>\nThis API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).\n",
@@ -2236,19 +2058,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       }
     },
     "/me/episodes/contains": {
       "get": {
-        "tags": [
-          "Episodes",
-          "Library"
-        ],
+        "tags": ["Episodes", "Library"],
         "operationId": "check-users-saved-episodes",
         "summary": "Check User's Saved Episodes\n",
         "description": "Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes' library.<br/>\nThis API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer)..\n",
@@ -2281,19 +2098,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       }
     },
     "/me/shows": {
       "get": {
-        "tags": [
-          "Shows",
-          "Library"
-        ],
+        "tags": ["Shows", "Library"],
         "operationId": "get-users-saved-shows",
         "summary": "Get User's Saved Shows\n",
         "description": "Get a list of shows saved in the current Spotify user's library. Optional parameters can be used to limit the number of shows returned.\n",
@@ -2321,17 +2133,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Shows",
-          "Library"
-        ],
+        "tags": ["Shows", "Library"],
         "operationId": "save-shows-user",
         "summary": "Save Shows for Current User\n",
         "description": "Save one or more shows to current Spotify user's library.\n",
@@ -2356,17 +2163,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Shows",
-          "Library"
-        ],
+        "tags": ["Shows", "Library"],
         "operationId": "remove-shows-user",
         "summary": "Remove User's Saved Shows\n",
         "description": "Delete one or more shows from current Spotify user's library.\n",
@@ -2394,19 +2196,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-modify"
-            ]
+            "oauth_2_0": ["user-library-modify"]
           }
         ]
       }
     },
     "/me/shows/contains": {
       "get": {
-        "tags": [
-          "Shows",
-          "Library"
-        ],
+        "tags": ["Shows", "Library"],
         "operationId": "check-users-saved-shows",
         "summary": "Check User's Saved Shows\n",
         "description": "Check if one or more shows is already saved in the current Spotify user's library.\n",
@@ -2431,20 +2228,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-library-read"
-            ]
+            "oauth_2_0": ["user-library-read"]
           }
         ]
       }
     },
     "/me/top/{type}": {
       "get": {
-        "tags": [
-          "Users",
-          "Tracks",
-          "Library"
-        ],
+        "tags": ["Users", "Tracks", "Library"],
         "operationId": "get-users-top-artists-and-tracks",
         "summary": "Get User's Top Items\n",
         "description": "Get the current user's top artists or tracks based on calculated affinity.\n",
@@ -2456,10 +2247,7 @@
             "schema": {
               "title": "Type",
               "description": "The type of entity to return. Valid values: `artists` or `tracks`\n",
-              "enum": [
-                "artists",
-                "tracks"
-              ],
+              "enum": ["artists", "tracks"],
               "type": "string"
             }
           },
@@ -2498,18 +2286,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-top-read"
-            ]
+            "oauth_2_0": ["user-top-read"]
           }
         ]
       }
     },
     "/users/{user_id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "get-users-profile",
         "summary": "Get User's Profile\n",
         "description": "Get public profile information about a Spotify user.\n",
@@ -2541,10 +2325,7 @@
     },
     "/users/{user_id}/playlists": {
       "get": {
-        "tags": [
-          "Playlists",
-          "Users"
-        ],
+        "tags": ["Playlists", "Users"],
         "operationId": "get-list-users-playlists",
         "summary": "Get User's Playlists\n",
         "description": "Get a list of the playlists owned or followed by a Spotify user.\n",
@@ -2592,10 +2373,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "Playlists",
-          "Library"
-        ],
+        "tags": ["Playlists", "Library"],
         "operationId": "create-playlist",
         "summary": "Create Playlist\n",
         "description": "Create a playlist for a Spotify user. (The playlist will be empty until\nyou [add tracks](/documentation/web-api/reference/add-tracks-to-playlist).)\nEach user is generally limited to a maximum of 11000 playlists.\n",
@@ -2615,9 +2393,7 @@
                 },
                 "type": "object",
                 "additionalProperties": true,
-                "required": [
-                  "name"
-                ],
+                "required": ["name"],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -2656,20 +2432,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       }
     },
     "/playlists/{playlist_id}/followers": {
       "put": {
-        "tags": [
-          "Users",
-          "Playlists"
-        ],
+        "tags": ["Users", "Playlists"],
         "operationId": "follow-playlist",
         "description": "Add the current user as a follower of a playlist.\n",
         "summary": "Follow Playlist\n",
@@ -2713,18 +2483,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Users",
-          "Playlists"
-        ],
+        "tags": ["Users", "Playlists"],
         "operationId": "unfollow-playlist",
         "summary": "Unfollow Playlist\n",
         "description": "Remove the current user as a follower of a playlist.\n",
@@ -2749,19 +2513,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "playlist-modify-public",
-              "playlist-modify-private"
-            ]
+            "oauth_2_0": ["playlist-modify-public", "playlist-modify-private"]
           }
         ]
       }
     },
     "/browse/featured-playlists": {
       "get": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "operationId": "get-featured-playlists",
         "x-spotify-policy-list": [
           {
@@ -2812,9 +2571,7 @@
     },
     "/browse/categories": {
       "get": {
-        "tags": [
-          "Categories"
-        ],
+        "tags": ["Categories"],
         "operationId": "get-categories",
         "summary": "Get Several Browse Categories\n",
         "description": "Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).\n",
@@ -2860,9 +2617,7 @@
     },
     "/browse/categories/{category_id}": {
       "get": {
-        "tags": [
-          "Categories"
-        ],
+        "tags": ["Categories"],
         "operationId": "get-a-category",
         "summary": "Get Single Browse Category\n",
         "description": "Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).\n",
@@ -2913,10 +2668,7 @@
     },
     "/browse/categories/{category_id}/playlists": {
       "get": {
-        "tags": [
-          "Playlists",
-          "Categories"
-        ],
+        "tags": ["Playlists", "Categories"],
         "operationId": "get-a-categories-playlists",
         "summary": "Get Category's Playlists\n",
         "description": "Get a list of Spotify playlists tagged with a particular category.\n",
@@ -2962,9 +2714,7 @@
     },
     "/playlists/{playlist_id}/images": {
       "get": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "operationId": "get-playlist-cover",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/metadataWithMachineLearningPolicyList"
@@ -2997,9 +2747,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "operationId": "upload-custom-playlist-cover",
         "summary": "Add Custom Playlist Cover Image\n",
         "description": "Replace the image used to represent a specific playlist.\n",
@@ -3048,9 +2796,7 @@
     },
     "/browse/new-releases": {
       "get": {
-        "tags": [
-          "Albums"
-        ],
+        "tags": ["Albums"],
         "operationId": "get-new-releases",
         "x-spotify-policy-list": [
           {
@@ -3090,11 +2836,7 @@
     },
     "/me/following": {
       "get": {
-        "tags": [
-          "Users",
-          "Library",
-          "Artists"
-        ],
+        "tags": ["Users", "Library", "Artists"],
         "operationId": "get-followed",
         "summary": "Get Followed Artists\n",
         "description": "Get the current user's followed artists.\n",
@@ -3106,9 +2848,7 @@
             "schema": {
               "title": "Item Type",
               "description": "The ID type: currently only `artist` is supported.\n",
-              "enum": [
-                "artist"
-              ],
+              "enum": ["artist"],
               "example": "artist",
               "type": "string"
             }
@@ -3155,18 +2895,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-follow-read"
-            ]
+            "oauth_2_0": ["user-follow-read"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Users",
-          "Artists",
-          "Library"
-        ],
+        "tags": ["Users", "Artists", "Library"],
         "operationId": "follow-artists-users",
         "summary": "Follow Artists or Users\n",
         "description": "Add the current user as a follower of one or more artists or other Spotify users.\n",
@@ -3178,10 +2912,7 @@
             "schema": {
               "title": "Item Type",
               "description": "The ID type.\n",
-              "enum": [
-                "artist",
-                "user"
-              ],
+              "enum": ["artist", "user"],
               "example": "artist",
               "type": "string"
             }
@@ -3204,9 +2935,7 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true,
-                "required": [
-                  "ids"
-                ],
+                "required": ["ids"],
                 "properties": {
                   "ids": {
                     "type": "array",
@@ -3236,18 +2965,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-follow-modify"
-            ]
+            "oauth_2_0": ["user-follow-modify"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "Users",
-          "Artists",
-          "Library"
-        ],
+        "tags": ["Users", "Artists", "Library"],
         "operationId": "unfollow-artists-users",
         "summary": "Unfollow Artists or Users\n",
         "description": "Remove the current user as a follower of one or more artists or other Spotify users.\n",
@@ -3259,10 +2982,7 @@
             "schema": {
               "title": "Item Type",
               "description": "The ID type: either `artist` or `user`.\n",
-              "enum": [
-                "artist",
-                "user"
-              ],
+              "enum": ["artist", "user"],
               "example": "artist",
               "type": "string"
             }
@@ -3314,20 +3034,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-follow-modify"
-            ]
+            "oauth_2_0": ["user-follow-modify"]
           }
         ]
       }
     },
     "/me/following/contains": {
       "get": {
-        "tags": [
-          "Users",
-          "Artists",
-          "Library"
-        ],
+        "tags": ["Users", "Artists", "Library"],
         "operationId": "check-current-user-follows",
         "summary": "Check If User Follows Artists or Users\n",
         "description": "Check to see if the current user is following one or more artists or other Spotify users.\n",
@@ -3339,10 +3053,7 @@
             "schema": {
               "title": "Item Type",
               "description": "The ID type: either `artist` or `user`.\n",
-              "enum": [
-                "artist",
-                "user"
-              ],
+              "enum": ["artist", "user"],
               "example": "artist",
               "type": "string"
             }
@@ -3375,19 +3086,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-follow-read"
-            ]
+            "oauth_2_0": ["user-follow-read"]
           }
         ]
       }
     },
     "/playlists/{playlist_id}/followers/contains": {
       "get": {
-        "tags": [
-          "Users",
-          "Playlists"
-        ],
+        "tags": ["Users", "Playlists"],
         "operationId": "check-if-user-follows-playlist",
         "summary": "Check if Users Follow Playlist\n",
         "description": "Check to see if one or more Spotify users are following a specified playlist.\n",
@@ -3430,9 +3136,7 @@
     },
     "/audio-features": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-several-audio-features",
         "x-spotify-policy-list": [
           {
@@ -3477,9 +3181,7 @@
     },
     "/audio-features/{id}": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-audio-features",
         "x-spotify-policy-list": [
           {
@@ -3524,9 +3226,7 @@
     },
     "/audio-analysis/{id}": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-audio-analysis",
         "summary": "Get Track's Audio Analysis\n",
         "description": "Get a low-level audio analysis for a track in the Spotify catalog. The audio analysis describes the track’s structure and musical content, including rhythm, pitch, and timbre.\n",
@@ -3566,9 +3266,7 @@
     },
     "/recommendations": {
       "get": {
-        "tags": [
-          "Tracks"
-        ],
+        "tags": ["Tracks"],
         "operationId": "get-recommendations",
         "x-spotify-policy-list": [
           {
@@ -4133,9 +3831,7 @@
     },
     "/recommendations/available-genre-seeds": {
       "get": {
-        "tags": [
-          "Genres"
-        ],
+        "tags": ["Genres"],
         "operationId": "get-recommendation-genres",
         "summary": "Get Available Genre Seeds\n",
         "description": "Retrieve a list of available genres seed parameter values for [recommendations](/documentation/web-api/reference/get-recommendations).\n",
@@ -4162,9 +3858,7 @@
     },
     "/me/player": {
       "get": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "get-information-about-the-users-current-playback",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4198,16 +3892,12 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-state"
-            ]
+            "oauth_2_0": ["user-read-playback-state"]
           }
         ]
       },
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "transfer-a-users-playback",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4219,15 +3909,11 @@
             "application/json": {
               "schema": {
                 "example": {
-                  "device_ids": [
-                    "74ASZWbe4lXaubB36ztrGX"
-                  ]
+                  "device_ids": ["74ASZWbe4lXaubB36ztrGX"]
                 },
                 "type": "object",
                 "additionalProperties": true,
-                "required": [
-                  "device_ids"
-                ],
+                "required": ["device_ids"],
                 "properties": {
                   "device_ids": {
                     "type": "array",
@@ -4262,18 +3948,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/devices": {
       "get": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "get-a-users-available-devices",
         "summary": "Get Available Devices\n",
         "description": "Get information about a user’s available Spotify Connect devices. Some device models are not supported and will not be listed in the API response.\n",
@@ -4293,18 +3975,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-playback-state"
-            ]
+            "oauth_2_0": ["user-read-playback-state"]
           }
         ]
       }
     },
     "/me/player/currently-playing": {
       "get": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "get-the-users-currently-playing-track",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4335,18 +4013,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-currently-playing"
-            ]
+            "oauth_2_0": ["user-read-currently-playing"]
           }
         ]
       }
     },
     "/me/player/play": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "start-a-users-playback",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4423,18 +4097,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/pause": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "pause-a-users-playback",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4470,18 +4140,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/next": {
       "post": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "skip-users-playback-to-next-track",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4517,18 +4183,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/previous": {
       "post": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "skip-users-playback-to-previous-track",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4564,18 +4226,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/seek": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "seek-to-position-in-currently-playing-track",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4622,18 +4280,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/repeat": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "set-repeat-mode-on-users-playback",
         "summary": "Set Repeat Mode\n",
         "description": "Set the repeat mode for the user's playback. This API only works for users who have Spotify Premium. The order of execution is not guaranteed when you use this API with other Player API endpoints.\n",
@@ -4677,18 +4331,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/volume": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "set-volume-for-users-playback",
         "summary": "Set Playback Volume\n",
         "description": "Set the volume for the user’s current playback device. This API only works for users who have Spotify Premium. The order of execution is not guaranteed when you use this API with other Player API endpoints.\n",
@@ -4732,18 +4382,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/shuffle": {
       "put": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "toggle-shuffle-for-users-playback",
         "summary": "Toggle Playback Shuffle\n",
         "description": "Toggle shuffle on or off for user’s playback. This API only works for users who have Spotify Premium. The order of execution is not guaranteed when you use this API with other Player API endpoints.\n",
@@ -4787,18 +4433,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/me/player/recently-played": {
       "get": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "get-recently-played",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4858,18 +4500,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-read-recently-played"
-            ]
+            "oauth_2_0": ["user-read-recently-played"]
           }
         ]
       }
     },
     "/me/player/queue": {
       "get": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "get-queue",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4900,9 +4538,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "Player"
-        ],
+        "tags": ["Player"],
         "operationId": "add-to-queue",
         "x-spotify-policy-list": {
           "$ref": "#/components/x-spotify-policy/playerPolicyList"
@@ -4949,18 +4585,14 @@
         },
         "security": [
           {
-            "oauth_2_0": [
-              "user-modify-playback-state"
-            ]
+            "oauth_2_0": ["user-modify-playback-state"]
           }
         ]
       }
     },
     "/markets": {
       "get": {
-        "tags": [
-          "Markets"
-        ],
+        "tags": ["Markets"],
         "operationId": "get-available-markets",
         "summary": "Get Available Markets\n",
         "description": "Get the list of markets where Spotify is available.\n",
@@ -4977,11 +4609,7 @@
                       "items": {
                         "type": "string"
                       },
-                      "example": [
-                        "CA",
-                        "BR",
-                        "IT"
-                      ]
+                      "example": ["CA", "BR", "IT"]
                     }
                   }
                 }
@@ -5094,9 +4722,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "error"
-              ],
+              "required": ["error"],
               "properties": {
                 "error": {
                   "$ref": "#/components/schemas/ErrorObject"
@@ -5112,9 +4738,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "error"
-              ],
+              "required": ["error"],
               "properties": {
                 "error": {
                   "$ref": "#/components/schemas/ErrorObject"
@@ -5130,9 +4754,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "error"
-              ],
+              "required": ["error"],
               "properties": {
                 "error": {
                   "$ref": "#/components/schemas/ErrorObject"
@@ -5148,9 +4770,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "error"
-              ],
+              "required": ["error"],
               "properties": {
                 "error": {
                   "$ref": "#/components/schemas/ErrorObject"
@@ -5166,9 +4786,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "error"
-              ],
+              "required": ["error"],
               "properties": {
                 "error": {
                   "$ref": "#/components/schemas/ErrorObject"
@@ -5184,9 +4802,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "albums"
-              ],
+              "required": ["albums"],
               "properties": {
                 "albums": {
                   "type": "array",
@@ -5205,9 +4821,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "audiobooks"
-              ],
+              "required": ["audiobooks"],
               "properties": {
                 "audiobooks": {
                   "type": "array",
@@ -5226,9 +4840,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "chapters"
-              ],
+              "required": ["chapters"],
               "properties": {
                 "chapters": {
                   "type": "array",
@@ -5247,9 +4859,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "devices"
-              ],
+              "required": ["devices"],
               "properties": {
                 "devices": {
                   "type": "array",
@@ -5268,9 +4878,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "albums"
-              ],
+              "required": ["albums"],
               "properties": {
                 "albums": {
                   "$ref": "#/components/schemas/PagingSimplifiedAlbumObject"
@@ -5306,9 +4914,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "categories"
-              ],
+              "required": ["categories"],
               "properties": {
                 "categories": {
                   "type": "object",
@@ -5340,9 +4946,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "artists"
-              ],
+              "required": ["artists"],
               "properties": {
                 "artists": {
                   "$ref": "#/components/schemas/CursorPagingSimplifiedArtistObject"
@@ -5368,9 +4972,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "artists"
-              ],
+              "required": ["artists"],
               "properties": {
                 "artists": {
                   "type": "array",
@@ -5389,9 +4991,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "audio_features"
-              ],
+              "required": ["audio_features"],
               "properties": {
                 "audio_features": {
                   "type": "array",
@@ -5410,9 +5010,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "episodes"
-              ],
+              "required": ["episodes"],
               "properties": {
                 "episodes": {
                   "type": "array",
@@ -5431,16 +5029,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "genres"
-              ],
+              "required": ["genres"],
               "properties": {
                 "genres": {
                   "type": "array",
-                  "example": [
-                    "alternative",
-                    "samba"
-                  ],
+                  "example": ["alternative", "samba"],
                   "items": {
                     "type": "string"
                   }
@@ -5599,9 +5192,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "tracks"
-              ],
+              "required": ["tracks"],
               "properties": {
                 "tracks": {
                   "type": "array",
@@ -5620,9 +5211,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "shows"
-              ],
+              "required": ["shows"],
               "properties": {
                 "shows": {
                   "type": "array",
@@ -5821,10 +5410,7 @@
           "application/json": {
             "schema": {
               "type": "array",
-              "example": [
-                false,
-                true
-              ],
+              "example": [false, true],
               "items": {
                 "type": "boolean"
               }
@@ -5926,11 +5512,7 @@
         "properties": {
           "reason": {
             "type": "string",
-            "enum": [
-              "market",
-              "product",
-              "explicit"
-            ],
+            "enum": ["market", "product", "explicit"],
             "description": "The reason for the restriction. Albums may be restricted if the content is not available in a given market, to the user's subscription type, or when the user's account is set to not play explicit content.\nAdditional reasons may be added in the future.\n"
           }
         }
@@ -5980,10 +5562,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "Prog rock",
-              "Grunge"
-            ],
+            "example": ["Prog rock", "Grunge"],
             "description": "A list of the genres the artist is associated with. If not yet classified, the array is empty.\n"
           },
           "href": {
@@ -6011,9 +5590,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "artist"
-            ],
+            "enum": ["artist"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -6048,9 +5625,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "artist"
-            ],
+            "enum": ["artist"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -6283,10 +5858,7 @@
       "ErrorObject": {
         "type": "object",
         "x-spotify-docs-type": "ErrorObject",
-        "required": [
-          "status",
-          "message"
-        ],
+        "required": ["status", "message"],
         "properties": {
           "status": {
             "type": "integer",
@@ -6411,9 +5983,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "user"
-            ],
+            "enum": ["user"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -6705,11 +6275,7 @@
           "mode": {
             "type": "number",
             "description": "Indicates the modality (major or minor) of a section, the type of scale from which its melodic content is derived. This field will contain a 0 for \"minor\", a 1 for \"major\", or a -1 for no result. Note that the major key (e.g. C major) could more likely be confused with the minor key at 3 semitones lower (e.g. A minor) as both keys carry the same pitches.",
-            "enum": [
-              -1,
-              0,
-              1
-            ]
+            "enum": [-1, 0, 1]
           },
           "mode_confidence": {
             "type": "number",
@@ -6778,11 +6344,7 @@
               "minimum": 0,
               "maximum": 1
             },
-            "example": [
-              0.212,
-              0.141,
-              0.294
-            ]
+            "example": [0.212, 0.141, 0.294]
           },
           "timbre": {
             "type": "array",
@@ -6790,11 +6352,7 @@
             "items": {
               "type": "number"
             },
-            "example": [
-              42.115,
-              64.373,
-              -0.233
-            ]
+            "example": [42.115, 64.373, -0.233]
           }
         }
       },
@@ -6916,9 +6474,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "audio_features"
-            ],
+            "enum": ["audio_features"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -7528,10 +7084,7 @@
       "RecommendationsObject": {
         "type": "object",
         "x-spotify-docs-type": "RecommendationsObject",
-        "required": [
-          "seeds",
-          "tracks"
-        ],
+        "required": ["seeds", "tracks"],
         "properties": {
           "seeds": {
             "type": "array",
@@ -7859,9 +7412,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "user"
-            ],
+            "enum": ["user"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -7890,12 +7441,7 @@
       "CategoryObject": {
         "type": "object",
         "x-spotify-docs-type": "CategoryObject",
-        "required": [
-          "href",
-          "icons",
-          "id",
-          "name"
-        ],
+        "required": ["href", "icons", "id", "name"],
         "properties": {
           "href": {
             "type": "string",
@@ -8023,9 +7569,7 @@
           "type": {
             "type": "string",
             "description": "The object type: \"track\".\n",
-            "enum": [
-              "track"
-            ]
+            "enum": ["track"]
           },
           "uri": {
             "type": "string",
@@ -8046,9 +7590,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "show"
-            ],
+            "required": ["show"],
             "properties": {
               "show": {
                 "allOf": [
@@ -8171,10 +7713,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "fr",
-              "en"
-            ],
+            "example": ["fr", "en"],
             "description": "A list of the languages used in the episode, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n"
           },
           "name": {
@@ -8190,11 +7729,7 @@
           "release_date_precision": {
             "type": "string",
             "example": "day",
-            "enum": [
-              "year",
-              "month",
-              "day"
-            ],
+            "enum": ["year", "month", "day"],
             "description": "The precision with which `release_date` value is known.\n"
           },
           "resume_point": {
@@ -8207,9 +7742,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "episode"
-            ],
+            "enum": ["episode"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -8337,9 +7870,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "show"
-            ],
+            "enum": ["show"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -8360,9 +7891,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "episodes"
-            ],
+            "required": ["episodes"],
             "properties": {
               "episodes": {
                 "type": "object",
@@ -8500,9 +8029,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "audiobook"
-            ],
+            "enum": ["audiobook"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -8523,9 +8050,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "chapters"
-            ],
+            "required": ["chapters"],
             "properties": {
               "chapters": {
                 "type": "object",
@@ -8571,11 +8096,7 @@
           "album_type": {
             "type": "string",
             "description": "The type of the album.\n",
-            "enum": [
-              "album",
-              "single",
-              "compilation"
-            ],
+            "enum": ["album", "single", "compilation"],
             "example": "compilation"
           },
           "total_tracks": {
@@ -8588,11 +8109,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "CA",
-              "BR",
-              "IT"
-            ],
+            "example": ["CA", "BR", "IT"],
             "description": "The markets in which the album is available: [ISO 3166-1 alpha-2 country codes](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _**NOTE**: an album is considered available in a market when at least 1 of its tracks is available in that market._\n"
           },
           "external_urls": {
@@ -8630,11 +8147,7 @@
           },
           "release_date_precision": {
             "type": "string",
-            "enum": [
-              "year",
-              "month",
-              "day"
-            ],
+            "enum": ["year", "month", "day"],
             "example": "year",
             "description": "The precision with which `release_date` value is known.\n"
           },
@@ -8648,9 +8161,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "album"
-            ],
+            "enum": ["album"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -8668,9 +8179,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "artists"
-            ],
+            "required": ["artists"],
             "properties": {
               "artists": {
                 "type": "array",
@@ -8691,18 +8200,11 @@
           },
           {
             "type": "object",
-            "required": [
-              "album_group"
-            ],
+            "required": ["album_group"],
             "properties": {
               "album_group": {
                 "type": "string",
-                "enum": [
-                  "album",
-                  "single",
-                  "compilation",
-                  "appears_on"
-                ],
+                "enum": ["album", "single", "compilation", "appears_on"],
                 "example": "compilation",
                 "description": "This field describes the relationship between the artist and the album.\n"
               }
@@ -8719,9 +8221,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "audiobook"
-            ],
+            "required": ["audiobook"],
             "properties": {
               "audiobook": {
                 "allOf": [
@@ -8846,10 +8346,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "fr",
-              "en"
-            ],
+            "example": ["fr", "en"],
             "description": "A list of the languages used in the chapter, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.\n"
           },
           "name": {
@@ -8865,11 +8362,7 @@
           "release_date_precision": {
             "type": "string",
             "example": "day",
-            "enum": [
-              "year",
-              "month",
-              "day"
-            ],
+            "enum": ["year", "month", "day"],
             "description": "The precision with which `release_date` value is known.\n"
           },
           "resume_point": {
@@ -8882,9 +8375,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "episode"
-            ],
+            "enum": ["episode"],
             "description": "The object type.\n"
           },
           "uri": {
@@ -8955,10 +8446,7 @@
                 "items": {
                   "type": "string"
                 },
-                "example": [
-                  "Egg punk",
-                  "Noise rock"
-                ],
+                "example": ["Egg punk", "Noise rock"],
                 "description": "A list of the genres the album is associated with. If not yet classified, the array is empty.\n"
               },
               "label": {
@@ -9079,11 +8567,7 @@
       "ImageObject": {
         "type": "object",
         "x-spotify-docs-type": "ImageObject",
-        "required": [
-          "url",
-          "height",
-          "width"
-        ],
+        "required": ["url", "height", "width"],
         "properties": {
           "url": {
             "type": "string",

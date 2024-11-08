@@ -13,24 +13,24 @@ import { HttpClient } from "../tools/http-client"
  */
 export function registerMainHandlers() {
   container.register<TInvokeChannel[]>("InvokeChannels", {
-    useValue: INVOKE_CHANNELS
+    useValue: INVOKE_CHANNELS,
   })
 
   container.register<Handler<"streamedChat">>("streamedChat", {
-    useClass: StreamedChatHandler
+    useClass: StreamedChatHandler,
   })
   container.register<Handler<"getMachineName">>("getMachineName", {
-    useClass: OperatingSystem
+    useClass: OperatingSystem,
   })
   container.register<Handler<"callback">>("callback", {
-    useClass: CallbackHandler
+    useClass: CallbackHandler,
   })
   container.register<Handler<"setOpenAiConfiguration">>(
     "setOpenAiConfiguration",
-    { useClass: OpenAiConfigHandler }
+    { useClass: OpenAiConfigHandler },
   )
   container.register<Handler<"getModels">>("getModels", {
-    useClass: ModelListHandle
+    useClass: ModelListHandle,
   })
   container.register<Handler<"fetch">>("fetch", { useClass: HttpClient })
 }

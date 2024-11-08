@@ -18,7 +18,7 @@ export const useCurrentConversation = () => {
   } else if (!current) {
     current = chats[0]
   }
-  
+
   return current as Conversation
 }
 

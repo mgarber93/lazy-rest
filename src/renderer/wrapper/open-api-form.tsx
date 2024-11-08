@@ -5,19 +5,19 @@ import { ClientOptions } from "openai"
 
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(
-    (state) => state.models.providers.openAi
+    (state) => state.models.providers.openAi,
   )
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(
       configureOpenAi({
         apiKey: providerConfig?.apiKey ?? "",
-        baseURL: providerConfig?.baseURL ?? ""
+        baseURL: providerConfig?.baseURL ?? "",
       }),
     )
   }, [dispatch, providerConfig])
   const currentOpenAiConfig = useAppSelector(
-    (state) => state.models.providers.openAi
+    (state) => state.models.providers.openAi,
   )
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ function OpenAiConfigForm() {
       config[name as keyof ClientOptions] = value
       dispatch(configureOpenAi(config))
     },
-    [dispatch, currentOpenAiConfig]
+    [dispatch, currentOpenAiConfig],
   )
 
   return (

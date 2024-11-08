@@ -13,16 +13,16 @@ import * as path from "path"
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    icon: path.join(__dirname, "src", "assets", "icon.ico")
+    icon: path.join(__dirname, "src", "assets", "icon.ico"),
   },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({
-      setupIcon: path.join(__dirname, "src", "assets", "icon.ico") // Installer icon
+      setupIcon: path.join(__dirname, "src", "assets", "icon.ico"), // Installer icon
     }),
     new MakerZIP({}, ["darwin", "win32"]),
     new MakerRpm({}),
-    new MakerDeb({})
+    new MakerDeb({}),
   ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
@@ -37,7 +37,7 @@ const config: ForgeConfig = {
             js: "./src/renderer.ts",
             name: "main_window",
             preload: {
-              js: "./src/preload.ts"
+              js: "./src/preload.ts",
             },
           },
         ],

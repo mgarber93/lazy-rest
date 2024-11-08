@@ -54,7 +54,7 @@ export function SettingsPage() {
               <OllamaForm />
             </div>
           </div>
-          
+
           <div
             ref={OpenAi}
             className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}
@@ -64,7 +64,7 @@ export function SettingsPage() {
               <OpenAiForm />
             </div>
           </div>
-          
+
           <div
             ref={BedRock}
             className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}

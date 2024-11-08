@@ -32,11 +32,11 @@ export class WindowSender {
     return new Promise((resolve, reject) => {
       if (this.promiseMap.has(promiseId)) {
         throw new Error(
-          `${promiseId} is already registered (do we need to set a random seed?)`
+          `${promiseId} is already registered (do we need to set a random seed?)`,
         )
       }
       this.promiseMap.set(promiseId, resolve)
-      
+
       const nextArgs = [promiseId, ...args] as never[]
       if (this._sender) {
         this._sender(eventName, ...nextArgs)
@@ -45,7 +45,7 @@ export class WindowSender {
       }
     })
   }
-  
+
   callback(promiseId: string, response: unknown) {
     const resolve = this.promiseMap.get(promiseId)
     if (resolve) {

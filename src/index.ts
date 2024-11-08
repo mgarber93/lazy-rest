@@ -66,7 +66,7 @@ const createWindow = (): void => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
-  
+
   mainWindow.webContents.on("did-finish-load", () => {
     const windowSender = container.resolve(WindowSender)
     windowSender.hasFinishedLoading((eventName: string, ...args: any) => {

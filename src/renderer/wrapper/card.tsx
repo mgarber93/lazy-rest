@@ -5,9 +5,9 @@ export const cardEffect =
   "rounded bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
 export function Card({
-                       children,
-                       className
-                     }: {
+  children,
+  className,
+}: {
   children: ReactNode
   className?: string
 }) {
@@ -32,9 +32,9 @@ export function CardH2({ children }: { children: ReactNode }) {
  * @constructor
  */
 export function CardH3({
-                         children,
-                         className
-                       }: {
+  children,
+  className,
+}: {
   children: ReactNode
   className?: string
 }) {
@@ -43,9 +43,9 @@ export function CardH3({
 }
 
 export function CardSection({
-                              children,
-                              className
-                            }: {
+  children,
+  className,
+}: {
   children: ReactNode
   className?: string
 }) {
@@ -53,7 +53,7 @@ export function CardSection({
     <div
       className={clsx(
         "bg-neutral-500/5 dark:border-white/5 border-2 px-2 py-1 rounded-lg flex flex-col gap-2",
-        className
+        className,
       )}
     >
       {children}
