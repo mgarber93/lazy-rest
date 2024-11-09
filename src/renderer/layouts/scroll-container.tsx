@@ -1,10 +1,7 @@
 import React, { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Center } from "../wrapper/center"
 import clsx from "clsx"
-import { CardH3 } from "../wrapper/card"
 import { UserInputForm } from "../pages/user-input-form"
-import { AppIconButton } from "./app-icon-button"
-import { PencilIcon } from "@heroicons/react/24/solid"
 import { useCurrentConversation } from "../hooks/current-conversation"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -37,28 +34,15 @@ export function AppHorizontalChip({
 export function Sections({ sections }: { sections: ISection[] }) {
   const scrollToSection = useCallback(
     (section: RefObject<HTMLDivElement | null>) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       section?.current?.scrollIntoView({
         behavior: "instant",
-        alignToTop: true,
       })
     },
     [],
   )
 
   return sections.length > 0 ? (
-    <div className={"rounded p-2 mr-2 rounded-tl-none rounded-bl-none"}>
-      <AppHorizontalChip>
-        <CardH3 className={"w-full h-full border-b-0"}>On this page</CardH3>
-        <AppIconButton>
-          <PencilIcon
-            className={
-              "w-full h-full dark:fill-neutral-200 hover:fill pointer-events-none"
-            }
-          />
-        </AppIconButton>
-      </AppHorizontalChip>
+    <div className={"bg-black/5 dark:bg-white/5 rounded-xl m-1 p-1"}>
       <ul className={"flex flex-col gap-1"}>
         {sections?.map((s) => (
           <li key={s.id}>
@@ -69,7 +53,7 @@ export function Sections({ sections }: { sections: ISection[] }) {
                 scrollToSection(s.ref)
               }}
               className={
-                "text-xs text-nowrap text-ellipsis overflow-hidden whitespace-pre"
+                "text-xs text-nowrap text-ellipsis overflow-hidden whitespace-pre dark:text-gray-300"
               }
               tabIndex={-1}
             >

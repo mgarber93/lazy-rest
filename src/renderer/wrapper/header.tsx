@@ -127,7 +127,7 @@ export function Header() {
     <header
       className={clsx(
         headerTransparencyEffect,
-        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-b-[0.5px] border-neutral-300 dark:border-b-neutral-700 z-1 pb-1",
+        "w-full sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 flex flex-row border-neutral-300 dark:border-b-neutral-700 z-1 pb-1",
         "bg-neutral-200/50 dark:bg-neutral-950 pt-[3px] pb-[3px]",
       )}
     >

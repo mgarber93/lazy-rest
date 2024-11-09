@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject, useCallback, useEffect, useMemo, useRef } from "react"
+import React, { ReactNode, RefObject, useCallback, useEffect, useRef } from "react"
 import clsx from "clsx"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -75,7 +75,7 @@ export function ConversationsPage() {
   const conversation = useCurrentConversation()
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const refs = Array.from({ length: 256 }, () => useRef(null))
-  const sections = useMemo(() => [] as ISection[], [])
+  const sections = [] as ISection[]
   const scrollToSection = useCallback(
     (section: RefObject<HTMLDivElement | null>) => {
       section?.current?.scrollIntoView({ behavior: "smooth" })
@@ -102,12 +102,12 @@ export function ConversationsPage() {
           {
             id: v4(),
             ref: refs[index - 1],
-            label: `${acc[0].author} asks ${content.author}`,
+            label: `${acc[0].author}`,
           } satisfies ISection,
           {
             id: v4(),
             ref: refs[index],
-            label: `${content.author} answers ${acc[0].author}`,
+            label: `${content.author}`,
           } satisfies ISection,
         )
         contentCards.push(
@@ -115,7 +115,6 @@ export function ConversationsPage() {
             className={clsx(
               "border-b-2 border-neutral-100 dark:border-neutral-800",
             )}
-            whileHover={{ borderColor: "white/5" }}
             transition={{ duration: delay / 1000 }}
           >
             <MapContentToCardSection

@@ -5,7 +5,6 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline"
 
 import { useAppDispatch, useAppSelector } from "../features/store"
 import { configureOpenAi, listOllamaModels, listOpenAiModels } from "../features/models"
-import { descriptionClasses, inputClasses, labelClasses } from "../components/api-form-element"
 import { AppIconButton } from "../layouts/app-icon-button"
 import { AppHorizontalChip } from "../layouts/scroll-container"
 
@@ -57,14 +56,13 @@ export function OpenAiForm() {
   const handleLoadModels = useCallback(() => {
     dispatch(listOpenAiModels())
   }, [dispatch])
-
   return (
     <Fieldset className="w-full space-y-6">
       <Field>
-        <Label className={labelClasses}>
+        <Label className={"text-sm/6 font-medium text-black dark:text-white"}>
           API Key <span className="text-red-500">*</span>
         </Label>
-        <Description className={descriptionClasses}>
+        <Description className={"text-sm/6 text-black dark:text-white"}>
           See{" "}
           <span className={"bg-black/5 dark:bg-white/5 px-2 py-1 rounded"}>
             https://platform.openai.com/api-keys
@@ -76,7 +74,10 @@ export function OpenAiForm() {
           type="password"
           value={providers.openAi?.apiKey}
           onChange={handleValueChange}
-          className={inputClasses}
+          className={clsx(
+            "mt-3 block w-full rounded border-none bg-black/5 dark:bg-white/5 py-1.5 px-3 text-sm/6 text-black dark:text-white",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+          )}
         />
       </Field>
       <Field>
