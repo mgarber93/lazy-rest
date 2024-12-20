@@ -8,12 +8,12 @@ export function HeaderLayout({children}: { children: ReactElement }) {
     <>
       <div className={clsx(
         lgTransparent,
-        "flex flex-col h-full dark:text-neutral-50 border-0",
+        "flex flex-col dark:text-neutral-50 border-0",
       )}>
         <Header></Header>
         <div className={clsx(
           bodyTransparencyEffect,
-          "h-full w-full p-1 overflow-scroll",
+          "w-full p-1",
         )}>
           {children}
         </div>

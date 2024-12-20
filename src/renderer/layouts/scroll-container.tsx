@@ -81,7 +81,7 @@ export function ScrollPageLayout({sections, children}: {
       </div>
       <div className={clsx(
         "col-span-4 top-4 rounded",
-        "h-[calc(100vh-47px)] mb-2 overflow-y-scroll",
+        "h-[calc(100vh-47px)] mb-2",
         effect,
       )}>
         <div className={"p-4"}>
@@ -153,7 +153,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
           transition={{duration: 0.3}}
           className={clsx(
             "col-span-4 top-4 rounded",
-            "h-[calc(100vh-47px)] mb-2 overflow-y-scroll",
+            "h-[calc(100vh-47px)] mb-2",
             effect,
             "row-span-1 col-span-5 lg:col-span-4",
             "p-0 bg-transparent",
