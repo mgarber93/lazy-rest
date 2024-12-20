@@ -8,6 +8,7 @@ import {ApiConfiguration, ProviderConfiguration} from '../models/api-configurati
 import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ApiCallPlan} from '../models/api-call-plan'
+import {toast} from 'sonner'
 
 /**
  * Ideally methods match action (KISS)
@@ -89,5 +90,9 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     } else {
       return null
     }
+  }
+  
+  notify(message: string) {
+    toast.info(message)
   }
 }

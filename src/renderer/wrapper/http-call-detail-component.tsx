@@ -30,7 +30,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
             key={name}
             className={clsx(
               "rounded-xl py-1 px-3 text-sm/6 font-semibold border border-transparent dark:text-neutral-400",
-              "bg-black/5 data-[selected]:bg-black/10 data-[hover]:bg-black/5 data-[selected]:data-[hover]:bg-black/10",
+              "bg-black/5 data-[selected]:bg-black/10 data-[selected]:text-black data-[hover]:bg-black/5 data-[selected]:data-[hover]:bg-black/10",
               "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 ",
               "data-[selected]:dark:border-white/1",
               "data-[hover]:dark:bg-black/50 data-[selected]:data-[hover]:dark:bg-black/50",

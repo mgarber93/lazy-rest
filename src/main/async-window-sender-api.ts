@@ -62,4 +62,8 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
   async getProviderConfig() {
     return await this.windowSender.asyncSend('getProviderConfig') as ProviderConfiguration
   }
+  
+  async notify(message: string) {
+    return await this.windowSender.asyncSend('notify', message) as void
+  }
 }

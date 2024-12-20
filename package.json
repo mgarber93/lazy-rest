@@ -87,6 +87,7 @@
     "redux": "^5.0.1",
     "reflect-metadata": "^0.2.2",
     "remark-gfm": "^4.0.0",
+    "sonner": "^1.7.1",
     "tsyringe": "^4.8.0",
     "uuid": "^9.0.1",
     "yaml": "^2.4.1"

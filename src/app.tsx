@@ -11,7 +11,8 @@ import {SettingsPage} from './renderer/pages/settings-page'
 
 import "@fontsource/poppins" // Defaults to weight 400
 import "@fontsource/poppins/400.css" // Specify weight
-import "@fontsource/poppins/400-italic.css" // Specify weight and style
+import "@fontsource/poppins/400-italic.css"
+import {Toaster} from 'sonner' // Specify weight and style
 
 connectCallbacks(store)
 
@@ -37,6 +38,7 @@ const router = createHashRouter([
 
 const App = () => (
   <Provider store={store}>
+    <Toaster position="bottom-right" />
     <RouterProvider router={router}/>
   </Provider>
 )

@@ -18,6 +18,7 @@ export const channelAllowList: TWindowSenderChannel[] = [
   'getConversation',
   'getPlan',
   'getProviderConfig',
+  'notify'
 ]
 
 /**
@@ -40,4 +41,6 @@ export interface WindowCallbackApi {
   getPlan(id: PlanId): ApiCallPlan | null
   
   getProviderConfig(): ProviderConfiguration
+  
+  notify(message: string): void
 }
