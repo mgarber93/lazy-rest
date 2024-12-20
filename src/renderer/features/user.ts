@@ -27,4 +27,5 @@ export const userSlice = createSlice({
   },
 })
 
+// eslint-disable-next-line no-empty-pattern
 export const {} = userSlice.actions
