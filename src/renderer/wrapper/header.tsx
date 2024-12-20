@@ -18,8 +18,8 @@ export function HeaderTab({children, to, className}: {
   className?: string
 }) {
   const classes = `flex rounded no-drag bg-white h-full items-center pl-[0.5rem] pr-[0.25rem] min-h-[1rem] text-xs font-semibold`
-  const borderActive = `border border-neutral-800 dark:border-neutral-700`
-  const border = `border border-transparent hover:border-neutral-500 hover:dark:border-neutral-700`
+  const borderActive = `!border-neutral-800 dark:border-neutral-700`
+  const border = `border border-transparent`
   return (
     <NavLink
       to={to}
@@ -30,7 +30,6 @@ export function HeaderTab({children, to, className}: {
           border,
           isActive && clsx(
             borderActive,
-            "drop-shadow",
             "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
           ),
           !isActive && clsx("bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
@@ -46,20 +45,17 @@ export function Header() {
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
   const dispatch = useAppDispatch()
-
-// Add above the Header component
+  
   const navigate = useNavigate()
   
-  
-  // Define callback for removing a chat
   const handleRemoveChat = useCallback((chatId: string) => {
     dispatch(removeChat(chatId))
   }, [dispatch])
   
-  // Define callback for starting a new chat
   const handleStartNewChat = useCallback(() => {
     dispatch(startNewChat(createConversation(newChatId)))
     setNewChatId(v4())
+    return newChatId
   }, [dispatch, newChatId])
   
   useKeyPress(
@@ -67,10 +63,17 @@ export function Header() {
       return event.altKey && event.metaKey && event.key === "ArrowRight"
     },
     (event: KeyboardEvent) => {
-      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? 0
-      const nextChatIndex = (currentChatIndex + 1) % chats.length
-      const nextChat = chats[nextChatIndex]
-      nextChat && navigate(`/chats/${nextChat.id}`)
+      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? -1
+      const isConfigRoute = location.hash.includes('config')
+      if (currentChatIndex === -1 || currentChatIndex === chats.length - 1) {
+        navigate(`/config`)
+      } else if (isConfigRoute) {
+        navigate(`/chats/${chats[0].id}`)
+      } else {
+        const nextChatIndex = (currentChatIndex + 1) % chats.length
+        const nextChat = chats[nextChatIndex]
+        nextChat && navigate(`/chats/${nextChat.id}`)
+      }
     },
   )
   
@@ -79,10 +82,14 @@ export function Header() {
       return event.altKey && event.metaKey && event.key === "ArrowLeft"
     },
     (event: KeyboardEvent) => {
-      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? 0
-      const nextChatIndex = (currentChatIndex - 1) % chats.length
-      const nextChat = chats[nextChatIndex]
-      nextChat && navigate(`/chats/${nextChat.id}`)
+      const currentChatIndex = chats.findIndex(c => c.id === chat?.id) ?? -1
+      if (currentChatIndex <= 0) {
+        navigate(`/config`)
+      } else {
+        const nextChatIndex = (currentChatIndex - 1) % chats.length
+        const nextChat = chats[nextChatIndex]
+        nextChat && navigate(`/chats/${nextChat.id}`)
+      }
     },
   )
   useKeyPress(
@@ -90,9 +97,8 @@ export function Header() {
       return event.metaKey && event.key === "t"
     },
     (event: KeyboardEvent) => {
-      handleStartNewChat()
-      const nextChat = chats.at(-1)
-      nextChat && navigate(`/chats/${nextChat.id}`)
+      const nextChat = handleStartNewChat()
+      nextChat && navigate(`/chats/${nextChat}`)
     },
   )
   useKeyPress(

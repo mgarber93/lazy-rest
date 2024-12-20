@@ -104,8 +104,8 @@ export function ConversationsPage() {
             className={clsx(
               "border-b-2 border-neutral-100 dark:border-neutral-800",
             )}
-            whileHover={{borderColor: 'white/5'}}
             transition={{duration: delay / 1000}}
+            key={content.id}
           >
             <MapContentToCardSection content={acc[0]} ref={sections[index - 1].ref as RefObject<HTMLDivElement>}/>
             <MapContentToCardSection content={content} ref={sections[index]?.ref as RefObject<HTMLDivElement>}/>
