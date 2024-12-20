@@ -1,4 +1,4 @@
-import React, {ReactNode, RefObject} from 'react'
+import React, {RefObject} from 'react'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -62,10 +62,7 @@ export function MapContentToCardSection({content, ref}: { content: AuthoredConte
 }
 
 export function ConversationsPage() {
-  
-  
   const convo = useCurrentConversation()
-  const contentCards = [] as ReactNode[]
   
   return (
     <HeaderLayout>
