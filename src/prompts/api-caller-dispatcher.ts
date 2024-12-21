@@ -1,5 +1,7 @@
 import {OpenAPI} from 'openapi-types'
 import {oasToDescriptions} from '../main/utils/oas-filter'
+import {mockSequence} from '../models/api-call-plan'
+import * as fs from 'node:fs'
 
 
 export const buildCallerPrompt = (goal: string, oasSpec: OpenAPI.Document[]) => {
@@ -12,17 +14,17 @@ export const buildCallerPrompt = (goal: string, oasSpec: OpenAPI.Document[]) => 
   
   const serializedApiDocs = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + JSON.stringify(oasToDescriptions(spec), null, 2), '')
   
-  return `Respond with an array of the following json format:
-  name: string,
-  httpVerb: enum,
-  url: string,
-  headers: Record<\\string, string>,
-You're planning a series of rest calls to achieve the goal:
-${goal}
-Here is documentation on the API:
-Endpoints:
+  const prompt = `You're planning a series of rest calls to an api.Here is documentation on the API:
 ${serializedApiDocs}
+
+Respond with an array of the following json format. Note that the result is always a top level array! For example:
+${JSON.stringify(mockSequence.slice(0,4).map(s => s.step), null, 2)}
+
+Create a plan to achieve:
+${goal}
 `
+  fs.writeFileSync('prompt.txt', prompt)
+  return prompt
 }
 
 

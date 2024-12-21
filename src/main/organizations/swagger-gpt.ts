@@ -5,24 +5,26 @@ import {v4} from 'uuid'
 import {buildCallerPrompt} from '../../prompts/api-caller-dispatcher'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {OpenAiProvider} from '../providers/openai'
-import {SequenceActivity} from '../../models/api-call-plan'
+import {ApiCallPlan, HttpRequestPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {OllamaProvider} from '../providers/ollama'
 
 
 @singleton()
 export class SwaggerGpt {
   private windowSender = container.resolve(AsyncWindowSenderApi)
   private openAiProvider = container.resolve(OpenAiProvider)
+  private ollamaProvider = container.resolve(OllamaProvider)
   
   private async createPlan(userGoal: string) {
     const oasSpec = await this.windowSender.loadAllOas()
     const prompt = buildCallerPrompt(userGoal, oasSpec)
-    const result = await this.openAiProvider.promptAndParseJson<SequenceActivity[]>('gpt-4o', [{
+    const result = await this.openAiProvider.promptAndParseJson<HttpRequestPlan[]>('gpt-4o-mini', [{
       role: 'user',
-      content: prompt
+      content: prompt,
     }])
     return result
   }
-
+  
   /**
    * @todo this needs to be implemented at a high level
    * when we update the plan, how do we save it to the renderer process?
@@ -34,7 +36,20 @@ export class SwaggerGpt {
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
-    const activities = await this.createPlan(lastMessage.message)
+    let activities = await this.createPlan(lastMessage.message)
+    
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    activities = Array.isArray(activities.plan) ? activities.plan : activities
+    
+    function mapToStep(plan: HttpRequestPlan, first: boolean): SequenceActivity {
+      return {
+        id: v4(),
+        progressStage: first ? ProgressStage.active : ProgressStage.draft,
+        step: plan,
+      }
+    }
+    
     const plan = {
       id: v4(),
       chatId: id,
@@ -42,8 +57,8 @@ export class SwaggerGpt {
       role: 'assistant',
       message: '',
       apiCallPlan: {
-        steps: Array.isArray(activities) ? activities : [activities],
-      },
+        steps: Array.isArray(activities) ? activities.map((a, i) => mapToStep(a, i === 0)) : [mapToStep(activities, true)],
+      } satisfies ApiCallPlan,
     } satisfies AuthoredContent
     await this.windowSender.appendContent(plan)
     // const plan = await this.createPlan(lastMessage)

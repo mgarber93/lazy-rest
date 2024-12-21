@@ -1,5 +1,5 @@
 import {AuthoredContent} from '../../models/content'
-import {FeedContent} from '../components/feed-content'
+import {FeedContent} from './feed-content'
 import clsx from 'clsx'
 import {CardSection} from '../wrapper/card'
 import Markdown from 'react-markdown'

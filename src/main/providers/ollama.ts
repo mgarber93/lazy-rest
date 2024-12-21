@@ -27,4 +27,14 @@ export class OllamaProvider implements PromptableProvider {
     content.push(responseContent)
     return content
   }
+  
+  async promptAndParse<T>(model: string, prompt: string): Promise<T> {
+    const out = await ollama.generate({
+      model,
+      prompt,
+      format: 'json',
+      stream: false,
+    })
+    return JSON.parse(out.response) as T
+  }
 }

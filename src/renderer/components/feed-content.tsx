@@ -25,8 +25,6 @@ export function HttpCallCard({activity, index, contentId}: {
     setIsOpen(isOpen => !isOpen)
   }, [isOpen, setIsOpen])
   
-  return <div>{JSON.stringify(activity, null, 2)}</div>
-  
   return <CardSection className={clsx(
     "flex flex-col gap-1",
   )}>
