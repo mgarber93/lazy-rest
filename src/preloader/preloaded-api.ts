@@ -43,4 +43,6 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   streamedChat(conversation: Conversation): Promise<void>
   
   fetch(plan: HttpRequestPlan): Promise<HttpResponse>
+  
+  continue(): Promise<void>
 }

@@ -1,9 +1,9 @@
 import {AuthoredContent} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ToolState} from '../renderer/features/tools'
 import {ProviderConfiguration} from '../models/api-configuration'
 import {ApiCallPlan} from '../models/api-call-plan'
+import {UpdateStepActivityPayload} from '../renderer/features/chat'
 
 export type TWindowSenderChannel = keyof WindowCallbackApi
 
@@ -36,7 +36,7 @@ export interface WindowCallbackApi {
   
   getConversation(id: ConversationId): Conversation | null
   
-  updateToolState(toolState: ToolState): void
+  updateStep(state: UpdateStepActivityPayload): void
   
   getPlan(id: PlanId): ApiCallPlan | null
   

@@ -1,11 +1,10 @@
 import {OpenAPI} from 'openapi-types'
 import {EnhancedStore} from '@reduxjs/toolkit'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
-import {appendContent, appendDelta} from './features/chat'
+import {appendContent, appendDelta, updateStep, UpdateStepActivityPayload} from './features/chat'
 import {RootState, store} from './features/store'
 import {AuthoredContent} from '../models/content'
 import {ApiConfiguration, ProviderConfiguration} from '../models/api-configuration'
-import {ToolState} from './features/tools'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
 import {ApiCallPlan} from '../models/api-call-plan'
 import {toast} from 'sonner'
@@ -26,8 +25,8 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
     throw new Error('Method not implemented.')
   }
   
-  updateToolState(toolState: ToolState): void {
-    throw new Error('Method not implemented.')
+  updateStep(state: UpdateStepActivityPayload): void {
+    this.store.dispatch(updateStep(state))
   }
   
   getPlan(id: PlanId): ApiCallPlan {

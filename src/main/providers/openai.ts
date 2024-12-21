@@ -35,6 +35,27 @@ export class OpenAiProvider implements PromptableProvider {
     } satisfies RoleContent
   }
   
+  async promptAndParseJson<T extends object>(model: string, messages: ChatCompletionMessageParam[]): Promise<T> {
+    const openai = await this.manager.getOpenAi()
+    const chatCompletion = await openai.chat.completions.create({
+      model,
+      messages: messages,
+      response_format: { type: 'json_object' },
+    })
+    const message = chatCompletion.choices[0].message
+    
+    let parsedContent = {}
+    if (!message.content) {
+      throw new Error("No content in message")
+    }
+    try {
+      parsedContent = JSON.parse(message.content)
+      return parsedContent as T
+    } catch (error) {
+      throw new Error("Failed to parse message content as JSON: " + error.message)
+    }
+  }
+  
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
     const messages = content
       .map(mapAuthoredContentToChatCompletion)

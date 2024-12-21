@@ -4,7 +4,7 @@ import {ChevronUpIcon} from '@heroicons/react/24/outline'
 import {motion} from 'framer-motion'
 import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
-import {ApiCallPlan, mockSequence, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {ApiCallPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
 
 // @todo remove when implemented
 function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
@@ -25,12 +25,14 @@ export function HttpCallCard({activity, index, contentId}: {
     setIsOpen(isOpen => !isOpen)
   }, [isOpen, setIsOpen])
   
+  return <div>{JSON.stringify(activity, null, 2)}</div>
+  
   return <CardSection className={clsx(
     "flex flex-col gap-1",
   )}>
     <div className={"h-full rounded p-2 px-0"}>
       <div className={"flex flex-row gap-2"}>
-        {(index ?? 0) + 1}) {activity.step.name}
+        {(index ?? 0) + 1}) {activity.step?.name}
         <motion.div
           initial={{rotate: 0}}
           animate={{rotate: isOpen ? -180 : 0}}
@@ -60,7 +62,7 @@ export interface FeedContentProps {
 export function FeedContent({apiCallPlan, contentId}: FeedContentProps) {
   return (
     <div className={"flex flex-col gap-1.5"}>
-      {mergeArrays(apiCallPlan.steps, mockSequence).map((activity, index) => (
+      {apiCallPlan.steps?.map((activity, index) => (
         <HttpCallCard contentId={contentId} apiCallPlan={apiCallPlan} activity={activity} index={index}
                       key={activity.id}/>),
       )}

@@ -4,9 +4,9 @@ import {AuthoredContent, ContentDelta} from '../models/content'
 import {OpenAPI} from 'openapi-types'
 import {WindowCallbackApi} from '../window-callback/window-callback-api'
 import {Conversation, ConversationId, PlanId} from '../models/conversation'
-import {ToolState} from '../renderer/features/tools'
 import {ProviderConfiguration} from '../models/api-configuration'
 import {ApiCallPlan} from '../models/api-call-plan'
+import {UpdateStepActivityPayload} from '../renderer/features/chat'
 
 
 export type Promisify<T> = {
@@ -55,8 +55,8 @@ export class AsyncWindowSenderApi implements Promisify<WindowCallbackApi> {
     return plan as ApiCallPlan
   }
   
-  async updateToolState(toolState: ToolState): Promise<void> {
-    await this.windowSender.asyncSend('updateToolState', {toolState})
+  async updateStep(state: UpdateStepActivityPayload): Promise<void> {
+    await this.windowSender.asyncSend('updateStep', state)
   }
   
   async getProviderConfig() {
