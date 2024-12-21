@@ -36,11 +36,7 @@ export class SwaggerGpt {
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
-    let activities = await this.createPlan(lastMessage.message)
-    
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    activities = Array.isArray(activities.plan) ? activities.plan : activities
+    const activities = await this.createPlan(lastMessage.message)
     
     function mapToStep(plan: HttpRequestPlan, first: boolean): SequenceActivity {
       return {

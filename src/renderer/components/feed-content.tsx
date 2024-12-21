@@ -6,13 +6,6 @@ import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
 import {ApiCallPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
 
-// @todo remove when implemented
-function mergeArrays<T>(arr1: T[], arr2: T[]): T[] {
-  return arr1
-    .map((val, index) => val ?? arr2[index])
-    .concat(arr2.slice(arr1.length))
-}
-
 export function HttpCallCard({activity, index, contentId}: {
   activity: SequenceActivity,
   index: number,

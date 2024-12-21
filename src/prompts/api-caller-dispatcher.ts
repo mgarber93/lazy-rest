@@ -14,7 +14,7 @@ export const buildCallerPrompt = (goal: string, oasSpec: OpenAPI.Document[]) => 
   
   const serializedApiDocs = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + JSON.stringify(oasToDescriptions(spec), null, 2), '')
   
-  const prompt = `You're planning a series of rest calls to an api.Here is documentation on the API:
+  const prompt = `You're planning a series of rest calls to an api. Here is documentation on the API:
 ${serializedApiDocs}
 
 Respond with an array of the following json format. Note that the result is always a top level array! For example:
