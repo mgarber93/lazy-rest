@@ -13,7 +13,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         <Header></Header>
         <div className={clsx(
           bodyTransparencyEffect,
-          "w-full p-1",
+          "w-full",
         )}>
           {children}
         </div>

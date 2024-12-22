@@ -14,7 +14,7 @@ export function ConversationsPage() {
       <div className={clsx("w-full h-full")}>
         <ScrollUserInputPageLayout sections={[]}>
           <div className={clsx(
-            "flex flex-col gap-y-4 py-1",
+            "flex flex-col gap-y-1.5 py-1",
             "border-neutral-100 dark:border-neutral-800",
           )}>
             <AnimatePresence>
