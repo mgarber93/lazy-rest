@@ -141,7 +141,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
         </motion.div>
       }</AnimatePresence>
       <AnimatePresence>{
-        convo.content.length ? <motion.div
+        <motion.div
           initial={{opacity: 0.8, height: 'auto'}}
           animate={{opacity: 1, height: 'auto'}}
           exit={{opacity: 0, height: 0}}
@@ -157,7 +157,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
           ref={contentRef}
         >
           {children}
-        </motion.div> : <div className={"col-span-4"}></div>
+        </motion.div>
       }</AnimatePresence>
       <div className={clsx(
         "col-span-5 lg:col-span-4 row-span-1 bg-transparent",

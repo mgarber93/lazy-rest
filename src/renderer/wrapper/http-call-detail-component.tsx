@@ -2,6 +2,7 @@ import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
 import clsx from 'clsx'
 import {HttpRequestPlan} from '../../models/api-call-plan'
 import {KeyValueForm} from './key-value-form'
+import {AuthForm} from './auth-form'
 
 export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan> }) {
   const tabs = [
@@ -52,7 +53,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
           <KeyValueForm data={step?.body ?? {}}/>
         </TabPanel>
         <TabPanel key={'Authorization'} className="rounded p-3">
-          Todo auth
+          <AuthForm />
         </TabPanel>
       </TabPanels>
     </TabGroup>

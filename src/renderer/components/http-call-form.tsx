@@ -7,7 +7,6 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
-import {ResponseViewer} from './response-viewer'
 
 
 export interface HttpCallFormProps {
@@ -99,7 +98,6 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       />
     </div>
     <HttpCallDetailComponent step={step}/>
-    <ResponseViewer response={response}/>
     <div className={"w-full grid pt-4 pb-1"}>
       <AppButton
         className={clsx(elements, "px-2 border-neutral-500 ml-auto")}
