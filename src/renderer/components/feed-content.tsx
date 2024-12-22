@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import React, {useCallback, useState} from 'react'
-import {ChevronUpIcon} from '@heroicons/react/24/outline'
 import {motion} from 'framer-motion'
 import {CardSection} from '../wrapper/card'
 import {HttpCallForm} from './http-call-form'
 import {ApiCallPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {headerTransparencyEffect} from '../utils/transparent'
 
 export function HttpCallCard({activity, index, contentId}: {
   activity: SequenceActivity,
@@ -19,19 +19,18 @@ export function HttpCallCard({activity, index, contentId}: {
   }, [isOpen, setIsOpen])
   
   return <CardSection className={clsx(
-    "flex flex-col gap-1",
+    headerTransparencyEffect,
+    "flex flex-col gap-1 dark:bg-neutral-900",
+    "rounded-none"
   )}>
-    <div className={"h-full rounded p-2 px-0"}>
-      <div className={"flex flex-row gap-2"}>
-        {(index ?? 0) + 1}) {activity.step?.name}
-        <motion.div
-          initial={{rotate: 0}}
-          animate={{rotate: isOpen ? -180 : 0}}
-          transition={{duration: 0.2}}
-          className={clsx("ml-auto")}
-        >
-          <ChevronUpIcon className={clsx("h-7 w-7 cursor-pointer ml-auto")} onClick={handleToggle}/>
-        </motion.div>
+    <div className={"h-full py-0 px-0 border-b border-neutral-100 dark:border-neutral-600"}>
+      <div className={"flex flex-row text-nowrap gap cursor-pointer dark:text-neutral-300"} onClick={handleToggle}>
+        <span className={"w-full max-w-14 text-left font-mono text-4xl overflow-hidden align-center border-r border-neutral-100 dark:border-neutral-700"}>
+          {(index ?? 0)}
+        </span>
+        <span className={"flex-grow text-wrap indent-6 pl-4 font-mono text-sm align-center select-none"}>
+          {activity.step?.name}
+        </span>
       </div>
     </div>
     <motion.div

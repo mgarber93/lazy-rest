@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'react'
 import clsx from 'clsx'
 import {Header} from '../wrapper/header'
-import {bodyTransparencyEffect, lgTransparent} from '../utils/transparent'
+import {lgTransparent} from '../utils/transparent'
 
 export function HeaderLayout({children}: { children: ReactElement }) {
   return (
@@ -12,7 +12,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       )}>
         <Header></Header>
         <div className={clsx(
-          bodyTransparencyEffect,
+          "bg-neutral-50 dark:bg-transparent backdrop-blur-sm",
           "w-full",
         )}>
           {children}
