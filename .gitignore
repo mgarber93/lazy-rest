@@ -94,3 +94,5 @@ out/
 .terraform
 
 dist
+
+/prompt.txt

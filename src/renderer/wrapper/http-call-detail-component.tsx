@@ -8,14 +8,14 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
     {
       name: 'Params',
     },
-    // {
-    //   name: 'Auth',
-    // },
     {
       name: 'Headers',
     },
     {
       name: 'Body',
+    },
+    {
+      name: 'Authorization',
     },
     // {
     //   name: 'Responses',
@@ -50,6 +50,9 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
         </TabPanel>
         <TabPanel key={'Body'} className="rounded p-3">
           <KeyValueForm data={step?.body ?? {}}/>
+        </TabPanel>
+        <TabPanel key={'Authorization'} className="rounded p-3">
+          Todo auth
         </TabPanel>
       </TabPanels>
     </TabGroup>

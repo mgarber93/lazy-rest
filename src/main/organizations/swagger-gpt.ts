@@ -1,25 +1,28 @@
-import {OpenAPI} from 'openapi-types'
 import {container, singleton} from 'tsyringe'
 import {Conversation} from '../../models/conversation'
 import {AuthoredContent} from '../../models/content'
-import {AsyncWindowSenderApi} from '../async-window-sender-api'
-import {oasToDescriptions} from '../utils/oas-filter'
 import {v4} from 'uuid'
-import {mockSequence, SequenceActivity} from '../../models/api-call-plan'
+import {buildCallerPrompt} from '../../prompts/api-caller-dispatcher'
+import {AsyncWindowSenderApi} from '../async-window-sender-api'
+import {OpenAiProvider} from '../providers/openai'
+import {ApiCallPlan, HttpRequestPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {OllamaProvider} from '../providers/ollama'
 
 
 @singleton()
 export class SwaggerGpt {
-  private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
+  private windowSender = container.resolve(AsyncWindowSenderApi)
+  private openAiProvider = container.resolve(OpenAiProvider)
+  private ollamaProvider = container.resolve(OllamaProvider)
   
   private async createPlan(userGoal: string) {
-    const oasSpec = await this.mainWindowCallbackConsumer.loadAllOas()
-    const endpoints = oasSpec.reduce((acc: string, spec: OpenAPI.Document) => acc + this.specToOas(spec), '')
-    return mockSequence as SequenceActivity[]
-  }
-  
-  specToOas(spec: OpenAPI.Document): string {
-    return JSON.stringify(oasToDescriptions(spec), null, 2)
+    const oasSpec = await this.windowSender.loadAllOas()
+    const prompt = buildCallerPrompt(userGoal, oasSpec)
+    const result = await this.openAiProvider.promptAndParseJson<HttpRequestPlan[]>('gpt-4o-mini', [{
+      role: 'user',
+      content: prompt,
+    }])
+    return result
   }
   
   /**
@@ -28,12 +31,21 @@ export class SwaggerGpt {
    * should we even be saving state in the renderer process?
    * @param conversation
    */
-  async continue({content, id, responder}: Conversation) {
+  async start({content, id, responder}: Conversation) {
     const lastMessage = content.at(-1)
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
     const activities = await this.createPlan(lastMessage.message)
+    
+    function mapToStep(plan: HttpRequestPlan, first: boolean): SequenceActivity {
+      return {
+        id: v4(),
+        progressStage: first ? ProgressStage.active : ProgressStage.draft,
+        step: plan,
+      }
+    }
+    
     const plan = {
       id: v4(),
       chatId: id,
@@ -41,11 +53,10 @@ export class SwaggerGpt {
       role: 'assistant',
       message: '',
       apiCallPlan: {
-        steps: activities,
-      },
+        steps: Array.isArray(activities) ? activities.map((a, i) => mapToStep(a, i === 0)) : [mapToStep(activities, true)],
+      } satisfies ApiCallPlan,
     } satisfies AuthoredContent
-    
-    await this.mainWindowCallbackConsumer.appendContent(plan)
+    await this.windowSender.appendContent(plan)
     // const plan = await this.createPlan(lastMessage)
     // // we now have a high level plan to present to the user in a progress stepper (if verbose)
     // while (plan.step < plan.steps.length) {
@@ -56,4 +67,14 @@ export class SwaggerGpt {
     // }
     // return interpretation of final result
   }
+  
+  // async continue(conversation: Conversation) {
+  //   const nextPlan =
+  //   const state = {
+  //     chatId: conversation.id,
+  //     contentId: conversation.content.at(-1).id,
+  //     nextPlan
+  //   } satisfies UpdateStepActivityPayload
+  //   this.windowSender.updateStep(state)
+  // }
 }
