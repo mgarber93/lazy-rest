@@ -35,7 +35,7 @@ export function HttpCallDetailComponent({step}: { step?: Partial<HttpRequestPlan
               "focus:outline-none data-[selected]:border data-[selected]:dark:bg-black/25 ",
               "data-[selected]:dark:border-white/1",
               "data-[hover]:dark:bg-black/50 data-[selected]:data-[hover]:dark:bg-black/50",
-              "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:text-neutral-200",
+              "data-[focus]:outline-1 data-[focus]:dark:outline-white data-[selected]:dark:text-neutral-200",
             )}
           >
             {name}
