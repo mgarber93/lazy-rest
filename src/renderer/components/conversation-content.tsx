@@ -5,9 +5,9 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import React from 'react'
 
-export function ConversationContent({content}: { content: AuthoredContent }) {
+export function ConversationContent({content, convoId}: { content: AuthoredContent, convoId: string }) {
   if (content.apiCallPlan) {
-    return <FeedContent contentId={content.id} apiCallPlan={content.apiCallPlan}/>
+    return <FeedContent contentId={content.id} apiCallPlan={content.apiCallPlan} convoId={convoId}/>
   } else {
     return <div
       className={clsx(
