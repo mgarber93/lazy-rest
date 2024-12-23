@@ -168,12 +168,15 @@ export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallF
           step.response && <JsonViewer response={step.response}/>
         }
         <div className={"w-full grid pt-4 pb-1"}>
-          <AppButton
-            className={clsx(elements, "px-2 border-neutral-500 ml-auto")}
-            onClick={handleSendClick}
-          >
-            {'Send'}
-          </AppButton>
+          <div className={"flex flex-row gap-2"}>
+            {step.response && <AppButton className={"mr-auto"} onClick={handleSendClick}>Retry</AppButton>}
+            <AppButton
+              className={clsx(elements, "px-2 border-neutral-500 ml-auto")}
+              onClick={step.response ? handleContinue : handleSendClick}
+            >
+              {step.response ? 'Continue' : 'Send'}
+            </AppButton>
+          </div>
         </div>
       </CardSection>
       }
