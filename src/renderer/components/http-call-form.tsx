@@ -4,7 +4,7 @@ import {AppButton} from './app-button'
 import React, {useCallback, useState} from 'react'
 import {HttpCallDetailComponent} from '../wrapper/http-call-detail-component'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ApiCallPlan, HttpRequestPlan, ProgressStage, SummarizationJob} from '../../models/api-call-plan'
+import {ApiCallPlan, HttpRequestPlan, SummarizationJob} from '../../models/api-call-plan'
 import {handleInterpret, updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 import {JsonViewer} from './json-viewer'
@@ -30,7 +30,7 @@ export interface HttpCallFormProps {
  */
 export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFormProps) {
   const activity = apiCallPlan.steps[index]
-  const [isOpen, setIsOpen] = useState(activity.progressStage === ProgressStage.active)
+  const [isOpen, setIsOpen] = useState(false)
   
   const step = activity.step as HttpRequestPlan
   const sequenceId = index
