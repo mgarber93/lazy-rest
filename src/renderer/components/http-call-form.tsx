@@ -7,7 +7,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
-import {ResponseViewer} from './response-viewer'
+import {JsonViewer} from './json-viewer'
 
 
 export interface HttpCallFormProps {
@@ -38,10 +38,13 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
       return
     }
     console.log('handleSendClick')
+    const p = new URLSearchParams(step.queryParams as Record<string, string>)
+    const qs = p.toString()
     const response = await window.main.fetch({
-      url: step.url!,
-      httpVerb: 'GET',
-      headers: {'Content-Type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8'},
+      url: step.url! + (qs ? `?${qs}` : '') ,
+      httpVerb: step.httpVerb!,
+      headers: step.headers!,
+      body: step.body,
     } satisfies HttpRequestPlan)
     setResponse(response)
   }, [convo, setResponse])
@@ -102,13 +105,13 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
     <div className={"w-full grid pt-4 pb-1"}>
       <AppButton
         className={clsx(elements, "px-2 border-neutral-500 ml-auto")}
-        onClick={response ? handleContinue : handleSendClick}
+        onClick={handleSendClick}
       >
-        {response ? 'Continue' : 'Send'}
+        {'Send'}
       </AppButton>
     </div>
     {
-      response && <ResponseViewer response={response}/>
+      response && <JsonViewer response={response}/>
     }
   </div>
 }

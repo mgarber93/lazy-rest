@@ -35,7 +35,23 @@ export function HttpCallDetailComponent({step}: { step: Partial<HttpRequestPlan>
     setBaseUrl(baseUrl)
     setClientId(clientId)
     setClientSecret(clientSecret)
-    setValid(baseUrl !== '' && clientId !== '' && clientSecret !== '')
+    const nextIsValid = baseUrl !== '' && clientId !== '' && clientSecret !== ''
+    setValid(nextIsValid)
+    if (nextIsValid) {
+      const api = JSON.parse(localStorage.tools).api
+      const keys = Object.keys(api)
+      const updatedApi = {
+        ...api,
+        [keys[0]]: {
+          ...api[keys[0]],
+          baseUrl,
+          clientId,
+          clientSecret,
+        },
+      }
+      localStorage.tools = JSON.stringify({api: updatedApi})
+      toast.success('API configuration updated successfully')
+    }
   }, [setBaseUrl, setClientId, setClientSecret, setValid])
   const handleGetToken = useCallback(async () => {
     const buffer = btoa(`${clientId}:${clientSecret}`)
