@@ -1,11 +1,13 @@
 import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
 import clsx from 'clsx'
-import {HttpRequestPlan} from '../../models/api-call-plan'
+import {ApiCallPlan, HttpRequestPlan} from '../../models/api-call-plan'
 import {KeyValueForm} from './key-value-form'
 import {AuthForm} from './auth-form'
 import {useCallback, useEffect, useState} from 'react'
 import {AppButton} from '../components/app-button'
 import {toast} from 'sonner'
+import {useAppDispatch} from '../features/store'
+import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 
 const tabs = [
   'Params',
@@ -14,7 +16,17 @@ const tabs = [
   'Authorization',
 ]
 
-export function HttpCallDetailComponent({step}: { step: Partial<HttpRequestPlan> }) {
+export interface HttpCallDetailComponentProps {
+  apiCallPlan: ApiCallPlan,
+  contentId: string,
+  convoId: string
+  index: number
+}
+
+export function HttpCallDetailComponent({apiCallPlan, convoId, contentId, index}: HttpCallDetailComponentProps) {
+  const step = apiCallPlan.steps[index]?.step as HttpRequestPlan
+  const dispatch = useAppDispatch()
+
   const [baseUrl, setBaseUrl] = useState<string>('')
   const [clientId, setClientId] = useState<string>('')
   const [clientSecret, setClientSecret] = useState<string>('')
@@ -72,9 +84,20 @@ export function HttpCallDetailComponent({step}: { step: Partial<HttpRequestPlan>
       toast.error('Failed to get token')
       return
     }
-    if (!step.headers) step.headers = {}
-    step.headers['Authorization'] = `Bearer ${access_token}`
+    dispatch(updateStep({
+      chatId: convoId,
+      contentId: contentId,
+      nextPlan: {
+        ...step,
+        headers: {
+          ...(step?.headers ?? {}),
+          'Authorization': `Bearer ${access_token}`,
+        },
+      } as Partial<HttpRequestPlan>,
+      sequenceId: index,
+    } satisfies UpdateStepActivityPayload))
   }, [baseUrl, step])
+
   return (
     <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"}>
       <TabList

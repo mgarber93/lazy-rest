@@ -155,7 +155,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallF
                 onChange={handleUrlChange}
               />
             </div>
-            <HttpCallDetailComponent step={step}/>
+            <HttpCallDetailComponent apiCallPlan={apiCallPlan} convoId={convoId} contentId={contentId} index={index} />
           </div>
         </motion.div>
       </CardSection>
