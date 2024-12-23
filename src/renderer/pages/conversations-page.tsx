@@ -25,7 +25,7 @@ export function ConversationsPage() {
                       transition={{duration: 10 / 1000}}
                       key={content.id}
                     >
-                      <ConversationContent content={content} convoId={convo.id} />
+                      <ConversationContent content={content} chatId={convo.id} />
                     </motion.div>
                   ),
                 )

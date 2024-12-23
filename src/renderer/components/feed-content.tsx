@@ -5,10 +5,10 @@ import {ApiCallPlan} from '../../models/api-call-plan'
 export interface FeedContentProps {
   apiCallPlan: ApiCallPlan,
   contentId: string,
-  convoId: string
+  chatId: string
 }
 
-export function FeedContent({apiCallPlan, contentId, convoId}: FeedContentProps) {
+export function FeedContent({apiCallPlan, contentId, chatId}: FeedContentProps) {
   return (
     <div className={"flex flex-col gap-1.5"}>
       {apiCallPlan.steps?.map((activity, index) => (
@@ -17,7 +17,7 @@ export function FeedContent({apiCallPlan, contentId, convoId}: FeedContentProps)
           apiCallPlan={apiCallPlan}
           index={index}
           key={activity.id}
-          convoId={convoId}
+          chatId={chatId}
         />),
       )}
     </div>

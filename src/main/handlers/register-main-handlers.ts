@@ -1,12 +1,13 @@
 import {container} from 'tsyringe'
 import {StreamedChatHandler} from './streamed-chat'
-import {OperatingSystem} from './user'
 import {ModelListHandle} from './get-models'
 import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {OpenAiConfigHandler} from './open-ai-config-handler'
 import {CallbackHandler} from './callback-handler'
 import {HttpClient} from './http-client'
+import {OperatingSystem} from './get-machine-info'
+import {SummarizeResponse} from './summarize-response'
 
 
 /**
@@ -21,4 +22,5 @@ export function registerMainHandlers() {
   container.register<Handler<'setOpenAiConfiguration'>>('setOpenAiConfiguration', {useClass: OpenAiConfigHandler})
   container.register<Handler<'getModels'>>('getModels', {useClass: ModelListHandle})
   container.register<Handler<'fetch'>>('fetch', {useClass: HttpClient})
+  container.register<Handler<'summarizeResponse'>>('summarizeResponse', {useClass: SummarizeResponse})
 }

@@ -2,7 +2,7 @@ import {ClientOptions} from 'openai'
 import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
-import {HttpRequestPlan, HttpResponse} from '../models/api-call-plan'
+import {ApiCallPlan, HttpRequestPlan, HttpResponse, SummarizationJob} from '../models/api-call-plan'
 
 export type TInvokeChannel = keyof PreloadedApi
 
@@ -15,6 +15,7 @@ export const INVOKE_CHANNELS = [
   'setOpenAiConfiguration',
   'streamedChat',
   'fetch',
+  'summarizeResponse'
 ] as TInvokeChannel[]
 
 export interface WindowSenderProtocol {
@@ -45,4 +46,6 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   fetch(plan: HttpRequestPlan): Promise<HttpResponse>
   
   continue(): Promise<void>
+  
+  summarizeResponse(job: SummarizationJob): Promise<ApiCallPlan>
 }

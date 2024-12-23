@@ -4,8 +4,8 @@ import {AppButton} from './app-button'
 import React, {useCallback, useState} from 'react'
 import {HttpCallDetailComponent} from '../wrapper/http-call-detail-component'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ApiCallPlan, HttpRequestPlan, ProgressStage} from '../../models/api-call-plan'
-import {updateStep, UpdateStepActivityPayload} from '../features/chat'
+import {ApiCallPlan, HttpRequestPlan, ProgressStage, SummarizationJob} from '../../models/api-call-plan'
+import {handleInterpret, updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
 import {JsonViewer} from './json-viewer'
 import {CardSection} from '../wrapper/card'
@@ -16,7 +16,7 @@ import {motion} from 'framer-motion'
 export interface HttpCallFormProps {
   apiCallPlan: ApiCallPlan,
   contentId: string,
-  convoId: string
+  chatId: string
   index: number
 }
 
@@ -28,7 +28,7 @@ export interface HttpCallFormProps {
  * @param sequenceId
  * @constructor
  */
-export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallFormProps) {
+export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFormProps) {
   const activity = apiCallPlan.steps[index]
   const [isOpen, setIsOpen] = useState(activity.progressStage === ProgressStage.active)
   
@@ -60,7 +60,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallF
       headers: step.headers!,
       body: step.body,
     } satisfies HttpRequestPlan)
-
+    
     const nextPlan: Partial<HttpRequestPlan> = {
       ...step,
       queryParams: step.queryParams,
@@ -79,7 +79,14 @@ export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallF
     }))
   }, [convo])
   
-  const handleContinue = useCallback(() => {
+  const handleContinue = useCallback(async () => {
+    await dispatch(handleInterpret({
+      contentId,
+      chatId,
+      job: {
+        apiCallPlan, index, contentId, chatId,
+      } satisfies SummarizationJob,
+    }))
     console.log('handleContinue')
   }, [])
   
@@ -155,7 +162,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, convoId}: HttpCallF
                 onChange={handleUrlChange}
               />
             </div>
-            <HttpCallDetailComponent apiCallPlan={apiCallPlan} convoId={convoId} contentId={contentId} index={index} />
+            <HttpCallDetailComponent apiCallPlan={apiCallPlan} chatId={chatId} contentId={contentId} index={index}/>
           </div>
         </motion.div>
       </CardSection>

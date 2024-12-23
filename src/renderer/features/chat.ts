@@ -3,8 +3,9 @@ import {AuthoredContent, ContentDelta} from '../../models/content'
 import {Conversation, createConversation} from '../../models/conversation'
 import {Responder} from '../../models/responder'
 import {RootState} from './store'
-import {HttpRequestPlan, ProgressStage} from '../../models/api-call-plan'
+import {ApiCallPlan, HttpRequestPlan, ProgressStage, SummarizationJob} from '../../models/api-call-plan'
 import {v4} from 'uuid'
+import {toast} from 'sonner'
 
 const name = 'chats'
 
@@ -17,15 +18,29 @@ export const streamResponse = createAsyncThunk(
       console.error('invalid open ai config')
       return
     }
-    await window.main.setOpenAiConfiguration(state.models.providers.openAi)
+    await window.main.setOpenAiConfiguration(state.models.providers.openAi) // @todo remove
     const conversation = state.chats.find(chat => chat.id === conversationId)
     
-    // Cant respond unless a responder is set
-    if (!conversation || !conversation.responder)
+    if (!conversation || !conversation.responder) {
+      toast.error('Cant respond unless a responder is set')
       return null
-    
+    }
+
     await window.main.streamedChat(conversation)
   },
+)
+
+export const handleInterpret = createAsyncThunk(
+  `${name}/interpret`,
+  async (arg: {job: SummarizationJob, chatId: string, contentId: string}, thunkAPI) => {
+    const nextPlan = await window.main.summarizeResponse(arg.job)
+    console.log(nextPlan)
+    // thunkAPI.dispatch(setPlan({
+    //   chatId: arg.chatId,
+    //   contentId: arg.contentId,
+    //   plan: nextPlan
+    // }))
+  }
 )
 
 export interface UpdateStepActivityPayload {
@@ -126,6 +141,19 @@ export const chatsSlice = createSlice({
       }
       Object.assign(apiCallPlan.steps[sequenceId].step, action.payload.nextPlan)
     },
+    setPlan: (state, action: PayloadAction<{plan: ApiCallPlan, chatId: string, contentId: string}>) => {
+      const {plan, chatId, contentId} = action.payload
+      const chat = state.find(chat => chat.id === chatId)
+      if (!chat) {
+        console.warn('no matching chat found when updating step')
+        return
+      }
+      const content = chat.content.find(c => c.id === contentId)
+      if (!content) {
+        console.warn('no matching content found when updating step')
+      }
+      content!.apiCallPlan = plan
+    }
   },
 })
 
@@ -138,6 +166,7 @@ export const {
   appendDelta,
   setResponder,
   updateStep,
+  setPlan
 } = chatsSlice.actions
 
 

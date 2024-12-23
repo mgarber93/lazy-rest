@@ -19,11 +19,11 @@ const tabs = [
 export interface HttpCallDetailComponentProps {
   apiCallPlan: ApiCallPlan,
   contentId: string,
-  convoId: string
+  chatId: string
   index: number
 }
 
-export function HttpCallDetailComponent({apiCallPlan, convoId, contentId, index}: HttpCallDetailComponentProps) {
+export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}: HttpCallDetailComponentProps) {
   const step = apiCallPlan.steps[index]?.step as HttpRequestPlan
   const dispatch = useAppDispatch()
 
@@ -85,7 +85,7 @@ export function HttpCallDetailComponent({apiCallPlan, convoId, contentId, index}
       return
     }
     dispatch(updateStep({
-      chatId: convoId,
+      chatId: chatId,
       contentId: contentId,
       nextPlan: {
         ...step,

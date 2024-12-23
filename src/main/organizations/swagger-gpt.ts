@@ -6,14 +6,12 @@ import {buildCallerPrompt} from '../../prompts/api-caller-dispatcher'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {OpenAiProvider} from '../providers/openai'
 import {ApiCallPlan, HttpRequestPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
-import {OllamaProvider} from '../providers/ollama'
 
 
 @singleton()
 export class SwaggerGpt {
   private windowSender = container.resolve(AsyncWindowSenderApi)
   private openAiProvider = container.resolve(OpenAiProvider)
-  private ollamaProvider = container.resolve(OllamaProvider)
   
   private async createPlan(userGoal: string) {
     const oasSpec = await this.windowSender.loadAllOas()
@@ -36,7 +34,20 @@ export class SwaggerGpt {
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
-    const activities = await this.createPlan(lastMessage.message)
+    let activities = await this.createPlan(lastMessage.message)
+    
+    if (!Array.isArray(activities)) {
+      if ('steps' in activities){
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        activities = activities.steps
+      }
+      if ('plan' in activities) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        activities = activities.plan
+      }
+    }
     
     function mapToStep(plan: HttpRequestPlan, first: boolean): SequenceActivity {
       return {

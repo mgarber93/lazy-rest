@@ -38,6 +38,13 @@ export interface SequenceActivity {
   response?: HttpResponse
 }
 
+export interface SummarizationJob {
+  apiCallPlan: ApiCallPlan,
+  contentId: string,
+  chatId: string
+  index: number
+}
+
 export const mockSequence = [
   {
     id: v4(),
