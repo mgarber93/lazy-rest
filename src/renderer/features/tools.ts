@@ -1,9 +1,8 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSelector, createSlice} from '@reduxjs/toolkit'
 import {ApiConfiguration} from '../../models/api-configuration'
-import {Approvable} from '../../models/approvable'
+import {RootState} from './store'
 
 export interface ToolState {
-  approvable: Approvable | null
   api: Record<string, ApiConfiguration>
 }
 
@@ -19,5 +18,10 @@ export const toolsSlice = createSlice({
     },
   },
 })
+
+export const selectAllApiConfigurations = createSelector(
+  (state: RootState) => state.tools.api,
+  (api) => Object.values(api),
+)
 
 export const {addApiConfiguration} = toolsSlice.actions

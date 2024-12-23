@@ -1,5 +1,6 @@
 import {ApiFormElement} from '../components/api-form-element'
 import {useCallback, useState} from 'react'
+import {Fieldset} from '@headlessui/react'
 
 export function AuthForm() {
   const [baseUrl, setBaseUrl] = useState<string>("")
@@ -14,32 +15,30 @@ export function AuthForm() {
   const clientSecretCb = useCallback((v: string) => {
     setClientSecret(v)
   }, [clientSecret, setClientSecret])
-  return <div className="flex flex-col gap-y-1">
-    <div className="flex flex-col gap-y-1">
-      <ApiFormElement
-        label="Base URL"
-        placeholder="Enter Base URL"
-        domName={"baseUrl"}
-        changeHandler={baseUrlCb}
-        value={"https://api.openai.com/v1/"}
-        type={"text"}
-      />
-      <ApiFormElement
-        label="Client ID"
-        placeholder="Enter Client ID"
-        domName={"clientId"}
-        changeHandler={clientIdCb}
-        value={""}
-        type={"text"}
-      />
-      <ApiFormElement
-        label="Client Secret"
-        placeholder="Enter Client Secret"
-        domName={"clientSecret"}
-        changeHandler={clientSecretCb}
-        value={""}
-        type={"password"}
-      />
-    </div>
-  </div>
+  return <Fieldset className="flex flex-col gap-y-1">
+    <ApiFormElement
+      label="Base URL"
+      placeholder="Enter Base URL"
+      domName={"baseUrl"}
+      changeHandler={baseUrlCb}
+      value={"https://api.openai.com/v1/"}
+      type={"text"}
+    />
+    <ApiFormElement
+      label="Client ID"
+      placeholder="Enter Client ID"
+      domName={"clientId"}
+      changeHandler={clientIdCb}
+      value={""}
+      type={"text"}
+    />
+    <ApiFormElement
+      label="Client Secret"
+      placeholder="Enter Client Secret"
+      domName={"clientSecret"}
+      changeHandler={clientSecretCb}
+      value={""}
+      type={"password"}
+    />
+  </Fieldset>
 }

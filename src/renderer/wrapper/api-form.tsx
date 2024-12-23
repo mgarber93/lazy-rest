@@ -3,10 +3,12 @@ import {parse} from 'yaml'
 import {v4} from 'uuid'
 import {OpenAPI} from 'openapi-types'
 import {useAppDispatch} from '../features/store'
-import {addApiConfiguration} from '../features/tools'
+import {addApiConfiguration, selectAllApiConfigurations} from '../features/tools'
 import {Fieldset} from '@headlessui/react'
 import {ApiFormElement} from '../components/api-form-element'
 import {AppButton} from '../components/app-button'
+import {AppCombobox} from '../components/app-combobox'
+import {useSelector} from 'react-redux'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -47,7 +49,15 @@ export function ApiForm() {
     dispatch(addApiConfiguration({key: fileHandle, configuration: {name, baseUrl, clientId, clientSecret, fileHandle}}))
   }, [dispatch, oas, name, baseUrl, clientId, clientSecret, fileHandle])
   
+  const configs = useSelector(selectAllApiConfigurations)
+  
   return <Fieldset className={"flex flex-col col-span-3 gap-4"}>
+    <AppCombobox
+      options={configs
+        .map((c, i) => ({id: i, name: c.name}))
+      }
+    />
+    
     <ApiFormElement
       domName={'apiSpec'}
       label={'Open Api Spec'}
