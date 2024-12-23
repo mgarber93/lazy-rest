@@ -12,7 +12,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       )}>
         <Header></Header>
         <div className={clsx(
-          "bg-neutral-50 dark:bg-transparent backdrop-blur-sm",
+          "bg-neutral-50/50 dark:bg-neutral-950/80",
           "w-full",
         )}>
           {children}
