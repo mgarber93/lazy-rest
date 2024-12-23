@@ -34,12 +34,43 @@ export const handleInterpret = createAsyncThunk(
   `${name}/interpret`,
   async (arg: {job: SummarizationJob, chatId: string, contentId: string}, thunkAPI) => {
     const nextPlan = await window.main.summarizeResponse(arg.job)
-    console.log(nextPlan)
-    // thunkAPI.dispatch(setPlan({
-    //   chatId: arg.chatId,
-    //   contentId: arg.contentId,
-    //   plan: nextPlan
-    // }))
+    const state = thunkAPI.getState() as RootState
+    const chat = state.chats.find(chat => chat.id === arg.chatId)
+    
+    if (!chat) {
+      console.warn(`Chat with id ${arg.chatId} not found`)
+      return
+    }
+    
+    const content = chat.content.find(content => content.id === arg.contentId)
+    
+    if (!content) {
+      console.warn(`Content with id ${arg.contentId} not found in chat ${arg.chatId}`)
+      return
+    }
+
+    if (!content.apiCallPlan) {
+      console.warn(`No apiCallPlan found for content ${arg.contentId} in chat ${arg.chatId}`)
+      return
+    }
+    
+    const response = await window.main.summarizeResponse(arg.job)
+    const index = arg.job.index
+    content.apiCallPlan.steps[index] ??= {
+      id: v4(),
+      step: {},
+      progressStage: ProgressStage.active,
+    }
+    
+    // Update the specific step in the apiCallPlan with the summarizeResponse
+    Object.assign(content.apiCallPlan.steps[index].step.response!, {interpretation: response})
+    
+    // Dispatch the updated plan back to the Redux state
+    thunkAPI.dispatch(setPlan({
+      chatId: arg.chatId,
+      contentId: arg.contentId,
+      plan: content.apiCallPlan,
+    }))
   }
 )
 

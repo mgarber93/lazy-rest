@@ -2,7 +2,7 @@ import {ClientOptions} from 'openai'
 import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
-import {ApiCallPlan, HttpRequestPlan, HttpResponse, SummarizationJob} from '../models/api-call-plan'
+import {HttpRequestPlan, HttpResponse, SummarizationJob} from '../models/api-call-plan'
 
 export type TInvokeChannel = keyof PreloadedApi
 
@@ -47,5 +47,5 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   
   continue(): Promise<void>
   
-  summarizeResponse(job: SummarizationJob): Promise<ApiCallPlan>
+  summarizeResponse(job: SummarizationJob): Promise<string>
 }

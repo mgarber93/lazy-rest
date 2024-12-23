@@ -88,7 +88,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
       } satisfies SummarizationJob,
     }))
     console.log('handleContinue')
-  }, [])
+  }, [apiCallPlan, index, contentId, chatId, dispatch])
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value
@@ -188,6 +188,17 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
         </div>
       </CardSection>
       }
+      {step.response?.interpretation && <CardSection className={clsx("")}>
+        <div className={"w-full align-end"}>
+          <span>
+            <div className={"w-full align-end text-right"}>
+              <span>
+                {step.response.interpretation}
+              </span>
+            </div>
+          </span>
+        </div>
+      </CardSection>}
     </>
   )
 }

@@ -19,6 +19,7 @@ export interface HttpRequestPlan {
 export interface HttpResponse<T = any> {
   data: T
   status: number
+  interpretation?: string
 }
 
 export enum ProgressStage {
