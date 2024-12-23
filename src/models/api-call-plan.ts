@@ -12,7 +12,7 @@ export interface HttpRequestPlan {
   url: string;
   queryParams?: object;
   headers: Record<string, string>;
-  body?: object
+  body?: object | string
   response?: HttpResponse
 }
 

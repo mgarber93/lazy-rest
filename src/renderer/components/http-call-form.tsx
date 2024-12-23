@@ -7,10 +7,11 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 import {updateStep, UpdateStepActivityPayload} from '../features/chat'
 import {useAppDispatch} from '../features/store'
+import {ResponseViewer} from './response-viewer'
 
 
 export interface HttpCallFormProps {
-  step?: Partial<HttpRequestPlan>,
+  step: Partial<HttpRequestPlan>,
   contentId: string,
   sequenceId: number
 }
@@ -106,5 +107,8 @@ export function HttpCallForm({step, contentId, sequenceId}: HttpCallFormProps) {
         {response ? 'Continue' : 'Send'}
       </AppButton>
     </div>
+    {
+      response && <ResponseViewer response={response}/>
+    }
   </div>
 }

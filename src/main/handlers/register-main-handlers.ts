@@ -6,7 +6,7 @@ import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
 import {OpenAiConfigHandler} from './open-ai-config-handler'
 import {CallbackHandler} from './callback-handler'
-import {HttpClient} from '../tools/http-client'
+import {HttpClient} from './http-client'
 
 
 /**
