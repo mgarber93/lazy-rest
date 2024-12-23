@@ -67,7 +67,7 @@ export function ScrollPageLayout({sections, children}: {
   const background = "bg-amber-50/5 dark:bg-black shadow-xl"
   return <div className={clsx('h-[calc(100vh-46.993px)]')}>
     <Center>
-      <div className={clsx("lg:col-span-1 col-span-2 h-[calc(100vh-47px)]")}>
+      <div className={clsx("lg:col-span-1 col-span-1 h-[calc(100vh-47px)]")}>
         <aside className={clsx(effect,
           "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
         )}>
@@ -83,7 +83,7 @@ export function ScrollPageLayout({sections, children}: {
           {children}
         </div>
       </div>
-      <div className="col-span-1 lg:col-span-0">
+      <div className="col-span-0 lg:col-span-0">
       </div>
     </Center>
   </div>
@@ -150,7 +150,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
             "col-span-4 top-4 rounded overflow-scroll",
             "h-[calc(100vh-47px)] mb-2",
             effect,
-            "row-span-1 col-span-5 lg:col-span-4",
+            "row-span-1 col-span-4 lg:col-span-4",
             "p-0 bg-transparent",
             isScrollable && '-mt-1.5 rounded-t-none',
           )}
@@ -160,7 +160,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
         </motion.div>
       }</AnimatePresence>
       <div className={clsx(
-        "col-span-5 lg:col-span-4 row-span-1 bg-transparent",
+        "col-span-4 lg:col-span-4 row-span-1 bg-transparent",
       )}>
         <UserInputForm disabled={convo?.content?.at(-1)?.apiCallPlan ?? false}/>
       </div>
