@@ -33,11 +33,9 @@ export function Sections({sections}: {
   }, [])
   
   return sections.length > 0 ? <div className={"rounded pl-4 mr-2 rounded-tl-none rounded-bl-none"}>
-    <AppHorizontalChip>
-      <CardH3 className={"w-full h-full border-b-0"}>On this page
-      </CardH3>
-    </AppHorizontalChip>
-    <ul className={"flex flex-col gap-1"}>
+    <CardH3 className={"w-full h-full border-b-0 underline select-none"}>On this page
+    </CardH3>
+    <ul className={"flex flex-col gap-1 pl-4"}>
       {
         sections?.map((s) => (
           <li key={s.id}>
@@ -47,7 +45,7 @@ export function Sections({sections}: {
                 e.preventDefault()
                 scrollToSection(s.ref)
               }}
-              className={"text-xs text-nowrap text-ellipsis overflow-hidden whitespace-pre"}
+              className={"text-xs text-nowrap text-ellipsis overflow-hidden whitespace-pre select-none"}
               tabIndex={-1}
             >
               {s.label}
@@ -68,7 +66,7 @@ export function ScrollPageLayout({sections, children}: {
     <Center>
       <div className={clsx("lg:col-span-1 col-span-1 h-[calc(100vh-47px)]")}>
         <aside className={clsx(effect,
-          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl pt-16",
+          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl lg:pt-16 top-36 h-fit absolute",
         )}>
           <Sections sections={sections}/>
         </aside>

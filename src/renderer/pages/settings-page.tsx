@@ -43,7 +43,7 @@ export function SettingsPage() {
   
   return (
     <HeaderLayout>
-      <div className="w-full h-full lg:pt-16">
+      <div className="w-full h-full">
         <ScrollPageLayout sections={configSections}>
           <div ref={Ollama} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>Ollama</CardH2>
@@ -64,14 +64,13 @@ export function SettingsPage() {
             <div>todo</div>
           </div>
           
-          <div ref={ApiSpecifications} className={""}>
+          <div ref={ApiSpecifications} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>Api Specifications</CardH2>
           </div>
           {Object.keys(apis).length > 0 && <CardSection>
-            <CardH3>Existing</CardH3>
               <div className={"flex flex-col"}>
                 {
-                  Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)
+                  Object.keys(apis).map((key) => <div className={"my-4"} key={key}>{apis[key].name}</div>)
                 }
               </div>
             </CardSection>
