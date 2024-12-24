@@ -18,7 +18,7 @@ export function ConversationContent({content, chatId}: { content: AuthoredConten
       {
         content.role === "user" &&
         <span
-          className={clsx('flex-1 text-right max-w-[40vw] flex ml-auto dark:text-neutral-300 lg:pt-16')}
+          className={clsx('flex-1 text-right flex ml-auto dark:text-neutral-300 lg:pt-16')}
           key={content.id}
         >
             <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
