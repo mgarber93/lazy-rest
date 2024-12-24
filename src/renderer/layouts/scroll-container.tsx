@@ -1,10 +1,10 @@
 import React, {ReactNode, RefObject, useCallback, useEffect, useRef, useState} from 'react'
-import {Center} from '../wrapper/center'
 import clsx from 'clsx'
+import {AnimatePresence, motion} from 'framer-motion'
+import {Center} from '../wrapper/center'
 import {CardH3} from '../wrapper/card'
 import {UserInputForm} from '../pages/user-input-form'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {AnimatePresence, motion} from 'framer-motion'
 
 export interface ISection {
   id: string
@@ -32,7 +32,7 @@ export function Sections({sections}: {
     section?.current?.scrollIntoView({behavior: 'instant', alignToTop: true})
   }, [])
   
-  return sections.length > 0 ? <div className={"rounded p-2 mr-2 rounded-tl-none rounded-bl-none"}>
+  return sections.length > 0 ? <div className={"rounded pl-4 mr-2 rounded-tl-none rounded-bl-none"}>
     <AppHorizontalChip>
       <CardH3 className={"w-full h-full border-b-0"}>On this page
       </CardH3>
@@ -64,18 +64,17 @@ export function ScrollPageLayout({sections, children}: {
   children?: ReactNode,
 }) {
   const effect = "border border-transparent border-black/5 h-full"
-  const background = "bg-amber-50/5 dark:bg-black shadow-xl"
   return <div className={clsx('h-[calc(100vh-46.993px)]')}>
     <Center>
       <div className={clsx("lg:col-span-1 col-span-1 h-[calc(100vh-47px)]")}>
         <aside className={clsx(effect,
-          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl",
+          "rounded-l rounded-bl rounded-br-3xl rounded-tr-3xl pt-16",
         )}>
           <Sections sections={sections}/>
         </aside>
       </div>
       <div className={clsx(
-        "col-span-4 top-4 rounded overflow-scroll",
+        "col-span-4 top-4 rounded",
         "h-[calc(100vh-47px)] mb-2",
         effect,
       )}>

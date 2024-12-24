@@ -43,7 +43,7 @@ export function SettingsPage() {
   
   return (
     <HeaderLayout>
-      <div className="w-full h-full">
+      <div className="w-full h-full lg:pt-16">
         <ScrollPageLayout sections={configSections}>
           <div ref={Ollama} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
             <CardH2>Ollama</CardH2>
