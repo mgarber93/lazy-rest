@@ -28,6 +28,11 @@ export class OllamaProvider implements PromptableProvider {
     return content
   }
   
+  async prompt(prompt: string, model: string) {
+    const response = await ollama.chat({model, messages: [{role: 'user', content: prompt}]})
+    return response.message.content
+  }
+  
   async promptAndParse<T>(model: string, prompt: string): Promise<T> {
     const out = await ollama.generate({
       model,

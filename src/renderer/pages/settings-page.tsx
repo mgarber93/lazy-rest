@@ -69,7 +69,6 @@ export function SettingsPage() {
           </div>
           {Object.keys(apis).length > 0 && <CardSection>
             <CardH3>Existing</CardH3>
-                <CardH3>Existing</CardH3>
               <div className={"flex flex-col"}>
                 {
                   Object.keys(apis).map((key) => <div key={key}>{apis[key].name}</div>)

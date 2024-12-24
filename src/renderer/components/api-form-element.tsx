@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react'
-import {Description, Field, Input, Label} from '@headlessui/react'
+import {Description, Field, Label} from '@headlessui/react'
 import clsx from 'clsx'
+import {AppInput} from './app-input'
 
 export const labelClasses = "text-sm/6 font-medium text-black dark:text-white"
 export const descriptionClasses = "text-sm"
@@ -19,14 +20,13 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
   description?: string
 }) {
   return <Field>
-    <Label
-      className={labelClasses}>
+    <Label className={labelClasses}>
       <label htmlFor={domName}>{label}</label>
     </Label>
     <Description>
       {description}
     </Description>
-    <Input className={inputClasses} type={type} placeholder={placeholder} onChange={changeHandler}
-           value={value}></Input>
+    <AppInput type={type} placeholder={placeholder} onChange={changeHandler}
+              value={value}></AppInput>
   </Field>
 }

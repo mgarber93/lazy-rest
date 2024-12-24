@@ -27,4 +27,12 @@ ${goal}
   return prompt
 }
 
+export const buildContinuePrompt = (goal: string, response: object, interpretation: string, newGoal: string) => {
+  return `Refine the answer ${interpretation} to the question: ${goal}. Using only the information from the server response:
+  \`\`\`json
+  ${JSON.stringify(response, null, 2).slice(0, 1000)}.
+  \`\`\`
+  We want to know ${newGoal}`
+}
+
 

@@ -12,13 +12,14 @@ export interface HttpRequestPlan {
   url: string;
   queryParams?: object;
   headers: Record<string, string>;
-  body?: object
+  body?: object | string
   response?: HttpResponse
 }
 
 export interface HttpResponse<T = any> {
   data: T
   status: number
+  interpretation?: string
 }
 
 export enum ProgressStage {
@@ -35,6 +36,13 @@ export interface SequenceActivity {
   id: string
   progressStage: ProgressStage
   step: Partial<HttpRequestPlan>
+}
+
+export interface SummarizationJob {
+  apiCallPlan: ApiCallPlan,
+  contentId: string,
+  chatId: string
+  index: number
 }
 
 export const mockSequence = [

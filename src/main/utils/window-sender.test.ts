@@ -2,6 +2,15 @@ import "reflect-metadata"
 import {WindowSender} from './window-sender'
 import {channelAllowList} from '../../window-callback/window-callback-api'
 
+jest.mock('use-resize-observer', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  })),
+}))
+
 describe('WindowSender', () => {
   it('should resolve with the sent values before hasFinishedLoading has been called', async () => {
     const windowSender = new WindowSender()

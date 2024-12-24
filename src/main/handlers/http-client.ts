@@ -8,7 +8,7 @@ export class HttpClient implements Handler<'fetch'> {
   async handle(plan: HttpRequestPlan): Promise<HttpResponse> {
     const response = await fetch(plan.url, {
       method: plan.httpVerb,
-      body: JSON.stringify(plan.body),
+      body: typeof plan.body === 'string' ? plan.body : JSON.stringify(plan.body),
       headers: plan.headers,
     })
     const data = await response.json()

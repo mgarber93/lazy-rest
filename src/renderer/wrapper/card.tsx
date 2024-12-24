@@ -1,7 +1,7 @@
 import {ReactNode} from 'react'
 import clsx from 'clsx'
 
-export const cardEffect = "rounded bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
+export const cardEffect = "bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
 export function Card({children, className}: { children: ReactNode, className?: string }) {
   const layout = 'flex flex-col gap-4'
