@@ -7,6 +7,7 @@ import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {SwaggerGpt} from '../organizations/swagger-gpt'
 import {createContent} from '../../models/content'
 import {OllamaProvider} from '../providers/ollama'
+import {shouldStartNewConversation} from '../../renderer/features/chat'
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
@@ -14,7 +15,7 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
   private swaggerGptPlanProgressor = container.resolve(SwaggerGpt)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private ollama = container.resolve(OllamaProvider)
-
+  
   static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
   
   async handle(conversation: Conversation): Promise<void> {
@@ -59,6 +60,10 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
    * @param conversation
    */
   async organizationReply(conversation: Conversation) {
-    return this.swaggerGptPlanProgressor.start(conversation)
+    if (shouldStartNewConversation(conversation)) {
+      return this.swaggerGptPlanProgressor.start(conversation)
+    } else {
+      return this.swaggerGptPlanProgressor.continue(conversation)
+    }
   }
 }

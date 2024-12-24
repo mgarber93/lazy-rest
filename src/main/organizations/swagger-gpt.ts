@@ -1,11 +1,12 @@
 import {container, singleton} from 'tsyringe'
 import {Conversation} from '../../models/conversation'
-import {AuthoredContent} from '../../models/content'
+import {AuthoredContent, createContent} from '../../models/content'
 import {v4} from 'uuid'
-import {buildCallerPrompt} from '../../prompts/api-caller-dispatcher'
+import {buildCallerPrompt, buildContinuePrompt} from '../../prompts/api-caller-dispatcher'
 import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {OpenAiProvider} from '../providers/openai'
 import {ApiCallPlan, HttpRequestPlan, ProgressStage, SequenceActivity} from '../../models/api-call-plan'
+import {ChatCompletionMessageParam} from 'openai/resources'
 
 
 @singleton()
@@ -37,7 +38,7 @@ export class SwaggerGpt {
     let activities = await this.createPlan(lastMessage.message)
     
     if (!Array.isArray(activities)) {
-      if ('steps' in activities){
+      if ('steps' in activities) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         activities = activities.steps
@@ -88,4 +89,33 @@ export class SwaggerGpt {
   //   } satisfies UpdateStepActivityPayload
   //   this.windowSender.updateStep(state)
   // }
+  buildContinueConversation(conversation: Conversation): ChatCompletionMessageParam[] {
+    const reversed = [...conversation.content].reverse()
+    const lastStep = reversed.find((item) => item.apiCallPlan)
+    const lastStepOfPlan = lastStep!.apiCallPlan!.steps.at(-1)
+    
+    const lastQuestion = reversed.find((item) => item.role === 'user')
+    
+    const prompt = buildContinuePrompt(
+      conversation.content.at(0)!.message,
+      lastStepOfPlan!.step!.response!.data,
+      lastStepOfPlan!.step!.response!.interpretation!,
+      lastQuestion!.message
+    )
+    return [
+      {role: 'user', content: prompt},
+    ]
+  }
+  
+  async continue(conversation: Conversation) {
+    const lastStep = [...conversation.content].reverse().find((item) => item.apiCallPlan)
+    if (!lastStep || !lastStep?.apiCallPlan) {
+      throw new Error('no api call plan found')
+    }
+    const responder = conversation.responder!
+    const response = createContent('', conversation.id, responder.model, 'assistant')
+    await this.windowSender.appendContent(response)
+    const content = this.buildContinueConversation(conversation)
+    await this.openAiProvider.streamFromPrompt('gpt-4o-mini', content, conversation.id, response.id)
+  }
 }

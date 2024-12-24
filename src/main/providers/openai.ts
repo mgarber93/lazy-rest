@@ -56,9 +56,7 @@ export class OpenAiProvider implements PromptableProvider {
     }
   }
   
-  async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
-    const messages = content
-      .map(mapAuthoredContentToChatCompletion)
+  async streamFromPrompt(model: string, messages: ChatCompletionMessageParam[], chatId: string, messageId: string): Promise<AuthoredContent> {
     const openai = await this.manager.getOpenAi()
     const stream = await openai.chat.completions.create({
       model,
@@ -71,7 +69,13 @@ export class OpenAiProvider implements PromptableProvider {
       responseContent.message += delta
       await this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
     }
-    content.push(responseContent)
+    return responseContent
+  }
+  
+  async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
+    const messages = content
+      .map(mapAuthoredContentToChatCompletion)
+    content.push(await this.streamFromPrompt(model, messages, chatId, messageId))
     return content
   }
   
