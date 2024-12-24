@@ -115,7 +115,11 @@ export function ScrollUserInputPageLayout({sections, children}: {
       window.removeEventListener('resize', checkScrollable)
     }
   }, [convo])
-  
+  const disabled = (() => {
+    const lastStep = convo?.content?.at(-1)?.apiCallPlan?.steps?.at(-1)
+    return lastStep?.step.response?.interpretation ? false : convo?.content?.at(-1)?.apiCallPlan ?? false
+  })()
+
   return <div className={clsx('h-[calc(100vh-47px)]')}>
     <Center className={""}>
       <AnimatePresence>{
@@ -147,7 +151,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
           exit={{opacity: 0, height: 0}}
           transition={{duration: 0.3}}
           className={clsx(
-            "col-span-4 top-4 rounded overflow-scroll",
+            "col-span-4 top-4 rounded",
             "h-[calc(100vh-47px)] mb-2",
             effect,
             "row-span-1 col-span-4 lg:col-span-4",
@@ -162,7 +166,7 @@ export function ScrollUserInputPageLayout({sections, children}: {
       <div className={clsx(
         "col-span-4 lg:col-span-4 row-span-1 bg-transparent",
       )}>
-        <UserInputForm disabled={convo?.content?.at(-1)?.apiCallPlan ?? false}/>
+        <UserInputForm disabled={disabled}/>
       </div>
     </Center>
   </div>

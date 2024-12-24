@@ -77,7 +77,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
       sequenceId,
       nextPlan,
     }))
-  }, [convo])
+  }, [convo, sequenceId, contentId, apiCallPlan])
   
   const handleContinue = useCallback(async () => {
     await dispatch(handleInterpret({
@@ -141,7 +141,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
           transition={{duration: 0.2}}
           style={{overflow: 'hidden'}}
         >
-          <div className={clsx('flex flex-col gap-0 font-mono')}>
+          <div className={clsx('flex flex-col gap-0 font-mono pt-4')}>
             <div className={"flex flex-row gap-0"}>
               <Select
                 name="status"

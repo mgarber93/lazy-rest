@@ -36,7 +36,6 @@ export interface SequenceActivity {
   id: string
   progressStage: ProgressStage
   step: Partial<HttpRequestPlan>
-  response?: HttpResponse
 }
 
 export interface SummarizationJob {

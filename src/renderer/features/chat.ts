@@ -61,15 +61,19 @@ export const handleInterpret = createAsyncThunk(
       step: {},
       progressStage: ProgressStage.active,
     }
-    
+    const plan = content.apiCallPlan
+    if (!plan) {
+      console.warn(`No apiCallPlan found during interpret for content ${arg.contentId} in chat ${arg.chatId}`)
+      return
+    }
     // Update the specific step in the apiCallPlan with the summarizeResponse
-    Object.assign(content.apiCallPlan.steps[index].step.response!, {interpretation: response})
+    Object.assign(plan.steps[index].step.response!, {interpretation: response})
     
     // Dispatch the updated plan back to the Redux state
     thunkAPI.dispatch(setPlan({
       chatId: arg.chatId,
       contentId: arg.contentId,
-      plan: content.apiCallPlan,
+      plan: plan,
     }))
   }
 )
