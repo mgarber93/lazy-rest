@@ -90,7 +90,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
     }
   }, [models, conversation])
   
-  return <Field className={"flex w-full flex-row-reverse gap-x-2 bottom-2 ml-auto"}>
+  return <Field className={"flex w-full flex-row-reverse bottom-2 ml-auto"}>
     {!disabled && <Input
       className={clsx(
         cardEffect,
