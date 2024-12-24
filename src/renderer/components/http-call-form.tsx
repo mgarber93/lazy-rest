@@ -126,11 +126,11 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
         <div className={"h-full py-0 px-0 border-b border-neutral-100 dark:border-neutral-600"}>
           <div className={"flex flex-row text-nowrap gap cursor-pointer dark:text-neutral-300"} onClick={handleToggle}>
             <span
-              className={"w-full max-w-14 text-left font-mono text-sm overflow-hidden align-center border-r border-neutral-100 dark:border-neutral-700 justify-self-center self-end"}>
-              {(index ?? 0)}
+              className={"w-full max-w-14 text-left font-mono text-sm overflow-hidden align-center border-r border-neutral-100 dark:border-neutral-700 justify-self-center"}>
+              {(index ?? 0) + 1}
             </span>
             <span
-              className={"flex-grow text-wrap indent-6 pl-4 font-mono text-sm align-center select-none justify-self-center self-end"}>
+              className={"flex-grow text-wrap pl-4 font-mono text-sm align-center select-none justify-self-center self-end"}>
           {activity.step?.name}
             </span>
           </div>

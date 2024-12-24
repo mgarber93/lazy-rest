@@ -79,7 +79,7 @@ export function ScrollPageLayout({sections, children}: {
         "h-[calc(100vh-47px)] mb-2",
         effect,
       )}>
-        <div className={"p-4"}>
+        <div className={""}>
           {children}
         </div>
       </div>
