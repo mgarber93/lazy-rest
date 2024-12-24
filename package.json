@@ -89,6 +89,7 @@
     "remark-gfm": "^4.0.0",
     "sonner": "^1.7.1",
     "tsyringe": "^4.8.0",
+    "use-resize-observer": "^9.1.0",
     "uuid": "^9.0.1",
     "yaml": "^2.4.1"
   }
