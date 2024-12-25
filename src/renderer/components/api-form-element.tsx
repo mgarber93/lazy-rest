@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {ChangeEventHandler, ReactNode} from 'react'
 import {Description, Field, Label} from '@headlessui/react'
 import clsx from 'clsx'
 import {AppInput} from './app-input'
@@ -13,7 +13,7 @@ export const inputClasses = clsx(
 export function ApiFormElement({domName, label, changeHandler, placeholder, type, value, description}: {
   domName: string,
   label: ReactNode,
-  changeHandler: (...args: never[]) => void,
+  changeHandler: ChangeEventHandler<HTMLInputElement>,
   placeholder: string,
   type: string,
   value: string,
@@ -27,6 +27,7 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
       {description}
     </Description>
     <AppInput type={type} placeholder={placeholder} onChange={changeHandler}
-              value={value}></AppInput>
+              value={value}
+    />
   </Field>
 }

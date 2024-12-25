@@ -9,6 +9,7 @@ import {ApiFormElement} from '../components/api-form-element'
 import {AppButton} from '../components/app-button'
 import {AppCombobox} from '../components/app-combobox'
 import {useSelector} from 'react-redux'
+import {debug} from 'openai/core'
 
 export function ApiForm() {
   const [name, setName] = useState('')
@@ -20,6 +21,10 @@ export function ApiForm() {
   const dispatch = useAppDispatch()
   
   const handleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target?.files ?? true) {
+      console.log('unable to read file')
+      return
+    }
     const file = event.target.files?.[0]
     if (file) {
       const reader = new FileReader()
@@ -52,12 +57,6 @@ export function ApiForm() {
   const configs = useSelector(selectAllApiConfigurations)
   
   return <Fieldset className={"flex flex-col col-span-3 gap-4"}>
-    <AppCombobox
-      options={configs
-        .map((c, i) => ({id: i, name: c.name}))
-      }
-    />
-    
     <ApiFormElement
       domName={'apiSpec'}
       label={'Open Api Spec'}

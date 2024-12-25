@@ -44,48 +44,15 @@ export const streamResponse = createAsyncThunk(
 export const handleInterpret = createAsyncThunk(
   `${name}/interpret`,
   async (arg: { job: SummarizationJob, chatId: string, contentId: string }, thunkAPI) => {
-    const nextPlan = await window.main.summarizeResponse(arg.job)
-    const state = thunkAPI.getState() as RootState
-    const chat = state.chats.find(chat => chat.id === arg.chatId)
-    
-    if (!chat) {
-      console.warn(`Chat with id ${arg.chatId} not found`)
-      return
-    }
-    
-    const content = chat.content.find(content => content.id === arg.contentId)
-    
-    if (!content) {
-      console.warn(`Content with id ${arg.contentId} not found in chat ${arg.chatId}`)
-      return
-    }
-    
-    if (!content.apiCallPlan) {
-      console.warn(`No apiCallPlan found for content ${arg.contentId} in chat ${arg.chatId}`)
-      return
-    }
-    
-    const response = await window.main.summarizeResponse(arg.job)
+    const summary = await window.main.summarizeResponse(arg.job)
     const index = arg.job.index
-    content.apiCallPlan.steps[index] ??= {
-      id: v4(),
-      step: {},
-      progressStage: ProgressStage.active,
-    }
-    const plan = content.apiCallPlan
-    if (!plan) {
-      console.warn(`No apiCallPlan found during interpret for content ${arg.contentId} in chat ${arg.chatId}`)
-      return
-    }
-    // Update the specific step in the apiCallPlan with the summarizeResponse
-    Object.assign(plan.steps[index].step.response!, {interpretation: response})
     
-    // Dispatch the updated plan back to the Redux state
-    thunkAPI.dispatch(setPlan({
+    return {
+      summary,
       chatId: arg.chatId,
       contentId: arg.contentId,
-      plan: plan,
-    }))
+      index
+    }
   },
 )
 
@@ -201,6 +168,45 @@ export const chatsSlice = createSlice({
       content!.apiCallPlan = plan
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(handleInterpret.fulfilled, (state, action) => {
+      const {summary, chatId, contentId, index} = action.payload
+      if (!summary) {
+        console.warn('no summary returned from summarizeResponse')
+        return
+      }
+      const chat = state.find(chat => chat.id === chatId)
+      
+      if (!chat) {
+        console.warn(`Chat with id ${chatId} not found`)
+        return
+      }
+      
+      const content = chat.content.find(content => content.id === contentId)
+      
+      if (!content) {
+        console.warn(`Content with id ${contentId} not found in chat ${chatId}`)
+        return
+      }
+      
+      if (!content.apiCallPlan) {
+        console.warn(`No apiCallPlan found for content ${contentId} in chat ${chatId}`)
+        return
+      }
+      
+      content.apiCallPlan.steps[index] ??= {
+        id: v4(),
+        step: {},
+        progressStage: ProgressStage.active,
+      }
+      const plan = content.apiCallPlan
+      if (!plan) {
+        console.warn(`No apiCallPlan found during interpret for content ${contentId} in chat ${chatId}`)
+        return
+      }
+      plan.steps[index]!.step!.response!.interpretation = summary
+    })
+  }
 })
 
 // Export actions to use dispatch in component

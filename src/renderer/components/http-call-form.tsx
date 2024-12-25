@@ -79,15 +79,15 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
     }))
   }, [convo, sequenceId, contentId, apiCallPlan])
   
-  const handleContinue = useCallback(async () => {
-    await dispatch(handleInterpret({
+  const [loading, setLoading] = useState(false)
+  const handleContinue = useCallback(() => {
+    dispatch(handleInterpret({
       contentId,
       chatId,
       job: {
         apiCallPlan, index, contentId, chatId,
       } satisfies SummarizationJob,
     }))
-    console.log('handleContinue')
   }, [apiCallPlan, index, contentId, chatId, dispatch])
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -123,10 +123,10 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
         "flex flex-col gap-1 dark:bg-neutral-900",
         "rounded-none",
       )}>
-        <div className={"h-full py-0 px-0 border-b border-neutral-100 dark:border-neutral-600"}>
+        <div className={"h-full py-0 px-0 border-b border-neutral-950 dark:border-neutral-600"}>
           <div className={"flex flex-row text-nowrap gap cursor-pointer dark:text-neutral-300"} onClick={handleToggle}>
             <span
-              className={"w-full max-w-14 text-left font-mono text-sm overflow-hidden align-center border-r border-neutral-100 dark:border-neutral-700 justify-self-center"}>
+              className={"w-full max-w-14 text-left font-mono text-sm overflow-hidden align-center border-r border-neutral-950 dark:border-neutral-700 justify-self-center"}>
               {(index ?? 0) + 1}
             </span>
             <span

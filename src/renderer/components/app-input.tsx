@@ -1,6 +1,6 @@
 import {Input} from '@headlessui/react'
 import clsx from 'clsx'
-import {FocusEventHandler} from 'react'
+import {ChangeEventHandler, FocusEventHandler} from 'react'
 
 const elements = `border rounded bg-transparent border-neutral-700 dark:bg-neutral-950/5`
 
@@ -15,19 +15,20 @@ export type AppInputProps = {
   defaultValue?: string | number | readonly string[] | undefined
   placeholder?: Readonly<string>
   type: string
-  onChange?: (value: string | number | readonly string[] | undefined) => void
+  onChange?: ChangeEventHandler<HTMLInputElement>
   value: string | number | readonly string[] | undefined
 }
 
-export function AppInput({onBlur, placeholder, defaultValue, onChange, value}: AppInputProps) {
+export function AppInput({onBlur, type, placeholder, defaultValue, onChange, value}: AppInputProps) {
   return (
     <Input
       className={inputClass}
       defaultValue={defaultValue}
       placeholder={placeholder}
       onBlur={onBlur}
-      onChange={e => onChange?.(e.target.value)}
+      onChange={onChange}
       value={value}
+      type={type}
     />
   )
 }
