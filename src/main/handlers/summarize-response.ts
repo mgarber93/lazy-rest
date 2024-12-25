@@ -13,7 +13,8 @@ export class SummarizeResponse implements Handler<'summarizeResponse'> {
     if (!step.response?.data) {
       throw new Error('no response data')
     }
-    const answer = await this.ollamaProvider.prompt(`Answer <goal>${step.name} </goal> only using <info>${JSON.stringify(step.response?.data)}</info>. Respond in the format: "x" is 1. "y" is 2. (eg artist_id is 1234.) \n`, 'llama3.1:latest')
+    const prompt = `Answer <goal>${step.name} </goal> only using <info>${JSON.stringify(step.response?.data)}</info>. Respond in the format: "x" is 1. "y" is 2. (eg artist_id is 1234.) \n`
+    const answer = await this.ollamaProvider.prompt(prompt, 'mistral:latest')
     console.log('SummarizeResponse:handle', answer.slice(0,80))
     // @todo summarize response and update next step with info
     return answer

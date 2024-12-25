@@ -45,26 +45,26 @@ export function SettingsPage() {
     <HeaderLayout>
       <div className="w-full h-full">
         <ScrollPageLayout sections={configSections}>
-          <div ref={Ollama} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
+          <div ref={Ollama} className={"min-h-[20rem] m-2 p-4"}>
             <CardH2>Ollama</CardH2>
             <div className="py-4">
               <OllamaForm/>
             </div>
           </div>
           
-          <div ref={OpenAi} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
+          <div ref={OpenAi} className={"min-h-[20rem] m-2 p-4"}>
             <CardH2>Open AI</CardH2>
             <div className={"py-4"}>
               <OpenAiForm/>
             </div>
           </div>
           
-          <div ref={BedRock} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
+          <div ref={BedRock} className={"min-h-[20rem] m-2 p-4"}>
             <CardH2>AWS Bed Rock</CardH2>
             <div>todo</div>
           </div>
           
-          <div ref={ApiSpecifications} className={"min-h-[20rem] dark:bg-white/5 rounded-2xl m-2 p-4"}>
+          <div ref={ApiSpecifications} className={"min-h-[20rem] m-2 p-4"}>
             <CardH2>Api Specifications</CardH2>
           </div>
           {Object.keys(apis).length > 0 && <CardSection>
