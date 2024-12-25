@@ -3,16 +3,15 @@ import {createRoot} from 'react-dom/client'
 import React from 'react'
 import {createHashRouter, Navigate, RouterProvider} from 'react-router-dom'
 import {Provider} from 'react-redux'
+import {Toaster} from 'sonner'
+import "@fontsource/poppins"
+import "@fontsource/poppins/400.css"
+import "@fontsource/poppins/400-italic.css"
 
 import {store} from './renderer/features/store'
 import {ConversationsPage} from './renderer/pages/conversations-page'
 import {connectCallbacks} from './connect-callbacks'
 import {SettingsPage} from './renderer/pages/settings-page'
-
-import "@fontsource/poppins" // Defaults to weight 400
-import "@fontsource/poppins/400.css" // Specify weight
-import "@fontsource/poppins/400-italic.css"
-import {Toaster} from 'sonner' // Specify weight and style
 
 connectCallbacks(store)
 
