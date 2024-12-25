@@ -25,7 +25,7 @@ export function AuthForm(props: AuthFormProps) {
       label="Base URL"
       placeholder="Enter Base URL"
       domName={"baseUrl"}
-      changeHandler={setBaseUrl}
+      changeHandler={(e) => setBaseUrl(e.target?.value ?? '')}
       value={baseUrl}
       type={"text"}
     />
@@ -33,7 +33,7 @@ export function AuthForm(props: AuthFormProps) {
       label="Client ID"
       placeholder="Enter Client ID"
       domName={"clientId"}
-      changeHandler={setClientId}
+      changeHandler={e => setClientId(e.target?.value ?? '')}
       value={clientId}
       type={"text"}
     />
@@ -41,7 +41,7 @@ export function AuthForm(props: AuthFormProps) {
       label="Client Secret"
       placeholder="Enter Client Secret"
       domName={"clientSecret"}
-      changeHandler={setClientSecret}
+      changeHandler={e => setClientSecret(e.target?.value ?? '')}
       value={clientSecret}
       type={"password"}
     />

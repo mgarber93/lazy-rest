@@ -43,33 +43,15 @@ export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}:
     }
   }, [setBaseUrl, setClientId, setClientSecret])
   const [valid, setValid] = useState<boolean>(baseUrl !== '' && clientId !== '' && clientSecret !== '')
-  const saveHandler = useCallback((baseUrl: string, clientId: string, clientSecret: string) => {
+  const handleApiChange = useCallback((baseUrl: string, clientId: string, clientSecret: string) => {
     setBaseUrl(baseUrl)
     setClientId(clientId)
     setClientSecret(clientSecret)
     const nextIsValid = baseUrl !== '' && clientId !== '' && clientSecret !== ''
     setValid(nextIsValid)
-    if (nextIsValid) {
-      const api = JSON.parse(localStorage.tools).api
-      const keys = Object.keys(api)
-      const updatedApi = {
-        ...api,
-        [keys[0]]: {
-          ...api[keys[0]],
-          baseUrl,
-          clientId,
-          clientSecret,
-        },
-      }
-      localStorage.tools = JSON.stringify({api: updatedApi})
-      toast.success('API configuration updated successfully')
-    }
   }, [setBaseUrl, setClientId, setClientSecret, setValid])
   const handleGetToken = useCallback(async () => {
     const buffer = btoa(`${clientId}:${clientSecret}`)
-    const params = new URLSearchParams({
-      grant_type: 'client_credentials',
-    })
     const response = await window.main.fetch({
       httpVerb: "POST",
       headers: {
@@ -97,6 +79,25 @@ export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}:
       sequenceId: index,
     } satisfies UpdateStepActivityPayload))
   }, [baseUrl, step])
+  
+  const saveHandler = useCallback(() => {
+    if (!valid) {
+      return
+    }
+    const api = JSON.parse(localStorage.tools).api
+    const keys = Object.keys(api)
+    const updatedApi = {
+      ...api,
+      [keys[0]]: {
+        ...api[keys[0]],
+        baseUrl,
+        clientId,
+        clientSecret,
+      },
+    }
+    localStorage.setItem('tools', JSON.stringify({api: updatedApi}))
+    toast.success('API configuration updated successfully')
+  }, [valid, baseUrl, clientId, clientSecret])
 
   return (
     <TabGroup className={"flex w-full flex-col bg-white/25 dark:bg-transparent rounded mb-1"}>
@@ -130,8 +131,11 @@ export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}:
         </TabPanel>
         <TabPanel key={'Authorization'} className="rounded p-3">
           <div className={"flex flex-col gap-2"}>
-            <AuthForm baseUrl={baseUrl} clientId={clientId} clientSecret={clientSecret} onSave={saveHandler} />
-            <AppButton onClick={handleGetToken} disabled={!valid}>Get Token</AppButton>
+            <AuthForm baseUrl={baseUrl} clientId={clientId} clientSecret={clientSecret} onSave={handleApiChange} />
+            <div className={"flex flex-row gap-2"}>
+              <AppButton onClick={saveHandler} disabled={!valid}>Save</AppButton>
+              <AppButton className={"ml-auto"} onClick={handleGetToken} disabled={!valid}>Get Token</AppButton>
+            </div>
           </div>
         </TabPanel>
       </TabPanels>

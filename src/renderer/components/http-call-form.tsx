@@ -79,15 +79,15 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
     }))
   }, [convo, sequenceId, contentId, apiCallPlan])
   
-  const handleContinue = useCallback(async () => {
-    await dispatch(handleInterpret({
+  const [loading, setLoading] = useState(false)
+  const handleContinue = useCallback(() => {
+    dispatch(handleInterpret({
       contentId,
       chatId,
       job: {
         apiCallPlan, index, contentId, chatId,
       } satisfies SummarizationJob,
     }))
-    console.log('handleContinue')
   }, [apiCallPlan, index, contentId, chatId, dispatch])
   
   const handleSelectChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
