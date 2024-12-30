@@ -12,7 +12,8 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       )}>
         <Header></Header>
         <div className={clsx(
-          "bg-neutral-50/50 dark:bg-neutral-950/80",
+          "bg-[linear-gradient(115deg,var(--tw-gradient-stops))] from-[#eee] from-[28%] via-[#eee] via-[70%]",
+          "bg-[linear-gradient(105deg,var(--tw-gradient-stops))] dark:from-[#000] from-[88%] dark:via-[#000a] via-[98%] dark:to-[#0004]",
           "w-full",
         )}>
           {children}
