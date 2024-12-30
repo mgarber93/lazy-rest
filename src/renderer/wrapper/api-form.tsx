@@ -7,9 +7,7 @@ import {addApiConfiguration, selectAllApiConfigurations} from '../features/tools
 import {Fieldset} from '@headlessui/react'
 import {ApiFormElement} from '../components/api-form-element'
 import {AppButton} from '../components/app-button'
-import {AppCombobox} from '../components/app-combobox'
 import {useSelector} from 'react-redux'
-import {debug} from 'openai/core'
 
 export function ApiForm() {
   const [name, setName] = useState('')
