@@ -1,7 +1,7 @@
-import React, {ReactElement, useCallback, useState} from "react"
-import {Cog6ToothIcon, PlusIcon} from "@heroicons/react/24/outline"
+import React, {useCallback, useState} from "react"
+import {PlusIcon} from "@heroicons/react/24/outline"
 import {XMarkIcon} from "@heroicons/react/16/solid"
-import {NavLink, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import clsx from "clsx"
 import {useAppDispatch, useAppSelector} from "../features/store"
 import {removeChat, startNewChat} from "../features/chat"
@@ -10,35 +10,9 @@ import {headerTransparencyEffect} from "../utils/transparent"
 import {v4} from "uuid"
 import {useKeyPress} from "../hooks/use-key-press"
 import {useCurrentConversation} from "../hooks/current-conversation"
+import {Logo} from '../components/logo'
+import {HeaderTab} from '../components/header-tab'
 
-
-export function HeaderTab({children, to, className}: {
-  children: ReactElement,
-  to: string,
-  className?: string
-}) {
-  const classes = `flex rounded no-drag bg-white h-full items-center pl-[0.5rem] pr-[0.25rem] min-h-[1rem] text-xs font-semibold`
-  const borderActive = `!border-neutral-800 dark:border-neutral-700`
-  const border = `border border-transparent`
-  return (
-    <NavLink
-      to={to}
-      tabIndex={-1}
-      className={
-        ({isActive}) => clsx(
-          classes,
-          border,
-          isActive && clsx(
-            borderActive,
-            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
-          ),
-          !isActive && clsx("bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
-          className,
-        )}>
-      {children}
-    </NavLink>
-  )
-}
 
 export function Header() {
   const chats = useAppSelector(state => state.chats)
@@ -127,9 +101,8 @@ export function Header() {
       )}>
       <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
         <div className={"flex flex-row h-full pb-[6px] gap-[6px]"}>
-          <HeaderTab to={"/config"} className={"top-0"}>
-            <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
-                           className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
+          <HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
+            <Logo />
           </HeaderTab>
           {chats.map((chat) => (
             <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
