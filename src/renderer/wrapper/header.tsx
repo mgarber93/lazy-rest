@@ -12,9 +12,17 @@ import {useKeyPress} from "../hooks/use-key-press"
 import {useCurrentConversation} from "../hooks/current-conversation"
 import {Logo} from '../components/logo'
 import {HeaderTab} from '../components/header-tab'
+import {motion} from "framer-motion"
 
+export type HeaderProps = {
+  showSearch?: boolean
+  showHistory?: boolean
+  showConfig?: boolean
+  historyCount: number
+  historyLength: number
+}
 
-export function Header() {
+export function Header({showSearch}: HeaderProps) {
   const chats = useAppSelector(state => state.chats)
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
@@ -101,12 +109,25 @@ export function Header() {
       )}>
       <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
         <div className={"flex flex-row h-full pb-[6px] gap-[6px]"}>
-          <HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
+          {<HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
             <Logo />
-          </HeaderTab>
-          <HeaderTab to={`/new-chat`} className={clsx("px-[0.5rem]")}>
-            <MagnifyingGlassIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
-          </HeaderTab>
+          </HeaderTab>}
+          {showSearch && (
+            <HeaderTab to={`/new-chat`} className={clsx("px-[0.5rem]")}>
+              <motion.div
+                initial={{opacity: 0, scale: 0.9}}
+                animate={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.9}}
+                transition={{duration: 0.3}}
+              >
+                <MagnifyingGlassIcon
+                  aria-hidden="true"
+                  className="h-[1.25rem] w-[1.25rem]"
+                  onClick={handleStartNewChat}
+                />
+              </motion.div>
+            </HeaderTab>
+          )}
           {chats.map((chat) => (
             <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem] pl-1 group")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">

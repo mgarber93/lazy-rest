@@ -12,6 +12,7 @@ import {appendContent, setResponder, streamResponse} from '../features/chat'
 import {Responder, TModel} from '../../models/responder'
 
 import {Field, Select} from '@headlessui/react'
+import {HeaderProps} from '../wrapper/header'
 
 
 export function NewChatPage() {
@@ -91,9 +92,15 @@ export function NewChatPage() {
       }))
     }
   }, [models, conversation])
-  
+  const parameters = {
+    showSearch: true,
+    showHistory: true,
+    showConfig: true,
+    historyCount: 10,
+    historyLength: 10
+  } satisfies HeaderProps
   return (
-    <HeaderLayout>
+    <HeaderLayout layoutProps={parameters}>
       <Field className={clsx("w-full h-full p-10")}>
         <PlusGrid>
           <PlusGridRow className="relative flex justify-start">

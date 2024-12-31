@@ -6,11 +6,19 @@ import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {ConversationContent} from '../components/conversation-content'
+import {HeaderProps} from '../wrapper/header'
 
 export function ConversationsPage() {
   const convo = useCurrentConversation()
+  const parameters = {
+    showSearch: true,
+    showHistory: true,
+    showConfig: true,
+    historyCount: 10,
+    historyLength: 10
+  } satisfies HeaderProps
   return (
-    <HeaderLayout>
+    <HeaderLayout layoutProps={parameters}>
       <div className={clsx("w-full h-full")}>
         <ScrollUserInputPageLayout sections={[]}>
           <div className={clsx(

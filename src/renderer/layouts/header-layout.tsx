@@ -1,22 +1,24 @@
 import React, {ReactElement} from 'react'
 import clsx from 'clsx'
-import {Header} from '../wrapper/header'
+import {Header, HeaderProps} from '../wrapper/header'
 import {lgTransparent} from '../utils/transparent'
+
 
 /**
  * Adds styling to children
  *
  * @param children
+ * @param layoutProps
  * @constructor
  */
-export function HeaderLayout({children}: { children: ReactElement }) {
+export function HeaderLayout({children, layoutProps}: { children: ReactElement,  layoutProps: HeaderProps}) {
   return (
     <>
       <div className={clsx(
         lgTransparent,
         "flex flex-col dark:text-neutral-50 border-0",
       )}>
-        <Header></Header>
+        <Header {...layoutProps}></Header>
         <div className={clsx(
           "bg-[linear-gradient(115deg,var(--tw-gradient-stops))] from-[#eee] from-[28%] via-[#eee] via-[70%]",
           "bg-[linear-gradient(105deg,var(--tw-gradient-stops))] dark:from-neutral-950 from-[88%] dark:via-neutral-950 via-[98%] dark:to-neutral-950",

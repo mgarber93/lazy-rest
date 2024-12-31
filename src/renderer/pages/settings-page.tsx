@@ -6,6 +6,7 @@ import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
 import {CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch, useAppSelector} from '../features/store'
+import {HeaderProps} from '../wrapper/header'
 
 export function SettingsPage() {
   const dispatch = useAppDispatch()
@@ -40,9 +41,15 @@ export function SettingsPage() {
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
-  
+  const parameters = {
+    showSearch: true,
+    showHistory: true,
+    showConfig: true,
+    historyCount: 10,
+    historyLength: 10
+  } satisfies HeaderProps
   return (
-    <HeaderLayout>
+    <HeaderLayout layoutProps={parameters}>
       <div className="w-full h-full">
         <ScrollPageLayout sections={configSections}>
           <div ref={Ollama} className={"min-h-[20rem] m-2 p-4"}>
