@@ -105,15 +105,15 @@ export function Header() {
             <Logo />
           </HeaderTab>
           {chats.map((chat) => (
-            <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
+            <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem] pl-1 group")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">
-                <div className="h-full whitespace-nowrap">
-                  {chat.content.at(0)?.message?.slice(0, 17) ?? "new chat"}
+                <div className="h-full whitespace-nowrap overflow-hidden">
+                  {chat.content.at(0)?.message ?? "new chat"}
                 </div>
-                <div className="ml-auto">
+                <div className="ml-auto ">
                   <XMarkIcon
                     onClick={() => handleRemoveChat(chat.id)}
-                    className="h-[1.5rem] w-[1.5rem] hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
+                    className="h-[1.5rem] w-[1.5rem] opacity-0 group-hover:opacity-100 hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded transition-opacity"
                   />
                 </div>
               </div>
