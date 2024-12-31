@@ -41,7 +41,8 @@ export function Logo({ className }: { className?: string }) {
               opacity: [1, 0.75, 1],
               transition: {
                 ...transition,
-                delay: 0.15,
+                delay: 0,
+                ease: "easeInOut",
               },
             },
           }}
