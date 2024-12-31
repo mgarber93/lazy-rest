@@ -3,6 +3,12 @@ import clsx from 'clsx'
 import {Header} from '../wrapper/header'
 import {lgTransparent} from '../utils/transparent'
 
+/**
+ * Adds styling to children
+ *
+ * @param children
+ * @constructor
+ */
 export function HeaderLayout({children}: { children: ReactElement }) {
   return (
     <>

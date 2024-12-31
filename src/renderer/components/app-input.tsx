@@ -17,12 +17,13 @@ export type AppInputProps = {
   type: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   value: string | number | readonly string[] | undefined
+  className?: string
 }
 
-export function AppInput({onBlur, type, placeholder, defaultValue, onChange, value}: AppInputProps) {
+export function AppInput({onBlur, type, placeholder, defaultValue, onChange, value, className}: AppInputProps) {
   return (
     <Input
-      className={inputClass}
+      className={clsx(inputClass, className)}
       defaultValue={defaultValue}
       placeholder={placeholder}
       onBlur={onBlur}

@@ -104,6 +104,9 @@ export function Header() {
           <HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
             <Logo />
           </HeaderTab>
+          <HeaderTab to={`/new-chat`} className={clsx("px-[0.5rem]")}>
+            <MagnifyingGlassIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
+          </HeaderTab>
           {chats.map((chat) => (
             <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem] pl-1 group")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">
@@ -119,9 +122,6 @@ export function Header() {
               </div>
             </HeaderTab>
           ))}
-          <HeaderTab to={`/chats/${newChatId}`} className={clsx("px-[0.5rem]")}>
-            <MagnifyingGlassIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
-          </HeaderTab>
         </div>
       </div>
     </header>
