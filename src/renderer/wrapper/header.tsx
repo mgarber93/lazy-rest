@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react"
-import {PlusIcon} from "@heroicons/react/24/outline"
+import {MagnifyingGlassIcon} from "@heroicons/react/24/outline"
 import {XMarkIcon} from "@heroicons/react/16/solid"
 import {useNavigate} from "react-router-dom"
 import clsx from "clsx"
@@ -119,8 +119,8 @@ export function Header() {
               </div>
             </HeaderTab>
           ))}
-          <HeaderTab to={`/chats/${newChatId}`} className={clsx("pr-[0.5rem]")}>
-            <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
+          <HeaderTab to={`/chats/${newChatId}`} className={clsx("px-[0.5rem]")}>
+            <MagnifyingGlassIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </HeaderTab>
         </div>
       </div>
