@@ -95,7 +95,7 @@ export function NewChatPage() {
   const parameters = {
     showSearch: true,
     showHistory: true,
-    showConfig: true,
+    showConfig: false,
     historyCount: 10,
     historyLength: 10
   } satisfies HeaderProps

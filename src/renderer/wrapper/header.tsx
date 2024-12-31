@@ -22,7 +22,7 @@ export type HeaderProps = {
   historyLength: number
 }
 
-export function Header({showSearch}: HeaderProps) {
+export function Header({showSearch, showConfig}: HeaderProps) {
   const chats = useAppSelector(state => state.chats)
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
@@ -109,7 +109,7 @@ export function Header({showSearch}: HeaderProps) {
       )}>
       <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
         <div className={"flex flex-row h-full pb-[6px] gap-[6px]"}>
-          {<HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
+          {showConfig && <HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
             <Logo />
           </HeaderTab>}
           {showSearch && (
