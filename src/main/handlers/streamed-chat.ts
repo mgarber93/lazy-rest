@@ -7,7 +7,6 @@ import {AsyncWindowSenderApi} from '../async-window-sender-api'
 import {SwaggerGpt} from '../organizations/swagger-gpt'
 import {createContent} from '../../models/content'
 import {OllamaProvider} from '../providers/ollama'
-import {shouldStartNewConversation} from '../../renderer/features/chat'
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
@@ -55,12 +54,17 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
     }
   }
   
+  private shouldStartNewConversation(conversation: Conversation): boolean {
+    const lastStep = [...conversation.content].reverse().find((item) => item.apiCallPlan)
+    return !lastStep
+  }
+  
   /**
    * An organization reply is a calling plan
    * @param conversation
    */
   async organizationReply(conversation: Conversation) {
-    if (shouldStartNewConversation(conversation)) {
+    if (this.shouldStartNewConversation(conversation)) {
       return this.swaggerGptPlanProgressor.start(conversation)
     } else {
       return this.swaggerGptPlanProgressor.continue(conversation)
