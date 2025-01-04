@@ -13,7 +13,7 @@ import {ChatCompletionMessageParam} from 'openai/resources'
 export class SwaggerGpt {
   private windowSender = container.resolve(AsyncWindowSenderApi)
   private openAiProvider = container.resolve(OpenAiProvider)
-  
+
   private async createPlan(userGoal: string) {
     const oasSpec = await this.windowSender.loadAllOas()
     const prompt = buildCallerPrompt(userGoal, oasSpec)
@@ -23,7 +23,7 @@ export class SwaggerGpt {
     }])
     return result
   }
-  
+
   /**
    * when we update the plan, how do we save it to the renderer process?
    * should we even be saving state in the renderer process?
@@ -74,7 +74,7 @@ export class SwaggerGpt {
     const reversed = [...conversation.content].reverse()
     const lastStep = reversed.find((item) => item.apiCallPlan)
     const lastStepOfPlan = lastStep!.apiCallPlan!.steps.at(-1)
-    
+
     const lastQuestion = reversed.find((item) => item.role === 'user')
     
     const prompt = buildContinuePrompt(
