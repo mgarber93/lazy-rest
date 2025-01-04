@@ -1,7 +1,9 @@
 import clsx from 'clsx'
 import {Input, Select} from '@headlessui/react'
-import {AppButton} from './app-button'
+import {motion} from 'framer-motion'
 import React, {useCallback, useState} from 'react'
+
+import {AppButton} from './app-button'
 import {HttpCallDetailComponent} from '../wrapper/http-call-detail-component'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ApiCallPlan, HttpRequestPlan, SummarizationJob} from '../../models/api-call-plan'
@@ -10,7 +12,6 @@ import {useAppDispatch} from '../features/store'
 import {JsonViewer} from './json-viewer'
 import {CardSection} from '../wrapper/card'
 import {headerTransparencyEffect} from '../utils/transparent'
-import {motion} from 'framer-motion'
 
 
 export interface HttpCallFormProps {
@@ -51,7 +52,6 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
     if (!step) {
       return
     }
-    console.log('handleSendClick')
     const p = new URLSearchParams(step.queryParams as Record<string, string>)
     const qs = p.toString()
     const response = await window.main.fetch({
@@ -79,7 +79,6 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
     }))
   }, [convo, sequenceId, contentId, apiCallPlan])
   
-  const [loading, setLoading] = useState(false)
   const handleContinue = useCallback(() => {
     dispatch(handleInterpret({
       contentId,
