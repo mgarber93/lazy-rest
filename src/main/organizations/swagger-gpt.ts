@@ -25,7 +25,6 @@ export class SwaggerGpt {
   }
   
   /**
-   * @todo this needs to be implemented at a high level
    * when we update the plan, how do we save it to the renderer process?
    * should we even be saving state in the renderer process?
    * @param conversation
@@ -36,7 +35,7 @@ export class SwaggerGpt {
       throw new Error('unable to continue empty conversation')
     
     let activities = await this.createPlan(lastMessage.message)
-    
+    // @todo improve fuzzy matching
     if (!Array.isArray(activities)) {
       if ('steps' in activities) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -69,26 +68,8 @@ export class SwaggerGpt {
       } satisfies ApiCallPlan,
     } satisfies AuthoredContent
     await this.windowSender.appendContent(plan)
-    // const plan = await this.createPlan(lastMessage)
-    // // we now have a high level plan to present to the user in a progress stepper (if verbose)
-    // while (plan.step < plan.steps.length) {
-    //   // detail the step in the plan given the api it corresponds to
-    //   const endpointResult = this.endpointSelector.createAndPrompt(conversation, plan)
-    //   // prompt user to execute (if verbose)
-    //   // show user results & interpret (if verbose)
-    // }
-    // return interpretation of final result
   }
-  
-  // async continue(conversation: Conversation) {
-  //   const nextPlan =
-  //   const state = {
-  //     chatId: conversation.id,
-  //     contentId: conversation.content.at(-1).id,
-  //     nextPlan
-  //   } satisfies UpdateStepActivityPayload
-  //   this.windowSender.updateStep(state)
-  // }
+
   buildContinueConversation(conversation: Conversation): ChatCompletionMessageParam[] {
     const reversed = [...conversation.content].reverse()
     const lastStep = reversed.find((item) => item.apiCallPlan)
