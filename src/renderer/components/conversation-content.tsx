@@ -1,13 +1,19 @@
 import {AuthoredContent} from '../../models/content'
-import {FeedContent} from './feed-content'
+import {ApiCallPlanContent} from './api-call-plan-content'
 import clsx from 'clsx'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import React from 'react'
 
+/**
+ * Render any arbitrary content in a conversation
+ * @param content
+ * @param chatId
+ * @constructor
+ */
 export function ConversationContent({content, chatId}: { content: AuthoredContent, chatId: string }) {
   if (content.apiCallPlan) {
-    return <FeedContent contentId={content.id} apiCallPlan={content.apiCallPlan} chatId={chatId}/>
+    return <ApiCallPlanContent contentId={content.id} apiCallPlan={content.apiCallPlan} chatId={chatId}/>
   } else {
     return <div
       className={clsx(

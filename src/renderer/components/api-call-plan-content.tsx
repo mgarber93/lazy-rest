@@ -8,7 +8,15 @@ export interface FeedContentProps {
   chatId: string
 }
 
-export function FeedContent({apiCallPlan, contentId, chatId}: FeedContentProps) {
+/**
+ * Show a list of planned calls for execution, review or editing
+ * @param apiCallPlan
+ * @param contentId
+ * @param chatId
+ * @constructor
+ */
+export function ApiCallPlanContent({apiCallPlan, contentId, chatId}: FeedContentProps) {
+  // @todo control expanded form here
   return (
     <div className={"flex flex-col gap-1.5"}>
       {apiCallPlan.steps?.map((activity, index) => (
