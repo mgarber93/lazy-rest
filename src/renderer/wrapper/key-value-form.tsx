@@ -16,8 +16,13 @@ export type KeyValueFormProps<T> = {
   onChange?: (data: T) => void;
 }
 
+/**
+ * Render an arbitrary number of key value pairs
+ * @param data
+ * @param onChange
+ */
 export function KeyValueForm<T extends Record<string, any>>({data, onChange}: KeyValueFormProps<T>) {
-  const [dataAsRows, setDataAsRows] = useState(Object.entries(data))
+  const [dataAsRows, setDataAsRows] = useState(Object.entries(data)) // @todo does this run on every render?
   useEffect(() => {
     setDataAsRows(Object.entries(data))
   }, [data])
