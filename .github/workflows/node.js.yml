@@ -28,13 +28,17 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
+
     - name: Package Electron App
+      if: github.ref == 'refs/heads/main'
       run: npx electron-forge package
 
     - name: Create Installers
+      if: github.ref == 'refs/heads/main'
       run: npx electron-forge make
 
     - name: Configure AWS Credentials
+      if: github.ref == 'refs/heads/main'
       uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
