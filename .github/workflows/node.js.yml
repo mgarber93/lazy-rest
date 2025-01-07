@@ -47,4 +47,4 @@ jobs:
 
     - name: Upload Artifacts to S3
       run: |
-        aws s3 sync out s3://lazy-rest-artifacts --exact-timestamps
+        aws s3 sync out s3://lazy-rest-artifacts --exact-timestamps --delete
