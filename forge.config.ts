@@ -13,12 +13,14 @@ import * as path from 'path'
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    executableName: "lazy-rest",
     icon: path.join(__dirname, 'src', 'assets', 'icon.ico'),
   },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({
-      setupIcon: path.join(__dirname, 'src', 'assets', 'icon.ico'), // Installer icon
+      setupIcon: path.join(__dirname, 'src', 'assets', 'icon.ico'),
+      name: "lazy-rest",
     }),
     new MakerZIP({}, ['darwin', 'win32']),
     new MakerRpm({}),
@@ -45,13 +47,6 @@ const config: ForgeConfig = {
     }),
   ],
   publishers: [
-    {
-      name: '@electron-forge/publisher-s3',
-      config: {
-        bucket: 'lazy-rest',
-        public: false,
-      },
-    },
   ],
 }
 
