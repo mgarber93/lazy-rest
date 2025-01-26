@@ -12,9 +12,15 @@ import * as path from 'path'
 
 const config: ForgeConfig = {
   packagerConfig: {
+    name: "LazyRest",
     asar: true,
-    executableName: "lazy-rest",
     icon: path.join(__dirname, 'src', 'assets', 'icon.ico'),
+    osxSign: {
+      identity: "Developer ID Application: Matthew Garber (CSDC2P5KTW)"
+    },
+    osxNotarize: {
+      keychainProfile: 'LazyRest',
+    }
   },
   rebuildConfig: {},
   makers: [

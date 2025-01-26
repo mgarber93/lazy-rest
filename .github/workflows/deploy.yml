@@ -1,0 +1,39 @@
+name: Build Electron Artifacts
+
+on:
+  push:
+    branches: [ 'main' ]
+
+jobs:
+  build-and-deploy-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create installers (macOS)
+        run: npx electron-forge make
+
+      - name: Debug output directory
+        run: ls -R out
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Upload macOS artifacts to S3
+        run: aws s3 sync out s3://lazy-rest-artifacts/macos --exact-timestamps --delete
+

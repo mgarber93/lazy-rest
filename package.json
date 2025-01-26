@@ -1,7 +1,7 @@
 {
   "name": "lazy-rest",
   "productName": "Lazy Rest",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "GUI for agentic interactions with llms",
   "main": ".webpack/main",
   "scripts": {
