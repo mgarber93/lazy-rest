@@ -52,13 +52,14 @@ since i'm starting with spotify integration
 
 [restgpt](https://restgpt.github.io/)
 
-### Other ideas
+### Code Signing
 
-gemini / claude
-https://console.anthropic.com/settings/keys
+```md
+On macOS, there are two layers of security technology for application distribution: code signing and notarization.  
+Code Signing is the act of certifying the identity of the app's author and ensuring it was not tampered with before distribution.  
+Notarization is an extra verification step where the app is sent to Apple servers for an automated malware scan.  
+```
 
-Select an agent
-Media query for mobile like viewports
+Install the `.cer` by downloading from [apple](https://developer.apple.com/account/resources/certificates/add/download/5Y97RA2VK8) and double click > trust > trust all
 
-Group prompt/response as "Tasks"
-Add assistant as concept
+https://www.electronforge.io/guides/code-signing/code-signing-macos

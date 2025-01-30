@@ -47,7 +47,15 @@ export const rules: Required<ModuleOptions>['rules'] = [
         },
       },
       // Compiles Sass to CSS
-      'sass-loader',
+      {
+        loader: "sass-loader",
+        options: {
+          api: "modern-compiler",
+          sassOptions: {
+            // see https://webpack.js.org/loaders/sass-loader/#api
+          },
+        },
+      },
     ],
   },
   {

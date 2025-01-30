@@ -19,7 +19,7 @@ export function ApiForm() {
   const dispatch = useAppDispatch()
   
   const handleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target?.files ?? true) {
+    if (event.target?.files ?? true) {
       console.log('unable to read file')
       return
     }
