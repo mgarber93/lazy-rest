@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import {AnimatePresence, motion} from 'framer-motion'
 import {Center} from '../wrapper/center'
 import {CardH3} from '../wrapper/card'
-import {UserInputForm} from '../pages/user-input-form'
 import {useCurrentConversation} from '../hooks/current-conversation'
 
 export interface ISection {
@@ -163,7 +162,6 @@ export function ScrollUserInputPageLayout({sections, children}: {
       <div className={clsx(
         "col-span-4 lg:col-span-4 row-span-1 bg-transparent",
       )}>
-        <UserInputForm disabled={disabled}/>
       </div>
     </Center>
   </div>

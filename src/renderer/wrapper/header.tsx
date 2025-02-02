@@ -1,7 +1,7 @@
-import React, {ReactElement, useCallback, useState} from "react"
-import {Cog6ToothIcon, PlusIcon} from "@heroicons/react/24/outline"
+import React, {useCallback, useState} from "react"
+import {MagnifyingGlassIcon} from "@heroicons/react/24/outline"
 import {XMarkIcon} from "@heroicons/react/16/solid"
-import {NavLink, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import clsx from "clsx"
 import {useAppDispatch, useAppSelector} from "../features/store"
 import {removeChat, startNewChat} from "../features/chat"
@@ -10,37 +10,19 @@ import {headerTransparencyEffect} from "../utils/transparent"
 import {v4} from "uuid"
 import {useKeyPress} from "../hooks/use-key-press"
 import {useCurrentConversation} from "../hooks/current-conversation"
+import {Logo} from '../components/logo'
+import {HeaderTab} from '../components/header-tab'
+import {motion} from "framer-motion"
 
-
-export function HeaderTab({children, to, className}: {
-  children: ReactElement,
-  to: string,
-  className?: string
-}) {
-  const classes = `flex rounded no-drag bg-white h-full items-center pl-[0.5rem] pr-[0.25rem] min-h-[1rem] text-xs font-semibold`
-  const borderActive = `!border-neutral-800 dark:border-neutral-700`
-  const border = `border border-transparent`
-  return (
-    <NavLink
-      to={to}
-      tabIndex={-1}
-      className={
-        ({isActive}) => clsx(
-          classes,
-          border,
-          isActive && clsx(
-            borderActive,
-            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
-          ),
-          !isActive && clsx("bg-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
-          className,
-        )}>
-      {children}
-    </NavLink>
-  )
+export type HeaderProps = {
+  showSearch?: boolean
+  showHistory?: boolean
+  showConfig?: boolean
+  historyCount: number
+  historyLength: number
 }
 
-export function Header() {
+export function Header({showSearch, showConfig}: HeaderProps) {
   const chats = useAppSelector(state => state.chats)
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
@@ -127,28 +109,40 @@ export function Header() {
       )}>
       <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
         <div className={"flex flex-row h-full pb-[6px] gap-[6px]"}>
-          <HeaderTab to={"/config"} className={"top-0"}>
-            <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
-                           className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
-          </HeaderTab>
+          {showConfig && <HeaderTab to={"/config"} className={"top-0 w-[34px] h-[34px]"}>
+            <Logo />
+          </HeaderTab>}
+          {showSearch && (
+            <HeaderTab to={`/new-chat`} className={clsx("px-[0.5rem]")}>
+              <motion.div
+                initial={{opacity: 0, scale: 0.9}}
+                animate={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.9}}
+                transition={{duration: 0.3}}
+              >
+                <MagnifyingGlassIcon
+                  aria-hidden="true"
+                  className="h-[1.25rem] w-[1.25rem]"
+                  onClick={handleStartNewChat}
+                />
+              </motion.div>
+            </HeaderTab>
+          )}
           {chats.map((chat) => (
-            <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
+            <HeaderTab key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem] pl-1 group")}>
               <div className="flex w-30 max-h-1 items-center gap-0 w-full">
-                <div className="h-full whitespace-nowrap">
-                  {chat.content.at(0)?.message?.slice(0, 17) ?? "new chat"}
+                <div className="h-full whitespace-nowrap overflow-hidden">
+                  {chat.content.at(0)?.message ?? "new chat"}
                 </div>
-                <div className="ml-auto">
+                <div className="ml-auto ">
                   <XMarkIcon
                     onClick={() => handleRemoveChat(chat.id)}
-                    className="h-[1.5rem] w-[1.5rem] hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
+                    className="h-[1.5rem] w-[1.5rem] opacity-0 group-hover:opacity-100 hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded transition-opacity"
                   />
                 </div>
               </div>
             </HeaderTab>
           ))}
-          <HeaderTab to={`/chats/${newChatId}`} className={clsx("pr-[0.5rem]")}>
-            <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
-          </HeaderTab>
         </div>
       </div>
     </header>
