@@ -9,16 +9,6 @@ import {toast} from 'sonner'
 
 const name = 'chats'
 
-export const shouldStartNewConversation = (convo: any): boolean => {
-  const lastStep = [...convo.content].reverse().find((item) => item.apiCallPlan)
-  
-  // maybe allow multiple or inner?
-  // const hasInterpretation = lastStep?.step?.response?.interpretation
-  
-  return !lastStep
-}
-
-
 
 export const streamResponse = createAsyncThunk(
   `${name}/streamResponse`,
@@ -146,7 +136,6 @@ export const chatsSlice = createSlice({
       }
       content.apiCallPlan ??= {steps: []}
       const {apiCallPlan} = content
-      const sequence = content.apiCallPlan?.steps[sequenceId]
       apiCallPlan.steps[sequenceId] ??= {
         id: v4(),
         step: nextPlan,

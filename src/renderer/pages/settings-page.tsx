@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
 import {ApiForm} from '../wrapper/api-form'
-import {ISection, ScrollPageLayout} from '../layouts/scroll-container'
+import {ISection, ScrollPageLayout} from '../layouts/scroll-page-layout'
 import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
 import {CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'

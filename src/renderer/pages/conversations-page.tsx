@@ -4,8 +4,8 @@ import {AnimatePresence, motion} from "framer-motion"
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {ConversationContent} from '../components/conversation-content'
+import {ScrollUserInputPageLayout} from '../layouts/scroll-user-input-page-layout'
 
 export function ConversationsPage() {
   const convo = useCurrentConversation()

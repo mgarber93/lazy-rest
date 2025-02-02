@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from '../features/store'
 import {configureOpenAi, listOllamaModels, listOpenAiModels} from '../features/models'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
 import {AppIconButton} from '../layouts/app-icon-button'
-import {AppHorizontalChip} from '../layouts/scroll-container'
+import {AppHorizontalChip} from '../layouts/scroll-page-layout'
 
 export function OllamaForm() {
   const models = useAppSelector(state => state.models.ollamaModels) ?? []
