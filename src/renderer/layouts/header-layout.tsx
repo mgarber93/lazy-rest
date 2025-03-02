@@ -12,8 +12,8 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       )}>
         <Header></Header>
         <div className={clsx(
-          "bg-neutral-50/50 dark:bg-neutral-950/80",
-          "w-full",
+          "bg-neutral-50/95 dark:bg-neutral-950/80",
+          "w-full absolute top-[2.5rem]",
         )}>
           {children}
         </div>

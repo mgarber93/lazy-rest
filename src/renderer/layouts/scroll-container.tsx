@@ -29,7 +29,7 @@ export function Sections({sections}: {
   const scrollToSection = useCallback((section: RefObject<HTMLDivElement | null>) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    section?.current?.scrollIntoView({behavior: 'instant', alignToTop: true})
+    section?.current?.scrollIntoView({behavior: 'instant', block: 'end'})
   }, [])
   
   return sections.length > 0 ? <div className={"rounded pl-4 mr-2 rounded-tl-none rounded-bl-none"}>
