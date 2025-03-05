@@ -16,7 +16,7 @@ export class OpenAiProvider implements PromptableProvider {
     const models = await openai.models.list()
     console.log(models.data)
     return models.data
-      .filter(item => item.object === 'model' && item.id.startsWith('gpt'))
+      .filter(item => item.object === 'model' && item.id.startsWith('gpt') || item.id.startsWith('o'))
       .map(item => item.id)
   }
   
