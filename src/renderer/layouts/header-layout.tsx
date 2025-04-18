@@ -10,13 +10,14 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         lgTransparent,
         "flex flex-col dark:text-neutral-50 border-0",
       )}>
-        <Header></Header>
-        <div className={clsx(
-          "bg-neutral-50/50 dark:bg-neutral-950/80",
-          "w-full",
-        )}>
-          {children}
-        </div>
+        <Header>
+          <div className={clsx(
+            "bg-neutral-50/50 dark:bg-neutral-950/80",
+            "w-full",
+          )}>
+            {children}
+          </div>
+        </Header>
       </div>
     </>
   )

@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from '../features/store'
 import {configureOpenAi, listOllamaModels, listOpenAiModels} from '../features/models'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
 import {AppIconButton} from '../layouts/app-icon-button'
-import {AppHorizontalChip} from '../layouts/scroll-container'
 
 export function OllamaForm() {
   const models = useAppSelector(state => state.models.ollamaModels) ?? []
@@ -19,7 +18,7 @@ export function OllamaForm() {
     <Fieldset>
       <div className={"flex flex-col"}>
         <Button className={"flex flex-row gap-4"}>
-          <AppHorizontalChip className={"w-full"}>
+          <div className={"w-full"}>
             <span>Loaded Models</span>
             <AppIconButton>
               <ArrowPathIcon
@@ -30,7 +29,7 @@ export function OllamaForm() {
                 Add models
               </ArrowPathIcon>
             </AppIconButton>
-          </AppHorizontalChip>
+          </div>
         </Button>
         <div className={"flex flex-col"}>
           {
