@@ -158,7 +158,7 @@ export function Header({children}: { children: ReactElement }) {
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </HeaderTab>
         </div>
-        <div className={clsx("w-full h-full no-drag", "bg-white dark:bg-black/5")}>
+        <div className={clsx("w-full h-full overflow-scroll no-drag", "bg-white dark:bg-black/5")}>
           {children}
         </div>
       </div>
