@@ -18,7 +18,6 @@ export function HeaderTab({children, to, className}: {
   className?: string
 }) {
   const classes = `flex rounded no-drag items-center pl-[0.5rem] pr-[0.25rem] h-8 text-xs font-semibold`
-  const borderActive = `bg-black dark:border-neutral-700`
   const border = `border border-transparent`
   return (
     <NavLink
@@ -29,7 +28,7 @@ export function HeaderTab({children, to, className}: {
           classes,
           border,
           isActive && clsx(
-            borderActive,
+            `bg-black dark:border-neutral-700`,
             "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
           ),
           !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
@@ -153,7 +152,7 @@ export function Header({children}: { children: ReactElement }) {
         <div className={"px-[1rem]"}>
         </div>
       </header>
-      <div className={clsx("flex flex-row opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
+      <div className={clsx("flex flex-row absolute top-[2.5rem] opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
         <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700")}>
           <HeaderTab to={`/chats/${newChatId}`} className={clsx("p-1 m-0.5")}>
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
