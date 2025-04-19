@@ -1,6 +1,10 @@
-import React, {ReactElement} from "react"
-import {NavLink} from "react-router-dom"
+import React, {ReactElement, useCallback} from "react"
+import {NavLink, useNavigate} from "react-router-dom"
 import clsx from "clsx"
+import {XMarkIcon} from '@heroicons/react/16/solid'
+import {Conversation} from '../../models/conversation'
+import {removeChat} from '../features/chat'
+import {useAppDispatch} from '../features/store'
 
 
 export function NavWidget({children, to, className}: {
@@ -28,4 +32,26 @@ export function NavWidget({children, to, className}: {
       {children}
     </NavLink>
   )
+}
+
+export function NavWidgetToConversation({className, chat}: { className?: string, chat: Conversation }) {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const handleRemoveChat = useCallback((chatId: string) => {
+    dispatch(removeChat(chatId))
+  }, [dispatch])
+  
+  return <NavWidget key={chat.id} to={`/chats/${chat.id}`} className={clsx("w-[10rem]")}>
+    <div className="flex w-30 max-h-1 items-center gap-0 w-full">
+      <div className="h-full whitespace-nowrap">
+        {chat.content.at(0)?.message?.slice(0, 17) ?? "new chat"}
+      </div>
+      <div className="ml-auto">
+        <XMarkIcon
+          onClick={() => handleRemoveChat(chat.id)}
+          className="h-[1.5rem] w-[1.5rem] hover:text-neutral-800 hover:bg-black/5 dark:hover:bg-white/25 ml-[0.25rem] rounded"
+        />
+      </div>
+    </div>
+  </NavWidget>
 }
