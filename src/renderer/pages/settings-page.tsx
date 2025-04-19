@@ -5,6 +5,7 @@ import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
 import {CardH2, CardH3, CardSection} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch, useAppSelector} from '../features/store'
+import clsx from 'clsx'
 
 export function SettingsPage() {
   const dispatch = useAppDispatch()
@@ -17,31 +18,31 @@ export function SettingsPage() {
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
-  
+  const card = "bg-white dark:bg-neutral-900 rounded-lg shadow-lg"
   return (
     <HeaderLayout>
       <div className="w-full h-full">
         <div>
-          <div ref={Ollama} className={"min-h-[20rem] m-2 p-4"}>
+          <div ref={Ollama} className={clsx("min-h-[20rem] m-2 p-4", card)}>
             <CardH2>Ollama</CardH2>
             <div className="py-4">
               <OllamaForm/>
             </div>
           </div>
           
-          <div ref={OpenAi} className={"min-h-[20rem] m-2 p-4"}>
+          <div ref={OpenAi} className={clsx("min-h-[20rem] m-2 p-4", card)}>
             <CardH2>Open AI</CardH2>
             <div className={"py-4"}>
               <OpenAiForm/>
             </div>
           </div>
           
-          <div ref={BedRock} className={"min-h-[20rem] m-2 p-4"}>
+          <div ref={BedRock} className={clsx("min-h-[20rem] m-2 p-4", card)}>
             <CardH2>AWS Bed Rock</CardH2>
             <div>todo</div>
           </div>
           
-          <div ref={ApiSpecifications} className={"min-h-[20rem] m-2 p-4"}>
+          <div ref={ApiSpecifications} className={clsx("min-h-[20rem] m-2 p-4", card)}>
             <CardH2>Api Specifications</CardH2>
           </div>
           {Object.keys(apis).length > 0 && <CardSection>
