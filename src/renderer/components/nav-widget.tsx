@@ -12,7 +12,7 @@ export function NavWidget({children, to, className}: {
   to: string,
   className?: string
 }) {
-  const classes = `flex rounded no-drag items-center pl-[0.5rem] pr-[0.25rem] h-8 text-xs font-semibold`
+  const classes = `flex rounded no-drag items-center pl-[0.5rem] pr-[0.25rem] h-8 text-[0.75rem] font-semibold`
   const border = `border border-transparent`
   return (
     <NavLink
@@ -24,9 +24,9 @@ export function NavWidget({children, to, className}: {
           border,
           isActive && clsx(
             `bg-black dark:border-neutral-700`,
-            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
+            "bg-white hover:bg-white bg-neutral-200 dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
           ),
-          !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
+          !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"),
           className,
         )}>
       {children}

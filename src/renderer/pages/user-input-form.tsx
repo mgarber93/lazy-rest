@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from '../features/store'
 import {createContent} from '../../models/content'
 import {appendContent, setResponder, streamResponse} from '../features/chat'
 import {Responder, TModel} from '../../models/responder'
-import {cardEffect} from '../wrapper/card'
 
 export interface UserInputFormProps {
   disabled?: any,
@@ -83,11 +82,10 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   }, [models, conversation])
   
   return <Field
-    className={clsx("flex w-full flex-row-reverse ml-auto dark:border-t-[0.25px] border-white/15 ", classList)}>
+    className={clsx("flex w-full", classList)}>
     <Input
       className={clsx(
-        cardEffect,
-        'inset-x-0 flex w-full flex-row-reverse dark:border-t-[0.25px] border-white/15',
+        'w-full rounded-br-lg  light:focus:shadow-lg border-t-[0.5px] border-0 border-neutral-200 dark:border-neutral-600 focus:dark:border-neutral-600 dark:bg-neutral-800 dark:text-white',
       )}
       onKeyUpCapture={handleKeyPress}
       value={promptMessage}
