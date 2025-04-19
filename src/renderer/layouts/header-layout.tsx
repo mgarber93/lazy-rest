@@ -27,7 +27,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
     setNewChatId(v4())
     return newChatId
   }, [dispatch, newChatId])
-  
+  const border = " border-neutral-300 dark:border-b-neutral-700"
   useKeyboardShortcuts({chats, chat, navigate, handleStartNewChat, handleRemoveChat})
   return (
     <div className={clsx(
@@ -38,7 +38,8 @@ export function HeaderLayout({children}: { children: ReactElement }) {
       <header
         className={clsx(
           headerTransparencyEffect,
-          "h-10 opacity-dynamic drag border-b-[0.5px] border-neutral-300 dark:border-b-neutral-700",
+          "h-10 opacity-dynamic drag border-b-[0.5px]",
+          border,
           "bg-neutral-200/50 dark:bg-neutral-950 py-[3px]",
         )}>
         <div className="w-full ml-[5rem] flex items-center h-full">
@@ -61,6 +62,8 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         <aside className={clsx(
           "flex flex-col gap-y-0.5",
           "bg-neutral-200/50 dark:bg-neutral-950 p-1 drag",
+          "border-r-[0.25px]",
+          border,
         )}>
           {[...chats].reverse().map((chat) => (
             <motion.div layout key={chat.id}>
