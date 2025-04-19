@@ -10,27 +10,25 @@ export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className={clsx("w-full h-full")}>
-        <div>
-          <div className={clsx(
-            "flex flex-col gap-y-1.5 py-1",
-            "border-neutral-100 dark:border-neutral-800",
-          )}>
-            <AnimatePresence>
-              {
-                convo.content.map(content => (
-                    <motion.div
-                      className={clsx()}
-                      transition={{duration: 10 / 1000}}
-                      key={content.id}
-                    >
-                      <ConversationContent content={content} chatId={convo.id} />
-                    </motion.div>
-                  ),
-                )
-              }
-            </AnimatePresence>
-          </div>
+      <div className={clsx("w-100% h-100%")}>
+        <div className={clsx(
+          "flex flex-col gap-y-1.5 py-1",
+          "border-neutral-100 dark:border-neutral-800",
+        )}>
+          <AnimatePresence>
+            {
+              convo.content.map(content => (
+                  <motion.div
+                    className={clsx()}
+                    transition={{duration: 10 / 1000}}
+                    key={content.id}
+                  >
+                    <ConversationContent content={content} chatId={convo.id}/>
+                  </motion.div>
+                ),
+              )
+            }
+          </AnimatePresence>
         </div>
       </div>
     </HeaderLayout>

@@ -17,7 +17,7 @@ export function HeaderTab({children, to, className}: {
   to: string,
   className?: string
 }) {
-  const classes = `flex rounded no-drag items-center pl-[0.5rem] pr-[0.25rem] min-h-[1rem] text-xs font-semibold`
+  const classes = `flex rounded no-drag items-center pl-[0.5rem] pr-[0.25rem] h-8 text-xs font-semibold`
   const borderActive = `bg-black dark:border-neutral-700`
   const border = `border border-transparent`
   return (
@@ -30,7 +30,7 @@ export function HeaderTab({children, to, className}: {
           border,
           isActive && clsx(
             borderActive,
-            "bg-black/5 hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
+            "bg-white hover:bg-white dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
           ),
           !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900"),
           className,
@@ -127,7 +127,7 @@ export function Header({children}: { children: ReactElement }) {
           "bg-neutral-200/50 dark:bg-neutral-950 pt-[3px] pb-[3px]",
         )}>
         <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
-          <div className={"flex flex-row h-full pb-[6px] gap-[6px]"}>
+          <div className={"flex flex-row h-full gap-[6px]"}>
             <HeaderTab to={"/config"} className={"top-0"}>
               <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
                              className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
@@ -153,13 +153,13 @@ export function Header({children}: { children: ReactElement }) {
         <div className={"px-[1rem]"}>
         </div>
       </header>
-      <div className={clsx("flex flex-row h-full opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
-        <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black")}>
+      <div className={clsx("flex flex-row opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
+        <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black/5")}>
           <HeaderTab to={`/chats/${newChatId}`} className={clsx("p-1 m-0.5")}>
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </HeaderTab>
         </div>
-        <div className={clsx("w-100% h-100%", "bg-white dark:bg-black")}>
+        <div className={clsx("w-full h-full no-drag", "bg-white dark:bg-black/5")}>
           {children}
         </div>
       </div>

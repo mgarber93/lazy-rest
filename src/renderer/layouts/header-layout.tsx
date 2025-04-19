@@ -5,10 +5,10 @@ import {lgTransparent} from '../utils/transparent'
 
 export function HeaderLayout({children}: { children: ReactElement }) {
   return (
-    <>
+    <div className={clsx("w-full h-full")}>
       <div className={clsx(
         lgTransparent,
-        "flex flex-col dark:text-neutral-50 border-0",
+        "flex flex-col dark:text-neutral-50 border-0 w-full h-full",
       )}>
         <Header>
           <div className={clsx(
@@ -19,6 +19,6 @@ export function HeaderLayout({children}: { children: ReactElement }) {
           </div>
         </Header>
       </div>
-    </>
+    </div>
   )
 }
