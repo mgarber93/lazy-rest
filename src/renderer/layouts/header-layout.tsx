@@ -58,7 +58,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         </div>
       </header>
       
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-row min-h-0">
         <aside className={clsx(
           "flex flex-col gap-y-0.5",
           "bg-neutral-200/50 dark:bg-neutral-950 p-1 drag",
@@ -73,13 +73,9 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         </aside>
         
         <main className={clsx(
-          "flex-1 overflow-auto no-drag",
+          "flex-1 no-drag w-full h-full overflow-hidden",
         )}>
-          <div className={clsx(
-            "w-full h-full",
-          )}>
-            {children}
-          </div>
+          {children}
         </main>
       </div>
     </div>

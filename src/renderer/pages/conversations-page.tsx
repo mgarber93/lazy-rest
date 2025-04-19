@@ -11,7 +11,7 @@ export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className={clsx("w-full h-full flex flex-col")}>
+      <div className={clsx("w-full h-full p-2 flex flex-col gap-4 overflow-scroll", "bg-black/5 dark:bg-black/50")}>
         <AnimatePresence>
           {
             convo.content.map(content => (
