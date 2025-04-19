@@ -125,7 +125,7 @@ export function Header({children}: { children: ReactElement }) {
           "sticky top-0 min-h-[37.5px] h-10 opacity-dynamic drag z-60 border-b-[0.5px] border-neutral-300 dark:border-b-neutral-700 z-1",
           "bg-neutral-200/50 dark:bg-neutral-950 pt-[3px] pb-[3px]",
         )}>
-        <div className="w-full ml-[5rem] flex items-center h-[2.5rem]">
+        <div className="w-full ml-[5rem] flex items-center h-[40px]">
           <div className={"flex flex-row h-full gap-[6px]"}>
             <HeaderTab to={"/config"} className={"top-0"}>
               <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
@@ -152,7 +152,7 @@ export function Header({children}: { children: ReactElement }) {
         <div className={"px-[1rem]"}>
         </div>
       </header>
-      <div className={clsx("flex flex-row absolute top-[2.5rem] opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
+      <div className={clsx("flex flex-row absolute top-[40px] opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
         <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700")}>
           <HeaderTab to={`/chats/${newChatId}`} className={clsx("p-1 m-0.5")}>
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>

@@ -9,10 +9,11 @@ import clsx from 'clsx'
 import {cardEffect} from '../wrapper/card'
 
 interface UserInputFormProps {
-  disabled?: any
+  disabled?: any,
+  classList?: string
 }
 
-export function UserInputForm({disabled}: UserInputFormProps) {
+export function UserInputForm({disabled, classList}: UserInputFormProps) {
   const lazyRest = "REST"
   const conversation = useCurrentConversation()
   const dispatch = useAppDispatch()
@@ -90,7 +91,7 @@ export function UserInputForm({disabled}: UserInputFormProps) {
     }
   }, [models, conversation])
   
-  return <Field className={"flex w-full flex-row-reverse bottom-2 ml-auto"}>
+  return <Field className={clsx("flex w-full flex-row-reverse ml-auto absolute bottom-10 dark:border-t-[0.25px] border-white/15 ", classList)}>
     {!disabled && <Input
       className={clsx(
         cardEffect,

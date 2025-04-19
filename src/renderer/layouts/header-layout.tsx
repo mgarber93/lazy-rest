@@ -13,7 +13,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         <Header>
           <div className={clsx(
             "bg-neutral-50/50 dark:bg-neutral-950/80",
-            "w-full",
+            "w-full h-full overflow-scroll",
           )}>
             {children}
           </div>

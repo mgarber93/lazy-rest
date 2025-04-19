@@ -5,12 +5,13 @@ import {AnimatePresence, motion} from "framer-motion"
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {ConversationContent} from '../components/conversation-content'
+import {UserInputForm} from './user-input-form'
 
 export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className={clsx("w-100% h-100%")}>
+      <div className={clsx("w-full h-full overflow-scroll")}>
         <div className={clsx(
           "flex flex-col gap-y-1.5 py-1",
           "border-neutral-100 dark:border-neutral-800",
@@ -30,6 +31,7 @@ export function ConversationsPage() {
             }
           </AnimatePresence>
         </div>
+        <UserInputForm classList={""} />
       </div>
     </HeaderLayout>
   )
