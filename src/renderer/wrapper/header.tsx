@@ -154,7 +154,7 @@ export function Header({children}: { children: ReactElement }) {
         </div>
       </header>
       <div className={clsx("flex flex-row opacity-dynamic drag w-full h-full", "bg-neutral-200/50 dark:bg-neutral-950")}>
-        <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black/5")}>
+        <div className={clsx("w-10 h-100%", "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700")}>
           <HeaderTab to={`/chats/${newChatId}`} className={clsx("p-1 m-0.5")}>
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </HeaderTab>
