@@ -47,26 +47,24 @@ export function HeaderLayout({children}: { children: ReactElement }) {
               <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
                 className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
             </NavWidget>
+            <NavWidget to={`/chats/${newChatId}`} className={clsx(
+              "w-10 h-10",
+              "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700",
+            )}>
+              <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
+            </NavWidget>
           </div>
         </div>
       </header>
       
       <div className="flex flex-1 min-h-0">
         <aside className={clsx(
-          "flex flex-col",
-          "bg-neutral-200/50 dark:bg-neutral-950",
+          "flex flex-col gap-y-0.5",
+          "bg-neutral-200/50 dark:bg-neutral-950 p-1 drag",
         )}>
-          <NavWidget to={`/chats/${newChatId}`} className={clsx(
-            "p-1 m-0.5",
-            "w-10 h-10",
-            "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700",
-          )}>
-            <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
-          </NavWidget>
-          
           {[...chats].reverse().map((chat) => (
             <motion.div layout key={chat.id}>
-              <NavWidgetToConversation className="h-10" chat={chat}/>
+              <NavWidgetToConversation className="h-10 no-drag" chat={chat}/>
             </motion.div>
           ))}
         </aside>
