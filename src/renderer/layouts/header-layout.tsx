@@ -71,11 +71,9 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         
         <main className={clsx(
           "flex-1 overflow-auto no-drag",
-          "bg-white dark:bg-black/5",
         )}>
           <div className={clsx(
-            "min-h-full",
-            "bg-neutral-50/50 dark:bg-neutral-950/80",
+            "w-full h-full",
           )}>
             {children}
           </div>

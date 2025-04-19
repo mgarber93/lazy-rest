@@ -11,27 +11,22 @@ export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
     <HeaderLayout>
-      <div className={clsx("w-full h-full overflow-scroll")}>
-        <div className={clsx(
-          "flex flex-col gap-y-1.5 py-1",
-          "border-neutral-100 dark:border-neutral-800",
-        )}>
-          <AnimatePresence>
-            {
-              convo.content.map(content => (
-                <motion.div
-                  className={clsx()}
-                  transition={{duration: 10 / 1000}}
-                  key={content.id}
-                >
-                  <ConversationContent content={content} chatId={content.id}/>
-                </motion.div>
-              ),
-              )
-            }
-          </AnimatePresence>
-        </div>
-        <UserInputForm classList={""} />
+      <div className={clsx("w-full h-full flex flex-col")}>
+        <AnimatePresence>
+          {
+            convo.content.map(content => (
+              <motion.div
+                className={clsx()}
+                transition={{duration: 10 / 1000}}
+                key={content.id}
+              >
+                <ConversationContent content={content} chatId={content.id}/>
+              </motion.div>
+            ),
+            )
+          }
+        </AnimatePresence>
+        <UserInputForm classList={"mt-auto min-h-[4rem]"}/>
       </div>
     </HeaderLayout>
   )
