@@ -21,15 +21,15 @@ export function ConversationContent({content, chatId}: { content: AuthoredConten
           className={clsx('flex-1 text-right flex ml-auto dark:text-neutral-300 lg:pt-16')}
           key={content.id}
         >
-            <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
-          </span>
+          <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
+        </span>
       }
       {
         content.role !== "user" && <div>
-                      <span
-                        className={clsx('flex-1')}
-                        key={content.id}
-                      >
+          <span
+            className={clsx('flex-1')}
+            key={content.id}
+          >
             <Markdown remarkPlugins={[remarkGfm]}>{content.message}</Markdown>
           </span>
         </div>

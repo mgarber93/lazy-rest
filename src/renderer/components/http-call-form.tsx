@@ -131,7 +131,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
             </span>
             <span
               className={"flex-grow text-wrap pl-4 font-mono text-sm align-center select-none justify-self-center self-end"}>
-          {activity.step?.name}
+              {activity.step?.name}
             </span>
           </div>
         </div>

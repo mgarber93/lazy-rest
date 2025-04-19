@@ -60,7 +60,7 @@ export function OpenAiForm() {
         <Label className={labelClasses}>API Key <span className="text-red-500">*</span></Label>
         <Description className={descriptionClasses}>
           See <span
-          className={"bg-black/5 dark:bg-white/5 px-2 py-1 rounded"}>https://platform.openai.com/api-keys</span> for
+            className={"bg-black/5 dark:bg-white/5 px-2 py-1 rounded"}>https://platform.openai.com/api-keys</span> for
           more information
         </Description>
         <Input
@@ -84,7 +84,7 @@ export function OpenAiForm() {
         <Button className={"flex flex-row gap-4"}>
           <span>Loaded Models</span>
           <ArrowPathIcon onClick={handleLoadModels}
-                         className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
+            className={"max-h-6 border hover:shadow transition-shadow w-fit text-nowrap rounded"}>Add
             models</ArrowPathIcon>
         </Button>
         <div className={"flex flex-col"}>

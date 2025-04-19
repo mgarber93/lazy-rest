@@ -45,12 +45,12 @@ export function SettingsPage() {
             <CardH2>Api Specifications</CardH2>
           </div>
           {Object.keys(apis).length > 0 && <CardSection>
-              <div className={"flex flex-col"}>
-                {
-                  Object.keys(apis).map((key) => <div className={"my-4"} key={key}>{apis[key].name}</div>)
-                }
-              </div>
-            </CardSection>
+            <div className={"flex flex-col"}>
+              {
+                Object.keys(apis).map((key) => <div className={"my-4"} key={key}>{apis[key].name}</div>)
+              }
+            </div>
+          </CardSection>
           }
           <CardSection>
             <CardH3>Use api specification info</CardH3>

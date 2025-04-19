@@ -19,14 +19,14 @@ export function ConversationsPage() {
           <AnimatePresence>
             {
               convo.content.map(content => (
-                  <motion.div
-                    className={clsx()}
-                    transition={{duration: 10 / 1000}}
-                    key={content.id}
-                  >
-                    <ConversationContent content={content} chatId={convo.id}/>
-                  </motion.div>
-                ),
+                <motion.div
+                  className={clsx()}
+                  transition={{duration: 10 / 1000}}
+                  key={content.id}
+                >
+                  <ConversationContent content={content} chatId={convo.id}/>
+                </motion.div>
+              ),
               )
             }
           </AnimatePresence>
