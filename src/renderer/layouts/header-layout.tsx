@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import {v4} from 'uuid'
 import {useNavigate} from 'react-router-dom'
 import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {motion} from 'framer-motion'
 
 import {headerTransparencyEffect, lgTransparent} from '../utils/transparent'
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -63,8 +64,10 @@ export function HeaderLayout({children}: { children: ReactElement }) {
             <PlusIcon aria-hidden="true" className="h-[1.25rem] w-[1.25rem]" onClick={handleStartNewChat}/>
           </NavWidget>
           
-          {chats.map((chat) => (
-            <NavWidgetToConversation className="h-10" chat={chat} key={chat.id}/>
+          {[...chats].reverse().map((chat) => (
+            <motion.div layout key={chat.id}>
+              <NavWidgetToConversation className="h-10" chat={chat}/>
+            </motion.div>
           ))}
         </aside>
         
