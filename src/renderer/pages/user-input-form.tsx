@@ -1,6 +1,7 @@
 import {Field, Input} from '@headlessui/react'
 import clsx from 'clsx'
 import React, {ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useState} from 'react'
+import {ComputerDesktopIcon} from '@heroicons/react/24/outline'
 
 import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch, useAppSelector} from '../features/store'
@@ -19,6 +20,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.user)
   const [promptMessage, setPromptMessage] = useState('')
+  const [showModelSelector, setShowModelSelector] = useState(false)
   
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -83,15 +85,34 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   
   return <Field
     className={clsx("flex w-full", classList)}>
-    <Input
-      className={clsx(
-        'w-full rounded-br-lg  light:focus:shadow-lg border-t-[0.5px] border-0 border-neutral-200 dark:border-neutral-600 focus:dark:border-neutral-600 dark:bg-neutral-800 dark:text-white',
+    <div className="relative flex w-full">
+      <Input
+        className={clsx(
+          'w-full rounded-br-lg light:focus:shadow-lg border-t-[0.5px] border-0 border-neutral-200 dark:border-neutral-600 focus:dark:border-neutral-600 dark:bg-neutral-800 dark:text-white pl-10',
+        )}
+        onKeyUpCapture={handleKeyPress}
+        value={promptMessage}
+        onChange={handleOnChange}
+        disabled={disabled}
+      />
+      <button
+        className="absolute left-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+        onClick={() => setShowModelSelector(!showModelSelector)}
+      >
+        <ComputerDesktopIcon className="h-5 w-5"/>
+      </button>
+      {showModelSelector && (
+        <select
+          className="absolute left-0 bottom-full mb-2 w-48 rounded border border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
+          value={conversation.responder?.model}
+          onChange={handleModelChange}
+        >
+          <option value={lazyRest}>REST API</option>
+          {[...ollamaModels, ...models].map(model => (
+            <option key={model} value={model}>{model}</option>
+          ))}
+        </select>
       )}
-      onKeyUpCapture={handleKeyPress}
-      value={promptMessage}
-      onChange={handleOnChange}
-      disabled={disabled}
-    >
-    </Input>
+    </div>
   </Field>
 }
