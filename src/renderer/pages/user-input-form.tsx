@@ -10,7 +10,7 @@ import {appendContent, setResponder, streamResponse} from '../features/chat'
 import {Responder, TModel} from '../../models/responder'
 
 export interface UserInputFormProps {
-  disabled?: any,
+  disabled?: boolean,
   classList?: string
 }
 
@@ -43,7 +43,6 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   }, [setPromptMessage])
   const models = useAppSelector((state) => state.models.models)
   const ollamaModels = useAppSelector(state => state.models.ollamaModels)
-  const tools = useAppSelector((state) => state.tools)
   const handleModelChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     const model = e.target.value as TModel | string
     if (model === lazyRest) {
