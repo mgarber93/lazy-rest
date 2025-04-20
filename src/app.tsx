@@ -42,7 +42,7 @@ const router = createHashRouter([
 
 const App = () => (
   <Provider store={store}>
-    <Toaster position="bottom-left" />
+    <Toaster position="bottom-right" />
     <RouterProvider router={router}/>
   </Provider>
 )
