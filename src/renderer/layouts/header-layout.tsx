@@ -13,7 +13,7 @@ import {createConversation} from '../../models/conversation'
 import {useKeyboardShortcuts} from '../hooks/use-key-press'
 import {NavWidget, NavWidgetToConversation} from '../components/nav-widget'
 
-export function HeaderLayout({children}: { children: ReactElement }) {
+export function HeaderLayout({children, classList}: { children: ReactElement, classList?: string }) {
   const chats = useAppSelector(state => state.chats)
   const chat = useCurrentConversation()
   const [newChatId, setNewChatId] = useState<string>(v4())
@@ -78,7 +78,8 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         </aside>
         
         <main className={clsx(
-          "flex-1 no-drag w-full h-full overflow-auto",
+          "flex-1 no-drag w-full ",
+          classList
         )}>
           {children}
         </main>

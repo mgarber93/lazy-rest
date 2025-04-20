@@ -15,10 +15,11 @@ export function Card({children, className}: { children: ReactNode, className?: s
 /**
  * Used once in a card
  * @param children
+ * @param className
  * @constructor
  */
 export function CardH2({children, className}: { children: ReactNode, className?: string }) {
-  const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
+  const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/15 leading-relaxed`
   return <h2 className={clsx(headerClasses, className)}>{children}</h2>
 }
 
