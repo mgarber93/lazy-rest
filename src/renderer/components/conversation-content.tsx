@@ -51,7 +51,7 @@ export function ConversationContent({content, chatId}: { content: AuthoredConten
           {getThinkContent(content.message).map((thinkContent, index) => (
             <div key={index} className="overflow-hidden">
               <motion.div
-                className="text-gray-400 italic mb-2 cursor-pointer hover:text-gray-600 transition-colors"
+                className="text-gray-400 text-sm italic mb-2 cursor-pointer hover:text-gray-600 transition-colors"
                 onClick={() => toggleThought(index)}
               >
                 <AnimatePresence mode="wait">

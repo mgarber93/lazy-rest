@@ -3,14 +3,6 @@ import clsx from 'clsx'
 
 export const cardEffect = "bg-neutral-50 dark:bg-neutral-900 drop-shadow border-2 border-transparent hover:border-neutral-100 hover:border-opacity-100 dark:hover:border-transparent box-border transition-all duration-1000"
 
-export function Card({children, className}: { children: ReactNode, className?: string }) {
-  const layout = 'flex flex-col gap-4'
-  return (
-    <div className={clsx(cardEffect, layout, className)}>
-      {children}
-    </div>
-  )
-}
 
 /**
  * Used once in a card
@@ -23,16 +15,6 @@ export function CardH2({children, className}: { children: ReactNode, className?:
   return <h2 className={clsx(headerClasses, className)}>{children}</h2>
 }
 
-/**
- * Separates sections of a card
- * @param children
- * @param className - override styling
- * @constructor
- */
-export function CardH3({children, className}: { children: ReactNode, className?: string }) {
-  const headerClasses = `font-semibold border-b border-black/20 dark:border-white/50 leading-relaxed`
-  return <h3 className={clsx(headerClasses, className)}>{children}</h3>
-}
 
 export function CardSection({children, className}: { children: ReactNode, className?: string }) {
   return <div

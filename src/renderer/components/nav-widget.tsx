@@ -23,10 +23,10 @@ export function NavWidget({children, to, className}: {
           classes,
           border,
           isActive && clsx(
-            `bg-black dark:border-neutral-700`,
-            "bg-white hover:bg-white bg-neutral-200 dark:bg-neutral-800 hover:dark:bg-neutral-800 dark:text-white",
+            `bg-black dark:border-neutral-900`,
+            "hover:bg-white bg-neutral-200 dark:bg-neutral-900 hover:dark:bg-neutral-900 dark:text-white",
           ),
-          !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300"),
+          !isActive && clsx("bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-900 dark:bg-transparent dark:border-white/10 text-neutral-700 dark:text-neutral-300"),
           className,
         )}>
       {children}

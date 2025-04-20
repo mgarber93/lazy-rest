@@ -10,8 +10,9 @@ import {UserInputForm} from './user-input-form'
 export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
-    <HeaderLayout>
-      <div className={clsx("w-full min-h-full p-2 flex flex-col gap-4 overflow-scroll", "bg-neutral-100 dark:bg-neutral-800")}>
+    <HeaderLayout
+      classList={clsx("flex-1 w-screen overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
+      <>
         <AnimatePresence>
           {
             convo.content.map(content => (
@@ -26,8 +27,8 @@ export function ConversationsPage() {
             )
           }
         </AnimatePresence>
-        <UserInputForm classList={"mt-auto min-h-[4rem]  sticky bottom-10 "}/>
-      </div>
+        <UserInputForm classList={"mt-auto min-h-[4rem] "}/>
+      </>
     </HeaderLayout>
   )
 }
