@@ -79,7 +79,6 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
     }))
   }, [convo, sequenceId, contentId, apiCallPlan])
   
-  const [loading, setLoading] = useState(false)
   const handleContinue = useCallback(() => {
     dispatch(handleInterpret({
       contentId,
