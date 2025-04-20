@@ -17,9 +17,9 @@ export function Card({children, className}: { children: ReactNode, className?: s
  * @param children
  * @constructor
  */
-export function CardH2({children}: { children: ReactNode }) {
+export function CardH2({children, className}: { children: ReactNode, className?: string }) {
   const headerClasses = `font-semibold text-2xl border-b border-black/50 dark:border-white/50 leading-relaxed`
-  return <h2 className={headerClasses}>{children}</h2>
+  return <h2 className={clsx(headerClasses, className)}>{children}</h2>
 }
 
 /**

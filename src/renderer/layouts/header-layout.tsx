@@ -2,7 +2,7 @@ import React, {ReactElement, useCallback, useState} from 'react'
 import clsx from 'clsx'
 import {v4} from 'uuid'
 import {useNavigate} from 'react-router-dom'
-import {Cog6ToothIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {Cog6ToothIcon, PlusIcon, ServerIcon} from '@heroicons/react/24/outline'
 import {motion} from 'framer-motion'
 
 import {headerTransparencyEffect, lgTransparent} from '../utils/transparent'
@@ -48,6 +48,10 @@ export function HeaderLayout({children}: { children: ReactElement }) {
               <Cog6ToothIcon tabIndex={-1} aria-hidden="true"
                 className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
             </NavWidget>
+            <NavWidget to={"/servers"} className={"top-0"}>
+              <ServerIcon tabIndex={-1} aria-hidden="true"
+                className="h-[1.25rem] w-[1.25rem] mr-[0.25rem] pointer-events-none"/>
+            </NavWidget>
             <NavWidget to={`/chats/${newChatId}`} className={clsx(
               "w-10 h-10",
               "bg-neutral-200/50 dark:bg-black/5 border-r-[0.25px] dark:border-neutral-700",
@@ -58,9 +62,9 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         </div>
       </header>
       
-      <div className="flex flex-row min-h-full">
+      <div className="flex flex-row h-full">
         <aside className={clsx(
-          "flex flex-col gap-y-0.5",
+          "flex flex-col gap-y-0.5 h-full",
           headerTransparencyEffect,
           "p-1 drag",
           "border-r-[0.25px]",
@@ -74,7 +78,7 @@ export function HeaderLayout({children}: { children: ReactElement }) {
         </aside>
         
         <main className={clsx(
-          "flex-1 no-drag w-full h-full overflow-hidden",
+          "flex-1 no-drag w-full h-full overflow-auto",
         )}>
           {children}
         </main>
