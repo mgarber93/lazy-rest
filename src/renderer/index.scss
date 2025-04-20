@@ -29,16 +29,10 @@
 }
 
 * {
-  font-family: Poppins;
+  font-family: Poppins, serif;
 }
 
 body {
   max-height: 100vh;
   overflow: hidden;
-}
-
-html {
-  position: absolute;
-  left: 0;
-  right: 0;
 }
