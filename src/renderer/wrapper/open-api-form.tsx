@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react'
+import {ClientOptions} from 'openai'
 import {configureOpenAi} from '../features/models'
 import {useAppDispatch, useAppSelector} from '../features/store'
-import {ClientOptions} from 'openai'
 
 function OpenAiConfigForm() {
   const providerConfig = useAppSelector(state => state.models.providers.openAi)

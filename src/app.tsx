@@ -12,6 +12,7 @@ import {store} from './renderer/features/store'
 import {ConversationsPage} from './renderer/pages/conversations-page'
 import {connectCallbacks} from './connect-callbacks'
 import {SettingsPage} from './renderer/pages/settings-page'
+import {ServersPage} from './renderer/pages/servers-page'
 
 connectCallbacks(store)
 
@@ -26,6 +27,10 @@ const router = createHashRouter([
     element: <SettingsPage/>,
   },
   {
+    path: "servers",
+    element: <ServersPage/>
+  },
+  {
     path: "chats/:chatId",
     element: <ConversationsPage/>,
   },
@@ -37,7 +42,7 @@ const router = createHashRouter([
 
 const App = () => (
   <Provider store={store}>
-    <Toaster position="bottom-left" />
+    <Toaster position="bottom-right" />
     <RouterProvider router={router}/>
   </Provider>
 )

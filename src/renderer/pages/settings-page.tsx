@@ -1,86 +1,37 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect} from 'react'
 import {HeaderLayout} from '../layouts/header-layout'
-import {ApiForm} from '../wrapper/api-form'
-import {ISection, ScrollPageLayout} from '../layouts/scroll-container'
 import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
-import {CardH2, CardH3, CardSection} from '../wrapper/card'
+import {CardH2} from '../wrapper/card'
 import {getMachineName} from '../features/user'
-import {useAppDispatch, useAppSelector} from '../features/store'
+import {useAppDispatch} from '../features/store'
+import clsx from 'clsx'
 
 export function SettingsPage() {
   const dispatch = useAppDispatch()
-  const apis = useAppSelector(state => state.tools.api)
-  const Ollama = useRef<HTMLDivElement>(null)
-  const OpenAi = useRef<HTMLDivElement>(null)
-  const BedRock = useRef<HTMLDivElement>(null)
-  const ApiSpecifications = useRef<HTMLDivElement>(null)
-  const configSections = [
-    {
-      ref: Ollama,
-      id: "ollama",
-      label: "Ollama",
-    },
-    {
-      ref: OpenAi,
-      id: "openai",
-      label: "Open AI",
-    },
-    {
-      ref: BedRock,
-      id: "bedrock",
-      label: "AWS Bed Rock",
-    },
-    {
-      ref: ApiSpecifications,
-      id: "apispecifications",
-      label: "Api Specifications",
-    },
-  ] satisfies ISection[]
   
   useEffect(() => {
     dispatch(getMachineName())
   }, [dispatch])
-  
+  const card = "bg-white dark:bg-neutral-900 rounded-lg shadow-lg"
   return (
-    <HeaderLayout>
-      <div className="w-full h-full">
-        <ScrollPageLayout sections={configSections}>
-          <div ref={Ollama} className={"min-h-[20rem] m-2 p-4"}>
-            <CardH2>Ollama</CardH2>
-            <div className="py-4">
-              <OllamaForm/>
-            </div>
-          </div>
-          
-          <div ref={OpenAi} className={"min-h-[20rem] m-2 p-4"}>
-            <CardH2>Open AI</CardH2>
-            <div className={"py-4"}>
-              <OpenAiForm/>
-            </div>
-          </div>
-          
-          <div ref={BedRock} className={"min-h-[20rem] m-2 p-4"}>
-            <CardH2>AWS Bed Rock</CardH2>
-            <div>todo</div>
-          </div>
-          
-          <div ref={ApiSpecifications} className={"min-h-[20rem] m-2 p-4"}>
-            <CardH2>Api Specifications</CardH2>
-          </div>
-          {Object.keys(apis).length > 0 && <CardSection>
-              <div className={"flex flex-col"}>
-                {
-                  Object.keys(apis).map((key) => <div className={"my-4"} key={key}>{apis[key].name}</div>)
-                }
-              </div>
-            </CardSection>
-          }
-          <CardSection>
-            <CardH3>Use api specification info</CardH3>
-            <ApiForm/>
-          </CardSection>
-        </ScrollPageLayout>
-      </div>
+    <HeaderLayout
+      classList={clsx("flex-1 w-screen  overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
+      <>
+        <div className={clsx("p-4", card)}>
+          <CardH2>Ollama</CardH2>
+          <OllamaForm/>
+        </div>
+        
+        <div className={clsx("p-4", card)}>
+          <CardH2>Open AI</CardH2>
+          <OpenAiForm/>
+        </div>
+        
+        <div className={clsx("min-h-[20rem] mb-10 p-4", card)}>
+          <CardH2>BedRock</CardH2>
+          <div>todo</div>
+        </div>
+      </>
     </HeaderLayout>
   )
 }

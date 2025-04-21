@@ -27,7 +27,7 @@ export function ApiFormElement({domName, label, changeHandler, placeholder, type
       {description}
     </Description>
     <AppInput type={type} placeholder={placeholder} onChange={changeHandler}
-              value={value}
+      value={value}
     />
   </Field>
 }

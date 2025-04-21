@@ -25,7 +25,7 @@ export function AppCombobox({options}: PropsAppComboBox) {
   
   return (
     <Combobox value={selected} onChange={(value) => setSelected(value as ComboSelectable)}
-              onClose={() => setQuery('')}
+      onClose={() => setQuery('')}
     >
       <div className="relative">
         <ComboboxInput

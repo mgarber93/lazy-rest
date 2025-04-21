@@ -4,36 +4,31 @@ import {AnimatePresence, motion} from "framer-motion"
 
 import {HeaderLayout} from '../layouts/header-layout'
 import {useCurrentConversation} from '../hooks/current-conversation'
-import {ScrollUserInputPageLayout} from '../layouts/scroll-container'
 import {ConversationContent} from '../components/conversation-content'
+import {UserInputForm} from './user-input-form'
 
 export function ConversationsPage() {
   const convo = useCurrentConversation()
   return (
-    <HeaderLayout>
-      <div className={clsx("w-full h-full")}>
-        <ScrollUserInputPageLayout sections={[]}>
-          <div className={clsx(
-            "flex flex-col gap-y-1.5 py-1",
-            "border-neutral-100 dark:border-neutral-800",
-          )}>
-            <AnimatePresence>
-              {
-                convo.content.map(content => (
-                    <motion.div
-                      className={clsx()}
-                      transition={{duration: 10 / 1000}}
-                      key={content.id}
-                    >
-                      <ConversationContent content={content} chatId={convo.id} />
-                    </motion.div>
-                  ),
-                )
-              }
-            </AnimatePresence>
-          </div>
-        </ScrollUserInputPageLayout>
-      </div>
+    <HeaderLayout
+      classList={clsx("flex-1 w-screen overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
+      <>
+        <AnimatePresence>
+          {
+            convo.content.map(content => (
+              <motion.div
+                className={clsx()}
+                transition={{duration: 10 / 1000}}
+                key={content.id}
+              >
+                <ConversationContent content={content} chatId={content.id}/>
+              </motion.div>
+            ),
+            )
+          }
+        </AnimatePresence>
+        <UserInputForm classList={"mt-auto min-h-[4rem] "}/>
+      </>
     </HeaderLayout>
   )
 }
