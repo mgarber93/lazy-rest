@@ -7,10 +7,17 @@ const name = 'models'
 const initialState = {
   models: [] as TModel[],
   ollamaModels: [] as string[],
+  bedrockModels: [] as string[],
   providers: {
     openAi: null as ClientOptions | null,
-    anthropic: null as object | null,
     ollama: null as object | null,
+    bedrock: null as {
+      region: string;
+      credentials: {
+        accessKeyId: string;
+        secretAccessKey: string;
+      };
+    } | null,
   },
   organizations: [""],
 }
@@ -32,12 +39,29 @@ export const listOllamaModels = createAsyncThunk(
   },
 )
 
+export const listBedrockModels = createAsyncThunk(
+  `${name}/listBedrockModels`,
+  async () => {
+    const models = await window.main.getModels('bedrock')
+    return models
+  },
+)
+
 export const modelsSlice = createSlice({
   name,
   initialState,
   reducers: {
     configureOpenAi(state, action: PayloadAction<ClientOptions>) {
       state.providers.openAi = action.payload
+    },
+    configureBedrock(state, action: PayloadAction<{
+      region: string;
+      credentials: {
+        accessKeyId: string;
+        secretAccessKey: string;
+      };
+    }>) {
+      state.providers.bedrock = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -47,8 +71,11 @@ export const modelsSlice = createSlice({
     builder.addCase(listOllamaModels.fulfilled, (state, action) => {
       state.ollamaModels = action.payload as TModel[]
     })
+    builder.addCase(listBedrockModels.fulfilled, (state, action) => {
+      state.bedrockModels = action.payload as string[]
+    })
   },
 })
 
 
-export const {configureOpenAi} = modelsSlice.actions
+export const {configureOpenAi, configureBedrock} = modelsSlice.actions

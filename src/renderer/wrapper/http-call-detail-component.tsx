@@ -121,13 +121,13 @@ export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}:
       </TabList>
       <TabPanels className="">
         <TabPanel key={'Params'} className="rounded p-3">
-          <KeyValueForm data={step?.queryParams ?? {}}/>
+          <KeyValueForm data={(step?.queryParams ?? {}) as Record<string, unknown>}/>
         </TabPanel>
         <TabPanel key={'Headers'} className="rounded p-3">
-          <KeyValueForm data={step?.headers ?? {}}/>
+          <KeyValueForm data={(step?.headers ?? {}) as Record<string, unknown>}/>
         </TabPanel>
         <TabPanel key={'Body'} className="rounded p-3">
-          <KeyValueForm data={step?.body as object ?? {}}/>
+          <KeyValueForm data={(step?.body as object ?? {}) as Record<string, unknown>}/>
         </TabPanel>
         <TabPanel key={'Authorization'} className="rounded p-3">
           <div className={"flex flex-col gap-2"}>

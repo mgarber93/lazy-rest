@@ -57,7 +57,7 @@ export function KeyValueForm<T extends Record<string, any>>({data, onChange}: Ke
             <Input
               className={inputClass}
               placeholder="Value"
-              defaultValue={entry[1]}
+              defaultValue={entry[1] as string | number | readonly string[] | undefined}
               onBlur={(e) => handleChange(index, entry[0] as keyof T, e.target.value as T[keyof T])}
             />
             <div className={"flex flex-col justify-center"}>
