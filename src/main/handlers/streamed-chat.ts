@@ -49,7 +49,7 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
         await this.ollama.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
         return
       }
-      case "anthropic": {
+      case "bedrock": {
         throw new Error('not implemented')
       }
     }
