@@ -1,4 +1,6 @@
 import {ClientOptions} from 'openai'
+import {BedrockClient} from "@aws-sdk/client-bedrock"
+
 
 export interface ApiConfiguration {
   fileHandle: string;
@@ -15,5 +17,5 @@ export interface File {
 
 export interface ProviderConfiguration {
   openAi: ClientOptions | null;
-  anthropic: object | null;
+  bedrock: ConstructorParameters<typeof BedrockClient>[0] | null;
 }
