@@ -12,7 +12,7 @@ export function SettingsPage() {
   return (
     <HeaderLayout
       classList={clsx("flex-1 w-screen flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
-      <div className={clsx("py-2")}>
+      <div className={clsx("pt-2 pb-4")}>
         <div className={clsx("p-4 mb-4", card)}>
           <CardH2>Ollama</CardH2>
           <OllamaForm/>
