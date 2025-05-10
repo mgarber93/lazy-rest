@@ -1,5 +1,7 @@
 import {container, injectable} from 'tsyringe'
-import {InvokeModelCommand, ListAsyncInvokesCommand} from '@aws-sdk/client-bedrock-runtime'
+import {InvokeModelCommand} from '@aws-sdk/client-bedrock-runtime'
+import {ListFoundationModelsCommand} from '@aws-sdk/client-bedrock'
+
 import {ConfigurationManager} from './configuration-manager'
 import {PromptableProvider} from './promptable-provider'
 import {AuthoredContent} from '../../models/content'
@@ -10,8 +12,8 @@ export class BedrockProvider implements PromptableProvider {
   private configManager = container.resolve(ConfigurationManager)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   
-  async invoke(command: InvokeModelCommand) {
-    const client = await this.configManager.getBedrock()
+  private async invoke(command: InvokeModelCommand) {
+    const client = await this.configManager.getBedrockRuntimeClient()
     if (!client) {
       await this.mainWindowCallbackConsumer.notify('set bedrock config to invoke')
       return
@@ -20,14 +22,17 @@ export class BedrockProvider implements PromptableProvider {
   }
   
   async list(): Promise<string[]> {
-    const client = await this.configManager.getBedrock()
-    if (!client) {
+    const mgmt = await this.configManager.getBedrockManagementClient()
+    if (!mgmt) {return []}
+    try {
+      const res = await mgmt.send(
+        new ListFoundationModelsCommand({byInferenceType: 'ON_DEMAND'}),
+      )
+      return res.modelSummaries?.map(m => m.modelId ?? '') ?? []
+    } catch (e) {
+      console.error(e)
       return []
     }
-    const models = await client.send(new ListAsyncInvokesCommand())
-    return models.asyncInvokeSummaries
-      ?.map(model => model.modelArn)
-      .filter(s => s !== undefined) ?? []
   }
   
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
