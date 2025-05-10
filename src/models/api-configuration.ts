@@ -1,5 +1,4 @@
 import {ClientOptions} from 'openai'
-import {BedrockClient} from "@aws-sdk/client-bedrock"
 
 
 export interface ApiConfiguration {
@@ -10,12 +9,13 @@ export interface ApiConfiguration {
   clientSecret: string;
 }
 
-export interface File {
-  fileHandle: string;
-  id: string;
+export interface BedrockConfiguration {
+  accessKey: string;
+  secretAccessKey: string;
+  accessToken?: string;
 }
 
 export interface ProviderConfiguration {
   openAi: ClientOptions | null;
-  bedrock: ConstructorParameters<typeof BedrockClient>[0] | null;
+  bedrock: BedrockConfiguration | null;
 }
