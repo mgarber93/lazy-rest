@@ -1,4 +1,4 @@
-import React, {ReactElement, useCallback, useState} from 'react'
+import React, {ReactElement, useCallback, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {v4} from 'uuid'
 import {useNavigate} from 'react-router-dom'
@@ -12,6 +12,7 @@ import {removeChat, startNewChat} from '../features/chat'
 import {createConversation} from '../../models/conversation'
 import {useKeyboardShortcuts} from '../hooks/use-key-press'
 import {NavWidget, NavWidgetToConversation} from '../components/nav-widget'
+import {getMachineName} from '../features/user'
 
 export function HeaderLayout({children, classList}: { children: ReactElement, classList?: string }) {
   const chats = useAppSelector(state => state.chats)
@@ -28,10 +29,13 @@ export function HeaderLayout({children, classList}: { children: ReactElement, cl
     return newChatId
   }, [dispatch, newChatId])
   const border = " border-neutral-300 dark:border-neutral-700"
+  useEffect(() => {
+    dispatch(getMachineName())
+  }, [dispatch])
   useKeyboardShortcuts({chats, chat, navigate, handleStartNewChat, handleRemoveChat})
   return (
     <div className={clsx(
-      "w-full h-full",
+      "w-full h-full min-h-full",
       lgTransparent,
       "flex flex-col dark:text-neutral-50 border-0",
     )}>
@@ -61,12 +65,12 @@ export function HeaderLayout({children, classList}: { children: ReactElement, cl
           </div>
         </div>
       </header>
-      
-      <div className="flex flex-row h-full">
+
+      <div className="flex flex-row flex-1 min-h-0">
         <aside className={clsx(
-          "flex flex-col gap-y-0.5 h-full",
+          "flex flex-col gap-y-0.5 h-auto",
           headerTransparencyEffect,
-          "p-1 drag",
+          "drag",
           "border-r-[0.25px]",
           border,
         )}>
@@ -76,9 +80,9 @@ export function HeaderLayout({children, classList}: { children: ReactElement, cl
             </motion.div>
           ))}
         </aside>
-        
+
         <main className={clsx(
-          "flex-1 no-drag w-full ",
+          "flex flex-col flex-1 min-h-0 flex-1 min-h-0 overflow-y-auto",
           classList
         )}>
           {children}
