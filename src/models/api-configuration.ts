@@ -10,9 +10,10 @@ export interface ApiConfiguration {
 }
 
 export interface BedrockConfiguration {
-  accessKey: string;
+  region: string
+  accessKeyId: string;
   secretAccessKey: string;
-  accessToken?: string;
+  sessionToken?: string;
 }
 
 export interface ProviderConfiguration {

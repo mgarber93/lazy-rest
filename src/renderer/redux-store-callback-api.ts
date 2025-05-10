@@ -10,7 +10,7 @@ import {ApiCallPlan} from '../models/api-call-plan'
 import {toast} from 'sonner'
 
 /**
- * Ideally methods match action (KISS)
+ * Ideally, methods match action (KISS)
  */
 export class ReduxStoreCallbackApi implements WindowCallbackApi {
   constructor(private readonly store: EnhancedStore) {

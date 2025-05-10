@@ -13,10 +13,9 @@ const initialState = {
     ollama: null as object | null,
     bedrock: null as {
       region: string;
-      credentials: {
-        accessKeyId: string;
-        secretAccessKey: string;
-      };
+      accessKeyId: string;
+      secretAccessKey: string;
+      sessionToken?: string;
     } | null,
   },
   organizations: [""],
@@ -56,10 +55,9 @@ export const modelsSlice = createSlice({
     },
     configureBedrock(state, action: PayloadAction<{
       region: string;
-      credentials: {
-        accessKeyId: string;
-        secretAccessKey: string;
-      };
+      accessKeyId: string;
+      secretAccessKey: string;
+      sessionToken?: string;
     }>) {
       state.providers.bedrock = action.payload
     },
