@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react'
+import clsx from 'clsx'
 import {HeaderLayout} from '../layouts/header-layout'
-import {OllamaForm, OpenAiForm} from '../wrapper/open-ai-form'
+import {OpenAiForm} from '../wrapper/open-ai-form'
 import {CardH2} from '../wrapper/card'
 import {getMachineName} from '../features/user'
 import {useAppDispatch} from '../features/store'
-import clsx from 'clsx'
+import {OllamaForm} from '../wrapper/ollama-form'
+import {BedrockForm} from '../wrapper/bedrock-form'
 
 export function SettingsPage() {
   const dispatch = useAppDispatch()
@@ -29,7 +31,7 @@ export function SettingsPage() {
         
         <div className={clsx("min-h-[20rem] mb-10 p-4", card)}>
           <CardH2>BedRock</CardH2>
-          <div>todo</div>
+          <BedrockForm/>
         </div>
       </>
     </HeaderLayout>
