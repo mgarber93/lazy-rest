@@ -12,11 +12,18 @@ export class BedrockProvider implements PromptableProvider {
   
   async invoke(command: InvokeModelCommand) {
     const client = await this.configManager.getBedrock()
+    if (!client) {
+      await this.mainWindowCallbackConsumer.notify('set bedrock config to invoke')
+      return
+    }
     return client.send(command)
   }
   
   async list(): Promise<string[]> {
     const client = await this.configManager.getBedrock()
+    if (!client) {
+      return []
+    }
     const models = await client.send(new ListAsyncInvokesCommand())
     return models.asyncInvokeSummaries
       ?.map(model => model.modelArn)
@@ -42,6 +49,9 @@ export class BedrockProvider implements PromptableProvider {
     })
     
     const response = await this.invoke(command)
+    if (!response) {
+      return content
+    }
     const responseText = new TextDecoder().decode(response.body)
     const responseJson = JSON.parse(responseText)
     const delta = responseJson.completion

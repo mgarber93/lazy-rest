@@ -17,7 +17,7 @@ export function SettingsPage() {
   const card = "bg-white dark:bg-neutral-900 rounded-lg shadow-lg"
   return (
     <HeaderLayout
-      classList={clsx("flex-1 w-screen  overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
+      classList={clsx("flex-1 w-screen overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
       <>
         <div className={clsx("p-4", card)}>
           <CardH2>Ollama</CardH2>
@@ -29,7 +29,7 @@ export function SettingsPage() {
           <OpenAiForm/>
         </div>
         
-        <div className={clsx("min-h-[20rem] mb-10 p-4", card)}>
+        <div className={clsx("p-4", card)}>
           <CardH2>BedRock</CardH2>
           <BedrockForm/>
         </div>
