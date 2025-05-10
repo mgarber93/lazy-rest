@@ -8,6 +8,7 @@ import {SwaggerGpt} from '../organizations/swagger-gpt'
 import {createContent} from '../../models/content'
 import {OllamaProvider} from '../providers/ollama'
 import {shouldStartNewConversation} from '../../renderer/features/chat'
+import {BedrockProvider} from '../providers/bedrock'
 
 @injectable()
 export class StreamedChatHandler implements Handler<'streamedChat'> {
@@ -15,6 +16,7 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
   private swaggerGptPlanProgressor = container.resolve(SwaggerGpt)
   private mainWindowCallbackConsumer = container.resolve(AsyncWindowSenderApi)
   private ollama = container.resolve(OllamaProvider)
+  private bedrock = container.resolve(BedrockProvider)
   
   static Error_Message = 'conversation has no model set. did you want to set it or maybe just default to something the user set'
   
@@ -50,6 +52,10 @@ export class StreamedChatHandler implements Handler<'streamedChat'> {
         return
       }
       case "bedrock": {
+        await this.bedrock.streamedPrompt(responder.model, conversation.content, conversation.id, response.id)
+        return
+      }
+      default: {
         throw new Error('not implemented')
       }
     }

@@ -34,6 +34,78 @@ export class BedrockProvider implements PromptableProvider {
       return []
     }
   }
+
+  private buildCommandPayload(
+    model: string,
+    messages: { role: string; content: string }[],
+  ) {
+    // ---------- Amazon Nova (chat) ----------
+    if (model.startsWith('amazon.nova')) {
+      const novaMessages = messages.map((m) => ({
+        role: m.role,
+        content: [{ text: m.content }],
+      }))
+
+      return {
+        modelId: model,
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          messages: novaMessages,
+          inferenceConfig: {
+            maxTokens: 512,
+            temperature: 0.7,
+            topP: 0.9,
+          },
+        }),
+      }
+    }
+
+    // ---------- Amazon Titan ----------
+    if (model.startsWith('amazon.')) {
+      return {
+        modelId: model,
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          inputText: messages[messages.length - 1].content,
+          textGenerationConfig: {
+            maxTokenCount: 512,
+            temperature: 0.7,
+            topP: 0.9,
+            stopSequences: [],
+          },
+        }),
+      }
+    }
+
+    // ---------- Anthropic Claude ----------
+    if (model.startsWith('anthropic.')) {
+      const claudeMessages = messages.map((m) => ({
+        role: m.role,
+        content: [{ type: 'text', text: m.content }],
+      }))
+
+      return {
+        modelId: model,
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          anthropic_version: 'bedrock-2023-05-31',
+          max_tokens: 512,
+          messages: claudeMessages,
+        }),
+      }
+    }
+
+    // ---------- Fallback ----------
+    return {
+      modelId: model,
+      contentType: 'application/json',
+      accept: 'application/json',
+      body: JSON.stringify({ messages }),
+    }
+  }
   
   async streamedPrompt(model: string, content: AuthoredContent[], chatId: string, messageId: string): Promise<AuthoredContent[]> {
     const messages = content.map(c => ({
@@ -41,25 +113,36 @@ export class BedrockProvider implements PromptableProvider {
       content: c.message,
     }))
     
-    const command = new InvokeModelCommand({
-      modelId: model,
-      contentType: 'application/json',
-      accept: 'application/json',
-      body: JSON.stringify({
-        prompt: JSON.stringify(messages),
-        max_tokens: 1000,
-        temperature: 0.7,
-        stop_sequences: ["\n\n"],
-      }),
-    })
-    
+    const command = new InvokeModelCommand(this.buildCommandPayload(model, messages))
     const response = await this.invoke(command)
     if (!response) {
       return content
     }
     const responseText = new TextDecoder().decode(response.body)
     const responseJson = JSON.parse(responseText)
-    const delta = responseJson.completion
+    let delta: string | undefined
+
+    if (model.startsWith('amazon.nova')) {
+      delta =
+        (responseJson?.output?.message?.content?.[0]?.text as string) ??
+        (responseJson?.content?.[0]?.text as string)
+    } else if (model.startsWith('amazon.')) {
+      delta =
+        (responseJson?.results?.[0]?.outputText as string) ??
+        (responseJson?.outputText as string)
+    } else if (model.startsWith('anthropic.')) {
+      delta =
+        (responseJson?.output?.message?.content?.[0]?.text as string) ??
+        (responseJson?.content?.[0]?.text as string)
+    }
+
+    if (!delta) {
+      // Fallback for unknown providers or future schemas
+      delta = responseJson.completion ?? ''
+    }
+    if (!delta) {
+      return content
+    }
     await this.mainWindowCallbackConsumer.appendContentDelta({delta, chatId, messageId})
     content.push({
       id: messageId,

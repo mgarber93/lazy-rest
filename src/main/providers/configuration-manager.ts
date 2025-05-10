@@ -26,10 +26,9 @@ export class ConfigurationManager {
   }
   
   async getBedrockManagementClient() {
-    if (!this.bedrockConfig) {
-      const config = await this.mainWindowCallbackConsumer.getProviderConfig()
-      this.bedrockConfig = config.bedrock
-    }
+    const config = await this.mainWindowCallbackConsumer.getProviderConfig()
+    this.bedrockConfig = config.bedrock
+
     if (!this.bedrockConfig) {
       return
     }
