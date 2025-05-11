@@ -4,42 +4,8 @@ import {Button, Description, Field, Fieldset, Input, Label} from '@headlessui/re
 import {ArrowPathIcon} from '@heroicons/react/24/outline'
 
 import {useAppDispatch, useAppSelector} from '../features/store'
-import {configureOpenAi, listOllamaModels, listOpenAiModels} from '../features/models'
+import {configureOpenAi, listOpenAiModels} from '../features/models'
 import {descriptionClasses, inputClasses, labelClasses} from '../components/api-form-element'
-import {AppIconButton} from '../layouts/app-icon-button'
-
-export function OllamaForm() {
-  const models = useAppSelector(state => state.models.ollamaModels) ?? []
-  const dispatch = useAppDispatch()
-  const handleLoadModels = useCallback(() => {
-    dispatch(listOllamaModels())
-  }, [dispatch])
-  return (
-    <Fieldset>
-      <div className={"flex flex-col"}>
-        <Button className={"flex flex-row gap-4"}>
-          <div className={"w-full"}>
-            <span>Loaded Models</span>
-            <AppIconButton>
-              <ArrowPathIcon
-                onClick={handleLoadModels}
-                className={clsx(
-                  "max-h-6 border dark:border-transparent hover:shadow transition-shadow w-fit text-nowrap rounded"
-                )}>
-                Add models
-              </ArrowPathIcon>
-            </AppIconButton>
-          </div>
-        </Button>
-        <div className={"flex flex-col"}>
-          {
-            models.map(model => <span key={model}>{model}</span>)
-          }
-        </div>
-      </div>
-    </Fieldset>
-  )
-}
 
 
 export function OpenAiForm() {

@@ -7,7 +7,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {createContent} from '../../models/content'
 import {appendContent, setResponder, streamResponse} from '../features/chat'
-import {Responder, TModel} from '../../models/responder'
+import {Responder, TModel, TProvider} from '../../models/responder'
 
 export interface UserInputFormProps {
   disabled?: boolean,
@@ -21,7 +21,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   const user = useAppSelector(state => state.user)
   const [promptMessage, setPromptMessage] = useState('')
   const [showModelSelector, setShowModelSelector] = useState(false)
-  
+
   const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -43,6 +43,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   }, [setPromptMessage])
   const models = useAppSelector((state) => state.models.models)
   const ollamaModels = useAppSelector(state => state.models.ollamaModels)
+  const bedrockModels = useAppSelector(state => state.models.bedrockModels)
   const handleModelChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     const model = e.target.value as TModel | string
     if (model === lazyRest) {
@@ -55,33 +56,47 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
         chatId: conversation.id,
       }))
     } else {
+      let provider: TProvider = 'openai'
+      if (ollamaModels.includes(model)) {
+        provider = 'ollama'
+      } else if (bedrockModels.includes(model)) {
+        provider = 'bedrock'
+      }
+
       dispatch(setResponder({
         responder: {
           type: 'chat',
-          provider: ollamaModels.includes(model) ? 'ollama' : 'openai',
+          provider,
           model: model as TModel,
         } satisfies Responder,
         chatId: conversation.id,
       }))
     }
-  }, [conversation])
-  
+  }, [conversation, ollamaModels, bedrockModels])
+
   useEffect(() => {
     const model = conversation.responder?.model
     if (!model && models.length > 0) {
-      const nextModel = [...ollamaModels, ...models].at(0) as TModel
-      console.log('nextModel', nextModel)
+      const nextModel = [...ollamaModels, ...bedrockModels, ...models].at(0) as TModel
+
+      let provider: TProvider = 'openai'
+      if (ollamaModels.includes(nextModel)) {
+        provider = 'ollama'
+      } else if (bedrockModels.includes(nextModel)) {
+        provider = 'bedrock'
+      }
+
       dispatch(setResponder({
         responder: {
           type: 'chat',
-          provider: ollamaModels.includes(nextModel) ? 'ollama' : 'openai',
+          provider,
           model: nextModel,
         } satisfies Responder,
         chatId: conversation.id,
       }))
     }
-  }, [models, conversation])
-  
+  }, [models, ollamaModels, bedrockModels, conversation])
+
   return <Field
     className={clsx("flex w-full", classList)}>
     <div className="relative flex w-full">
@@ -107,7 +122,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
           onChange={handleModelChange}
         >
           <option value={lazyRest}>REST API</option>
-          {[...ollamaModels, ...models].map(model => (
+          {[...ollamaModels, ...bedrockModels, ...models].map(model => (
             <option key={model} value={model}>{model}</option>
           ))}
         </select>

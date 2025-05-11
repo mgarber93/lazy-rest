@@ -9,25 +9,40 @@ import {UserInputForm} from './user-input-form'
 
 export function ConversationsPage() {
   const convo = useCurrentConversation()
+  const hasContent = convo.content.length > 0
+  
   return (
     <HeaderLayout
-      classList={clsx("flex-1 w-screen overflow-scroll p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800")}>
+      classList={clsx(
+        "p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800",
+        !hasContent && "justify-center"
+      )}>
       <>
-        <AnimatePresence>
-          {
-            convo.content.map(content => (
-              <motion.div
-                className={clsx()}
-                transition={{duration: 10 / 1000}}
-                key={content.id}
-              >
-                <ConversationContent content={content} chatId={content.id}/>
-              </motion.div>
-            ),
-            )
-          }
-        </AnimatePresence>
-        <UserInputForm classList={"mt-auto min-h-[4rem] "}/>
+        {hasContent && (
+          <div className="flex-1 overflow-y-auto px-2">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {convo.content.map(msg => (
+                <motion.div
+                  key={msg.id}
+                  transition={{duration: .1}}
+                  layout
+                >
+                  <ConversationContent content={msg} chatId={msg.id}/>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+        
+        <motion.div
+          layout
+          className={clsx(
+            "min-h-[4rem] shrink-0",
+            hasContent ? "mt-auto" : "my-auto"
+          )}
+        >
+          <UserInputForm/>
+        </motion.div>
       </>
     </HeaderLayout>
   )
