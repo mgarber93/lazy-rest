@@ -14,7 +14,7 @@ export function ConversationsPage() {
   return (
     <HeaderLayout
       classList={clsx(
-        "p-2 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-800",
+        "p-2 flex flex-col bg-neutral-100 dark:bg-neutral-800",
         !hasContent && "justify-center"
       )}>
       <>
