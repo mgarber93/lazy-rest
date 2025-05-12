@@ -40,20 +40,7 @@ export class SwaggerGpt {
     if (!lastMessage)
       throw new Error('unable to continue empty conversation')
     
-    let activities = await this.createPlan(lastMessage.message, responder?.tools || [])
-    
-    if (!Array.isArray(activities)) {
-      if ('steps' in activities) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        activities = activities.steps
-      }
-      if ('plan' in activities) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        activities = activities.plan
-      }
-    }
+    const activities = await this.createPlan(lastMessage.message, responder?.tools || [])
     
     const plan = {
       id: v4(),

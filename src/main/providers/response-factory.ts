@@ -8,6 +8,22 @@ import {HttpRequestPlan} from '../../models/api-call-plan'
 export class ResponseFactory {
   private openAiProvider = container.resolve(OpenAiProvider)
   
+  private fuzzyFix(activities: HttpRequestPlan[]): HttpRequestPlan[] {
+    if (!Array.isArray(activities) && activities) {
+      if ('steps' in activities) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return activities.steps
+      }
+      if ('plan' in activities) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return activities.plan
+      }
+    }
+    return activities ?? []
+  }
+  
   async promptAndParseJson(provider: TProvider, prompt: string): Promise<HttpRequestPlan[]> {
     switch (provider) {
       case "openai": {
@@ -15,7 +31,7 @@ export class ResponseFactory {
           role: 'user',
           content: prompt,
         }])
-        return result
+        return this.fuzzyFix(result)
       }
       default: {
         throw new Error('not implemented')
