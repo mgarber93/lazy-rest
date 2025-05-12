@@ -34,7 +34,7 @@ export function ConversationsPage() {
                   transition={{duration: .1}}
                   layout
                 >
-                  <ConversationContent content={msg} chatId={msg.id}/>
+                  <ConversationContent content={msg} chatId={convo.id}/>
                 </motion.div>
               ))}
             </AnimatePresence>

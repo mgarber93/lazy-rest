@@ -1,6 +1,6 @@
 import {singleton} from 'tsyringe'
 import fetch from 'node-fetch'
-import {Handler} from '../handlers/handler'
+import {Handler} from './handler'
 import {HttpRequestPlan, HttpResponse} from '../../models/api-call-plan'
 
 @singleton()

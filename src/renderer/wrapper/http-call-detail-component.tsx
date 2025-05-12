@@ -26,7 +26,6 @@ export interface HttpCallDetailComponentProps {
 export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}: HttpCallDetailComponentProps) {
   const step = apiCallPlan.steps[index]?.step as HttpRequestPlan
   const dispatch = useAppDispatch()
-
   const [baseUrl, setBaseUrl] = useState<string>('')
   const [clientId, setClientId] = useState<string>('')
   const [clientSecret, setClientSecret] = useState<string>('')
@@ -78,7 +77,7 @@ export function HttpCallDetailComponent({apiCallPlan, chatId, contentId, index}:
       } as Partial<HttpRequestPlan>,
       sequenceId: index,
     } satisfies UpdateStepActivityPayload))
-  }, [baseUrl, step])
+  }, [baseUrl, step, chatId])
   
   const saveHandler = useCallback(() => {
     if (!valid) {
