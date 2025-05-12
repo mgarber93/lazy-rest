@@ -29,7 +29,6 @@ export const streamResponse = createAsyncThunk(
       console.error('invalid open ai config')
       return
     }
-    await window.main.setOpenAiConfiguration(state.models.providers.openAi) // @todo remove
     const conversation = state.chats.find(chat => chat.id === conversationId)
     
     if (!conversation || !conversation.responder) {

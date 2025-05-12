@@ -90,6 +90,9 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   const ollamaModels = useAppSelector(state => state.models.ollamaModels)
   const bedrockModels = useAppSelector(state => state.models.bedrockModels)
   const handleModelChange = useCallback((model: ComboSelectable) => {
+    if (!model) {
+      return
+    }
     const modelName = model.name as TModel | string
     dispatch(setResponder({
       responder: {
