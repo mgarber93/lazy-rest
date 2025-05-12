@@ -8,13 +8,15 @@ export type Responder = {
   provider: TProvider;
   model: TModel;
   responding?: boolean;
+  tools?: string[]; // Array of tool IDs
 }
 
-export function createModelResponder(type: TResponder, model: TModel, provider: TProvider): Responder {
+export function createModelResponder(type: TResponder, model: TModel, provider: TProvider, tools?: string[]): Responder {
   return {
     type,
     model,
     provider,
+    tools,
   }
 }
 
