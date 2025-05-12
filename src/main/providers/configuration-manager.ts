@@ -19,7 +19,6 @@ export class ConfigurationManager {
   
   async getBedrockManagementClient() {
     const config = await this.mainWindowCallbackConsumer.getProviderConfig()
-
     if (!config.bedrock) {
       throw new Error('Bedrock config not found')
     }
@@ -37,7 +36,7 @@ export class ConfigurationManager {
   async getBedrockRuntimeClient() {
     const config = await this.mainWindowCallbackConsumer.getProviderConfig()
     if (!config.bedrock) {
-      return
+      throw new Error('Bedrock config not found')
     }
     const {region, secretAccessKey, accessKeyId, sessionToken} = config.bedrock
     return new BedrockRuntimeClient({
