@@ -55,7 +55,7 @@ export function OpenAiForm() {
         </Button>
         <div className={"flex flex-col"}>
           {
-            models.map(model => <span key={model}>{model}</span>)
+            models?.map(model => <span key={model}>{model}</span>)
           }
         </div>
       </div>

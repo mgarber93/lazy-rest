@@ -3,7 +3,6 @@ import {StreamedChatHandler} from './streamed-chat'
 import {ModelListHandle} from './get-models'
 import {INVOKE_CHANNELS, TInvokeChannel} from '../../preloader/preloaded-api'
 import {Handler} from './handler'
-import {OpenAiConfigHandler} from './open-ai-config-handler'
 import {CallbackHandler} from './callback-handler'
 import {HttpClient} from './http-client'
 import {OperatingSystem} from './get-machine-info'
@@ -19,7 +18,6 @@ export function registerMainHandlers() {
   container.register<Handler<'streamedChat'>>('streamedChat', {useClass: StreamedChatHandler})
   container.register<Handler<'getMachineName'>>('getMachineName', {useClass: OperatingSystem})
   container.register<Handler<'callback'>>('callback', {useClass: CallbackHandler})
-  container.register<Handler<'setOpenAiConfiguration'>>('setOpenAiConfiguration', {useClass: OpenAiConfigHandler})
   container.register<Handler<'getModels'>>('getModels', {useClass: ModelListHandle})
   container.register<Handler<'fetch'>>('fetch', {useClass: HttpClient})
   container.register<Handler<'summarizeResponse'>>('summarizeResponse', {useClass: SummarizeResponse})
