@@ -81,6 +81,10 @@ export class ReduxStoreCallbackApi implements WindowCallbackApi {
   getOas(oasId: string): OpenAPI.Document | null {
     const {tools} = this.store.getState() as RootState
     const {api} = tools
+    if (!api[oasId]) {
+      toast(`${oasId} not found`)
+      return null
+    }
     const {fileHandle} = api[oasId]
     const file = localStorage.getItem(fileHandle)
     if (file !== null) {
