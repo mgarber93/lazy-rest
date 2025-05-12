@@ -1,11 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {TModel} from '../../models/responder'
 import {ClientOptions} from 'openai'
 
 const name = 'models'
 
 const initialState = {
-  models: [] as TModel[],
+  models: [] as string[],
   ollamaModels: [] as string[],
   bedrockModels: [] as string[],
   providers: {
@@ -64,10 +63,10 @@ export const modelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(listOpenAiModels.fulfilled, (state, action) => {
-      state.models = action.payload as TModel[]
+      state.models = action.payload as string[]
     })
     builder.addCase(listOllamaModels.fulfilled, (state, action) => {
-      state.ollamaModels = action.payload as TModel[]
+      state.ollamaModels = action.payload as string[]
     })
     builder.addCase(listBedrockModels.fulfilled, (state, action) => {
       state.bedrockModels = action.payload as string[]

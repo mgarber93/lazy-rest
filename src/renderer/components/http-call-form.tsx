@@ -162,7 +162,7 @@ export function HttpCallForm({apiCallPlan, index, contentId, chatId}: HttpCallFo
                 onChange={handleUrlChange}
               />
             </div>
-            <HttpCallDetailComponent apiCallPlan={apiCallPlan} chatId={chatId} contentId={contentId} index={index}/>
+            <HttpCallDetailComponent apiCallPlan={apiCallPlan} chatId={convo.id} contentId={contentId} index={index}/>
           </div>
         </motion.div>
       </CardSection>

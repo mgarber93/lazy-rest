@@ -7,7 +7,7 @@ import {useCurrentConversation} from '../hooks/current-conversation'
 import {useAppDispatch, useAppSelector} from '../features/store'
 import {createContent} from '../../models/content'
 import {appendContent, setResponder, streamResponse} from '../features/chat'
-import {Responder, TModel, TProvider} from '../../models/responder'
+import {Responder, TProvider} from '../../models/responder'
 import {AppCombobox, ComboSelectable} from '../components/app-combobox'
 import {selectAllApiConfigurations} from '../features/tools'
 import {ProviderSelector} from '../components/provider-selector'
@@ -80,6 +80,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
       dispatch(setResponder({
         responder: {
           ...conversation.responder,
+          type: updatedTools.length > 0 ? 'organization' : 'chat',
           tools: updatedTools,
         },
         chatId: conversation.id,
@@ -93,12 +94,12 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
     if (!model) {
       return
     }
-    const modelName = model.name as TModel | string
+    const modelName = model.name as string
     dispatch(setResponder({
       responder: {
         type: 'chat',
         provider: selectedProvider,
-        model: modelName as TModel,
+        model: modelName,
         tools: selectedTools,
       } satisfies Responder,
       chatId: conversation.id,
@@ -108,7 +109,7 @@ export function UserInputForm({disabled, classList}: UserInputFormProps) {
   useEffect(() => {
     const model = conversation.responder?.model
     if (!model && models.length > 0) {
-      const nextModel = [...ollamaModels, ...bedrockModels, ...models].at(0) as TModel
+      const nextModel = [...ollamaModels, ...bedrockModels, ...models].at(0)  as string
 
       let provider: TProvider = 'openai'
       if (ollamaModels.includes(nextModel)) {
