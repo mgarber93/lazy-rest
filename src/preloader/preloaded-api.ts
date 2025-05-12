@@ -1,4 +1,3 @@
-import {ClientOptions} from 'openai'
 import {TProvider} from '../models/responder'
 import {Conversation} from '../models/conversation'
 import {TWindowSenderChannel, WindowCallbackApi} from '../window-callback/window-callback-api'
@@ -12,7 +11,6 @@ export const INVOKE_CHANNELS = [
   'callback',
   'getModels',
   'getMachineName',
-  'setOpenAiConfiguration',
   'streamedChat',
   'fetch',
   'summarizeResponse'
@@ -38,8 +36,6 @@ export interface PreloadedApi extends WindowSenderProtocol, WindowReceiverProtoc
   getModels(provider: TProvider): Promise<string[]>
   
   getMachineName(): Promise<string>
-  
-  setOpenAiConfiguration(config: ClientOptions): Promise<void>
   
   streamedChat(conversation: Conversation): Promise<void>
   
