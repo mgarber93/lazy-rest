@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import clsx from 'clsx'
 import {AnimatePresence, motion} from "framer-motion"
 
@@ -10,6 +10,13 @@ import {UserInputForm} from './user-input-form'
 export function ConversationsPage() {
   const convo = useCurrentConversation()
   const hasContent = convo.content.length > 0
+  const contentRef = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTop = contentRef.current.scrollHeight
+    }
+  }, [convo.content])
   
   return (
     <HeaderLayout
@@ -19,7 +26,7 @@ export function ConversationsPage() {
       )}>
       <>
         {hasContent && (
-          <div className="flex-1 overflow-y-auto px-2">
+          <div ref={contentRef} className="flex-1 overflow-y-auto px-2 pb-2">
             <AnimatePresence mode="popLayout" initial={false}>
               {convo.content.map(msg => (
                 <motion.div

@@ -67,7 +67,7 @@ export function ProviderSelector({selectedProvider, onProviderChange}: ProviderS
       {/* Provider dropdown */}
       {isOpen && (
         <div
-          className="absolute left-0 top-full mt-1 z-10 bg-white dark:bg-neutral-800 rounded-md shadow-lg border border-neutral-200 dark:border-neutral-600">
+          className="absolute left-0 bottom-full mt-1 z-10 bg-white dark:bg-neutral-800 rounded-md shadow-lg border border-neutral-200 dark:border-neutral-600">
           <div className="py-1">
             {providers.map((provider) => (
               <button
